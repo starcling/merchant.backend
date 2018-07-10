@@ -1,0 +1,29 @@
+{
+  "name": "puma-project",
+  "version": "0.0.1",
+  "description": "Test project using merchantSDK",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -k \"npm run build:watch\" \"npm run start:dev\"",
+    "start": "node dist/index.js",
+    "start:dev": "nodemon --inspect=0.0.0.0:9229 dist/index.js",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.11.1",
+    "@types/node": "^9.6.1",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "puma_sdk_core": "git@github.com:pumapayio/merchant.sdk.git#PPC-174",
+    "typescript": "^2.8.1"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.17.3"
+  }
+}
