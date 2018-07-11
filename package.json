@@ -26,7 +26,7 @@
     "@types/pg": "^7.4.10",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "puma-merchant-sdk": "git@github.com:pumapayio/merchant.sdk.git#fix-deps",
+    "puma-merchant-sdk": "file:./merchant.sdk/",
     "typescript": "^2.8.1",
     "pg": "^7.4.3"
   },
