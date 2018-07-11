@@ -1,5 +1,5 @@
 import express from "express";
-import * as MerchantSDK from "puma_sdk_core";
+import MerchantSDK from "puma-merchant-sdk";
 require('dotenv').load();
 const app = express();
 
@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   merchantWithoutApiKey.authenticate('user', 'password').then(resp => {
     merchantWithoutApiKey.getRequest('/exchange/global').then(response => {
         console.debug('getRequest', response);
-        res.send(`NODE_ENV=${process.env.NODE_ENV}`);
+        res.send(response);
       }
     );
     /* merchantWithoutApiKey.postRequest('/schedule', {
@@ -34,7 +34,10 @@ app.get("/", (req, res) => {
     ); */
 
     
-  }).catch(err => console.debug('getRequest error', err));
+  }).catch(err => {
+    console.debug('getRequest error', err);
+    res.status(400).send(err);
+  });
 
 });
 

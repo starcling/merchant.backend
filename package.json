@@ -17,13 +17,16 @@
   "dependencies": {
     "@types/express": "^4.11.1",
     "@types/node": "^9.6.1",
+    "@types/pg": "^7.4.10",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "puma_sdk_core": "git@github.com:pumapayio/merchant.sdk.git#PPC-174",
-    "typescript": "^2.8.1"
+    "puma-merchant-sdk": "git@github.com:pumapayio/merchant.sdk.git#fix-deps",
+    "typescript": "^2.8.1",
+    "pg": "^7.4.3"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
-    "nodemon": "^1.17.3"
+    "nodemon": "^1.17.3",
+    "ts-node": "~4.1.0"
   }
 }
