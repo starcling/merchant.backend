@@ -1,0 +1,12 @@
+{
+  "verbose": false,
+  "ext": "ts,json",
+  "env": {
+    "DEBUG": "app:config",
+    "NODE_ENV": "development"
+  },
+  "watch": [
+    "src"
+  ],
+  "exec": "npm run lint -s && node -r ts-node/register --max-old-space-size=16384 src/index.ts"
+}
