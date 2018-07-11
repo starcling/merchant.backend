@@ -53,9 +53,7 @@
     "jquery-deferred-must-complete": true,
     "jsdoc-format": false,
     "label-position": true,
-    "max-classes-per-file": [
-      false
-    ],
+    "max-classes-per-file": false,
     "max-file-line-count": [
       false
     ],
