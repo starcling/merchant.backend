@@ -11,7 +11,10 @@ import { Container } from 'typedi';
 import { LoggerInstance } from 'winston';
 import { LoggerFactory } from './utils/logger';
 import { Config } from './config';
-// import { pumaSdkCore } from 'puma-sdk-core';
+import puma_sdk_core from 'puma_sdk_core';
+
+// // const API_URL = 'http://host.docker.internal/api/v1'; // When use docker
+const API_URL = 'http://localhost:8081/api/v1/'; // When do not use docker
 
 class App {
   private loggerFactory: LoggerFactory = new LoggerFactory(Config.settings.winston, Config.settings.morgan);
@@ -30,6 +33,23 @@ class App {
     // allow CORS
     app.use(cors());
     app.use(this.loggerFactory.requestLogger);
+
+    app.get('/', (req, res) => {
+      const merchant = new puma_sdk_core({ apiUrl: API_URL });
+
+      merchant.authenticate('user', 'password').then(resp => {
+        merchant.getRequest('/exchange/global').then(response => {
+          console.debug('getRequest', response);
+
+          res.send(response);
+        }
+        );
+      }).catch(err => {
+        console.debug('getRequest error', err);
+
+        res.status(400).send(err);
+      });
+    });
 
     this.debug('Dependency Injection');
     useContainer(Container);
@@ -63,29 +83,3 @@ new App().run().catch((error: Error) => {
   console.error('[!!!]', error.stack);
   process.exit(1);
 });
-
-// require('dotenv').load();
-// const app = express();
-// // const API_URL = 'http://host.docker.internal/api/v1'; // When use docker
-// const API_URL = 'http://localhost:8081/api/v1/'; // When do not use docker
-
-// app.get('/', (req, res) => {
-//   const merchant = new pumaMerchantSdk({ apiUrl: API_URL });
-
-//   merchant.authenticate('user', 'password').then(resp => {
-//     merchant.getRequest('/exchange/global').then(response => {
-//       console.debug('getRequest', response);
-
-//       res.send(response);
-//     }
-//     );
-//   }).catch(err => {
-//     console.debug('getRequest error', err);
-
-//     res.status(400).send(err);
-//   });
-// });
-
-// const server = app.listen(process.env.PORT, () => {
-//   console.log('Started at http://localhost:%d\n', server.address().port);
-// });
