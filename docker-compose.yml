@@ -16,18 +16,18 @@ services:
       - PGPORT=5431
     volumes:
       - ./src:/usr/src/app/src:Z
-    depends_on:
-      - postgres
+    # depends_on:
+    #   - postgres
     command: sh -c "npm run dev"
-  postgres:
-    image: postgres:9.6
-    environment:
-      POSTGRES_PASSWORD: local_pass
-      POSTGRES_USER: local_user
-      POSTGRES_DB: local_puma_core
-    ports:
-      - "5431:5431"
-    restart: unless-stopped
+  # postgres:
+  #   image: postgres:9.6
+  #   environment:
+  #     POSTGRES_PASSWORD: local_pass
+  #     POSTGRES_USER: local_user
+  #     POSTGRES_DB: local_puma_core
+  #   ports:
+  #     - "5431:5431"
+  #   restart: unless-stopped
 networks:
   default:
     external:

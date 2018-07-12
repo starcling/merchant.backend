@@ -1,0 +1,3 @@
+[submodule "merchant.sdk"]
+	path = merchant.sdk
+	url = git@github.com:pumapayio/merchant.sdk.git
