@@ -14,7 +14,7 @@ import { Config } from './config';
 import puma_sdk_core from 'puma_sdk_core';
 
 // // const API_URL = 'http://host.docker.internal/api/v1'; // When use docker
-const API_URL = 'http://localhost:8081/api/v1/'; // When do not use docker
+const API_URL = 'http://core_server:8081/api/v1/'; // When do not use docker
 
 class App {
   private loggerFactory: LoggerFactory = new LoggerFactory(Config.settings.winston, Config.settings.morgan);

@@ -1,7 +1,7 @@
 # docker-compose.yml
 version: "3"
 services:
-  server:
+  merchant_server:
     build: .
     ports:
       - "3000:3000"
@@ -9,7 +9,8 @@ services:
       - NODE_ENV=development
       - HOST=localhost
       - PORT=3000
-      - PGHOST=postgres
+      - API_URL=core_server
+      - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass
       - PGDATABASE=local_merchant_server
@@ -20,23 +21,24 @@ services:
       - ./package.json:/usr/src/app/package.json
       - ./node_modules/puma_sdk_core:/usr/src/app/node_modules/puma_sdk_core
     depends_on:
-      - postgres
+      - postgres_merchant
     command: sh -c "npm run dev"
     networks:
-      - puma_merchant_server
+      - pumacore_puma_core
 
-  postgres:
+  postgres_merchant:
     image: postgres:9.6
     environment:
       POSTGRES_PASSWORD: local_pass
       POSTGRES_USER: local_user
       POSTGRES_DB: local_merchant_server
     ports:
-      - "5431:5431"
+      - "5431:5432"
     networks:
-      - puma_merchant_server
+      - pumacore_puma_core
     restart: unless-stopped
     
 networks:
-  puma_merchant_server:
-    driver: bridge  
+  pumacore_puma_core:
+    external:
+      name: pumacore_puma_core
