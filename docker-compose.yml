@@ -12,23 +12,31 @@ services:
       - PGHOST=postgres
       - PGUSER=local_user
       - PGPASSWORD=local_pass
-      - PGDATABASE=local_puma_core
+      - PGDATABASE=local_merchant_server
       - PGPORT=5431
     volumes:
-      - ./src:/usr/src/app/src:Z
-    # depends_on:
-    #   - postgres
+      - ./src:/usr/src/app/src
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./package.json:/usr/src/app/package.json
+      - ./node_modules/puma_sdk_core:/usr/src/app/node_modules/puma_sdk_core
+    depends_on:
+      - postgres
     command: sh -c "npm run dev"
-  # postgres:
-  #   image: postgres:9.6
-  #   environment:
-  #     POSTGRES_PASSWORD: local_pass
-  #     POSTGRES_USER: local_user
-  #     POSTGRES_DB: local_puma_core
-  #   ports:
-  #     - "5431:5431"
-  #   restart: unless-stopped
+    networks:
+      - puma_merchant_server
+
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_PASSWORD: local_pass
+      POSTGRES_USER: local_user
+      POSTGRES_DB: local_merchant_server
+    ports:
+      - "5431:5431"
+    networks:
+      - puma_merchant_server
+    restart: unless-stopped
+    
 networks:
-  default:
-    external:
-      name: pumacore_puma_core
+  puma_merchant_server:
+    driver: bridge  
