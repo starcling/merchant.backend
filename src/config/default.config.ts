@@ -9,7 +9,7 @@ export class DefaultConfig {
       env: process.env.NODE_ENV,
       host: '0.0.0.0',
       morgan: {},
-      port: process.env.PORT ? process.env.PORT : '3000',
+      port: process.env.PORT ? Number(process.env.PORT) : 3000,
       pgUser: process.env.PGUSER ? process.env.PGUSER : 'local_user',
       pgHost: process.env.PGHOST ? process.env.PGHOST : 'localhost',
       database: process.env.PGDATABASE ? process.env.PGDATABASE : 'local_merchant_server',

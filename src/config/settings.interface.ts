@@ -8,11 +8,11 @@ export interface Settings {
   pgHost: string;
   database: string;
   pgPassword: string;
-  pgPort: number | string;
+  pgPort: number;
   apiPath?: string;
   env?: string;
   host: string;
   morgan?: Options;
-  port?: number | string;
+  port?: number;
   winston?: LoggerOptions;
 }
