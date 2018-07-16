@@ -36,14 +36,8 @@ export class PaymentController {
 	*/
   @Post('/')
   public async create(@Body() payment: DBPayment, @Res() response: any): Promise<any> {
-    const valResult = new CreateValidator().validate(payment);
-    if (valResult.error) {
-      const httpResponse = new HTTPResponseHandler().handleFailed('Bad Request.', valResult.error.details, HTTPResponseCodes.BAD_REQUEST());
-
-      return new APIResponseHandler().handle(response, httpResponse);
-    }
-
     try {
+      new CreateValidator().validate(payment);
       const result = await new PaymentConnector().create(payment);
 
       return new APIResponseHandler().handle(response, result);

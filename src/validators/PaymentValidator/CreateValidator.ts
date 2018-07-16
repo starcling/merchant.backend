@@ -1,5 +1,6 @@
 import * as Joi from 'joi';
 import { PaymentValidator } from './PaymentValidator';
+import { IValidationError } from '../IValidationError';
 
 export class CreateValidator extends PaymentValidator {
     public validate(data: any) {
@@ -12,7 +13,7 @@ export class CreateValidator extends PaymentValidator {
         //Do some other types of validations here
 
         if (result.error) {
-            throw new Error(result.error);
+            throw new IValidationError(result.error);
         }
         return result;
     }
