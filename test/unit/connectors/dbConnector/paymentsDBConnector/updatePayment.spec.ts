@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { PaymentDbConnector, IPaymentInsertDetails, IPaymentUpdateDetails} from '../../../../../src/connectors/dbConnector/paymentsDBconnector';
+import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/paymentsDBconnector';
+import { IPaymentInsertDetails, IPaymentUpdateDetails} from '../../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../../src/utils/datasource/DataService';
 
 chai.use(chaiAsPromised);
