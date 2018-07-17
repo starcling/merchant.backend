@@ -4,8 +4,6 @@ import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHa
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { DBPayment } from '../../core/payment/models';
 import { CreateValidator } from '../../validators/PaymentValidator/CreateValidator';
-import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
-import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 
 @JsonController('/payments')
 export class PaymentController {
