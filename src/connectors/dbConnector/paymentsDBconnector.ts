@@ -1,11 +1,18 @@
 import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 
-export class instertPayment {
-  public updateOnFailLogin(insertdetails: PaymentInsertDetails) {
+export class PaymentDbConnector {
+  public insertPayment (insertdetails: PaymentInsertDetails) {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9)',
-      values: [insertdetails.title, insertdetails.description, insertdetails.status, insertdetails.amount, insertdetails.currency,
-            insertdetails.startts, insertdetails.endts, insertdetails.type, insertdetails.frequency]
+      values: [insertdetails.title,
+               insertdetails.description,
+               insertdetails.status,
+               insertdetails.amount,
+               insertdetails.currency,
+               insertdetails.startts,
+               insertdetails.endts,
+               insertdetails.type,
+               insertdetails.frequency]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
@@ -14,9 +21,20 @@ export class instertPayment {
   public updatePayment(updatedetails: PaymentPatchDetails) {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM fc_patch_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
-      values: [updatedetails.id, updatedetails.title, updatedetails.description, updatedetails.promo, updatedetails.status, updatedetails.customerAddress,
-        updatedetails.amount, updatedetails.currency, updatedetails.startts, updatedetails.endts, updatedetails.type, updatedetails.frequency,
-        updatedetails.transactionHash, updatedetails.debitAccount]
+      values: [updatedetails.id,
+               updatedetails.title,
+               updatedetails.description,
+               updatedetails.promo,
+               updatedetails.status,
+               updatedetails.customerAddress,
+               updatedetails.amount,
+               updatedetails.currency,
+               updatedetails.startts,
+               updatedetails.endts,
+               updatedetails.type,
+               updatedetails.frequency,
+               updatedetails.transactionHash,
+               updatedetails.debitAccount]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
