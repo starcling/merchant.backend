@@ -2,7 +2,7 @@
 import { JsonController, Res, Post, Body } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
-import { DBPayment } from '../../core/payment/models';
+import { PaymentInsertDetails } from '../../core/payment/models';
 import { CreateValidator } from '../../validators/PaymentValidator/CreateValidator';
 
 @JsonController('/payments')
@@ -33,7 +33,7 @@ export class PaymentController {
   *
 	*/
   @Post('/')
-  public async create(@Body() payment: DBPayment, @Res() response: any): Promise<any> {
+  public async create(@Body() payment: PaymentInsertDetails, @Res() response: any): Promise<any> {
     try {
       new CreateValidator().validate(payment);
       const result = await new PaymentConnector().create(payment);

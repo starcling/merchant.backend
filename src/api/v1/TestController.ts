@@ -1,5 +1,5 @@
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
-import { JsonController, Get, Res } from '../../../node_modules/routing-controllers';
+import { JsonController, Get, Res } from 'routing-controllers';
 import puma_sdk_core from 'puma_sdk_core';
 
 // // const API_URL = 'http://host.docker.internal/api/v1'; // When use docker

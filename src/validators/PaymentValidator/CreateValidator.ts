@@ -20,9 +20,13 @@ export class CreateValidator extends PaymentValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    address: Joi.string().min(42).max(42).required(),
-    networkID: Joi.number().integer().min(1).max(3).invalid(2),
-    startblock: Joi.number().max(Joi.ref('endblock')),
-    endblock: Joi.number().min(Joi.ref('startblock')),
-    count: Joi.number()
+    title: Joi.string().required(),
+    description: Joi.string().required(),
+    status: Joi.number().required(),
+    amount: Joi.number().min(0).required(),
+    currency: Joi.string().required(),
+    startts: Joi.number().min(0).max(Joi.ref('endts')).required(),
+    endts: Joi.number().min(Joi.ref('startts')).required(),
+    type: Joi.number().required(),
+    frequency: Joi.number().required()
 });
