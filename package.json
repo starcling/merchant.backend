@@ -28,9 +28,9 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.2",
     "@types/pg": "^7.4.10",
-    "dotenv": "^6.0.0",
-    "debug": "^3.1.0",
     "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
     "pg": "^7.4.3",
@@ -49,11 +49,18 @@
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.0.0",
     "concurrently": "^3.5.1",
+    "gulp": "^3.9.1",
+    "gulp-apidoc-swagger": "^0.2.2",
+    "gulp-typedoc": "^2.2.0",
+    "joi": "^13.4.0",
     "nodemon": "^1.17.3",
     "supertest": "^3.0.0",
+    "swagger-ui-express": "^3.0.10",
     "ts-node": "~4.1.0",
     "tslint": "^5.9.1",
     "tslint-microsoft-contrib": "^5.0.3",
-    "typescript": "^2.8.1"
+    "typedoc": "^0.11.1",
+    "typescript": "^2.8.1",
+    "yamljs": "^0.3.0"
   }
 }
