@@ -36,9 +36,7 @@ describe('PaymentDbConnector', () => {
             await clearTestUser();
         });
         it('Should return true if the record is updated', async () => {
-            console.log(updateTestPayment);
             const result = await paymentDbConnector.updatePayment(updateTestPayment);
-            console.log(result);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
