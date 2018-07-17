@@ -1,4 +1,4 @@
-export interface PaymentInsertDetails {
+export interface IPaymentInsertDetails {
     title: string;
     description: string;
     status: number;
@@ -10,7 +10,7 @@ export interface PaymentInsertDetails {
     frequency: number;
 }
 
-export interface PaymentPatchDetails {
+export interface IPaymentUpdateDetails {
     id: string;
     title: string;
     description: string;
