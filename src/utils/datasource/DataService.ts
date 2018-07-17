@@ -9,10 +9,11 @@ import { DefaultConfig } from '../../config/default.config';
 export class DataService {
   private logger: LoggerInstance = Container.get(LoggerFactory).getInstance('DataService');
   private pool: Pool;
+
   protected async executeQuery(sqlQuery: ISqlQuery): Promise<any> {
     this.pool = new Pool({
+      host: DefaultConfig.settings.host,
       user: DefaultConfig.settings.pgUser,
-      host: DefaultConfig.settings.pgHost,
       database: DefaultConfig.settings.database,
       password: DefaultConfig.settings.pgPassword,
       port: DefaultConfig.settings.pgPort
@@ -36,6 +37,7 @@ export class DataService {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.executeQuery(sqlQuery);
+
         if (result.rows.length === 0) {
           queryMessage.status = 204;
           queryMessage.message = `SQL Query returned no data from database.`;
@@ -56,7 +58,9 @@ export class DataService {
 
           resolve(queryMessage);
         }
+
         this.pool.end();
+
       } catch (err) {
         const errorReason = DbErrorHelper.GET_DB_ERROR_CODES()[err.code] ? DbErrorHelper.GET_DB_ERROR_CODES()[err.code] : err.stack;
         queryMessage.status = 400;

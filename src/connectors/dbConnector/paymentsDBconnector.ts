@@ -16,7 +16,7 @@ export class PaymentDbConnector {
                insertDetails.frequency]
     };
 
-    return new DataService().executeQueryAsPromise(sqlQuery);
+    return new DataService().executeQueryAsPromise(sqlQuery, true);
   }
 
   public updatePayment(updateDetails: IPaymentUpdateDetails) {
