@@ -1,29 +1,47 @@
 import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 
-export class PaymentDBConnector {
-  public insterPayment(insertdetails: PaymentInsertDetails) {
+export class PaymentDbConnector {
+  public insertPayment (insertDetails: IPaymentInsertDetails) {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9)',
-      values: [insertdetails.title, insertdetails.description, insertdetails.status, insertdetails.amount, insertdetails.currency,
-            insertdetails.startts, insertdetails.endts, insertdetails.type, insertdetails.frequency]
+      values: [insertDetails.title,
+               insertDetails.description,
+               insertDetails.status,
+               insertDetails.amount,
+               insertDetails.currency,
+               insertDetails.startts,
+               insertDetails.endts,
+               insertDetails.type,
+               insertDetails.frequency]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
   }
 
-  public updatePayment(updatedetails: PaymentPatchDetails) {
+  public updatePayment(updateDetails: IPaymentUpdateDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_patch_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
-      values: [updatedetails.id, updatedetails.title, updatedetails.description, updatedetails.promo, updatedetails.status,
-        updatedetails.customerAddress, updatedetails.amount, updatedetails.currency, updatedetails.startts, updatedetails.endts,
-        updatedetails.type, updatedetails.frequency, updatedetails.transactionHash, updatedetails.debitAccount]
+      text: 'SELECT * FROM fc_update_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
+      values: [updateDetails.id,
+               updateDetails.title,
+               updateDetails.description,
+               updateDetails.promo,
+               updateDetails.status,
+               updateDetails.customerAddress,
+               updateDetails.amount,
+               updateDetails.currency,
+               updateDetails.startts,
+               updateDetails.endts,
+               updateDetails.type,
+               updateDetails.frequency,
+               updateDetails.transactionHash,
+               updateDetails.debitAccount]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
   }
 }
 
-export interface PaymentInsertDetails {
+export interface IPaymentInsertDetails {
     title: string;
     description: string;
     status: number;
@@ -35,7 +53,7 @@ export interface PaymentInsertDetails {
     frequency: number;
 }
 
-export interface PaymentPatchDetails {
+export interface IPaymentUpdateDetails {
     id: string;
     title: string;
     description: string;

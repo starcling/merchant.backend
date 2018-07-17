@@ -1,6 +1,6 @@
 {
     "payments": {
-        "testPayment": {
+        "insertTestPayment": {
             "title": "test payment",
             "description": "test description",
             "status": 1,
@@ -11,7 +11,7 @@
             "type": 1,
             "frequency": 3
         },
-        "patchTestPayment": {
+        "updateTestPayment": {
             "id": "",
             "title": "changes title",
             "description": "another description",
@@ -24,7 +24,7 @@
             "endts": "123456789",
             "type": 2,
             "frequency": 2,
-            "tsansactionHash": "testhash",
+            "transactionHash": "testhash",
             "debitAccount": "0xhk3enken3k"
         }
     }
