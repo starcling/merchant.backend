@@ -34,6 +34,11 @@ services:
       POSTGRES_DB: local_merchant_server
     ports:
       - "5431:5432"
+    volumes:
+      - ./db/init-tables.sql:/docker-entrypoint-initdb.d/1-init-tables.sql:Z
+      - ./db/create-function-insert-payment.sql:/docker-entrypoint-initdb.d/2-create-function-insert-payment.sql:Z
+      - ./db/create-function-update-payment.sql:/docker-entrypoint-initdb.d/3-create-function-update-payment.sql:Z
+
     networks:
       - pumacore_puma_core
     restart: unless-stopped
