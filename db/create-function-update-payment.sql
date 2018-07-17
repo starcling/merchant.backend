@@ -1,15 +1,15 @@
--- FUNCTION: public.fc_patch_payment(uuid, text, text, text, integer, text, numeric, text, bigint, bigint, integer, integer, text, text)
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text)
 
--- DROP FUNCTION public.fc_patch_payment(uuid, text, text, text, integer, text, numeric, text, bigint, bigint, integer, integer, text, text);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text);
 
-CREATE OR REPLACE FUNCTION public.fc_patch_payment(
+CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
 	_title text,
 	_description text,
 	_promo text,
 	_status integer,
 	_customeraddress text,
-	_amount numeric,
+	_amount bigint,
 	_currency text,
 	_startts bigint,
 	_endts bigint,
@@ -89,5 +89,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_patch_payment(uuid, text, text, text, integer, text, numeric, text, bigint, bigint, integer, integer, text, text)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text)
     OWNER TO local_user;

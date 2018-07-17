@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     promo character varying(255) COLLATE pg_catalog."default",
     status integer NOT NULL,
     "customerAddress" character varying(255) COLLATE pg_catalog."default",
-    amount numeric NOT NULL,
+    amount bigint NOT NULL,
     currency character varying(255) COLLATE pg_catalog."default" NOT NULL,
     "startTS" bigint NOT NULL,
     "endTS" bigint NOT NULL,
