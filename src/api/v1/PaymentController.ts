@@ -15,18 +15,34 @@ export class PaymentController {
   */
 
   /**
-	* @api {post} /api/v1/payment/
+	* @api {post} /api/v1/payments/
   * @apiDescription Create a new payment in DB
   *
   * @apiName create
   * @apiGroup PaymentController
   * @apiVersion  1.0.0
   *
-  * @apiParam {number} network - Network id
+  * @apiParam {string} title - Title of the payment
+  * @apiParam {string} description - Description of the payment
+  * @apiParam {number} status - Status of payment
+  * @apiParam {number} amount - Amount of payment
+  * @apiParam {string} currency - Currency of payment
+  * @apiParam {number} startts - Start timestamp of payment
+  * @apiParam {number} endts - End timestamp of payment
+  * @apiParam {number} type - Type of payment
+  * @apiParam {number} frequency - Frequency of execution
   *
   * @apiParamExample {json} Request-Example:
   *    {
-  *       "network": "1"
+  *       "title": "string",
+  *       "description": "string",
+  *       "status": 1,
+  *       "amount": 43,
+  *       "currency": "string",
+  *       "startts": 10,
+  *       "endts": 13,
+  *       "type": 1,
+  *       "frequency": 10
   *    }
   *
   * @apiSuccess (200) {string} menmonic data
