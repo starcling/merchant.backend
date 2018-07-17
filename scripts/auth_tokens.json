@@ -1,0 +1,4 @@
+"security": [
+    {"pma-access-token": ["user:read","user:write"]}, 
+    {"user-token": []}
+],
