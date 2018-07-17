@@ -11,6 +11,10 @@ import { Container } from 'typedi';
 import { LoggerInstance } from 'winston';
 import { LoggerFactory } from './utils/logger';
 import { Config } from './config';
+import * as YAML from 'yamljs';
+import * as swaggerUi from 'swagger-ui-express';
+
+const SWAGGER_DOCUMENT = YAML.load('./docs/api/swagger.json');
 
 class App {
   private loggerFactory: LoggerFactory = new LoggerFactory(Config.settings.winston, Config.settings.morgan);
@@ -33,6 +37,7 @@ class App {
     this.debug('Dependency Injection');
     useContainer(Container);
     Container.set(LoggerFactory, this.loggerFactory);
+    app.use('/api/v1/doc/api', swaggerUi.serve, swaggerUi.setup(SWAGGER_DOCUMENT));
 
     const apiPath = Config.settings.apiPath;
     const routingControllersOptions: RoutingControllersOptions = {

@@ -19,7 +19,7 @@ services:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
-      - ../puma_sdk_core:/usr/src/app/node_modules/puma_sdk_core
+      - ../merchant.sdk:/usr/src/app/node_modules/puma_sdk_core
     depends_on:
       - postgres_merchant
     command: sh -c "npm run dev"
