@@ -1,6 +1,8 @@
 #!/bin/bash
 docker-compose down
 wait
+gulp
+wait
 docker-compose build
 wait
 # docker-compose up -d postgres
