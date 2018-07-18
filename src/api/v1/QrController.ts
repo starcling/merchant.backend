@@ -31,10 +31,10 @@ export class QrController {
     *
       */
     @Get('/:paymentID')
-    public async get(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
+    public async getQRCode(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
         try {
             new GetQrValidator().validate({ paymentID });
-            const result = await new QrConnector().get(paymentID);
+            const result = await new QrConnector().getQRCode(paymentID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {

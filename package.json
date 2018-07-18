@@ -54,6 +54,7 @@
     "gulp-typedoc": "^2.2.0",
     "husky": "^1.0.0-rc.13",
     "joi": "^13.4.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.17.3",
     "supertest": "^3.0.0",
     "swagger-ui-express": "^3.0.10",
