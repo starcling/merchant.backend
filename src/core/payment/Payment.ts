@@ -24,10 +24,11 @@ export class Payment {
      * @param {IPaymentUpdateDetails} payment payment object
      * @returns {HTTPResponse} Returns success feedback
      */
-    public update (payment: IPaymentUpdateDetails) {
+    public async update (payment: IPaymentUpdateDetails) {
         try {
-            //do logic here
-            return new HTTPResponseHandler().handleSuccess('Successful payment update.', null);
+            const result = await new PaymentDbConnector().updatePayment(payment);
+
+            return new HTTPResponseHandler().handleSuccess('Successful payment update.', result.data[0]);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to update payment', error);
         }

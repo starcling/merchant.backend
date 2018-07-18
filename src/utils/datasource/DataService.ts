@@ -12,12 +12,12 @@ export class DataService {
 
   protected async executeQuery(sqlQuery: ISqlQuery): Promise<any> {
     this.pool = new Pool({
-      host: DefaultConfig.settings.host,
       user: DefaultConfig.settings.pgUser,
+      host: DefaultConfig.settings.pgHost,
       database: DefaultConfig.settings.database,
       password: DefaultConfig.settings.pgPassword,
-      port: DefaultConfig.settings.pgPort
-  });
+      port: Number(DefaultConfig.settings.pgPort)
+    });
 
     this.pool.on('error', (error: Error, client: PoolClient) => {
       this.logger.error(`Error On PG Pool. Reason: ${error}`);
