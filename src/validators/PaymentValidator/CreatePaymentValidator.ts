@@ -2,7 +2,7 @@ import * as Joi from 'joi';
 import { PaymentValidator } from './PaymentValidator';
 import { IValidationError } from '../IValidationError';
 
-export class CreateValidator extends PaymentValidator {
+export class CreatePaymentValidator extends PaymentValidator {
     public validate(data: any) {
         const options = {
             abortEarly: false,
