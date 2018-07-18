@@ -40,7 +40,7 @@ export class Payment {
     }
 
     /**
-     * @description Get method for getting single payment from DB
+     * @description Get method for getting all payments from DB
      * @returns {HTTPResponse} Returns response with array of payments in data
      */
     public async getPayments() {
