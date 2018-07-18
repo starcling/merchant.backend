@@ -52,7 +52,7 @@ export class PaymentDbConnector {
 
   public getAllPayments() {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM public.fc_get_all_payment_details;'
+      text: 'SELECT * FROM public.fc_get_all_payment_details();'
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
