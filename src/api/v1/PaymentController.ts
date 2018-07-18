@@ -1,9 +1,10 @@
 //import { JsonController, Body, Res, Param, Get, Put, QueryParam } from 'routing-controllers';
-import { JsonController, Res, Post, Body } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Get, Param } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails } from '../../core/payment/models';
 import { CreatePaymentValidator } from '../../validators/PaymentValidator/CreatePaymentValidator';
+import { GetPaymentValidator } from '../../validators/PaymentValidator/GetPaymentValidator';
 
 @JsonController('/payments')
 export class PaymentController {
@@ -53,6 +54,36 @@ export class PaymentController {
     try {
       new CreatePaymentValidator().validate(payment);
       const result = await new PaymentConnector().create(payment);
+
+      return new APIResponseHandler().handle(response, result);
+    } catch (error) {
+      return new APIResponseHandler().handle(response, error);
+    }
+  }
+
+  /**
+	* @api {post} /api/v1/payments/
+  * @apiDescription Retrieve a single payment
+  *
+  * @apiName getPayment
+  * @apiGroup PaymentController
+  * @apiVersion  1.0.0
+  *
+  * @apiParam {string} paymentID - ID of the payment
+  *
+  * @apiParamExample {json} Request-Example:
+  *    {
+  *       "paymentID": "32049572038495"
+  *    }
+  *
+  * @apiSuccess (200) {string} menmonic data
+  *
+	*/
+  @Get('/:paymentID')
+  public async getPayment(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
+    try {
+      new GetPaymentValidator().validate({paymentID});
+      const result = await new PaymentConnector().getPayment(paymentID);
 
       return new APIResponseHandler().handle(response, result);
     } catch (error) {
