@@ -11,7 +11,7 @@ String.prototype.replaceAll = function(search, replacement) {
 
 class Swagger {
     patch() {
-        console.debug('patching swagger.json...');
+        console.log('patching swagger.json...');
 
         let swagger = fs.readFileSync(swaggerFile, 'utf8');
         let security = fs.readFileSync(securityFile, 'utf8');
@@ -22,7 +22,7 @@ class Swagger {
 
         fs.writeFileSync(swaggerFile, swagger);
 
-        console.debug('done patching.');
+        console.log('done patching.');
     }
 }
 
