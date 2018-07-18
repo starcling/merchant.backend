@@ -8,9 +8,8 @@ export class Qr {
      * @param {string} paymentID paymentID of the object
      * @returns {HTTPResponse} Returns success feedback
      */
-    public get (paymentID: string) {
+    public getQRCode (paymentID: string) {
         try {
-            //do logic here
             const merchantSDK = MerchantSDK.GET_SDK().build({apiUrl: 'merchant_core'});
 
             return new HTTPResponseHandler().handleSuccess('Successfully retrieved the QR code.', merchantSDK.generateQRCode(paymentID));
