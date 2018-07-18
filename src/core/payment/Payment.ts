@@ -1,5 +1,7 @@
 import { IPaymentInsertDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
+import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
+import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 
 export class Payment {
 
@@ -8,7 +10,7 @@ export class Payment {
      * @param {IPaymentInsertDetails} payment payment object
      * @returns {HTTPResponse} Returns success feedback
      */
-    public create (payment: IPaymentInsertDetails) {
+    public create(payment: IPaymentInsertDetails) {
         try {
             //do logic here
 
@@ -18,28 +20,37 @@ export class Payment {
         }
     }
 
-     /**
+    /**
      * @description Get method for getting single payment from DB
      * @param {string} paymentID ID of the payment
      * @returns {HTTPResponse} Returns response with payment object in data
      */
-    public getPayment (paymentID: string) {
+    public async getPayment(paymentID: string) {
         try {
+            const response = await new PaymentDbConnector().getSinglePayment(paymentID);
+            if (response.data[0].id === null) {
 
-            return new HTTPResponseHandler().handleSuccess('Successfully retrieved single payment.', null);
+                return new HTTPResponseHandler().handleFailed('Payment with supplied ID not found.', null, HTTPResponseCodes.BAD_REQUEST());
+            }
+
+            return new HTTPResponseHandler().handleSuccess('Successfully retrieved single payment.', response.data[0]);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to retrieve single payment.', error);
         }
     }
 
-     /**
+    /**
      * @description Get method for getting single payment from DB
      * @returns {HTTPResponse} Returns response with array of payments in data
      */
-    public getPayments () {
+    public async getPayments() {
         try {
+            const response = await new PaymentDbConnector().getAllPayments();
+            if (!response.data) {
+                response.data = [];
+            }
 
-            return new HTTPResponseHandler().handleSuccess('Successfully retrieved payments.', null);
+            return new HTTPResponseHandler().handleSuccess('Successfully retrieved payments.', response.data);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to retrieve payments.', error);
         }
