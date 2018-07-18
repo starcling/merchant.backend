@@ -122,6 +122,56 @@ export class PaymentController {
     }
   }
 
+  /**
+  * @apiDefine Response
+  * @apiSuccess {number} status The HTTP status of the call
+  * @apiSuccess {string} message A human-friendly summary of the result of the call
+  */
+
+  /**
+	* @api {patch} /api/v1/payments/
+  * @apiDescription Update existing payment in DB
+  *
+  * @apiName patch
+  * @apiGroup PaymentController
+  * @apiVersion  1.0.0
+  *
+  * @apiParam {string} id - Payment ID
+  * @apiParam {string} title - Title of the payment
+  * @apiParam {string} description - Description of the payment
+  * @apiParam {string} promo - Promo code for the payment
+  * @apiParam {number} status - Status of payment
+  * @apiParam {string} customerAddress -
+  * @apiParam {number} amount - Amount of payment
+  * @apiParam {string} currency - Currency of payment
+  * @apiParam {number} startts - Start timestamp of payment
+  * @apiParam {number} endts - End timestamp of payment
+  * @apiParam {number} type - Type of payment
+  * @apiParam {number} frequency - Frequency of execution
+  * @apiParam {string} transactionHash - Transaction has for payment
+  * @apiParam {string} debitAccount - Debit account for payment
+  *
+  * @apiParamExample {json} Request-Example:
+  *    {
+  *       	"id": "string",
+  *         "title": "string",
+  *         "description": "string",
+  *         "promo": "string",
+  *         "status": 1,
+  *         "customerAddress": "string",
+  *         "amount": 50,
+  *         "currency": "string",
+  *         "startts": 10,
+  *         "endts": 11,
+  *         "type": 1,
+  *         "frequency": 10,
+  *         "transactionHash":"string",
+  *         "debitAccount": "string"
+  *    }
+  *
+  * @apiSuccess (200) {string} menmonic data
+  *
+	*/
   @Patch('/')
   public async patch(@QueryParam('id') id: string = null,
                      @QueryParam('title') title: string = null,
