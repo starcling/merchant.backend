@@ -14,7 +14,7 @@ services:
       - PGUSER=local_user
       - PGPASSWORD=local_pass
       - PGDATABASE=local_merchant_server
-      - PGPORT=5431
+      - PGPORT=5432
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
