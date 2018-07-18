@@ -11,15 +11,15 @@ const dataservice = new DataService();
 const paymentDbConnector = new PaymentDbConnector();
 
 const paymentsTestData: any = require('../../../../../resources/testData.json').payments;
-const insertTestPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
+const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
 const updateTestPayment: IPaymentUpdateDetails = paymentsTestData['updateTestPayment'];
 
-const insertTestUser = async () => {
-    const result = await paymentDbConnector.insertPayment(insertTestPayment);
+const insertTestPayment = async () => {
+    const result = await paymentDbConnector.insertPayment(testPayment);
     updateTestPayment.id = result.data[0].id;
 }
 
-const clearTestUser = async () => {
+const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payments WHERE id = $1;',
         values: [updateTestPayment.id]
@@ -30,10 +30,10 @@ const clearTestUser = async () => {
 describe('PaymentDbConnector', () => {
     describe('Update payment record', () => {
         beforeEach(async () => {
-            await insertTestUser();
+            await insertTestPayment();
         });
         afterEach(async () => {
-            await clearTestUser();
+            await clearTestPayment();
         });
         it('Should return true if the record is updated', async () => {
             const result = await paymentDbConnector.updatePayment(updateTestPayment);
