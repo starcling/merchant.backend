@@ -31,4 +31,17 @@ export class Payment {
             return new HTTPResponseHandler().handleFailed('Failed to retrieve single payment.', error);
         }
     }
+
+     /**
+     * @description Get method for getting single payment from DB
+     * @returns {HTTPResponse} Returns response with array of payments in data
+     */
+    public getPayments () {
+        try {
+
+            return new HTTPResponseHandler().handleSuccess('Successfully retrieved payments.', null);
+        } catch (error) {
+            return new HTTPResponseHandler().handleFailed('Failed to retrieve payments.', error);
+        }
+    }
 }

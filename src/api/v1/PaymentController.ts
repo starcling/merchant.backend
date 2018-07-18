@@ -91,4 +91,26 @@ export class PaymentController {
     }
   }
 
+  /**
+	* @api {post} /api/v1/payments/
+  * @apiDescription Retrieve an array of payments
+  *
+  * @apiName getPayments
+  * @apiGroup PaymentController
+  * @apiVersion  1.0.0
+  *
+  * @apiSuccess (200) {string} menmonic data
+  *
+	*/
+  @Get('/')
+  public async getPayments(@Res() response: any): Promise<any> {
+    try {
+      const result = await new PaymentConnector().getPayments();
+
+      return new APIResponseHandler().handle(response, result);
+    } catch (error) {
+      return new APIResponseHandler().handle(response, error);
+    }
+  }
+
 }
