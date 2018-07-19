@@ -4,8 +4,8 @@ export interface IPaymentInsertDetails {
     status: number;
     amount: number;
     currency: string;
-    startts: number;
-    endts: number;
+    startTimestamp: number;
+    endTimestamp: number;
     type: number;
     frequency: number;
 }
@@ -19,8 +19,8 @@ export interface IPaymentUpdateDetails {
     customerAddress: string;
     amount: number;
     currency: string;
-    startts: number;
-    endts: number;
+    startTimestamp: number;
+    endTimestamp: number;
     type: number;
     frequency: number;
     transactionHash: string;

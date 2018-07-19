@@ -56,8 +56,8 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('data').that.has.property('status').that.is.equal(insertPayment.status);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(insertPayment.currency);
-                    expect(body).to.have.property('data').that.has.property('startTS').that.is.equal('' + insertPayment.startts);
-                    expect(body).to.have.property('data').that.has.property('endTS').that.is.equal('' + insertPayment.endts);
+                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + insertPayment.startTimestamp);
+                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + insertPayment.endTimestamp);
                     expect(body).to.have.property('data').that.has.property('type').that.is.equal(insertPayment.type);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(insertPayment.frequency);
                     done(err);
@@ -68,7 +68,7 @@ describe('PaymentController: create', () => {
     describe('unsuccessful request', () => {
         it('should return missing data', (done) => {
             const unsuccessfullInsertPayment = clone (insertPayment);
-            delete unsuccessfullInsertPayment.startts;
+            delete unsuccessfullInsertPayment.startTimestamp;
 
             server
                 .post(`${endpoint}`)
@@ -85,7 +85,7 @@ describe('PaymentController: create', () => {
 
         it('should return invalid data', (done) => {
             const unsuccessfullInsertPayment = clone (insertPayment);
-            unsuccessfullInsertPayment.startts = 'string';
+            unsuccessfullInsertPayment.startTimestamp = 'string';
 
             server
                 .post(`${endpoint}`)

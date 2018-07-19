@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION public.fc_create_payment(
 	_amount bigint,
 	_currency text,
 	_starts bigint,
-	_endts bigint,
+	_endTimestamp bigint,
 	_type integer,
 	_frequency integer)
     RETURNS tb_payments
@@ -23,8 +23,8 @@ DECLARE
 tb_payments public.tb_payments;
 BEGIN
 INSERT INTO public.tb_payments(
-	title, description, status, amount, currency, "startTS", "endTS", type, frequency)
-	VALUES (_title, _description, _status, _amount, _currency, _starts, _endts, _type, _frequency ) RETURNING * INTO tb_payments;
+	title, description, status, amount, currency, "startTimestamp", "endTimestamp", type, frequency)
+	VALUES (_title, _description, _status, _amount, _currency, _starts, _endTimestamp, _type, _frequency ) RETURNING * INTO tb_payments;
 RETURN "tb_payments";
 END
 

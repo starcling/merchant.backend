@@ -11,8 +11,8 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_customeraddress text,
 	_amount bigint,
 	_currency text,
-	_startts bigint,
-	_endts bigint,
+	_startTimestamp bigint,
+	_endTimestamp bigint,
 	_type integer,
 	_frequency integer,
 	_transactionhash text,
@@ -59,13 +59,13 @@ IF _currency IS NULL OR _currency = ''
 THEN
 	_currency = tb_test.currency;
 END IF;
-IF _startts IS NULL
+IF _startTimestamp IS NULL
 THEN
-	_startts = tb_test."startTS";
+	_startTimestamp = tb_test."startTimestamp";
 END IF;
-IF _endts IS NULL
+IF _endTimestamp IS NULL
 THEN
-	_endts = tb_test."endTS";
+	_endTimestamp = tb_test."endTimestamp";
 END IF;
 IF _type IS NULL 
 THEN
@@ -86,7 +86,7 @@ END IF;
 
 UPDATE public.tb_payments SET
 	title = _title, description = _description, promo = _promo, status = _status,"customerAddress" = _customeraddress,amount = _amount, currency = _currency,
-	"startTS" = _startts, "endTS" = _endts, type = _type, frequency = _frequency, "transactionHash" = _transactionhash, "debitAccount" = _debitaccount
+	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, type = _type, frequency = _frequency, "transactionHash" = _transactionhash, "debitAccount" = _debitaccount
     WHERE id = _id RETURNING * INTO tb_payments;
 RETURN tb_payments;
 END

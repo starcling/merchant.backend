@@ -41,8 +41,8 @@ describe('A payment insert DBcontroller', () => {
         result.data[0].should.have.property('customerAddress').that.is.equal(null);
         result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
         result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-        result.data[0].should.have.property('startTS').that.is.equal(testInsertPayment.startts);
-        result.data[0].should.have.property('endTS').that.is.equal(testInsertPayment.endts);
+        result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertPayment.startTimestamp);
+        result.data[0].should.have.property('endTimestamp').that.is.equal(testInsertPayment.endTimestamp);
         result.data[0].should.have.property('type').that.is.equal(testInsertPayment.type);
         result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
         result.data[0].should.have.property('transactionHash').that.is.equal(null);

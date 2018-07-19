@@ -10,7 +10,6 @@ export class UpdateValidator extends PaymentValidator {
         };
 
         const result = super.validate(data, dataSchema, options);
-        //Do some other types of validations here
 
         if (result.error) {
             throw new IValidationError(result.error);
@@ -28,8 +27,8 @@ const dataSchema = Joi.object().keys({
     customerAddress: Joi.string().required(),
     amount: Joi.number().min(0).required(),
     currency: Joi.string().required(),
-    startts: Joi.number().min(0).max(Joi.ref('endts')).required(),
-    endts: Joi.number().min(Joi.ref('startts')).required(),
+    startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).required(),
+    endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).required(),
     type: Joi.number().required(),
     frequency: Joi.number().required(),
     transactionHash: Joi.string().required(),

@@ -68,8 +68,8 @@ describe('PaymentController: update', () => {
                     expect(body).to.have.property('data').that.has.property('customerAddress').that.is.equal(updatePayment.customerAddress);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + updatePayment.amount);
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(updatePayment.currency);
-                    expect(body).to.have.property('data').that.has.property('startTS').that.is.equal('' + updatePayment.startts);
-                    expect(body).to.have.property('data').that.has.property('endTS').that.is.equal('' + updatePayment.endts);
+                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + updatePayment.startTimestamp);
+                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + updatePayment.endTimestamp);
                     expect(body).to.have.property('data').that.has.property('type').that.is.equal(updatePayment.type);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(updatePayment.frequency);
                     expect(body).to.have.property('data').that.has.property('transactionHash').that.is.equal(updatePayment.transactionHash);
@@ -82,7 +82,7 @@ describe('PaymentController: update', () => {
     describe('unsuccessfull request', () => {
         it('should return missing data', (done) => {
             const unsuccessfullUpdatePayment = clone (updatePayment);
-            delete unsuccessfullUpdatePayment.startts;
+            delete unsuccessfullUpdatePayment.startTimestamp;
 
             server
                 .put(`${endpoint}`)
@@ -99,7 +99,7 @@ describe('PaymentController: update', () => {
 
         it('should return invalid data', (done) => {
             const unsuccessfullUpdatePayment = clone (updatePayment);
-            unsuccessfullUpdatePayment.startts = 'string';
+            unsuccessfullUpdatePayment.startTimestamp = 'string';
 
             server
                 .put(`${endpoint}`)
