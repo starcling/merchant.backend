@@ -96,9 +96,7 @@ describe('PaymentController: update', () => {
                     done(err);
                 });
         });
-    });
 
-    describe('unsuccessfull request', () => {
         it('should return invalid data', (done) => {
             const unsuccessfullUpdatePayment = clone (updatePayment);
             unsuccessfullUpdatePayment.startts = 'string';

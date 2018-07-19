@@ -82,9 +82,7 @@ describe('PaymentController: create', () => {
                     done(err);
                 });
         });
-    });
 
-    describe('unsuccessful request', () => {
         it('should return invalid data', (done) => {
             const unsuccessfullInsertPayment = clone (insertPayment);
             unsuccessfullInsertPayment.startts = 'string';
@@ -102,5 +100,4 @@ describe('PaymentController: create', () => {
                 });
         });
     });
-
 });
