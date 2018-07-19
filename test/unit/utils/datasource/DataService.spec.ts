@@ -6,12 +6,6 @@ import { IResponseMessage } from '../../../../src/utils/web/HTTPResponseHandler'
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-process.env.PGHOST = 'localhost';
-process.env.PGPORT = '5431';
-process.env.PGUSER = 'local_user';
-process.env.PGPASSWORD = 'local_pass';
-process.env.PGDATABASE = 'local_merchant_server';
-
 const dataservice = new DataService();
 
 const createTable = async () => {
