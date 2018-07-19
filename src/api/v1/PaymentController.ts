@@ -1,9 +1,10 @@
-import { JsonController, Res, Post, Body, Put, Patch, QueryParam } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Put, Patch, QueryParam, Param } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../core/payment/models';
 import { CreateValidator } from '../../validators/PaymentValidator/CreateValidator';
 import { UpdateValidator } from '../../validators/PaymentValidator/UpdateValidator';
+import { PatchValidator } from '../../validators/PaymentValidator/PatchValidator';
 
 @JsonController('/payments')
 export class PaymentController {
@@ -129,7 +130,7 @@ export class PaymentController {
   */
 
   /**
-	* @api {patch} /api/v1/payments/
+	* @api {patch} /api/v1/payments/:id
   * @apiDescription Update existing payment in DB
   *
   * @apiName patch
@@ -172,8 +173,8 @@ export class PaymentController {
   * @apiSuccess (200) {string} menmonic data
   *
 	*/
-  @Patch('/')
-  public async patch(@QueryParam('id') id: string = null,
+  @Patch('/:id')
+  public async patch(@Param('id') id: string,
                      @QueryParam('title') title: string = null,
                      @QueryParam('description') description: string = null,
                      @QueryParam('promo') promo: string = null,
@@ -207,7 +208,7 @@ export class PaymentController {
       };
 
     try {
-      new UpdateValidator().validate(payment);
+      new PatchValidator().validate(payment);
       const result = await new PaymentConnector().update(payment);
 
       return new APIResponseHandler().handle(response, result);

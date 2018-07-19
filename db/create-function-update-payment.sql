@@ -67,6 +67,10 @@ IF _endts IS NULL
 THEN
 	_endts = tb_test."endTS";
 END IF;
+IF _type IS NULL 
+THEN
+	_type = tb_test.type;
+END IF;
 IF _frequency IS NULL
 THEN
 	_frequency = tb_test.frequency;
