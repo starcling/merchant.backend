@@ -1,5 +1,5 @@
 import { IPaymentInsertDetails } from './models';
-import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
+import { HTTPResponseHandler, IResponseMessage } from '../../utils/web/HTTPResponseHandler';
 import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 
@@ -35,6 +35,10 @@ export class Payment {
 
             return new HTTPResponseHandler().handleSuccess('Successfully retrieved single payment.', response.data[0]);
         } catch (error) {
+            if (error.status) {
+                return error;
+            }
+
             return new HTTPResponseHandler().handleFailed('Failed to retrieve single payment.', error);
         }
     }
@@ -43,7 +47,7 @@ export class Payment {
      * @description Get method for getting all payments from DB
      * @returns {HTTPResponse} Returns response with array of payments in data
      */
-    public async getPayments() {
+    public async getAllPayments() {
         try {
             const response = await new PaymentDbConnector().getAllPayments();
             if (!response.data) {
@@ -52,6 +56,10 @@ export class Payment {
 
             return new HTTPResponseHandler().handleSuccess('Successfully retrieved payments.', response.data);
         } catch (error) {
+            if (error.status) {
+                return error;
+            }
+
             return new HTTPResponseHandler().handleFailed('Failed to retrieve payments.', error);
         }
     }
