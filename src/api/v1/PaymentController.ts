@@ -75,7 +75,7 @@ export class PaymentController {
     * @apiGroup PaymentController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} id - Payment ID
+    * @apiParam {string} paymentID - Payment ID
     * @apiParam {string} title - Title of the payment
     * @apiParam {string} description - Description of the payment
     * @apiParam {string} promo - Promo code for the payment
@@ -92,7 +92,6 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "id": "string",
     *   "title": "string",
     *   "description": "string",
     *   "promo": "string",
@@ -111,9 +110,10 @@ export class PaymentController {
     * @apiSuccess (200) {string} menmonic data
     *
       */
-    @Put('/')
-    public async update(@Body() payment: IPaymentUpdateDetails, @Res() response: any): Promise<any> {
+    @Put('/:paymentID')
+    public async update(@Param('paymentID') paymentID: string, @Body() payment: IPaymentUpdateDetails, @Res() response: any): Promise<any> {
         try {
+            payment.id = paymentID;
             new UpdateValidator().validate(payment);
             const result = await new PaymentConnector().update(payment);
 

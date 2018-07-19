@@ -29,7 +29,7 @@ tb_payments public.tb_payments;
 tb_test public.tb_payments;
 BEGIN
 
-SELECT * FROM public.tb_payments INTO tb_test;
+SELECT * FROM public.tb_payments WHERE id=_id INTO tb_test;
 
 IF _title IS NULL OR _title = ''
 THEN

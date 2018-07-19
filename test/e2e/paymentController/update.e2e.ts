@@ -53,7 +53,7 @@ describe('PaymentController: update', () => {
             }
 
             server
-                .put(`${endpoint}`)
+                .put(`${endpoint}${updatePayment.id}`)
                 .send(updatePayment)
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -85,7 +85,7 @@ describe('PaymentController: update', () => {
             delete unsuccessfullUpdatePayment.startTimestamp;
 
             server
-                .put(`${endpoint}`)
+                .put(`${endpoint}${updatePayment.id}`)
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -102,7 +102,7 @@ describe('PaymentController: update', () => {
             unsuccessfullUpdatePayment.startTimestamp = 'string';
 
             server
-                .put(`${endpoint}`)
+                .put(`${endpoint}${updatePayment.id}`)
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {

@@ -30,8 +30,8 @@ describe('A payment insert DBcontroller', () => {
         const result = await paymentDbConnector.insertPayment(testInsertPayment);
         testID = result.data[0].id;
         result.should.have.property('success').that.is.equal(true);
-        result.should.have.property('status').that.is.equal(200);
-        result.should.have.property('message').that.is.equal('SQL Query completed successful.');
+        result.should.have.property('status').that.is.equal(201);
+        result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
         result.should.have.property('data').to.be.an('array');
         result.data[0].should.have.property('id');
         result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
