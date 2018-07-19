@@ -42,8 +42,8 @@ describe('PaymentController: patch', () => {
         await clearPayment();
     });
 
-    describe('with successful request', () => {
-        it('should return ', (done) => {
+    describe('successful request', () => {
+        it('should return payment updated', (done) => {
             const expectedResponse: IResponseMessage = {
                 success: true,
                 status: 200,
@@ -79,8 +79,8 @@ describe('PaymentController: patch', () => {
         });
     });
 
-    describe('unsuccessfull request with invalid data', () => {
-        it('should return ', (done) => {
+    describe('unsuccessfull request', () => {
+        it('should return invalid data', (done) => {
             const unsuccessfullUpdatePayment = clone (updatePayment);
 
             server

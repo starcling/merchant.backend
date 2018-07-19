@@ -32,8 +32,8 @@ describe('PaymentController: create', () => {
         await clearPayment();
     });
 
-    describe('with successful request', () => {
-        it('should return ', (done) => {
+    describe('successful request', () => {
+        it('should return payment inserted', (done) => {
             const expectedResponse: IResponseMessage = {
                 success: true,
                 status: 200,
@@ -64,11 +64,9 @@ describe('PaymentController: create', () => {
                 });
         });
     });
-});
 
-describe('PaymentController: create', () => {
-    describe('unsuccessful request with missing data', () => {
-        it('should return ', (done) => {
+    describe('unsuccessful request', () => {
+        it('should return missing data', (done) => {
             const unsuccessfullInsertPayment = clone (insertPayment);
             delete unsuccessfullInsertPayment.startts;
 
@@ -85,11 +83,9 @@ describe('PaymentController: create', () => {
                 });
         });
     });
-});
 
-describe('PaymentController: create', () => {
-    describe('unsuccessful request with invalid data', () => {
-        it('should return ', (done) => {
+    describe('unsuccessful request', () => {
+        it('should return invalid data', (done) => {
             const unsuccessfullInsertPayment = clone (insertPayment);
             unsuccessfullInsertPayment.startts = 'string';
 
@@ -106,4 +102,5 @@ describe('PaymentController: create', () => {
                 });
         });
     });
+
 });

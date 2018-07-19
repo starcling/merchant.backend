@@ -43,8 +43,8 @@ describe('PaymentController: update', () => {
         await clearPayment();
     });
 
-    describe('with successful request', () => {
-        it('should return ', (done) => {
+    describe('successful request', () => {
+        it('should return payment patched', (done) => {
             const expectedResponse: IResponseMessage = {
                 success: true,
                 status: 200,
@@ -79,8 +79,8 @@ describe('PaymentController: update', () => {
         });
     });
 
-    describe('unsuccessfull request with missing data', () => {
-        it('should return ', (done) => {
+    describe('unsuccessfull request', () => {
+        it('should return missing data', (done) => {
             const unsuccessfullUpdatePayment = clone (updatePayment);
             delete unsuccessfullUpdatePayment.startts;
 
@@ -98,8 +98,8 @@ describe('PaymentController: update', () => {
         });
     });
 
-    describe('unsuccessfull request with invalid data', () => {
-        it('should return ', (done) => {
+    describe('unsuccessfull request', () => {
+        it('should return invalid data', (done) => {
             const unsuccessfullUpdatePayment = clone (updatePayment);
             unsuccessfullUpdatePayment.startts = 'string';
 
