@@ -10,13 +10,13 @@ export class PaymentDbConnector {
                insertDetails.status,
                insertDetails.amount,
                insertDetails.currency,
-               insertDetails.startts,
-               insertDetails.endts,
+               insertDetails.startTimestamp,
+               insertDetails.endTimestamp,
                insertDetails.type,
                insertDetails.frequency]
     };
 
-    return new DataService().executeQueryAsPromise(sqlQuery);
+    return new DataService().executeQueryAsPromise(sqlQuery, true);
   }
 
   public updatePayment(updateDetails: IPaymentUpdateDetails) {
@@ -30,8 +30,8 @@ export class PaymentDbConnector {
                updateDetails.customerAddress,
                updateDetails.amount,
                updateDetails.currency,
-               updateDetails.startts,
-               updateDetails.endts,
+               updateDetails.startTimestamp,
+               updateDetails.endTimestamp,
                updateDetails.type,
                updateDetails.frequency,
                updateDetails.transactionHash,
