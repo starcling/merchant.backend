@@ -20,12 +20,12 @@ const paymentsTestData: any = require('../../../../../resources/testData.json').
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
 let paymentID;
 
-const insertTestUser = async () => {
+const insertTestPayment = async () => {
     const result = await paymentDbConnector.insertPayment(testPayment);
     paymentID = result.data[0].id;
 }
 
-const clearTestUser = async () => {
+const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payments WHERE id = $1;',
         values: [paymentID]
@@ -36,10 +36,10 @@ const clearTestUser = async () => {
 describe('PaymentController: getPayment', () => {
     describe('with success responce', () => {
         beforeEach(async () => {
-            await insertTestUser();
+            await insertTestPayment();
         });
         afterEach(async () => {
-            await clearTestUser();
+            await clearTestPayment();
         });
         it('Should return payment object', (done) => {
             server
@@ -67,10 +67,10 @@ describe('PaymentController: getPayment', () => {
     
     describe('with error responce', () => {
         beforeEach(async () => {
-            await insertTestUser();
+            await insertTestPayment();
         });
         afterEach(async () => {
-            await clearTestUser();
+            await clearTestPayment();
         });
         it('Should return query failed', (done) => {
             const id = 'test_id';
@@ -102,5 +102,4 @@ describe('PaymentController: getPayment', () => {
                 });  
         });
     });
-
 });

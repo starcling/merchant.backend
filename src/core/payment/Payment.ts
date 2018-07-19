@@ -47,7 +47,7 @@ export class Payment {
      * @description Get method for getting all payments from DB
      * @returns {HTTPResponse} Returns response with array of payments in data
      */
-    public async getPayments() {
+    public async getAllPayments() {
         try {
             const response = await new PaymentDbConnector().getAllPayments();
             if (!response.data) {

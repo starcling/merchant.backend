@@ -95,7 +95,7 @@ export class PaymentController {
     * @api {post} /api/v1/payments/
     * @apiDescription Retrieve an array of payments
     *
-    * @apiName getPayments
+    * @apiName getAllPayments
     * @apiGroup PaymentController
     * @apiVersion  1.0.0
     *
@@ -103,9 +103,9 @@ export class PaymentController {
     *
     */
     @Get('/')
-    public async getPayments(@Res() response: any): Promise<any> {
+    public async getAllPayments(@Res() response: any): Promise<any> {
         try {
-            const result = await new PaymentConnector().getPayments();
+            const result = await new PaymentConnector().getAllPayments();
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {

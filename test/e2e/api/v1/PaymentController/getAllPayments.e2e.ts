@@ -33,7 +33,7 @@ const clearTestUser = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 }
 
-describe('PaymentController: getPayments', () => {
+describe('PaymentController: getAllPayments', () => {
     describe('with success response', () => {
         beforeEach(async () => {
             await insertTestUser();
@@ -64,5 +64,4 @@ describe('PaymentController: getPayments', () => {
                 });  
         });
     });
-
 });
