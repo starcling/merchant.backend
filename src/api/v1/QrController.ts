@@ -13,8 +13,8 @@ export class QrController {
     */
 
     /**
-      * @api {post} /api/v1/qr/
-    * @apiDescription Create a new payment in DB
+    * @api {get} /api/v1/qr/
+    * @apiDescription Gets generated qr code from the SDK
     *
     * @apiName create
     * @apiGroup PaymentController
@@ -23,9 +23,9 @@ export class QrController {
     * @apiParam {string} paymentID - ID of the payment
     *
     * @apiParamExample {json} Request-Example:
-    *    {
-    *       "paymentID": "27346059273640597263495"
-    *    }
+    * {
+    *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
+    * }
     *
     * @apiSuccess (200) {string} menmonic data
     *

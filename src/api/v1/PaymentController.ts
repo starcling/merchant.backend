@@ -34,17 +34,17 @@ export class PaymentController {
     * @apiParam {number} frequency - Frequency of execution
     *
     * @apiParamExample {json} Request-Example:
-    *    {
-    *       "title": "string",
-    *       "description": "string",
-    *       "status": 1,
-    *       "amount": 43,
-    *       "currency": "string",
-    *       "startts": 10,
-    *       "endts": 13,
-    *       "type": 1,
-    *       "frequency": 10
-    *    }
+    * {
+    *   "title": "string",
+    *   "description": "string",
+    *   "status": 1,
+    *   "amount": 43,
+    *   "currency": "string",
+    *   "startts": 10,
+    *   "endts": 13,
+    *   "type": 1,
+    *   "frequency": 10
+    * }
     *
     * @apiSuccess (200) {string} menmonic data
     *
@@ -62,7 +62,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {post} /api/v1/payments/
+    * @api {get} /api/v1/payments/
     * @apiDescription Retrieve a single payment
     *
     * @apiName getPayment
@@ -72,9 +72,9 @@ export class PaymentController {
     * @apiParam {string} paymentID - ID of the payment
     *
     * @apiParamExample {json} Request-Example:
-    *    {
-    *       "paymentID": "32049572038495"
-    *    }
+    * {
+    *   "paymentID": "32049572038495"
+    * }
     *
     * @apiSuccess (200) {string} menmonic data
     *
@@ -92,7 +92,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {post} /api/v1/payments/
+    * @api {get} /api/v1/payments/
     * @apiDescription Retrieve an array of payments
     *
     * @apiName getAllPayments
