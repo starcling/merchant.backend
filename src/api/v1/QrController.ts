@@ -16,7 +16,7 @@ export class QrController {
     * @api {get} /api/v1/qr/
     * @apiDescription Gets generated qr code from the SDK
     *
-    * @apiName create
+    * @apiName getQRCode
     * @apiGroup PaymentController
     * @apiVersion  1.0.0
     *
