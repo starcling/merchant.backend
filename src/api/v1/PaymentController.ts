@@ -1,10 +1,11 @@
-import { JsonController, Res, Post, Body, Put, Patch, QueryParam, Param } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Put, Patch, QueryParam, Param, Get } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../core/payment/models';
-import { CreateValidator } from '../../validators/PaymentValidator/CreateValidator';
+import { CreatePaymentValidator } from '../../validators/PaymentValidator/CreatePaymentValidator';
 import { UpdateValidator } from '../../validators/PaymentValidator/UpdateValidator';
 import { PatchValidator } from '../../validators/PaymentValidator/PatchValidator';
+import { GetPaymentValidator } from '../../validators/PaymentValidator/GetPaymentValidator';
 
 @JsonController('/payments')
 export class PaymentController {
@@ -16,7 +17,7 @@ export class PaymentController {
     */
 
     /**
-      * @api {post} /api/v1/payments/
+    * @api {post} /api/v1/payments/
     * @apiDescription Create a new payment in DB
     *
     * @apiName create
@@ -48,11 +49,11 @@ export class PaymentController {
     *
     * @apiSuccess (200) {string} menmonic data
     *
-      */
+    */
     @Post('/')
     public async create(@Body() payment: IPaymentInsertDetails, @Res() response: any): Promise<any> {
         try {
-            new CreateValidator().validate(payment);
+            new CreatePaymentValidator().validate(payment);
             const result = await new PaymentConnector().create(payment);
 
             return new APIResponseHandler().handle(response, result);
@@ -62,13 +63,37 @@ export class PaymentController {
     }
 
     /**
-    * @apiDefine Response
-    * @apiSuccess {number} status The HTTP status of the call
-    * @apiSuccess {string} message A human-friendly summary of the result of the call
+    * @api {get} /api/v1/payments/
+    * @apiDescription Retrieve a single payment
+    *
+    * @apiName getPayment
+    * @apiGroup PaymentController
+    * @apiVersion  1.0.0
+    *
+    * @apiParam {string} paymentID - ID of the payment
+    *
+    * @apiParamExample {json} Request-Example:
+    * {
+    *   "paymentID": "32049572038495"
+    * }
+    *
+    * @apiSuccess (200) {string} menmonic data
+    *
     */
+    @Get('/:paymentID')
+    public async getPayment(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
+        try {
+            new GetPaymentValidator().validate({ paymentID });
+            const result = await new PaymentConnector().getPayment(paymentID);
+
+            return new APIResponseHandler().handle(response, result);
+        } catch (error) {
+            return new APIResponseHandler().handle(response, error);
+        }
+    }
 
     /**
-      * @api {put} /api/v1/payments/
+    * @api {put} /api/v1/payments/
     * @apiDescription Update existing payment in DB
     *
     * @apiName update
@@ -109,7 +134,7 @@ export class PaymentController {
     *
     * @apiSuccess (200) {string} menmonic data
     *
-      */
+    */
     @Put('/:paymentID')
     public async update(@Param('paymentID') paymentID: string, @Body() payment: IPaymentUpdateDetails, @Res() response: any): Promise<any> {
         try {
@@ -124,13 +149,29 @@ export class PaymentController {
     }
 
     /**
-    * @apiDefine Response
-    * @apiSuccess {number} status The HTTP status of the call
-    * @apiSuccess {string} message A human-friendly summary of the result of the call
+    * @api {get} /api/v1/payments/
+    * @apiDescription Retrieve an array of payments
+    *
+    * @apiName getAllPayments
+    * @apiGroup PaymentController
+    * @apiVersion  1.0.0
+    *
+    * @apiSuccess (200) {string} menmonic data
+    *
     */
+    @Get('/')
+    public async getAllPayments(@Res() response: any): Promise<any> {
+        try {
+            const result = await new PaymentConnector().getAllPayments();
+
+            return new APIResponseHandler().handle(response, result);
+        } catch (error) {
+            return new APIResponseHandler().handle(response, error);
+        }
+    }
 
     /**
-      * @api {patch} /api/v1/payments/:id
+    * @api {patch} /api/v1/payments/:id
     * @apiDescription Update existing payment in DB
     *
     * @apiName patch
