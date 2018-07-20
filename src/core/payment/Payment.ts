@@ -1,7 +1,7 @@
-import { IPaymentInsertDetails } from './models';
-import { HTTPResponseHandler, IResponseMessage } from '../../utils/web/HTTPResponseHandler';
-import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
+import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
+import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
+import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
 
 export class Payment {
 
@@ -10,11 +10,11 @@ export class Payment {
      * @param {IPaymentInsertDetails} payment payment object
      * @returns {HTTPResponse} Returns success feedback
      */
-    public create(payment: IPaymentInsertDetails) {
+    public async create(payment: IPaymentInsertDetails) {
         try {
-            //do logic here
+            const result = await new PaymentDbConnector().insertPayment(payment);
 
-            return new HTTPResponseHandler().handleSuccess('Successful payment insert.', null);
+            return new HTTPResponseHandler().handleSuccess('Successful payment insert.', result.data[0]);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to insert payment', error);
         }
@@ -61,6 +61,21 @@ export class Payment {
             }
 
             return new HTTPResponseHandler().handleFailed('Failed to retrieve payments.', error);
+        }
+    }
+
+    /**
+     * @description Create method for updating a payment in DB
+     * @param {IPaymentUpdateDetails} payment payment object
+     * @returns {HTTPResponse} Returns success feedback
+     */
+    public async update(payment: IPaymentUpdateDetails) {
+        try {
+            const result = await new PaymentDbConnector().updatePayment(payment);
+
+            return new HTTPResponseHandler().handleSuccess('Successful payment update.', result.data[0]);
+        } catch (error) {
+            return new HTTPResponseHandler().handleFailed('Failed to update payment', error);
         }
     }
 }

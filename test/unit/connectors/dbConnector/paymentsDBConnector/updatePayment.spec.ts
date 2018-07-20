@@ -49,8 +49,8 @@ describe('PaymentDbConnector', () => {
             result.data[0].should.have.property('customerAddress').that.is.equal(updateTestPayment.customerAddress);
             result.data[0].should.have.property('amount').that.is.equal(updateTestPayment.amount);
             result.data[0].should.have.property('currency').that.is.equal(updateTestPayment.currency);
-            result.data[0].should.have.property('startTS').that.is.equal(updateTestPayment.startts);
-            result.data[0].should.have.property('endTS').that.is.equal(updateTestPayment.endts);
+            result.data[0].should.have.property('startTimestamp').that.is.equal(updateTestPayment.startTimestamp);
+            result.data[0].should.have.property('endTimestamp').that.is.equal(updateTestPayment.endTimestamp);
             result.data[0].should.have.property('type').that.is.equal(updateTestPayment.type);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);
             result.data[0].should.have.property('transactionHash').that.is.equal(updateTestPayment.transactionHash);
