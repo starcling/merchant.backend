@@ -3,6 +3,10 @@ import { MerchantSDK } from '../MerchantSDK';
 
 export class Qr {
 
+    public constructor() {
+        MerchantSDK.GET_SDK().build({merchantApiUrl: 'http://merchant_server:3000/api/v1/'});
+    }
+
     /**
      * @description Get method for getting payment from DB
      * @param {string} paymentID paymentID of the object
@@ -10,9 +14,9 @@ export class Qr {
      */
     public getQRCode (paymentID: string) {
         try {
-            const merchantSDK = MerchantSDK.GET_SDK().build({apiUrl: 'merchant_core'});
+            const result = MerchantSDK.GET_SDK().generateQRCode(paymentID);
 
-            return new HTTPResponseHandler().handleSuccess('Successfully retrieved the QR code.', merchantSDK.generateQRCode(paymentID));
+            return new HTTPResponseHandler().handleSuccess('Successfully retrieved the QR code.', result);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed retrieve QR code.', error);
         }

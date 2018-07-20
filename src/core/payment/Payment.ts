@@ -2,8 +2,13 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
+import { MerchantSDK } from '../MerchantSDK';
 
 export class Payment {
+
+    public constructor() {
+        MerchantSDK.GET_SDK().build({merchantApiUrl: 'http://merchant_server:3000/api/v1/'});
+    }
 
     /**
      * @description Create method for inserting payment into DB
@@ -72,6 +77,10 @@ export class Payment {
     public async update(payment: IPaymentUpdateDetails) {
         try {
             const result = await new PaymentDbConnector().updatePayment(payment);
+            if (payment.transactionHash) {
+                console.log('monitor transaction');
+                MerchantSDK.GET_SDK().monitorTransaction(payment.transactionHash, payment.id);
+            }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', result.data[0]);
         } catch (error) {
