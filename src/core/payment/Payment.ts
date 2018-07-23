@@ -7,7 +7,9 @@ import { MerchantSDK } from '../MerchantSDK';
 export class Payment {
 
     public constructor() {
-        MerchantSDK.GET_SDK().build({merchantApiUrl: 'http://merchant_server:3000/api/v1/'});
+        MerchantSDK.GET_SDK().build({
+            merchantApiUrl: 'http://merchant_server:3000/api/v1'
+        });
     }
 
     /**
@@ -78,7 +80,6 @@ export class Payment {
         try {
             const result = await new PaymentDbConnector().updatePayment(payment);
             if (payment.transactionHash) {
-                console.log('monitor transaction');
                 MerchantSDK.GET_SDK().monitorTransaction(payment.transactionHash, payment.id);
             }
 
