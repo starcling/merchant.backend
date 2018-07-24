@@ -2,9 +2,9 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
 import clone from 'clone';
-import { IResponseMessage } from '../../../src/utils/web/HTTPResponseHandler';
-import { IPaymentInsertDetails } from '../../../src/core/payment/models';
-import { DataService, ISqlQuery } from '../../../src/utils/datasource/DataService';
+import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
+import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
+import { DataService, ISqlQuery } from '../../../../../src/utils/datasource/DataService';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -12,7 +12,7 @@ const expect = chai.expect;
 const server = supertest.agent('localhost:3000/');
 const endpoint = 'api/v1/payments/';
 
-const payments: any = require('../../../resources/e2eTestData.json').payments; 
+const payments: any = require('../../../../../resources/e2eTestData.json').payments; 
 const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
 
 const dataservice = new DataService();
