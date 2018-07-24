@@ -11,7 +11,7 @@ export class TestController {
         try {
 
             const merchant = MerchantSDK.GET_SDK().build({ apiUrl: API_URL });
-            const loginToken = await merchant.authenticate('user', 'password');
+            // const loginToken = await merchant.authenticate('user', 'password');
             const globalResult = await merchant.getRequest('/exchange/global');
 
             return new APIResponseHandler().handle(response, globalResult);

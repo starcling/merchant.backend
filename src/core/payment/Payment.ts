@@ -3,11 +3,15 @@ import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
 import { MerchantSDK } from '../MerchantSDK';
+import { Globals } from '../../utils/globals';
+// tslint:disable-next-line:variable-name
+const Web3 = require('web3');
 
 export class Payment {
 
     public constructor() {
         MerchantSDK.GET_SDK().build({
+            web3: new Web3(new Web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL())),
             merchantApiUrl: 'http://merchant_server:3000/api/v1'
         });
     }
