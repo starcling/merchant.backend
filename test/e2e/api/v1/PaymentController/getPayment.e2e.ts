@@ -16,8 +16,8 @@ const endpoint = 'api/v1/payments/';
 const dataservice = new DataService();
 const paymentDbConnector = new PaymentDbConnector();
 
-const paymentsTestData: any = require('../../../../../resources/testData.json').payments;
-const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
+const paymentsTestData: any = require('../../../../../resources/e2eTestData.json').payments;
+const testPayment: IPaymentInsertDetails = paymentsTestData['insertPayment'];
 let paymentID;
 
 const insertTestPayment = async () => {
@@ -54,10 +54,10 @@ describe('PaymentController: getPayment', () => {
                     expect(body.data).to.have.property('title').that.is.equal(testPayment.title);
                     expect(body.data).to.have.property('description').that.is.equal(testPayment.description);
                     expect(body.data).to.have.property('status').that.is.equal(testPayment.status);
-                    expect(body.data).to.have.property('amount').that.is.equal(testPayment.amount);
+                    expect(body.data).to.have.property('amount').that.is.equal(testPayment.amount.toString());
                     expect(body.data).to.have.property('currency').that.is.equal(testPayment.currency);
-                    expect(body.data).to.have.property('startTS').that.is.equal(testPayment.startts);
-                    expect(body.data).to.have.property('endTS').that.is.equal(testPayment.endts);
+                    expect(body.data).to.have.property('startTimestamp').that.is.equal(testPayment.startTimestamp.toString());
+                    expect(body.data).to.have.property('endTimestamp').that.is.equal(testPayment.endTimestamp.toString());
                     expect(body.data).to.have.property('type').that.is.equal(testPayment.type);
                     expect(body.data).to.have.property('frequency').that.is.equal(testPayment.frequency);
                     done(err);
