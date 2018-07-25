@@ -6,6 +6,7 @@ import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandl
 import { IPaymentUpdateDetails, IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../../src/utils/datasource/DataService';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/paymentsDBconnector';
+import { readJsonSync } from '../../../../../node_modules/@types/fs-extra';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -66,14 +67,17 @@ describe('PaymentController: update', () => {
                     expect(body).to.have.property('data').that.has.property('description').that.is.equal(updatePayment.description);
                     expect(body).to.have.property('data').that.has.property('status').that.is.equal(updatePayment.status);
                     expect(body).to.have.property('data').that.has.property('customerAddress').that.is.equal(updatePayment.customerAddress);
-                    expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + updatePayment.amount);
+                    expect(body).to.have.property('data').that.has.property('amount').that.is.equal(updatePayment.amount.toString());
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(updatePayment.currency);
-                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + updatePayment.startTimestamp);
-                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + updatePayment.endTimestamp);
+                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal(updatePayment.startTimestamp.toString());
+                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal(updatePayment.endTimestamp.toString());
                     expect(body).to.have.property('data').that.has.property('type').that.is.equal(updatePayment.type);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(updatePayment.frequency);
-                    expect(body).to.have.property('data').that.has.property('transactionHash').that.is.equal(updatePayment.transactionHash);
+                    expect(body).to.have.property('data').that.has.property('registerTxHash').that.is.equal(updatePayment.registerTxHash);
+                    expect(body).to.have.property('data').that.has.property('executeTxHash').that.is.equal(updatePayment.executeTxHash);
+                    expect(body).to.have.property('data').that.has.property('executeTxStatus').that.is.equal(updatePayment.executeTxStatus);
                     expect(body).to.have.property('data').that.has.property('debitAccount').that.is.equal(updatePayment.debitAccount);
+                    expect(body).to.have.property('data').that.has.property('merchantAddress').that.is.equal(updatePayment.merchantAddress);
                     done(err);
                 });
         });

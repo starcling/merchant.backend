@@ -4,10 +4,9 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../core/payment
 export class PaymentDbConnector {
   public insertPayment(insertDetails: IPaymentInsertDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8)',
       values: [insertDetails.title,
       insertDetails.description,
-      insertDetails.status,
       insertDetails.amount,
       insertDetails.currency,
       insertDetails.startTimestamp,
@@ -21,7 +20,7 @@ export class PaymentDbConnector {
 
   public updatePayment(updateDetails: IPaymentUpdateDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_update_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
+      text: 'SELECT * FROM fc_update_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
       values: [updateDetails.id,
       updateDetails.title,
       updateDetails.description,
@@ -34,8 +33,11 @@ export class PaymentDbConnector {
       updateDetails.endTimestamp,
       updateDetails.type,
       updateDetails.frequency,
-      updateDetails.transactionHash,
-      updateDetails.debitAccount]
+      updateDetails.registerTxHash,
+      updateDetails.executeTxHash,
+      updateDetails.executeTxStatus,
+      updateDetails.debitAccount,
+      updateDetails.merchantAddress]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);

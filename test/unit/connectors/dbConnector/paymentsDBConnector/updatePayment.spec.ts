@@ -53,8 +53,11 @@ describe('PaymentDbConnector', () => {
             result.data[0].should.have.property('endTimestamp').that.is.equal(updateTestPayment.endTimestamp);
             result.data[0].should.have.property('type').that.is.equal(updateTestPayment.type);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);
-            result.data[0].should.have.property('transactionHash').that.is.equal(updateTestPayment.transactionHash);
-            result.data[0].should.have.property('debitAccount').that.is.equal(updateTestPayment.debitAccount);    
+            result.data[0].should.have.property('registerTxHash').that.is.equal(updateTestPayment.registerTxHash);
+            result.data[0].should.have.property('executeTxHash').that.is.equal(updateTestPayment.executeTxHash);
+            result.data[0].should.have.property('executeTxStatus').that.is.equal(updateTestPayment.executeTxStatus);
+            result.data[0].should.have.property('debitAccount').that.is.equal(updateTestPayment.debitAccount);
+            result.data[0].should.have.property('merchantAddress').that.is.equal(updateTestPayment.merchantAddress);  
         });
     });
 });

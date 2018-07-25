@@ -31,6 +31,9 @@ const dataSchema = Joi.object().keys({
     endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).allow(null),
     type: Joi.number().allow(null),
     frequency: Joi.number().allow(null),
-    transactionHash: Joi.string().allow(null),
-    debitAccount: Joi.string().allow(null)
+    registerTxHash: Joi.string().allow(null),
+    executeTxHash: Joi.string().allow(null),
+    executeTxStatus: Joi.number().allow(null),
+    debitAccount: Joi.string().allow(null),
+    merchantAddress: Joi.string().allow(null)
 });
