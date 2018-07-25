@@ -48,4 +48,4 @@ services:
 networks:
   puma_merchant_sdk:
     external:
-      name: puma_merchant_sdk
+      name: pumacore_puma_core
