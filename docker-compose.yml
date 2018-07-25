@@ -22,15 +22,15 @@ services:
       - ../merchant.sdk:/usr/src/app/node_modules/puma_merchant_sdk
     depends_on:
       - postgres_merchant
-    command: sh -c "npm run dev"
     networks:
-      - pumacore_puma_core
+      - puma_merchant_sdk
+    command: sh -c "npm run dev"
 
   postgres_merchant:
     image: postgres:9.6
     environment:
-      POSTGRES_PASSWORD: local_pass
       POSTGRES_USER: local_user
+      POSTGRES_PASSWORD: local_pass
       POSTGRES_DB: local_merchant_server
     ports:
       - "5431:5432"
@@ -38,14 +38,14 @@ services:
       - ./db/init-tables.sql:/docker-entrypoint-initdb.d/1-init-tables.sql:Z
       - ./db/create-function-insert-payment.sql:/docker-entrypoint-initdb.d/2-create-function-insert-payment.sql:Z
       - ./db/create-function-update-payment.sql:/docker-entrypoint-initdb.d/3-create-function-update-payment.sql:Z
-      - ./db/create-function-get-single-payment-details.sql:/docker-entrypoint-initdb.d/3-create-function-get-single-payment-details.sql:Z
-      - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/3-create-function-get-all-payments-details.sql:Z
+      - ./db/create-function-get-single-payment-details.sql:/docker-entrypoint-initdb.d/4-create-function-get-single-payment-details.sql:Z
+      - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/5-create-function-get-all-payments-details.sql:Z
 
     networks:
-      - pumacore_puma_core
+      - puma_merchant_sdk
     restart: unless-stopped
     
 networks:
-  pumacore_puma_core:
+  puma_merchant_sdk:
     external:
       name: pumacore_puma_core
