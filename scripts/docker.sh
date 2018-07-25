@@ -1,20 +1,21 @@
 #!/bin/bash
-echo "\n ================= Entering Merchant SDK directory \n"
+
+#echo "----------------------- Entering Merchant SDK directory"
 cd ../merchant.sdk/
-echo "\n ================= Clearing node modules \n"
+#echo "----------------------- Clearing node modules"
 rm -rf ./node_modules/
-echo "\n ================= Deleting package-lock.json \n"
+#echo "----------------------- Deleting package-lock.json"
 rm -rf ./package-lock.json
-echo "\n ================= Install dependencies \n"
+#echo "----------------------- Install dependencies"
 npm install
-echo "\n ================= Pack Merchant SDK \n"
+#echo "----------------------- Pack Merchant SDK"
 npm run pack-local
-echo "\n ================= Entering Merchant backend directory \n"
+#echo "----------------------- Entering Merchant backend directory"
 cd ../merchant.backend/
-echo "\n ================= Link Merchant SDK \n"
+#echo "----------------------- Link Merchant SDK"
 npm link puma_merchant_sdk
 
-echo "\n ================= Selecting docker configuration file \n"
+#echo "----------------------- Selecting docker configuration file"
 
 dev="docker-compose.yml"
 dev_remote="docker-compose.server.yml"
@@ -39,9 +40,11 @@ case $1 in
         ;;              
 esac 
 
-echo "\n ================= Selected docker configuration file: $file \n"
+#echo "----------------------- Selected docker configuration file: $file"
 
 docker-compose -f $file down
+wait
+gulp
 wait
 docker-compose -f $file build
 wait
@@ -53,19 +56,3 @@ if [ "$#" -gt 2 ]
 then
     docker-compose -f $file $2 -$3
 fi
-
-# #!/bin/bash
-# docker-compose down
-# wait
-# gulp
-# wait
-# docker-compose build
-# wait
-# # docker-compose up -d postgres
-# # wait
-# # sleep 10
-# docker-compose up -d
-# if [ "$#" -gt 0 ]
-# then
-#     docker-compose $1 -$2
-# fi

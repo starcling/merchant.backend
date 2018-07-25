@@ -1,5 +1,5 @@
 {
-  "name": "puma-merchant-backend",
+  "name": "puma_merchant_backend",
   "version": "0.0.1",
   "description": "Pumapay merchant backend server",
   "main": "index.js",
