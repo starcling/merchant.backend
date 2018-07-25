@@ -1,12 +1,18 @@
 #!/bin/bash
 echo "\n ================= Entering Merchant SDK directory \n"
 cd ../merchant.sdk/
+echo "\n ================= Clearing node modules \n"
+rm -rf ./node_modules/
+echo "\n ================= Deleting package-lock.json \n"
+rm -rf ./package-lock.json
+echo "\n ================= Deleting package-lock.json \n"
+npm install
 echo "\n ================= Pack Merchant SDK \n"
 npm run pack-local
-echo "\n ================= Link Merchant SDK \n"
-npm link puma_merchant_sdk
 echo "\n ================= Entering Merchant backend directory \n"
 cd ../merchant.backend/
+echo "\n ================= Link Merchant SDK \n"
+npm link puma_merchant_sdk
 
 echo "\n ================= Selecting docker configuration file \n"
 
