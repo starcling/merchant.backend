@@ -1,7 +1,7 @@
 {
-  "name": "puma-project",
+  "name": "puma-merchant-backend",
   "version": "0.0.1",
-  "description": "Test project using merchantSDK",
+  "description": "Pumapay merchant backend server",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -L",

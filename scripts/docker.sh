@@ -1,9 +1,20 @@
 #!/bin/bash
+echo "\n ================= Entering Merchant SDK directory \n"
+cd ../merchant.sdk/
+echo "\n ================= Pack Merchant SDK \n"
+npm run pack-local
+echo "\n ================= Link Merchant SDK \n"
+npm link puma_merchant_sdk
+echo "\n ================= Entering Merchant backend directory \n"
+cd ../merchant.backend/
+
+echo "\n ================= Selecting docker configuration file \n"
+
 dev="docker-compose.yml"
 dev_remote="docker-compose.server.yml"
 prod="docker-compose.yml"
 prod_remote="docker-compose.server.yml"
-file=$dev
+
 case $1 in
     dev)       
         file=$dev
@@ -17,8 +28,12 @@ case $1 in
     prod_remote)       
         file=$prod_remote
         ;;
-    *)              
+    *)
+        file=$dev
+        ;;              
 esac 
+
+echo "\n ================= Selected docker configuration file: $file \n"
 
 docker-compose -f $file down
 wait
