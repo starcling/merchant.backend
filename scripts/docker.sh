@@ -5,7 +5,7 @@ echo "\n ================= Clearing node modules \n"
 rm -rf ./node_modules/
 echo "\n ================= Deleting package-lock.json \n"
 rm -rf ./package-lock.json
-echo "\n ================= Deleting package-lock.json \n"
+echo "\n ================= Install dependencies \n"
 npm install
 echo "\n ================= Pack Merchant SDK \n"
 npm run pack-local
