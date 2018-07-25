@@ -1,10 +1,13 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
-import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/paymentsDBconnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails} from '../../../../../src/core/payment/models';
-import { DataService, ISqlQuery } from '../../../../../src/utils/datasource/DataService';
 
+import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
+
+MerchantSDK.GET_SDK().build({
+    merchantApiUrl: 'http://merchant_server:3000/api/v1',
+});
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -13,24 +16,29 @@ const expect = chai.expect;
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/payments/';
 
-const dataservice = new DataService();
-const paymentDbConnector = new PaymentDbConnector();
+//const dataservice = new DataService();
+//const paymentDbConnector = new PaymentDbConnector();
 
 const paymentsTestData: any = require('../../../../../resources/testData.json').payments;
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
 let paymentID;
 
 const insertTestPayment = async () => {
-    const result = await paymentDbConnector.insertPayment(testPayment);
+    // Need to insert test payment using Merchant SDK
+    //const result = await paymentDbConnector.insertPayment(testPayment);
+    const result = await MerchantSDK.GET_SDK().createPayment(testPayment);
     paymentID = result.data[0].id;
 }
 
 const clearTestPayment = async () => {
-    const sqlQuery: ISqlQuery = {
+    /* const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payments WHERE id = $1;',
         values: [paymentID]
-    };
-    await dataservice.executeQueryAsPromise(sqlQuery);
+    }; */
+
+    await MerchantSDK.GET_SDK().deletePayment(paymentID);
+    // Need to delete payment using Merchant SDK
+    //await dataservice.executeQueryAsPromise(sqlQuery);
 }
 
 describe('PaymentController: getAllPayments', () => {
@@ -56,8 +64,8 @@ describe('PaymentController: getAllPayments', () => {
                     expect(body.data[0]).to.have.property('status').that.is.equal(testPayment.status);
                     expect(body.data[0]).to.have.property('amount').that.is.equal(testPayment.amount);
                     expect(body.data[0]).to.have.property('currency').that.is.equal(testPayment.currency);
-                    expect(body.data[0]).to.have.property('startTS').that.is.equal(testPayment.startts);
-                    expect(body.data[0]).to.have.property('endTS').that.is.equal(testPayment.endts);
+                    expect(body.data[0]).to.have.property('startTimestamp').that.is.equal(testPayment.startTimestamp);
+                    expect(body.data[0]).to.have.property('endTimestamp').that.is.equal(testPayment.endTimestamp);
                     expect(body.data[0]).to.have.property('type').that.is.equal(testPayment.type);
                     expect(body.data[0]).to.have.property('frequency').that.is.equal(testPayment.frequency);
                     done(err);
