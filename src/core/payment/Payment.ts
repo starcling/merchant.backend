@@ -83,8 +83,8 @@ export class Payment {
     public async update(payment: IPaymentUpdateDetails) {
         try {
             const result = await new PaymentDbConnector().updatePayment(payment);
-            if (payment.transactionHash) {
-                MerchantSDK.GET_SDK().monitorTransaction(payment.transactionHash, payment.id);
+            if (payment.registerTxHash) {
+                MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', result.data[0]);

@@ -53,7 +53,6 @@ describe('PaymentController: getPayment', () => {
                     expect(body).to.have.property('data').that.is.an('object');
                     expect(body.data).to.have.property('title').that.is.equal(testPayment.title);
                     expect(body.data).to.have.property('description').that.is.equal(testPayment.description);
-                    expect(body.data).to.have.property('status').that.is.equal(testPayment.status);
                     expect(body.data).to.have.property('amount').that.is.equal(testPayment.amount.toString());
                     expect(body.data).to.have.property('currency').that.is.equal(testPayment.currency);
                     expect(body.data).to.have.property('startTimestamp').that.is.equal(testPayment.startTimestamp.toString());

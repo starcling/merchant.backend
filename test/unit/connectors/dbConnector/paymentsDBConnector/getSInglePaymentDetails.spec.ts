@@ -45,7 +45,7 @@ describe('A paymentDbConnector', () => {
             result.data[0].should.have.property('title').that.is.equal(testPayment.title);
             result.data[0].should.have.property('description').that.is.equal(testPayment.description);
             result.data[0].should.have.property('promo').that.is.equal(null);
-            result.data[0].should.have.property('status').that.is.equal(testPayment.status);
+            result.data[0].should.have.property('status').that.is.equal(1);
             result.data[0].should.have.property('customerAddress').that.is.equal(null);
             result.data[0].should.have.property('amount').that.is.equal(testPayment.amount);
             result.data[0].should.have.property('currency').that.is.equal(testPayment.currency);
@@ -53,8 +53,11 @@ describe('A paymentDbConnector', () => {
             result.data[0].should.have.property('endTimestamp').that.is.equal(testPayment.endTimestamp);
             result.data[0].should.have.property('type').that.is.equal(testPayment.type);
             result.data[0].should.have.property('frequency').that.is.equal(testPayment.frequency);
-            result.data[0].should.have.property('transactionHash').that.is.equal(null);
+            result.data[0].should.have.property('registerTxHash').that.is.equal(null);
+            result.data[0].should.have.property('executeTxHash').that.is.equal(null);
+            result.data[0].should.have.property('executeTxStatus').that.is.equal(1);
             result.data[0].should.have.property('debitAccount').that.is.equal(null);
+            result.data[0].should.have.property('merchantAddress').that.is.equal(null);
         });
     });
 });

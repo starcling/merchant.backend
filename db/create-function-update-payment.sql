@@ -15,8 +15,11 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_endTimestamp bigint,
 	_type integer,
 	_frequency integer,
-	_transactionhash text,
-	_debitaccount text)
+	_registerTxHash text,
+	_executeTxHash text,
+	_executeTxStatus integer,
+	_debitaccount text,
+	_merchantAddress text)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -75,23 +78,37 @@ IF _frequency IS NULL
 THEN
 	_frequency = tb_test.frequency;
 END IF;
-IF _transactionhash IS NULL OR _transactionhash = ''
+IF _registerTxHash IS NULL OR _registerTxHash = ''
 THEN
-	_transactionhash = tb_test."transactionHash";
+	_registerTxHash = tb_test."registerTxHash";
+END IF;
+IF _executeTxHash IS NULL OR _executeTxHash = ''
+THEN
+	_executeTxHash = tb_test."executeTxHash";
+END IF;
+IF _executeTxStatus IS NULL 
+THEN
+	_executeTxStatus = tb_test."executeTxStatus";
 END IF;
 IF _debitaccount IS NULL OR _debitaccount = ''
 THEN
 	_debitaccount = tb_test."debitAccount";
 END IF;
+IF _merchantAddress IS NULL OR _merchantAddress = ''
+THEN
+	_merchantAddress = tb_test."merchantAddress";
+END IF;
 
 UPDATE public.tb_payments SET
-	title = _title, description = _description, promo = _promo, status = _status,"customerAddress" = _customeraddress,amount = _amount, currency = _currency,
-	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, type = _type, frequency = _frequency, "transactionHash" = _transactionhash, "debitAccount" = _debitaccount
+	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customeraddress, amount = _amount, currency = _currency,
+	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "executeTxHash" = _executeTxHash, 
+	"executeTxStatus" = _executeTxStatus, "debitAccount" = _debitaccount, "merchantAddress" = _merchantAddress
     WHERE id = _id RETURNING * INTO tb_payments;
-RETURN tb_payments;
+
+	RETURN tb_payments;
 END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text, integer, text, text)
     OWNER TO local_user;

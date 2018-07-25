@@ -1,7 +1,6 @@
 export interface IPaymentInsertDetails {
     title: string;
     description: string;
-    status: number;
     amount: number;
     currency: string;
     startTimestamp: number;
@@ -23,6 +22,9 @@ export interface IPaymentUpdateDetails {
     endTimestamp: number;
     type: number;
     frequency: number;
-    transactionHash: string;
+    registerTxHash: string;
+    executeTxHash: string;
+    executeTxStatus: number;
     debitAccount: string;
+    merchantAddress: string;
 }

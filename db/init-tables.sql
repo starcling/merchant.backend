@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     title character varying(255) COLLATE pg_catalog."default" NOT NULL,
     description character varying(255) COLLATE pg_catalog."default" NOT NULL,
     promo character varying(255) COLLATE pg_catalog."default",
-    status integer NOT NULL,
+    status integer DEFAULT 1,
     "customerAddress" character varying(255) COLLATE pg_catalog."default",
     amount bigint NOT NULL,
     currency character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -13,8 +13,11 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     "endTimestamp" bigint NOT NULL,
     type integer NOT NULL,
     frequency integer NOT NULL,
-    "transactionHash" character varying(255) COLLATE pg_catalog."default",
+    "registerTxHash" character varying(255) COLLATE pg_catalog."default",
+    "executeTxHash" character varying(255) COLLATE pg_catalog."default",
+    "executeTxStatus" integer DEFAULT 1,
     "debitAccount" character varying(255) COLLATE pg_catalog."default",
+    "merchantAddress" character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id)
 )
 WITH (
