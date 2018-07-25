@@ -6,15 +6,15 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - HOST=localhost
       - PORT=3000
-      - API_URL=core_server
+      - API_URL=52.29.233.47
       - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass
       - PGDATABASE=local_merchant_server
-      - PGPORT=5432
+      - PGPORT=5431
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -24,7 +24,7 @@ services:
       - postgres_merchant
     command: sh -c "npm run dev"
     networks:
-      - pumacore_puma_core
+      - puma_merchant_sdk
 
   postgres_merchant:
     image: postgres:9.6
@@ -42,10 +42,9 @@ services:
       - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/3-create-function-get-all-payments-details.sql:Z
 
     networks:
-      - pumacore_puma_core
+      - puma_merchant_sdk
     restart: unless-stopped
     
 networks:
-  pumacore_puma_core:
-    external:
-      name: pumacore_puma_core
+  puma_merchant_sdk:
+    driver: bridge

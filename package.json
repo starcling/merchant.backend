@@ -1,11 +1,11 @@
 {
-  "name": "puma-project",
+  "name": "puma-merchant-backend",
   "version": "0.0.1",
-  "description": "Test project using merchantSDK",
+  "description": "Pumapay merchant backend server",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -L",
-    "start": "npm run build && node dist/index.js",
+    "start": "npm run build && node dist/src/index.js",
     "build": "tsc",
     "build:watch": "tsc -w",
     "lint": "node_modules/.bin/tslint --fix -c tslint.json 'src/**/*.ts'",
@@ -28,15 +28,17 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.2",
     "@types/pg": "^7.4.10",
-    "dotenv": "^6.0.0",
-    "debug": "^3.1.0",
     "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
     "pg": "^7.4.3",
+    "request": "^2.87.0",
     "routing-controllers": "^0.7.7",
     "typedi": "^0.7.2",
     "typescript": "^2.8.1",
+    "web3": "^1.0.0-beta.34",
     "winston": "^2.4.1"
   },
   "devDependencies": {
@@ -49,11 +51,25 @@
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.0.0",
     "concurrently": "^3.5.1",
+    "gulp": "^3.9.1",
+    "gulp-apidoc-swagger": "^0.2.2",
+    "gulp-typedoc": "^2.2.0",
+    "husky": "^1.0.0-rc.13",
+    "joi": "^13.4.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.17.3",
     "supertest": "^3.0.0",
+    "swagger-ui-express": "^3.0.10",
     "ts-node": "~4.1.0",
     "tslint": "^5.9.1",
     "tslint-microsoft-contrib": "^5.0.3",
-    "typescript": "^2.8.1"
+    "typedoc": "^0.11.1",
+    "typescript": "^2.8.1",
+    "yamljs": "^0.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   }
 }

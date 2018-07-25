@@ -1,0 +1,33 @@
+{
+    "payments": {
+        "insertPayment": {
+            "title": "string",
+            "description": "string",
+            "amount": 43,
+            "currency": "string",
+            "startTimestamp": 10,
+            "endTimestamp": 13,
+            "type": 1,
+            "frequency": 10
+        },
+        "updatePayment": {
+            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
+            "title": "string",
+            "description": "string",
+            "promo": "string",
+            "status": 1,
+            "customerAddress": "string",
+            "amount": 43,
+            "currency": "string",
+            "startTimestamp": 10,
+            "endTimestamp": 13,
+            "type": 1,
+            "frequency": 10,
+            "registerTxHash":"string",
+            "executeTxHash":"string",
+            "executeTxStatus": 1,
+            "debitAccount": "string",
+            "merchantAddress": "string"
+        }
+    }
+}

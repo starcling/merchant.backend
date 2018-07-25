@@ -1,0 +1,33 @@
+{
+    "payments": {
+        "insertTestPayment": {
+            "title": "test payment",
+            "description": "test description",
+            "amount": "12000",
+            "currency": "PMA",
+            "startTimestamp": "1234566899",
+            "endTimestamp": "9876543211",
+            "type": 1,
+            "frequency": 3
+        },
+        "updateTestPayment": {
+            "id": "",
+            "title": "changes title",
+            "description": "another description",
+            "promo": "testing",
+            "status": 2,
+            "customerAddress": "0xuiuin2n",
+            "amount": "23000",
+            "currency": "CVC",
+            "startTimestamp": "987654321",
+            "endTimestamp": "123456789",
+            "type": 2,
+            "frequency": 2,
+            "registerTxHash":"string",
+            "executeTxHash":"string",
+            "executeTxStatus": 1,
+            "debitAccount": "string",
+            "merchantAddress": "string"
+        }
+    }
+}
