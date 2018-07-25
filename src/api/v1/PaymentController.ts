@@ -93,7 +93,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {patch} /api/v1/payments/:id
+    * @api {put} /api/v1/payments/:id
     * @apiDescription Update existing payment in DB
     *
     * @apiName update
