@@ -24,7 +24,7 @@ services:
       - postgres_merchant
     networks:
       - puma_merchant_sdk
-    #command: sh -c "npm run dev"
+    command: sh -c "npm start"
 
   postgres_merchant:
     image: postgres:9.6

@@ -28,12 +28,14 @@ case $1 in
         ;;
     dev_remote)
         file=$dev_remote
+        docker image prune -f
         ;;            
     prod)       
         file=$prod
         ;;
     prod_remote)       
         file=$prod_remote
+        docker image prune -f
         ;;
     *)
         file=$dev
