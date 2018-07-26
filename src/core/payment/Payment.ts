@@ -4,16 +4,20 @@ import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 //import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
 import { MerchantSDK } from '../MerchantSDK';
 import { DefaultConfig } from '../../config/default.config';
+import { Globals } from '../../utils/globals';
+// tslint:disable-next-line:variable-name
+const Web3 = require('web3');
 
 export class Payment {
     public constructor() {
         MerchantSDK.GET_SDK().build({
-            merchantApiUrl: 'http://merchant_server:3000/api/v1',
             pgUser: DefaultConfig.settings.pgUser,
             pgHost: DefaultConfig.settings.pgHost,
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
-            pgPort: Number(DefaultConfig.settings.pgPort)
+            pgPort: Number(DefaultConfig.settings.pgPort),
+            web3: new Web3(new Web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL())),
+            merchantApiUrl: 'http://merchant_server:3000/api/v1'
         });
     }
 
@@ -110,8 +114,8 @@ export class Payment {
     public async updatePayment(payment: IPaymentUpdateDetails) {
         try {
             const response = await MerchantSDK.GET_SDK().updatePayment(payment);
-            if (payment.transactionHash) {
-                //MerchantSDK.GET_SDK().monitorTransaction(payment.transactionHash, payment.id);
+            if (payment.registerTxHash) {
+                //MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);

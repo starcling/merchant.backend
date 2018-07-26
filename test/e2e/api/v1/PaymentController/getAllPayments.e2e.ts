@@ -48,15 +48,6 @@ describe('PaymentController: getAllPayments', () => {
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message').that.is.equal('Successfully retrieved payments.');
                     expect(body).to.have.property('data').that.is.an('array');
-                    expect(body.data[0]).to.have.property('title').that.is.equal(testPayment.title);
-                    expect(body.data[0]).to.have.property('description').that.is.equal(testPayment.description);
-                    expect(body.data[0]).to.have.property('status').that.is.equal(testPayment.status);
-                    expect(body.data[0]).to.have.property('amount').that.is.equal(testPayment.amount);
-                    expect(body.data[0]).to.have.property('currency').that.is.equal(testPayment.currency);
-                    expect(body.data[0]).to.have.property('startTimestamp').that.is.equal(testPayment.startTimestamp);
-                    expect(body.data[0]).to.have.property('endTimestamp').that.is.equal(testPayment.endTimestamp);
-                    expect(body.data[0]).to.have.property('type').that.is.equal(testPayment.type);
-                    expect(body.data[0]).to.have.property('frequency').that.is.equal(testPayment.frequency);
                     done(err);
                 });  
         });

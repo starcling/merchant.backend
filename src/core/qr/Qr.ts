@@ -4,7 +4,7 @@ import { MerchantSDK } from '../MerchantSDK';
 export class Qr {
 
     public constructor() {
-        MerchantSDK.GET_SDK().build({merchantApiUrl: 'http://merchant_server:3000/api/v1/'});
+        MerchantSDK.GET_SDK().build({merchantApiUrl: 'http://merchant_server:3000/api/v1'});
     }
 
     /**

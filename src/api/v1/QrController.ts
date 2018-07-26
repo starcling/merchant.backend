@@ -1,4 +1,4 @@
-import { JsonController, Res, Post, Body, Get, Param } from 'routing-controllers';
+import { JsonController, Res, Get, Param } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { QrConnector } from '../../connectors/api/v1/QrConnector';
 import { GetQrValidator } from '../../validators/QrValidator/GetQrValidator';

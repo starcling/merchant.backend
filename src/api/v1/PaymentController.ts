@@ -1,4 +1,4 @@
-import { JsonController, Res, Post, Body, Put, Patch, QueryParam, Param, Get, Delete } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Put, Patch, Param, Get, Delete } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../core/payment/models';
@@ -94,7 +94,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {put} /api/v1/payments/
+    * @api {put} /api/v1/payments/:id
     * @apiDescription Update existing payment in DB
     *
     * @apiName update
@@ -113,11 +113,15 @@ export class PaymentController {
     * @apiParam {number} endTimestamp - End timestamp of payment
     * @apiParam {number} type - Type of payment
     * @apiParam {number} frequency - Frequency of execution
-    * @apiParam {string} transactionHash - Transaction has for payment
+    * @apiParam {string} registerTxHash - Transaction hash for register pull payment
+    * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
+    * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
     * @apiParam {string} debitAccount - Debit account for payment
+    * @apiParam {string} merchantAddress - Debit account for payment
     *
     * @apiParamExample {json} Request-Example:
     * {
+    *   "id": "string",
     *   "title": "string",
     *   "description": "string",
     *   "promo": "string",
@@ -129,8 +133,11 @@ export class PaymentController {
     *   "endTimestamp": 11,
     *   "type": 1,
     *   "frequency": 10,
-    *   "transactionHash":"string",
+    *   "registerTxHash":"string",
+    *   "executeTxHash":"string",
+    *   "executeTxStatus": 1,
     *   "debitAccount": "string"
+    *   "merchantAddress": "string"
     * }
     *
     * @apiSuccess (200) {string} menmonic data
@@ -172,7 +179,7 @@ export class PaymentController {
 
     /**
     * @api {patch} /api/v1/payments/:id
-    * @apiDescription Update existing payment in DB
+    * @apiDescription Patch existing payment in DB
     *
     * @apiName patch
     * @apiGroup PaymentController
@@ -190,8 +197,11 @@ export class PaymentController {
     * @apiParam {number} endTimestamp - End timestamp of payment
     * @apiParam {number} type - Type of payment
     * @apiParam {number} frequency - Frequency of execution
-    * @apiParam {string} transactionHash - Transaction has for payment
+    * @apiParam {string} registerTxHash - Transaction hash for register pull payment
+    * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
+    * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
     * @apiParam {string} debitAccount - Debit account for payment
+    * @apiParam {string} merchantAddress - Debit account for payment
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -207,48 +217,20 @@ export class PaymentController {
     *   "endTimestamp": 11,
     *   "type": 1,
     *   "frequency": 10,
-    *   "transactionHash":"string",
+    *   "registerTxHash":"string",
+    *   "executeTxHash":"string",
+    *   "executeTxStatus": 1,
     *   "debitAccount": "string"
+    *   "merchantAddress": "string"
     * }
     *
     * @apiSuccess (200) {string} menmonic data
     *
-      */
+    */
     @Patch('/:paymentID')
-    public async patch(@Param('paymentID') paymentID: string,
-        @QueryParam('title') title: string = null,
-        @QueryParam('description') description: string = null,
-        @QueryParam('promo') promo: string = null,
-        @QueryParam('status') status: number = null,
-        @QueryParam('customerAddress') customerAddress: string = null,
-        @QueryParam('amount') amount: number = null,
-        @QueryParam('currency') currency: string = null,
-        @QueryParam('startTimestamp') startTimestamp: number = null,
-        @QueryParam('endTimestamp') endTimestamp: number = null,
-        @QueryParam('type') type: number = null,
-        @QueryParam('frequency') frequency: number = null,
-        @QueryParam('transactionHash') transactionHash: string = null,
-        @QueryParam('debitAccount') debitAccount: string = null,
-        @Res() response: any): Promise<any> {
-
-        const payment = <IPaymentUpdateDetails>{
-            id: paymentID,
-            title: title,
-            description: description,
-            promo: promo,
-            status: status,
-            customerAddress: customerAddress,
-            amount: amount,
-            currency: currency,
-            startTimestamp: startTimestamp,
-            endTimestamp: endTimestamp,
-            type: type,
-            frequency: frequency,
-            transactionHash: transactionHash,
-            debitAccount: debitAccount
-        };
-
+    public async patch(@Param('paymentID') paymentID: string, @Body() payment: IPaymentUpdateDetails, @Res() response: any): Promise<any> {
         try {
+            payment.id = paymentID;
             new PatchValidator().validate(payment);
             const result = await new PaymentConnector().updatePayment(payment);
             return new APIResponseHandler().handle(response, result);

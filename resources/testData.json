@@ -3,7 +3,6 @@
         "insertTestPayment": {
             "title": "test payment",
             "description": "test description",
-            "status": 1,
             "amount": "12000",
             "currency": "PMA",
             "startTimestamp": "1234566899",
@@ -24,8 +23,11 @@
             "endTimestamp": "123456789",
             "type": 2,
             "frequency": 2,
-            "transactionHash": "testhash",
-            "debitAccount": "0xhk3enken3k"
+            "registerTxHash": "string",
+            "executeTxHash": "string",
+            "executeTxStatus": 1,
+            "debitAccount": "string",
+            "merchantAddress": "string"
         }
     }
 }

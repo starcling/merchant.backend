@@ -52,7 +52,6 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('message').that.is.equal(expectedResponse.message);
                     expect(body).to.have.property('data').that.has.property('title').that.is.equal(insertPayment.title);
                     expect(body).to.have.property('data').that.has.property('description').that.is.equal(insertPayment.description);
-                    expect(body).to.have.property('data').that.has.property('status').that.is.equal(insertPayment.status);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(insertPayment.currency);
                     expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + insertPayment.startTimestamp);

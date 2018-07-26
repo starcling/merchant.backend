@@ -6,15 +6,20 @@ export class DefaultConfig {
     return {
       apiURL: process.env.API_URL ? process.env.API_URL : 'localhost',
       apiPath: '/api/v1',
+
       env: process.env.NODE_ENV,
+
       host: '0.0.0.0',
-      morgan: {},
       port: process.env.PORT ? process.env.PORT : '3000',
-      pgUser: process.env.PGUSER ? process.env.PGUSER : 'local_user',
+
       pgHost: process.env.PGHOST ? process.env.PGHOST : 'localhost',
+      pgPort: process.env.PGPORT ? Number(process.env.PGPORT) : 5431,
+
+      pgUser: process.env.PGUSER ? process.env.PGUSER : 'local_user',
       database: process.env.PGDATABASE ? process.env.PGDATABASE : 'local_merchant_server',
       pgPassword: process.env.PGPASSWORD ? process.env.PGPASSWORD : 'local_pass',
-      pgPort: process.env.PGPORT ? Number(process.env.PGPORT) : 5431,
+
+      morgan: {},
       winston: {
         transports: [
           new winston.transports.Console({
@@ -27,6 +32,7 @@ export class DefaultConfig {
         ],
         exitOnError: false
       },
+
       serverSecret: 'sUp4hS3cr37kE9c0D3'
     };
   }

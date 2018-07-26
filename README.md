@@ -1,6 +1,5 @@
 # Docker Compose for Node.js and PostgreSQL
 
-
 ## development
 ```
     npm run dev
