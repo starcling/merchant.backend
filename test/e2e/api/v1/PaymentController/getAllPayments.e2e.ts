@@ -16,29 +16,18 @@ const expect = chai.expect;
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/payments/';
 
-//const dataservice = new DataService();
-//const paymentDbConnector = new PaymentDbConnector();
-
 const paymentsTestData: any = require('../../../../../resources/testData.json').payments;
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
 let paymentID;
 
 const insertTestPayment = async () => {
     // Need to insert test payment using Merchant SDK
-    //const result = await paymentDbConnector.insertPayment(testPayment);
     const result = await MerchantSDK.GET_SDK().createPayment(testPayment);
     paymentID = result.data[0].id;
 }
 
 const clearTestPayment = async () => {
-    /* const sqlQuery: ISqlQuery = {
-        text: 'DELETE FROM public.tb_payments WHERE id = $1;',
-        values: [paymentID]
-    }; */
-
     await MerchantSDK.GET_SDK().deletePayment(paymentID);
-    // Need to delete payment using Merchant SDK
-    //await dataservice.executeQueryAsPromise(sqlQuery);
 }
 
 describe('PaymentController: getAllPayments', () => {
