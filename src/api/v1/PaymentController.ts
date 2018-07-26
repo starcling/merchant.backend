@@ -64,7 +64,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {get} /api/v1/payments/
+    * @api {get} /api/v1/payments/:id
     * @apiDescription Retrieve a single payment
     *
     * @apiName getPayment
@@ -240,7 +240,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {delete} /api/v1/payments/
+    * @api {delete} /api/v1/payments/:id
     * @apiDescription Delete a single payment
     *
     * @apiName deletePayment

@@ -1,12 +1,10 @@
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
-//import { PaymentDbConnector } from '../../connectors/dbConnector/paymentsDBconnector';
 import { MerchantSDK } from '../MerchantSDK';
 import { DefaultConfig } from '../../config/default.config';
 import { Globals } from '../../utils/globals';
-// tslint:disable-next-line:variable-name
-const Web3 = require('web3');
+const web3 = require('web3');
 
 export class Payment {
     public constructor() {
@@ -16,7 +14,7 @@ export class Payment {
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
             pgPort: Number(DefaultConfig.settings.pgPort),
-            web3: new Web3(new Web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL())),
+            web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL())),
             merchantApiUrl: 'http://merchant_server:3000/api/v1'
         });
     }
@@ -29,7 +27,6 @@ export class Payment {
     public async createPayment(payment: IPaymentInsertDetails) {
         try {
             const result = await MerchantSDK.GET_SDK().createPayment(payment);
-            //const result = await new PaymentDbConnector().insertPayment(payment);
 
             return new HTTPResponseHandler().handleSuccess('Successful payment insert.', result.data[0]);
         } catch (error) {
@@ -44,7 +41,6 @@ export class Payment {
      */
     public async getPayment(paymentID: string) {
         try {
-            //const response = await new PaymentDbConnector().getSinglePayment(paymentID);
             const response = await MerchantSDK.GET_SDK().getPayment(paymentID);
             if (response.data[0].id === null) {
 
