@@ -4,8 +4,11 @@ import supertest from 'supertest';
 import clone from 'clone';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentUpdateDetails, IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { DataService, ISqlQuery } from '../../../../../src/utils/datasource/DataService';
-import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/paymentsDBconnector';
+import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
+
+MerchantSDK.GET_SDK().build({
+    merchantApiUrl: 'http://merchant_server:3000/api/v1',
+});
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -17,20 +20,13 @@ const payments: any = require('../../../../../resources/e2eTestData.json').payme
 const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];
 const updatePayment: IPaymentUpdateDetails = payments['updatePayment'];
 
-const dataservice = new DataService();
-const paymentDbConnector = new PaymentDbConnector();
-
 const insertPayment = async () => {
-    const result = await paymentDbConnector.insertPayment(insertPaymentData);
+    const result = await MerchantSDK.GET_SDK().createPayment(insertPaymentData);
     updatePayment.id = result.data[0].id;
 }
 
 const clearPayment = async () => {
-    const sqlQuery: ISqlQuery = {
-        text: 'DELETE FROM public.tb_payments WHERE id = $1;',
-        values: [updatePayment.id]
-    };
-    await dataservice.executeQueryAsPromise(sqlQuery);
+    await MerchantSDK.GET_SDK().deletePayment(updatePayment.id);
 }
 
 describe('PaymentController: patch', () => {

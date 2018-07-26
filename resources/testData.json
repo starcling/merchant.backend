@@ -23,8 +23,8 @@
             "endTimestamp": "123456789",
             "type": 2,
             "frequency": 2,
-            "registerTxHash":"string",
-            "executeTxHash":"string",
+            "registerTxHash": "string",
+            "executeTxHash": "string",
             "executeTxStatus": 1,
             "debitAccount": "string",
             "merchantAddress": "string"

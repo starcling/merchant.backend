@@ -1,4 +1,4 @@
-import { JsonController, Res, Post, Body, Put, Patch, Param, Get } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Put, Patch, Param, Get, Delete } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../core/payment/models';
@@ -6,6 +6,7 @@ import { CreatePaymentValidator } from '../../validators/PaymentValidator/Create
 import { UpdateValidator } from '../../validators/PaymentValidator/UpdateValidator';
 import { PatchValidator } from '../../validators/PaymentValidator/PatchValidator';
 import { GetPaymentValidator } from '../../validators/PaymentValidator/GetPaymentValidator';
+import { DeletePaymentValidator } from '../../validators/PaymentValidator/DeletePaymentValidator';
 
 @JsonController('/payments')
 export class PaymentController {
@@ -54,7 +55,7 @@ export class PaymentController {
     public async create(@Body() payment: IPaymentInsertDetails, @Res() response: any): Promise<any> {
         try {
             new CreatePaymentValidator().validate(payment);
-            const result = await new PaymentConnector().create(payment);
+            const result = await new PaymentConnector().createPayment(payment);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -63,7 +64,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {get} /api/v1/payments/
+    * @api {get} /api/v1/payments/:id
     * @apiDescription Retrieve a single payment
     *
     * @apiName getPayment
@@ -147,8 +148,7 @@ export class PaymentController {
         try {
             payment.id = paymentID;
             new UpdateValidator().validate(payment);
-            const result = await new PaymentConnector().update(payment);
-
+            const result = await new PaymentConnector().updatePayment(payment);
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
             return new APIResponseHandler().handle(response, error);
@@ -232,12 +232,41 @@ export class PaymentController {
         try {
             payment.id = paymentID;
             new PatchValidator().validate(payment);
-            const result = await new PaymentConnector().update(payment);
-
+            const result = await new PaymentConnector().updatePayment(payment);
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
             return new APIResponseHandler().handle(response, error);
         }
     }
+
+    /**
+    * @api {delete} /api/v1/payments/:id
+    * @apiDescription Delete a single payment
+    *
+    * @apiName deletePayment
+    * @apiGroup PaymentController
+    * @apiVersion  1.0.0
+    *
+    * @apiParam {string} paymentID - ID of the payment
+    *
+    * @apiParamExample {json} Request-Example:
+    * {
+    *   "paymentID": "32049572038495"
+    * }
+    *
+    * @apiSuccess (200) {string} menmonic data
+    *
+    */
+   @Delete('/:paymentID')
+   public async deletePayment(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
+       try {
+           new DeletePaymentValidator().validate({ paymentID });
+           const result = await new PaymentConnector().deletePayment(paymentID);
+
+           return new APIResponseHandler().handle(response, result);
+       } catch (error) {
+           return new APIResponseHandler().handle(response, error);
+       }
+   }
 
 }

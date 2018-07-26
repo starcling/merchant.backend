@@ -1,9 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
-import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/paymentsDBconnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails} from '../../../../../src/core/payment/models';
-import { DataService, ISqlQuery } from '../../../../../src/utils/datasource/DataService';
 
 
 chai.use(chaiAsPromised);
@@ -13,28 +11,27 @@ const expect = chai.expect;
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/payments/';
 
-const dataservice = new DataService();
-const paymentDbConnector = new PaymentDbConnector();
+import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
+
+MerchantSDK.GET_SDK().build({
+    merchantApiUrl: 'http://merchant_server:3000/api/v1',
+});
 
 const paymentsTestData: any = require('../../../../../resources/e2eTestData.json').payments;
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertPayment'];
 let paymentID;
 
 const insertTestPayment = async () => {
-    const result = await paymentDbConnector.insertPayment(testPayment);
+    const result = await MerchantSDK.GET_SDK().createPayment(testPayment);
     paymentID = result.data[0].id;
 }
 
 const clearTestPayment = async () => {
-    const sqlQuery: ISqlQuery = {
-        text: 'DELETE FROM public.tb_payments WHERE id = $1;',
-        values: [paymentID]
-    };
-    await dataservice.executeQueryAsPromise(sqlQuery);
+    await MerchantSDK.GET_SDK().deletePayment(paymentID);
 }
 
 describe('PaymentController: getPayment', () => {
-    describe('with success responce', () => {
+    describe('with success response', () => {
         beforeEach(async () => {
             await insertTestPayment();
         });
@@ -64,7 +61,7 @@ describe('PaymentController: getPayment', () => {
         });
     });
     
-    describe('with error responce', () => {
+    describe('with error response', () => {
         beforeEach(async () => {
             await insertTestPayment();
         });
