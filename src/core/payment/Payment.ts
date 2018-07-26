@@ -64,7 +64,6 @@ export class Payment {
      */
     public async deletePayment(paymentID: string) {
         try {
-            //const response = await new PaymentDbConnector().getSinglePayment(paymentID);
             const response = await MerchantSDK.GET_SDK().deletePayment(paymentID);
             if (response.data[0].fc_delete_payment) {
                 return new HTTPResponseHandler().handleSuccess('Successfully deleted single payment.', {});
@@ -89,7 +88,6 @@ export class Payment {
     public async getAllPayments() {
         try {
             const response = await MerchantSDK.GET_SDK().getAllPayments();
-            //const response = await new PaymentDbConnector().getAllPayments();
             if (!response.data) {
                 response.data = [];
             }
@@ -112,7 +110,6 @@ export class Payment {
     public async updatePayment(payment: IPaymentUpdateDetails) {
         try {
             const response = await MerchantSDK.GET_SDK().updatePayment(payment);
-            //const result = await new PaymentDbConnector().updatePayment(payment);
             if (payment.transactionHash) {
                 //MerchantSDK.GET_SDK().monitorTransaction(payment.transactionHash, payment.id);
             }
