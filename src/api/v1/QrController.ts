@@ -8,16 +8,18 @@ export class QrController {
 
     /**
     * @apiDefine Response
+    * @apiSuccess {boolean} success The HTTP success of the call
     * @apiSuccess {number} status The HTTP status of the call
     * @apiSuccess {string} message A human-friendly summary of the result of the call
+    * @apiSuccess {object} data The response data of the call
     */
 
     /**
-    * @api {get} /api/v1/qr/
+    * @api {get} /api/v1/qr/paymentID
     * @apiDescription Gets generated qr code from the SDK
     *
     * @apiName getQRCode
-    * @apiGroup PaymentController
+    * @apiGroup QrController
     * @apiVersion  1.0.0
     *
     * @apiParam {string} paymentID - ID of the payment
@@ -27,7 +29,7 @@ export class QrController {
     *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
     * }
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {array} payment details
     *
       */
     @Get('/:paymentID')
