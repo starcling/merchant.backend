@@ -111,7 +111,7 @@ export class Payment {
         try {
             const response = await MerchantSDK.GET_SDK().updatePayment(payment);
             if (payment.registerTxHash) {
-                //MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
+                MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);
