@@ -65,7 +65,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {get} /api/v1/payments/paymentID
+    * @api {get} /api/v1/payments/:paymentID
     * @apiDescription Retrieves a single payment
     *
     * @apiName getPayment
@@ -76,7 +76,7 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentID": "32049572038495"
+    *   "paymentID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
     * }
     *
     * @apiSuccess (200) {object} Payment details for a specific id
@@ -95,7 +95,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {put} /api/v1/payments/paymentID
+    * @api {put} /api/v1/payments/:paymentID
     * @apiDescription Update existing payment in DB
     *
     * @apiName update
@@ -122,7 +122,6 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "id": "string",
     *   "title": "string",
     *   "description": "string",
     *   "promo": "string",
@@ -179,7 +178,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {patch} /api/v1/payments/paymentID
+    * @api {patch} /api/v1/payments/:paymentID
     * @apiDescription Patch existing payment in DB
     *
     * @apiName patch
@@ -206,7 +205,6 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "id": "string",
     *   "title": "string",
     *   "description": "string",
     *   "promo": "string",
@@ -241,7 +239,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {delete} /api/v1/payments/paymentID
+    * @api {delete} /api/v1/payments/:paymentID
     * @apiDescription Delete a single payment
     *
     * @apiName deletePayment
