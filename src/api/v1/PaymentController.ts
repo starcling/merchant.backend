@@ -13,8 +13,11 @@ export class PaymentController {
 
     /**
     * @apiDefine Response
+    * @apiSuccess {boolean} success The HTTP success of the call
     * @apiSuccess {number} status The HTTP status of the call
     * @apiSuccess {string} message A human-friendly summary of the result of the call
+    * @apiSuccess {object} data The response data of the call
+    *
     */
 
     /**
@@ -27,7 +30,6 @@ export class PaymentController {
     *
     * @apiParam {string} title - Title of the payment
     * @apiParam {string} description - Description of the payment
-    * @apiParam {number} status - Status of payment
     * @apiParam {number} amount - Amount of payment
     * @apiParam {string} currency - Currency of payment
     * @apiParam {number} startTimestamp - Start timestamp of payment
@@ -39,7 +41,6 @@ export class PaymentController {
     * {
     *   "title": "string",
     *   "description": "string",
-    *   "status": 1,
     *   "amount": 43,
     *   "currency": "string",
     *   "startTimestamp": 10,
@@ -48,7 +49,7 @@ export class PaymentController {
     *   "frequency": 10
     * }
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {object} Payment Details
     *
     */
     @Post('/')
@@ -64,8 +65,8 @@ export class PaymentController {
     }
 
     /**
-    * @api {get} /api/v1/payments/:id
-    * @apiDescription Retrieve a single payment
+    * @api {get} /api/v1/payments/:paymentID
+    * @apiDescription Retrieves a single payment
     *
     * @apiName getPayment
     * @apiGroup PaymentController
@@ -75,10 +76,10 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentID": "32049572038495"
+    *   "paymentID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
     * }
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {object} Payment details for a specific id
     *
     */
     @Get('/:paymentID')
@@ -94,7 +95,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {put} /api/v1/payments/:id
+    * @api {put} /api/v1/payments/:paymentID
     * @apiDescription Update existing payment in DB
     *
     * @apiName update
@@ -121,7 +122,6 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "id": "string",
     *   "title": "string",
     *   "description": "string",
     *   "promo": "string",
@@ -140,7 +140,7 @@ export class PaymentController {
     *   "merchantAddress": "string"
     * }
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {object} updated payment details
     *
     */
     @Put('/:paymentID')
@@ -163,7 +163,7 @@ export class PaymentController {
     * @apiGroup PaymentController
     * @apiVersion  1.0.0
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {object} Payment Details
     *
     */
     @Get('/')
@@ -178,7 +178,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {patch} /api/v1/payments/:id
+    * @api {patch} /api/v1/payments/:paymentID
     * @apiDescription Patch existing payment in DB
     *
     * @apiName patch
@@ -205,7 +205,6 @@ export class PaymentController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "id": "string",
     *   "title": "string",
     *   "description": "string",
     *   "promo": "string",
@@ -224,7 +223,7 @@ export class PaymentController {
     *   "merchantAddress": "string"
     * }
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {object} Payment Details
     *
     */
     @Patch('/:paymentID')
@@ -240,7 +239,7 @@ export class PaymentController {
     }
 
     /**
-    * @api {delete} /api/v1/payments/:id
+    * @api {delete} /api/v1/payments/:paymentID
     * @apiDescription Delete a single payment
     *
     * @apiName deletePayment
@@ -254,7 +253,7 @@ export class PaymentController {
     *   "paymentID": "32049572038495"
     * }
     *
-    * @apiSuccess (200) {string} menmonic data
+    * @apiSuccess (200) {object} no data
     *
     */
    @Delete('/:paymentID')
