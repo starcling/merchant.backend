@@ -110,7 +110,7 @@ export class Payment {
     public async updatePayment(payment: IPaymentUpdateDetails) {
         try {
             const response = await MerchantSDK.GET_SDK().updatePayment(payment);
-            if (payment.registerTxHash) {
+            if (payment.registerTxHash && payment.registerTxHash.indexOf('0x') !== -1) {
                 MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
             }
 
