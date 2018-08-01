@@ -9,6 +9,7 @@ CREATE OR REPLACE FUNCTION public.fc_create_payment(
 	_currency text,
 	_starts bigint,
 	_endTimestamp bigint,
+	_nextPaymentDate bigint,
 	_type integer,
 	_frequency integer)
     RETURNS tb_payments
@@ -22,12 +23,12 @@ DECLARE
 tb_payments public.tb_payments;
 BEGIN
 INSERT INTO public.tb_payments(
-	title, description, amount, currency, "startTimestamp", "endTimestamp", type, frequency)
-	VALUES (_title, _description, _amount, _currency, _starts, _endTimestamp, _type, _frequency ) RETURNING * INTO tb_payments;
+	title, description, amount, currency, "startTimestamp", "endTimestamp", "nextPaymentDate", type, frequency)
+	VALUES (_title, _description, _amount, _currency, _starts, _endTimestamp, _nextPaymentDate, _type, _frequency ) RETURNING * INTO tb_payments;
 RETURN "tb_payments";
 END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_create_payment(text, text, bigint, text, bigint, bigint, integer, integer)
+ALTER FUNCTION public.fc_create_payment(text, text, bigint, text, bigint, bigint, bigint, integer, integer)
     OWNER TO local_user;

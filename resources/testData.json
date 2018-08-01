@@ -21,6 +21,8 @@
             "currency": "CVC",
             "startTimestamp": "987654321",
             "endTimestamp": "123456789",
+            "nextPaymentDate": "123456789",
+            "lastPaymentDate": "123456789",
             "type": 2,
             "frequency": 2,
             "registerTxHash": "string",

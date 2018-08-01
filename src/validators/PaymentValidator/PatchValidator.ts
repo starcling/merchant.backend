@@ -29,6 +29,8 @@ const dataSchema = Joi.object().keys({
     currency: Joi.string().allow(null),
     startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).allow(null),
     endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).allow(null),
+    nextPaymentDate: Joi.number().allow(null),
+    lastPaymentDate: Joi.number().allow(null),
     type: Joi.number().allow(null),
     frequency: Joi.number().allow(null),
     registerTxHash: Joi.string().allow(null),

@@ -20,6 +20,8 @@ export interface IPaymentUpdateDetails {
     currency: string;
     startTimestamp: number;
     endTimestamp: number;
+    nextPaymentDate: number;
+    lastPaymentDate: number;
     type: number;
     frequency: number;
     registerTxHash: string;

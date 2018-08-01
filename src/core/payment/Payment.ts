@@ -30,6 +30,10 @@ export class Payment {
 
             return new HTTPResponseHandler().handleSuccess('Successful payment insert.', result.data[0]);
         } catch (error) {
+            if (error.status) {
+                return error;
+            }
+
             return new HTTPResponseHandler().handleFailed('Failed to insert payment', error);
         }
     }
@@ -116,6 +120,10 @@ export class Payment {
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);
         } catch (error) {
+            if (error.status) {
+                return error;
+            }
+
             return new HTTPResponseHandler().handleFailed('Failed to update payment', error);
         }
     }

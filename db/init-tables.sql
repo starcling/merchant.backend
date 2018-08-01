@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     currency character varying(255) COLLATE pg_catalog."default" NOT NULL,
     "startTimestamp" bigint NOT NULL,
     "endTimestamp" bigint NOT NULL,
+    "nextPaymentDate" bigint NOT NULL,
+    "lastPaymentDate" bigint DEFAULT 0,
     type integer NOT NULL,
     frequency integer NOT NULL,
     "registerTxHash" character varying(255) COLLATE pg_catalog."default",
