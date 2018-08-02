@@ -69,7 +69,6 @@ describe('PaymentController: patch', () => {
                     expect(body).to.have.property('data').that.has.property('executeTxHash').that.is.equal(null);
                     expect(body).to.have.property('data').that.has.property('executeTxStatus').that.is.equal(1);
                     expect(body).to.have.property('data').that.has.property('debitAccount').that.is.equal(null);
-                    expect(body).to.have.property('data').that.has.property('merchantAddress').that.is.equal(null);
                     done(err);
                 });
         });

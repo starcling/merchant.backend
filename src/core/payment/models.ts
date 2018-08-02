@@ -5,6 +5,7 @@ export interface IPaymentInsertDetails {
     currency: string;
     startTimestamp: number;
     endTimestamp: number;
+    limit: number;
     type: number;
     frequency: number;
 }
@@ -20,11 +21,13 @@ export interface IPaymentUpdateDetails {
     currency: string;
     startTimestamp: number;
     endTimestamp: number;
+    limit: number;
     nextPaymentDate: number;
     lastPaymentDate: number;
     type: number;
     frequency: number;
     registerTxHash: string;
+    registerTxStatus: number;
     executeTxHash: string;
     executeTxStatus: number;
     debitAccount: string;

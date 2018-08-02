@@ -23,6 +23,7 @@ const dataSchema = Joi.object().keys({
     description: Joi.string().required(),
     amount: Joi.number().min(0).required(),
     currency: Joi.string().required(),
+    limit: Joi.number().required(),
     startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).required(),
     endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).required(),
     type: Joi.number().required(),
