@@ -1,10 +1,11 @@
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { MerchantSDK } from '../MerchantSDK';
+import { Globals } from '../../utils/globals';
 
 export class Qr {
 
     public constructor() {
-        MerchantSDK.GET_SDK().build({merchantApiUrl: 'http://10.11.11.97:3000/api/v1'});
+        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
     }
 
     /**
