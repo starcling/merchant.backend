@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     "executeTxStatus" integer DEFAULT 1,
     "debitAccount" character varying(255) COLLATE pg_catalog."default",
     "merchantAddress" character varying(255) COLLATE pg_catalog."default",
+    "userId" character varying(255) DEFAULT NULL,
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id)
 )
 WITH (

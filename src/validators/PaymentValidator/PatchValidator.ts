@@ -39,5 +39,6 @@ const dataSchema = Joi.object().keys({
     executeTxHash: Joi.string().allow(null),
     executeTxStatus: Joi.number().allow(null),
     debitAccount: Joi.string().allow(null),
-    merchantAddress: Joi.string().allow(null)
+    merchantAddress: Joi.string().allow(null),
+    userId: Joi.string().allow(null)
 });

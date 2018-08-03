@@ -23,7 +23,8 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_executeTxHash text,
 	_executeTxStatus integer,
 	_debitaccount text,
-	_merchantAddress text)
+	_merchantAddress text,
+	_userId text)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -118,11 +119,15 @@ IF _merchantAddress IS NULL OR _merchantAddress = ''
 THEN
 	_merchantAddress = tb_test."merchantAddress";
 END IF;
+IF _userId IS NULL OR _userId = ''
+THEN
+	_userId = tb_test."userId";
+END IF;
 
 UPDATE public.tb_payments SET
 	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customeraddress, amount = _amount, currency = _currency,
 	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "limit" = _limit, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate, type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash, 
-	"executeTxStatus" = _executeTxStatus, "debitAccount" = _debitaccount, "merchantAddress" = _merchantAddress
+	"executeTxStatus" = _executeTxStatus, "debitAccount" = _debitaccount, "merchantAddress" = _merchantAddress, "userId" = _userId
     WHERE id = _id RETURNING * INTO tb_payments;
 
 	RETURN tb_payments;
@@ -130,5 +135,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text)
     OWNER TO local_user;
