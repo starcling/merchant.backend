@@ -27,7 +27,7 @@ const dataSchema = Joi.object().keys({
     customerAddress: Joi.string().allow(null),
     amount: Joi.number().min(0).allow(null),
     currency: Joi.string().allow(null),
-    limit: Joi.number().allow(null),
+    numberOfPayments: Joi.number().allow(null),
     startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).allow(null),
     endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).allow(null),
     nextPaymentDate: Joi.number().allow(null),

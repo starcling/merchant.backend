@@ -7,7 +7,7 @@
             "currency": "PMA",
             "startTimestamp": "1234566899",
             "endTimestamp": "9876543211",
-            "limit": 4,
+            "numberOfPayments": 4,
             "type": 1,
             "frequency": 3
         },
@@ -22,7 +22,7 @@
             "currency": "CVC",
             "startTimestamp": "987654321",
             "endTimestamp": "123456789",
-            "limit": 4,
+            "numberOfPayments": 4,
             "nextPaymentDate": "123456789",
             "lastPaymentDate": "123456789",
             "type": 2,

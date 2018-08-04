@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     currency character varying(255) COLLATE pg_catalog."default" NOT NULL,
     "startTimestamp" bigint NOT NULL,
     "endTimestamp" bigint NOT NULL,
-    "limit" integer NOT NULL,
+    "numberOfPayments" integer NOT NULL,
     "nextPaymentDate" bigint NOT NULL,
     "lastPaymentDate" bigint DEFAULT 0,
     type integer NOT NULL,
