@@ -117,7 +117,7 @@ export class PaymentController {
     * @apiParam {string} registerTxHash - Transaction hash for register pull payment
     * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
     * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
-    * @apiParam {string} debitAccount - Debit account for payment
+    * @apiParam {string} pullPaymentAccountAddress - Debit account for payment
     * @apiParam {string} merchantAddress - Debit account for payment
     *
     * @apiParamExample {json} Request-Example:
@@ -136,7 +136,7 @@ export class PaymentController {
     *   "registerTxHash":"string",
     *   "executeTxHash":"string",
     *   "executeTxStatus": 1,
-    *   "debitAccount": "string"
+    *   "pullPaymentAccountAddress": "string"
     *   "merchantAddress": "string"
     * }
     *
@@ -200,7 +200,7 @@ export class PaymentController {
     * @apiParam {string} registerTxHash - Transaction hash for register pull payment
     * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
     * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
-    * @apiParam {string} debitAccount - Debit account for payment
+    * @apiParam {string} pullPaymentAccountAddress - Debit account for payment
     * @apiParam {string} merchantAddress - Debit account for payment
     *
     * @apiParamExample {json} Request-Example:
@@ -219,7 +219,7 @@ export class PaymentController {
     *   "registerTxHash":"string",
     *   "executeTxHash":"string",
     *   "executeTxStatus": 1,
-    *   "debitAccount": "string"
+    *   "pullPaymentAccountAddress": "string"
     *   "merchantAddress": "string"
     * }
     *

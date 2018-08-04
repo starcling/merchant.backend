@@ -1,4 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS public.tb_payments
 (
     id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
@@ -20,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     "registerTxStatus" integer DEFAULT 1,
     "executeTxHash" character varying(255) COLLATE pg_catalog."default",
     "executeTxStatus" integer DEFAULT 1,
-    "debitAccount" character varying(255) COLLATE pg_catalog."default",
+    "pullPaymentAccountAddress" character varying(255) COLLATE pg_catalog."default",
     "merchantAddress" character varying(255) COLLATE pg_catalog."default",
     "userId" character varying(255) DEFAULT NULL,
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id)

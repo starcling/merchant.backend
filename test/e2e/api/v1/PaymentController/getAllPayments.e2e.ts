@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
-import { IPaymentInsertDetails, IPaymentUpdateDetails} from '../../../../../src/core/payment/models';
+import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 
 import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
 
@@ -28,7 +28,7 @@ const insertTestPayment = async () => {
 
 const clearTestPayment = async () => {
     await MerchantSDK.GET_SDK().deletePayment(paymentID);
-}
+};
 
 describe('PaymentController: getAllPayments', () => {
     describe('with success response', () => {
@@ -49,7 +49,7 @@ describe('PaymentController: getAllPayments', () => {
                     expect(body).to.have.property('message').that.is.equal('Successfully retrieved payments.');
                     expect(body).to.have.property('data').that.is.an('array');
                     done(err);
-                });  
+                });
         });
     });
 });

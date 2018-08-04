@@ -19,11 +19,11 @@ services:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
-      - ../merchant.sdk:/usr/src/app/node_modules/puma_merchant_sdk
+      - ../merchant.sdk:/usr/src/app/node_modules/pumapay_merchant_sdk
     depends_on:
       - postgres_merchant
     networks:
-      - puma_merchant_sdk
+      - pumapay_merchant_sdk
     command: sh -c "npm run dev"
 
   postgres_merchant:
@@ -42,10 +42,10 @@ services:
       - ./db/create-function-get-single-payment-details.sql:/docker-entrypoint-initdb.d/5-create-function-get-single-payment-details.sql:Z
       - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/6-create-function-get-all-payments-details.sql:Z
     networks:
-      - puma_merchant_sdk
+      - pumapay_merchant_sdk
     restart: unless-stopped
     
 networks:
-  puma_merchant_sdk:
+  pumapay_merchant_sdk:
     external:
       name: pumacore_puma_core

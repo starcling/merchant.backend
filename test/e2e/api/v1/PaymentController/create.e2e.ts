@@ -6,8 +6,8 @@ import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandl
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
 
-var merchantSdk = MerchantSDK.GET_SDK().build({
-    merchantApiUrl: 'http://merchant_server:3000/api/v1'
+MerchantSDK.GET_SDK().build({
+    merchantApiUrl: 'http://merchant_server:3000/api/v1',
 });
 
 chai.use(chaiAsPromised);
@@ -16,15 +16,15 @@ const expect = chai.expect;
 const server = supertest.agent('localhost:3000/');
 const endpoint = 'api/v1/payments/';
 
-const payments: any = require('../../../../../resources/e2eTestData.json').payments; 
+const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
 
 
-var paymentID: string;
+let paymentID: string;
 
 const clearPayment = async () => {
      await MerchantSDK.GET_SDK().deletePayment(paymentID);
-}
+};
 
 describe('PaymentController: create', () => {
     afterEach(async () => {
@@ -38,7 +38,7 @@ describe('PaymentController: create', () => {
                 status: 200,
                 message: 'Successful payment insert.',
                 data: []
-            }
+            };
 
             server
                 .post(`${endpoint}`)
@@ -74,7 +74,8 @@ describe('PaymentController: create', () => {
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-                    expect(body).to.have.property('success').that.is.equal(false);
+
+                    expect(body).to.have.property('success').that.is.false;
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').to.be.an('array');
                     done(err);
@@ -91,6 +92,7 @@ describe('PaymentController: create', () => {
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
+
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').to.be.an('array');

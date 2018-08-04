@@ -1,8 +1,6 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
-import clone from 'clone';
-import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentUpdateDetails, IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
 
@@ -16,24 +14,23 @@ const expect = chai.expect;
 const server = supertest.agent('localhost:3000/');
 const endpoint = 'api/v1/payments/';
 
-const payments: any = require('../../../../../resources/e2eTestData.json').payments; 
+const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];
 const updatePayment: IPaymentUpdateDetails = payments['updatePayment'];
 
 const insertPayment = async () => {
     const result = await MerchantSDK.GET_SDK().createPayment(insertPaymentData);
     updatePayment.id = result.data[0].id;
-}
+};
 
 const clearPayment = async () => {
     await MerchantSDK.GET_SDK().deletePayment(updatePayment.id);
-}
+};
 
 describe('PaymentController: patch', () => {
     beforeEach(async () => {
         await insertPayment();
     });
-    
     afterEach(async () => {
         await clearPayment();
     });
@@ -42,8 +39,8 @@ describe('PaymentController: patch', () => {
         it('should return payment updated', (done) => {
             const tempPayment = {
                 id: updatePayment.id,
-                title: "------------------"
-            }
+                title: '------------------'
+            };
 
             server
                 .patch(`${endpoint}${tempPayment.id}`)
@@ -51,6 +48,7 @@ describe('PaymentController: patch', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
+
                     expect(body).to.have.property('success').that.is.equal(true);
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message').that.is.equal('Successful payment update.');
@@ -68,7 +66,8 @@ describe('PaymentController: patch', () => {
                     expect(body).to.have.property('data').that.has.property('registerTxHash').that.is.equal(null);
                     expect(body).to.have.property('data').that.has.property('executeTxHash').that.is.equal(null);
                     expect(body).to.have.property('data').that.has.property('executeTxStatus').that.is.equal(1);
-                    expect(body).to.have.property('data').that.has.property('debitAccount').that.is.equal(null);
+                    expect(body).to.have.property('data').that.has.property('pullPaymentAccountAddress').that.is.equal(null);
+                    expect(body).to.have.property('data').that.has.property('userId').that.is.equal(null);
                     done(err);
                 });
         });
@@ -78,8 +77,8 @@ describe('PaymentController: patch', () => {
         it('should return invalid data', (done) => {
             const tempPayment = {
                 id: updatePayment.id,
-                startTimestamp: "------------------"
-            }
+                startTimestamp: '------------------'
+            };
 
             server
                 .patch(`${endpoint}${tempPayment.id}`)
@@ -87,6 +86,7 @@ describe('PaymentController: patch', () => {
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
+
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').to.be.an('array');
@@ -94,5 +94,4 @@ describe('PaymentController: patch', () => {
                 });
         });
     });
-
 });

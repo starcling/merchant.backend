@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text)
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text);
 
--- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_description text,
 	_promo text,
 	_status integer,
-	_customeraddress text,
+	_customerAddress text,
 	_amount bigint,
 	_currency text,
 	_startTimestamp bigint,
@@ -22,7 +22,7 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_registerTxStatus integer,
 	_executeTxHash text,
 	_executeTxStatus integer,
-	_debitaccount text,
+	_pullPaymentAccountAddress text,
 	_merchantAddress text,
 	_userId text)
     RETURNS tb_payments
@@ -32,102 +32,103 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
     VOLATILE 
 AS $BODY$
 
-DECLARE 
+DECLARE
 tb_payments public.tb_payments;
-tb_test public.tb_payments;
+tb_temp public.tb_payments;
 BEGIN
 
-SELECT * FROM public.tb_payments WHERE id=_id INTO tb_test;
+SELECT * FROM public.tb_payments WHERE id=_id INTO tb_temp;
 
 IF _title IS NULL OR _title = ''
 THEN
-	_title = tb_test.title;
+	_title = tb_temp.title;
 END IF;
 IF _description IS NULL OR _description = ''
 THEN
-	_description = tb_test.description;
+	_description = tb_temp.description;
 END IF;
 IF _promo IS NULL OR _promo = ''
 THEN
-	_promo = tb_test.promo;
+	_promo = tb_temp.promo;
 END IF;
-IF _status IS NULL 
+IF _status IS NULL
 THEN
-	_status = tb_test.status;
+	_status = tb_temp.status;
 END IF;
-IF _customeraddress IS NULL OR _customeraddress = ''
+IF _customerAddress IS NULL OR _customerAddress = ''
 THEN
-	_customeraddress = tb_test."customerAddress";
+	_customerAddress = tb_temp."customerAddress";
 END IF;
-IF _amount IS NULL 
+IF _amount IS NULL
 THEN
-	_amount = tb_test.amount;
+	_amount = tb_temp.amount;
 END IF;
 IF _currency IS NULL OR _currency = ''
 THEN
-	_currency = tb_test.currency;
+	_currency = tb_temp.currency;
 END IF;
 IF _startTimestamp IS NULL
 THEN
-	_startTimestamp = tb_test."startTimestamp";
+	_startTimestamp = tb_temp."startTimestamp";
 END IF;
 IF _endTimestamp IS NULL
 THEN
-	_endTimestamp = tb_test."endTimestamp";
+	_endTimestamp = tb_temp."endTimestamp";
 END IF;
 IF _limit IS NULL
 THEN
-	_limit = tb_test."limit";
+	_limit = tb_temp."limit";
 END IF;
 IF _nextPaymentDate IS NULL
 THEN
-	_nextPaymentDate = tb_test."nextPaymentDate";
+	_nextPaymentDate = tb_temp."nextPaymentDate";
 END IF;
 IF _lastPaymentDate IS NULL
 THEN
-	_lastPaymentDate = tb_test."lastPaymentDate";
+	_lastPaymentDate = tb_temp."lastPaymentDate";
 END IF;
-IF _type IS NULL 
+IF _type IS NULL
 THEN
-	_type = tb_test.type;
+	_type = tb_temp.type;
 END IF;
 IF _frequency IS NULL
 THEN
-	_frequency = tb_test.frequency;
+	_frequency = tb_temp.frequency;
 END IF;
 IF _registerTxHash IS NULL OR _registerTxHash = ''
 THEN
-	_registerTxHash = tb_test."registerTxHash";
+	_registerTxHash = tb_temp."registerTxHash";
 END IF;
 IF _registerTxStatus IS NULL
 THEN
-	_registerTxStatus = tb_test."registerTxStatus";
+	_registerTxStatus = tb_temp."registerTxStatus";
 END IF;
 IF _executeTxHash IS NULL OR _executeTxHash = ''
 THEN
-	_executeTxHash = tb_test."executeTxHash";
+	_executeTxHash = tb_temp."executeTxHash";
 END IF;
-IF _executeTxStatus IS NULL 
+IF _executeTxStatus IS NULL
 THEN
-	_executeTxStatus = tb_test."executeTxStatus";
+	_executeTxStatus = tb_temp."executeTxStatus";
 END IF;
-IF _debitaccount IS NULL OR _debitaccount = ''
+IF _pullPaymentAccountAddress IS NULL OR _pullPaymentAccountAddress = ''
 THEN
-	_debitaccount = tb_test."debitAccount";
+	_pullPaymentAccountAddress = tb_temp."pullPaymentAccountAddress";
 END IF;
 IF _merchantAddress IS NULL OR _merchantAddress = ''
 THEN
-	_merchantAddress = tb_test."merchantAddress";
+	_merchantAddress = tb_temp."merchantAddress";
 END IF;
 IF _userId IS NULL OR _userId = ''
 THEN
-	_userId = tb_test."userId";
+	_userId = tb_temp."userId";
 END IF;
 
 UPDATE public.tb_payments SET
-	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customeraddress, amount = _amount, currency = _currency,
-	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "limit" = _limit, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate, type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash, 
-	"executeTxStatus" = _executeTxStatus, "debitAccount" = _debitaccount, "merchantAddress" = _merchantAddress, "userId" = _userId
+	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customerAddress, amount = _amount, currency = _currency,
+	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "limit" = _limit, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate,
+	type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash,
+	"executeTxStatus" = _executeTxStatus, "pullPaymentAccountAddress" = _pullPaymentAccountAddress, "merchantAddress" = _merchantAddress, "userId" = _userId
     WHERE id = _id RETURNING * INTO tb_payments;
 
 	RETURN tb_payments;

@@ -24,7 +24,7 @@ const updatePayment: IPaymentUpdateDetails = payments['updatePayment'];
 const insertPayment = async () => {
     const result = await MerchantSDK.GET_SDK().createPayment(insertPaymentData);
     updatePayment.id = result.data[0].id;
-}
+};
 
 const clearPayment = async () => {
     await MerchantSDK.GET_SDK().deletePayment(updatePayment.id);
@@ -47,7 +47,7 @@ describe('PaymentController: update', () => {
                 status: 200,
                 message: 'Successful payment update.',
                 data: []
-            }
+            };
 
             server
                 .put(`${endpoint}${updatePayment.id}`)
@@ -55,6 +55,7 @@ describe('PaymentController: update', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
+
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
                     expect(body).to.have.property('message').that.is.equal(expectedResponse.message);
@@ -72,7 +73,7 @@ describe('PaymentController: update', () => {
                     expect(body).to.have.property('data').that.has.property('registerTxHash').that.is.equal(updatePayment.registerTxHash);
                     expect(body).to.have.property('data').that.has.property('executeTxHash').that.is.equal(updatePayment.executeTxHash);
                     expect(body).to.have.property('data').that.has.property('executeTxStatus').that.is.equal(updatePayment.executeTxStatus);
-                    expect(body).to.have.property('data').that.has.property('debitAccount').that.is.equal(updatePayment.debitAccount);
+                    expect(body).to.have.property('data').that.has.property('pullPaymentAccountAddress').that.is.equal(updatePayment.pullPaymentAccountAddress);
                     expect(body).to.have.property('data').that.has.property('merchantAddress').that.is.equal(updatePayment.merchantAddress);
                     done(err);
                 });
