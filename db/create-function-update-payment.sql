@@ -13,13 +13,18 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_currency text,
 	_startTimestamp bigint,
 	_endTimestamp bigint,
+	_limit integer,
+	_nextPaymentDate bigint,
+	_lastPaymentDate bigint,
 	_type integer,
 	_frequency integer,
 	_registerTxHash text,
+	_registerTxStatus integer,
 	_executeTxHash text,
 	_executeTxStatus integer,
 	_debitaccount text,
-	_merchantAddress text)
+	_merchantAddress text,
+	_userId text)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -70,6 +75,18 @@ IF _endTimestamp IS NULL
 THEN
 	_endTimestamp = tb_test."endTimestamp";
 END IF;
+IF _limit IS NULL
+THEN
+	_limit = tb_test."limit";
+END IF;
+IF _nextPaymentDate IS NULL
+THEN
+	_nextPaymentDate = tb_test."nextPaymentDate";
+END IF;
+IF _lastPaymentDate IS NULL
+THEN
+	_lastPaymentDate = tb_test."lastPaymentDate";
+END IF;
 IF _type IS NULL 
 THEN
 	_type = tb_test.type;
@@ -81,6 +98,10 @@ END IF;
 IF _registerTxHash IS NULL OR _registerTxHash = ''
 THEN
 	_registerTxHash = tb_test."registerTxHash";
+END IF;
+IF _registerTxStatus IS NULL
+THEN
+	_registerTxStatus = tb_test."registerTxStatus";
 END IF;
 IF _executeTxHash IS NULL OR _executeTxHash = ''
 THEN
@@ -98,11 +119,15 @@ IF _merchantAddress IS NULL OR _merchantAddress = ''
 THEN
 	_merchantAddress = tb_test."merchantAddress";
 END IF;
+IF _userId IS NULL OR _userId = ''
+THEN
+	_userId = tb_test."userId";
+END IF;
 
 UPDATE public.tb_payments SET
 	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customeraddress, amount = _amount, currency = _currency,
-	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "executeTxHash" = _executeTxHash, 
-	"executeTxStatus" = _executeTxStatus, "debitAccount" = _debitaccount, "merchantAddress" = _merchantAddress
+	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "limit" = _limit, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate, type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash, 
+	"executeTxStatus" = _executeTxStatus, "debitAccount" = _debitaccount, "merchantAddress" = _merchantAddress, "userId" = _userId
     WHERE id = _id RETURNING * INTO tb_payments;
 
 	RETURN tb_payments;
@@ -110,5 +135,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, integer, text, text, integer, text, text)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text)
     OWNER TO local_user;

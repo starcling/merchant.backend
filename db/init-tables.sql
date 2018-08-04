@@ -11,13 +11,18 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     currency character varying(255) COLLATE pg_catalog."default" NOT NULL,
     "startTimestamp" bigint NOT NULL,
     "endTimestamp" bigint NOT NULL,
+    "limit" integer NOT NULL,
+    "nextPaymentDate" bigint NOT NULL,
+    "lastPaymentDate" bigint DEFAULT 0,
     type integer NOT NULL,
     frequency integer NOT NULL,
     "registerTxHash" character varying(255) COLLATE pg_catalog."default",
+    "registerTxStatus" integer DEFAULT 1,
     "executeTxHash" character varying(255) COLLATE pg_catalog."default",
     "executeTxStatus" integer DEFAULT 1,
     "debitAccount" character varying(255) COLLATE pg_catalog."default",
     "merchantAddress" character varying(255) COLLATE pg_catalog."default",
+    "userId" character varying(255) DEFAULT NULL,
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id)
 )
 WITH (

@@ -27,13 +27,18 @@ const dataSchema = Joi.object().keys({
     customerAddress: Joi.string().required(),
     amount: Joi.number().min(0).required(),
     currency: Joi.string().required(),
+    limit: Joi.number().required(),
     startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).required(),
     endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).required(),
+    nextPaymentDate: Joi.number().required(),
+    lastPaymentDate: Joi.number().required(),
     type: Joi.number().required(),
     frequency: Joi.number().required(),
     registerTxHash: Joi.string().required(),
+    registerTxStatus: Joi.number().required(),
     executeTxHash: Joi.string().required(),
     executeTxStatus: Joi.number().required(),
     debitAccount: Joi.string().required(),
-    merchantAddress: Joi.string().required()
+    merchantAddress: Joi.string().required(),
+    userId: Joi.string().required()
 });
