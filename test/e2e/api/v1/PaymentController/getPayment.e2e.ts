@@ -1,8 +1,12 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
-import { IPaymentInsertDetails, IPaymentUpdateDetails} from '../../../../../src/core/payment/models';
+import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
+import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
 
+MerchantSDK.GET_SDK().build({
+    merchantApiUrl: 'http://merchant_server:3000/api/v1',
+});
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -10,12 +14,6 @@ const expect = chai.expect;
 
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/payments/';
-
-import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
-
-MerchantSDK.GET_SDK().build({
-    merchantApiUrl: 'http://merchant_server:3000/api/v1',
-});
 
 const paymentsTestData: any = require('../../../../../resources/e2eTestData.json').payments;
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertPayment'];

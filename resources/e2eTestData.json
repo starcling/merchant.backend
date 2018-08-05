@@ -31,7 +31,7 @@
             "registerTxStatus": 1,
             "executeTxHash": "string",
             "executeTxStatus": 1,
-            "debitAccount": "string",
+            "pullPaymentAccountAddress": "string",
             "merchantAddress": "string",
             "userId": "string"
         }

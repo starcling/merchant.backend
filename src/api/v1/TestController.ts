@@ -21,7 +21,6 @@ export class TestController {
             // tslint:disable-next-line:max-line-length
             return new APIResponseHandler().handle(response, await merchant.executePullPayment('0x15f79A4247cD2e9898dD45485683a0B26855b646', '87466fd6-8f27-11e8-8be0-bfce605f6069'));
         } catch (err) {
-            console.debug('getRequest error', err);
 
             return new APIResponseHandler().handle(response, {status: 400, error: 'Authentication Failed'});
         }

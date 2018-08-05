@@ -6,7 +6,7 @@ chai.should();
 
 describe('Test unit test', () => {
   it('Default test since no unit tests are available', async () => {
-      var test = 'test';
+      const test = 'test';
       test.should.be.a('string');
   });
 })

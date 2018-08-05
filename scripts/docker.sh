@@ -1,5 +1,5 @@
 #!/bin/bash
-npm link puma_merchant_sdk
+npm link pumapay_merchant_sdk
 
 dev="docker-compose.yml"
 dev_remote="docker-compose.server.yml"
