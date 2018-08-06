@@ -13,7 +13,7 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_currency text,
 	_startTimestamp bigint,
 	_endTimestamp bigint,
-	_limit integer,
+	_numberOfPayments integer,
 	_nextPaymentDate bigint,
 	_lastPaymentDate bigint,
 	_type integer,
@@ -75,9 +75,9 @@ IF _endTimestamp IS NULL
 THEN
 	_endTimestamp = tb_temp."endTimestamp";
 END IF;
-IF _limit IS NULL
+IF _numberOfPayments IS NULL
 THEN
-	_limit = tb_temp."limit";
+	_numberOfPayments = tb_temp."numberOfPayments";
 END IF;
 IF _nextPaymentDate IS NULL
 THEN
@@ -126,7 +126,7 @@ END IF;
 
 UPDATE public.tb_payments SET
 	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customerAddress, amount = _amount, currency = _currency,
-	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "limit" = _limit, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate,
+	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "numberOfPayments" = _numberOfPayments, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate,
 	type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash,
 	"executeTxStatus" = _executeTxStatus, "pullPaymentAccountAddress" = _pullPaymentAccountAddress, "merchantAddress" = _merchantAddress, "userId" = _userId
     WHERE id = _id RETURNING * INTO tb_payments;

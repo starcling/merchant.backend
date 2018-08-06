@@ -7,7 +7,7 @@
             "currency": "string",
             "startTimestamp": 10,
             "endTimestamp": 13,
-            "limit": 4,
+            "numberOfPayments": 4,
             "type": 1,
             "frequency": 10
         },
@@ -22,7 +22,7 @@
             "currency": "string",
             "startTimestamp": 10,
             "endTimestamp": 13,
-            "limit": 4,
+            "numberOfPayments": 4,
             "nextPaymentDate": "123456789",
             "lastPaymentDate": "123456789",
             "type": 1,

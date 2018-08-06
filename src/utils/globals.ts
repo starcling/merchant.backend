@@ -20,13 +20,13 @@ export class Globals {
     }
 
     public static GET_API_URL(): string {
-        return 'merchant_server:3000';
+        return 'http://merchant_server:3000';
     }
 
     public static GET_DEFAULT_SDK_BUILD(): any {
         return {
             web3: new web3(new web3.providers.HttpProvider(this.GET_SPECIFIC_INFURA_URL())),
-            merchantApiUrl: `http://${this.GET_API_URL()}:3000/api/v1`,
+            merchantApiUrl: `${this.GET_API_URL()}/api/v1`,
             pgUser: DefaultConfig.settings.pgUser,
             pgHost: DefaultConfig.settings.pgHost,
             pgDatabase: DefaultConfig.settings.database,
