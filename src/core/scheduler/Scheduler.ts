@@ -10,17 +10,48 @@ export class Scheduler {
     }
 
     /**
-     * @description Get method for getting payment from DB
-     * @param {string} paymentID paymentID of the object
+     * @description Method for stopping the scheduler
+     * @param {string} paymentID id of the scheduler, same as payment id
      * @returns {HTTPResponse} Returns success feedback
      */
     public stopScheduler(paymentID: string) {
         try {
             const result = MerchantSDK.GET_SDK().Scheduler.stop(paymentID);
 
-            return new HTTPResponseHandler().handleSuccess('Successfully stopped scheduler.', result);
+            if (result) {
+                const message = 'Successfully stopped scheduler.';
+
+                return new HTTPResponseHandler().handleSuccess(message, {});
+            } else {
+                const message = 'No scheduler with provided ID found.';
+
+                return new HTTPResponseHandler().handleFailed(message, {}, HTTPResponseCodes.BAD_REQUEST());
+            }
         } catch (error) {
-            return new HTTPResponseHandler().handleFailed('No scheduler with provided ID found.', error, HTTPResponseCodes.BAD_REQUEST());
+            return new HTTPResponseHandler().handleFailed('Failed to stop scheduler.', error);
+        }
+    }
+
+    /**
+     * @description Method for restarting the scheduler
+     * @param {string} paymentID id of the scheduler, same as payment id
+     * @returns {HTTPResponse} Returns success feedback
+     */
+    public restartScheduler(paymentID: string) {
+        try {
+            const result = MerchantSDK.GET_SDK().Scheduler.restart(paymentID);
+
+            if (result) {
+                const message = 'Successfully restarted scheduler.';
+
+                return new HTTPResponseHandler().handleSuccess(message, {});
+            } else {
+                const message = 'No scheduler with provided ID found.';
+
+                return new HTTPResponseHandler().handleFailed(message, {}, HTTPResponseCodes.BAD_REQUEST());
+            }
+        } catch (error) {
+            return new HTTPResponseHandler().handleFailed('Failed to restart scheduler.', error);
         }
     }
 }

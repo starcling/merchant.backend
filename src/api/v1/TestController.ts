@@ -35,11 +35,17 @@ export class TestController {
     public async startScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
 
-            const payment = MerchantSDK.GET_SDK().getPayment(request.paymentID);
+            const payment = (await MerchantSDK.GET_SDK().updatePayment(request)).data[0];
 
-            const scheduler = new (MerchantSDK.GET_SDK().getScheduler())(payment).start();
+            new (MerchantSDK.GET_SDK().Scheduler)(payment, async () => {
+                payment.numberOfPayments = payment.numberOfPayments - 1;
+                payment.lastPaymentDate = payment.nextPaymentDate;
+                payment.nextPaymentDate = Number(payment.nextPaymentDate) + payment.frequency;
+                console.debug(payment.numberOfPayments);
+                await MerchantSDK.GET_SDK().updatePayment(payment);
+            }).start();
 
-            return new APIResponseHandler().handle(response, { status: 200, message: scheduler });
+            return new APIResponseHandler().handle(response, { status: 200, message: 'Successfuly created scheduler.', data: payment.id });
         } catch (err) {
             console.debug(err);
             return new APIResponseHandler().handle(response, { status: 400, error: err });
