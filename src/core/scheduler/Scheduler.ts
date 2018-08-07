@@ -63,12 +63,10 @@ export class Scheduler {
      */
     public startScheduler(payment: IPaymentUpdateDetails, callback?: any) {
         try {
-            console.log(payment.id);
             new (MerchantSDK.GET_SDK().Scheduler)(payment, callback ? callback : async () => {
                 payment.numberOfPayments = payment.numberOfPayments - 1;
                 payment.lastPaymentDate = payment.nextPaymentDate;
                 payment.nextPaymentDate = Number(payment.nextPaymentDate) + payment.frequency;
-                console.debug(payment.numberOfPayments);
                 await MerchantSDK.GET_SDK().updatePayment(payment);
             }).start();
 
