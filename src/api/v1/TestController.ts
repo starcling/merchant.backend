@@ -2,6 +2,7 @@ import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHa
 import { JsonController, Get, Res, Param, Post, Body } from 'routing-controllers';
 import { MerchantSDK } from '../../core/MerchantSDK';
 import { Globals } from '../../utils/globals';
+import { SchedulerConnector } from '../../connectors/api/v1/SchedulerConnector';
 // tslint:disable-next-line:variable-name
 const Web3 = require('web3');
 
@@ -34,16 +35,8 @@ export class TestController {
     @Post('/start-scheduler')
     public async startScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-
             const payment = (await MerchantSDK.GET_SDK().updatePayment(request)).data[0];
-
-            new (MerchantSDK.GET_SDK().Scheduler)(payment, async () => {
-                payment.numberOfPayments = payment.numberOfPayments - 1;
-                payment.lastPaymentDate = payment.nextPaymentDate;
-                payment.nextPaymentDate = Number(payment.nextPaymentDate) + payment.frequency;
-                console.debug(payment.numberOfPayments);
-                await MerchantSDK.GET_SDK().updatePayment(payment);
-            }).start();
+            new SchedulerConnector().startScheduler(payment);
 
             return new APIResponseHandler().handle(response, { status: 200, message: 'Successfuly created scheduler.', data: payment.id });
         } catch (err) {

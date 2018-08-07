@@ -45,14 +45,6 @@ export class SchedulerController {
     }
 
     /**
-    * @apiDefine Response
-    * @apiSuccess {boolean} success The HTTP success of the call
-    * @apiSuccess {number} status The HTTP status of the call
-    * @apiSuccess {string} message A human-friendly summary of the result of the call
-    * @apiSuccess {object} data The response data of the call
-    */
-
-    /**
     * @api {get} /api/v1/scheduler/restartScheduler/
     * @apiDescription Restarts the scheduler with paymentID
     *

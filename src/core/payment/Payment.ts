@@ -2,21 +2,11 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { MerchantSDK } from '../MerchantSDK';
-import { DefaultConfig } from '../../config/default.config';
 import { Globals } from '../../utils/globals';
-const web3 = require('web3');
 
 export class Payment {
     public constructor() {
-        MerchantSDK.GET_SDK().build({
-            pgUser: DefaultConfig.settings.pgUser,
-            pgHost: DefaultConfig.settings.pgHost,
-            pgDatabase: DefaultConfig.settings.database,
-            pgPassword: DefaultConfig.settings.pgPassword,
-            pgPort: Number(DefaultConfig.settings.pgPort),
-            web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL())),
-            merchantApiUrl: 'http://merchant_server:3000/api/v1'
-        });
+        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
     }
 
     /**
