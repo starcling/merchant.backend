@@ -2,12 +2,8 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { MerchantSDK } from '../MerchantSDK';
-import { Globals } from '../../utils/globals';
 
 export class Payment {
-    public constructor() {
-        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
-    }
 
     /**
      * @description Create method for inserting payment into DB

@@ -1,14 +1,9 @@
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { MerchantSDK } from '../MerchantSDK';
-import { Globals } from '../../utils/globals';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { IPaymentUpdateDetails } from '../payment/models';
 
 export class Scheduler {
-
-    public constructor() {
-        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
-    }
 
     /**
      * @description Method for stopping the scheduler
