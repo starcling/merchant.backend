@@ -11,10 +11,6 @@ const Web3 = require('web3');
 @JsonController('/test')
 export class TestController {
 
-    public constructor() {
-        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
-    }
-
     @Get('/execute-pull-payment/:address/:paymentID')
     public async test(@Param('address') address: string, @Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
         try {
