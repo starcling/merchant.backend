@@ -9,7 +9,8 @@
             "endTimestamp": "9876543211",
             "numberOfPayments": 4,
             "type": 1,
-            "frequency": 3
+            "frequency": 3,
+            "networkID": 3
         },
         "updateTestPayment": {
             "id": "",
@@ -33,7 +34,8 @@
             "executeTxStatus": 1,
             "pullPaymentAccountAddress": "string",
             "merchantAddress": "string",
-            "userId": "string"
+            "userId": "string",
+            "networkID": 3
         }
     }
 }

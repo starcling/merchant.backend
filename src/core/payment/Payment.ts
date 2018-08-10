@@ -7,14 +7,14 @@ import { Globals } from '../../utils/globals';
 const web3 = require('web3');
 
 export class Payment {
-    public constructor() {
+    public constructor(networkID: number) {
         MerchantSDK.GET_SDK().build({
             pgUser: DefaultConfig.settings.pgUser,
             pgHost: DefaultConfig.settings.pgHost,
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
             pgPort: Number(DefaultConfig.settings.pgPort),
-            web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL())),
+            web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID))),
             merchantApiUrl: 'http://merchant_server:3000/api/v1'
         });
     }
@@ -87,11 +87,12 @@ export class Payment {
 
     /**
      * @description Get method for getting all payments from DB
+     * @param {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
      * @returns {HTTPResponse} Returns response with array of payments in data
      */
-    public async getAllPayments() {
+    public async getAllPayments(networkID: number) {
         try {
-            const response = await MerchantSDK.GET_SDK().getAllPayments();
+            const response = await MerchantSDK.GET_SDK().getAllPayments(networkID);
             if (!response.data) {
                 response.data = [];
             }

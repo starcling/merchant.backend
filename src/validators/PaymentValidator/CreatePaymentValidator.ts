@@ -27,5 +27,6 @@ const dataSchema = Joi.object().keys({
     startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).required(),
     endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).required(),
     type: Joi.number().required(),
-    frequency: Joi.number().required()
+    frequency: Joi.number().required(),
+    networkID: Joi.number().integer().min(1).max(3).invalid(2).required()
 });

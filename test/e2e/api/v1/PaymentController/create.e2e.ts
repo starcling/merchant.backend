@@ -58,6 +58,7 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + insertPayment.endTimestamp);
                     expect(body).to.have.property('data').that.has.property('type').that.is.equal(insertPayment.type);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(insertPayment.frequency);
+                    expect(body).to.have.property('data').that.has.property('networkID').that.is.equal(insertPayment.networkID);
                     done(err);
                 });
         });

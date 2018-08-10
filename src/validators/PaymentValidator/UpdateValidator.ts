@@ -40,5 +40,6 @@ const dataSchema = Joi.object().keys({
     executeTxStatus: Joi.number().required(),
     pullPaymentAccountAddress: Joi.string().required(),
     merchantAddress: Joi.string().required(),
-    userId: Joi.string().required()
+    userId: Joi.string().required(),
+    networkID: Joi.number().integer().min(1).max(3).invalid(2).required()
 });

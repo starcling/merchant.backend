@@ -9,7 +9,8 @@
             "endTimestamp": 13,
             "numberOfPayments": 4,
             "type": 1,
-            "frequency": 10
+            "frequency": 10,
+            "networkID": 3
         },
         "updatePayment": {
             "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
@@ -33,7 +34,8 @@
             "executeTxStatus": 1,
             "pullPaymentAccountAddress": "string",
             "merchantAddress": "string",
-            "userId": "string"
+            "userId": "string",
+            "networkID": 3
         }
     }
 }

@@ -66,7 +66,6 @@ describe('PaymentController: patch', () => {
                     expect(body).to.have.property('data').that.has.property('registerTxHash').that.is.equal(null);
                     expect(body).to.have.property('data').that.has.property('executeTxHash').that.is.equal(null);
                     expect(body).to.have.property('data').that.has.property('executeTxStatus').that.is.equal(1);
-                    expect(body).to.have.property('data').that.has.property('pullPaymentAccountAddress').that.is.equal(null);
                     expect(body).to.have.property('data').that.has.property('userId').that.is.equal(null);
                     done(err);
                 });

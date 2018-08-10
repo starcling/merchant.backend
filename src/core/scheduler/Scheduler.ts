@@ -5,8 +5,8 @@ import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 
 export class Scheduler {
 
-    public constructor() {
-        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
+    public constructor(networkID: number) {
+        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(networkID));
     }
 
     /**

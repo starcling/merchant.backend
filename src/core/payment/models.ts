@@ -8,6 +8,7 @@ export interface IPaymentInsertDetails {
     numberOfPayments: number;
     type: number;
     frequency: number;
+    networkID: number;
 }
 
 export interface IPaymentUpdateDetails {
@@ -33,4 +34,5 @@ export interface IPaymentUpdateDetails {
     pullPaymentAccountAddress: string;
     merchantAddress: string;
     userId: string;
+    networkID: number;
 }

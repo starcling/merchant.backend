@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text);
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, integer);
 
--- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
@@ -22,9 +22,9 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_registerTxStatus integer,
 	_executeTxHash text,
 	_executeTxStatus integer,
-	_pullPaymentAccountAddress text,
 	_merchantAddress text,
-	_userId text)
+	_userId text,
+	_networkID integer)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -111,10 +111,6 @@ IF _executeTxStatus IS NULL
 THEN
 	_executeTxStatus = tb_temp."executeTxStatus";
 END IF;
-IF _pullPaymentAccountAddress IS NULL OR _pullPaymentAccountAddress = ''
-THEN
-	_pullPaymentAccountAddress = tb_temp."pullPaymentAccountAddress";
-END IF;
 IF _merchantAddress IS NULL OR _merchantAddress = ''
 THEN
 	_merchantAddress = tb_temp."merchantAddress";
@@ -123,12 +119,16 @@ IF _userId IS NULL OR _userId = ''
 THEN
 	_userId = tb_temp."userId";
 END IF;
+IF _networkID IS NULL
+THEN
+	_networkID = tb_temp."networkID";
+END IF;
 
 UPDATE public.tb_payments SET
 	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customerAddress, amount = _amount, currency = _currency,
 	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "numberOfPayments" = _numberOfPayments, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate,
 	type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash,
-	"executeTxStatus" = _executeTxStatus, "pullPaymentAccountAddress" = _pullPaymentAccountAddress, "merchantAddress" = _merchantAddress, "userId" = _userId
+	"executeTxStatus" = _executeTxStatus, "merchantAddress" = _merchantAddress, "userId" = _userId, "networkID" = _networkID
     WHERE id = _id RETURNING * INTO tb_payments;
 
 	RETURN tb_payments;
@@ -136,5 +136,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, integer)
     OWNER TO local_user;
