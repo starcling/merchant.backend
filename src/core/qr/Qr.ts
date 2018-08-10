@@ -1,12 +1,7 @@
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { MerchantSDK } from '../MerchantSDK';
-import { Globals } from '../../utils/globals';
 
 export class Qr {
-
-    public constructor() {
-        MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
-    }
 
     /**
      * @description Get method for getting payment from DB

@@ -23,10 +23,15 @@ const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
 let paymentID: string;
 
 const clearPayment = async () => {
-     await MerchantSDK.GET_SDK().deletePayment(paymentID);
+    await MerchantSDK.GET_SDK().deletePayment(paymentID);
 };
 
 describe('PaymentController: create', () => {
+
+    after(() => {
+        MerchantSDK.GET_SDK().disconnectRedis();
+    });
+
     afterEach(async () => {
         await clearPayment();
     });
@@ -65,7 +70,7 @@ describe('PaymentController: create', () => {
 
     describe('unsuccessful request', () => {
         it('should return missing data', (done) => {
-            const unsuccessfullInsertPayment = clone (insertPayment);
+            const unsuccessfullInsertPayment = clone(insertPayment);
             delete unsuccessfullInsertPayment.startTimestamp;
 
             server
@@ -83,7 +88,7 @@ describe('PaymentController: create', () => {
         });
 
         it('should return invalid data', (done) => {
-            const unsuccessfullInsertPayment = clone (insertPayment);
+            const unsuccessfullInsertPayment = clone(insertPayment);
             unsuccessfullInsertPayment.startTimestamp = 'string';
 
             server
