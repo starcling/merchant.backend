@@ -17,7 +17,7 @@ export class Scheduler {
             if (result) {
                 const message = 'Successfully stopped scheduler.';
 
-                return new HTTPResponseHandler().handleSuccess(message, {});
+                return new HTTPResponseHandler().handleSuccess(message, result);
             } else {
                 const message = 'No scheduler with provided ID found.';
 
@@ -40,7 +40,7 @@ export class Scheduler {
             if (result) {
                 const message = 'Successfully restarted scheduler.';
 
-                return new HTTPResponseHandler().handleSuccess(message, {});
+                return new HTTPResponseHandler().handleSuccess(message, result);
             } else {
                 const message = 'Scheduler with provided ID is either already running or doesn\'t exist.';
 
@@ -61,7 +61,8 @@ export class Scheduler {
             new (MerchantSDK.GET_SDK().Scheduler)(payment, callback ? callback : async () => {
                 payment.numberOfPayments = payment.numberOfPayments - 1;
                 payment.lastPaymentDate = payment.nextPaymentDate;
-                payment.nextPaymentDate = Number(payment.nextPaymentDate) + payment.frequency;
+                payment.nextPaymentDate = payment.numberOfPayments === 0 ?
+                    payment.nextPaymentDate : Number(payment.nextPaymentDate) + payment.frequency;
                 await MerchantSDK.GET_SDK().updatePayment(payment);
             }).start();
 

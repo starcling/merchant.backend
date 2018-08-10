@@ -62,7 +62,7 @@ describe('SchedulerController: stopScheduler', () => {
                         const body = res.body;
                         expect(body).to.have.property('status').that.is.equal(200);
                         expect(body).to.have.property('message').that.is.equal('Successfully stopped scheduler.');
-                        expect(body).to.have.property('data').that.is.an('object');
+                        expect(body).to.have.property('data').that.is.an('string');
                     });
             }, (numberOfPayments / 2) * 1000 + 100);
 
