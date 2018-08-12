@@ -13,7 +13,7 @@ chai.should();
 const expect = chai.expect;
 
 const server = supertest.agent('http://localhost:3000/');
-const endpoint = 'api/v1/payments/3/';
+const endpoint = 'api/v1/payments/';
 
 const paymentsTestData: any = require('../../../../../resources/e2eTestData.json').payments;
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertPayment'];

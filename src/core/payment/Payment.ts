@@ -2,23 +2,8 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { MerchantSDK } from '../MerchantSDK';
-import { DefaultConfig } from '../../config/default.config';
-import { Globals } from '../../utils/globals';
-const web3 = require('web3');
 
 export class Payment {
-    public constructor(networkID: number) {
-        MerchantSDK.GET_SDK().build({
-            pgUser: DefaultConfig.settings.pgUser,
-            pgHost: DefaultConfig.settings.pgHost,
-            pgDatabase: DefaultConfig.settings.database,
-            pgPassword: DefaultConfig.settings.pgPassword,
-            pgPort: Number(DefaultConfig.settings.pgPort),
-            web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID))),
-            merchantApiUrl: 'http://merchant_server:3000/api/v1'
-        });
-    }
-
     /**
      * @description Create method for inserting payment into DB
      * @param {IPaymentInsertDetails} payment payment object
@@ -87,12 +72,11 @@ export class Payment {
 
     /**
      * @description Get method for getting all payments from DB
-     * @param {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
      * @returns {HTTPResponse} Returns response with array of payments in data
      */
-    public async getAllPayments(networkID: number) {
+    public async getAllPayments() {
         try {
-            const response = await MerchantSDK.GET_SDK().getAllPayments(networkID);
+            const response = await MerchantSDK.GET_SDK().getAllPayments();
             if (!response.data) {
                 response.data = [];
             }

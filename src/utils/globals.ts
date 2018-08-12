@@ -29,9 +29,11 @@ export class Globals {
             merchantApiUrl: `${this.GET_API_URL()}/api/v1`,
             pgUser: DefaultConfig.settings.pgUser,
             pgHost: DefaultConfig.settings.pgHost,
+            pgPort: Number(DefaultConfig.settings.pgPort),
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
-            pgPort: Number(DefaultConfig.settings.pgPort)
+            redisHost: process.env.REDIS_HOST,
+            redisPort: process.env.REDIS_PORT
         };
     }
 }

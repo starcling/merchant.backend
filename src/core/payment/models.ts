@@ -6,6 +6,7 @@ export interface IPaymentInsertDetails {
     startTimestamp: number;
     endTimestamp: number;
     numberOfPayments: number;
+    merchantAddress: string;
     type: number;
     frequency: number;
     networkID: number;
@@ -31,7 +32,7 @@ export interface IPaymentUpdateDetails {
     registerTxStatus: number;
     executeTxHash: string;
     executeTxStatus: number;
-    pullPaymentAccountAddress: string;
+    pullPaymentAddress: string;
     merchantAddress: string;
     userId: string;
     networkID: number;

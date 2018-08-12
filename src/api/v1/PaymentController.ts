@@ -35,6 +35,7 @@ export class PaymentController {
     * @apiParam {number} startTimestamp - Start timestamp of payment
     * @apiParam {number} endTimestamp - End timestamp of payment
     * @apiParam {number} type - Type of payment
+    * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
     * @apiParam {number} frequency - Frequency of execution
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
@@ -47,6 +48,7 @@ export class PaymentController {
     *   "startTimestamp": 10,
     *   "endTimestamp": 13,
     *   "type": 1,
+    *   "merchantAddress": "string",
     *   "frequency": 10,
     *   "networkID": 3
     * }
@@ -54,11 +56,11 @@ export class PaymentController {
     * @apiSuccess (200) {object} Payment Details
     *
     */
-    @Post('')
+    @Post('/')
     public async create(@Body() payment: IPaymentInsertDetails, @Res() response: any): Promise<any> {
         try {
             new CreatePaymentValidator().validate(payment);
-            const result = await new PaymentConnector(payment.networkID).createPayment(payment);
+            const result = await new PaymentConnector().createPayment(payment);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -79,10 +81,10 @@ export class PaymentController {
     * @apiSuccess (200) {object} Payment Details
     *
     */
-   @Get('/:networkID')
-   public async getAllPayments(@Param('networkID') networkID: number, @Res() response: any): Promise<any> {
+   @Get('/')
+   public async getAllPayments(@Res() response: any): Promise<any> {
        try {
-           const result = await new PaymentConnector(networkID).getAllPayments(networkID);
+           const result = await new PaymentConnector().getAllPayments();
 
            return new APIResponseHandler().handle(response, result);
        } catch (error) {
@@ -109,12 +111,11 @@ export class PaymentController {
     * @apiSuccess (200) {object} Payment details for a specific id
     *
     */
-    @Get('/:networkID/:paymentID')
-    public async getPayment(@Param('networkID') networkID: number,
-                            @Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
+    @Get('/:paymentID')
+    public async getPayment(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
         try {
             new GetPaymentValidator().validate({ paymentID });
-            const result = await new PaymentConnector(networkID).getPayment(paymentID);
+            const result = await new PaymentConnector().getPayment(paymentID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -145,7 +146,7 @@ export class PaymentController {
     * @apiParam {string} registerTxHash - Transaction hash for register pull payment
     * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
     * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
-    * @apiParam {string} pullPaymentAccountAddress - Debit account for payment
+    * @apiParam {string} pullPaymentAddress - Debit account for payment
     * @apiParam {string} merchantAddress - Debit account for payment
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
@@ -165,7 +166,7 @@ export class PaymentController {
     *   "registerTxHash":"string",
     *   "executeTxHash":"string",
     *   "executeTxStatus": 1,
-    *   "pullPaymentAccountAddress": "string"
+    *   "pullPaymentAddress": "string"
     *   "merchantAddress": "string"
     *   "networkID": number
     * }
@@ -178,7 +179,7 @@ export class PaymentController {
         try {
             payment.id = paymentID;
             new UpdateValidator().validate(payment);
-            const result = await new PaymentConnector(payment.networkID).updatePayment(payment);
+            const result = await new PaymentConnector().updatePayment(payment);
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
             return new APIResponseHandler().handle(response, error);
@@ -208,7 +209,7 @@ export class PaymentController {
     * @apiParam {string} registerTxHash - Transaction hash for register pull payment
     * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
     * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
-    * @apiParam {string} pullPaymentAccountAddress - Debit account for payment
+    * @apiParam {string} pullPaymentAddress - Debit account for payment
     * @apiParam {string} merchantAddress - Debit account for payment
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
@@ -228,7 +229,7 @@ export class PaymentController {
     *   "registerTxHash":"string",
     *   "executeTxHash":"string",
     *   "executeTxStatus": 1,
-    *   "pullPaymentAccountAddress": "string"
+    *   "pullPaymentAddress": "string"
     *   "merchantAddress": "string",
     *   "networkID": number
     * }
@@ -241,7 +242,7 @@ export class PaymentController {
         try {
             payment.id = paymentID;
             new PatchValidator().validate(payment);
-            const result = await new PaymentConnector(payment.networkID).updatePayment(payment);
+            const result = await new PaymentConnector().updatePayment(payment);
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
             return new APIResponseHandler().handle(response, error);
@@ -266,12 +267,11 @@ export class PaymentController {
     * @apiSuccess (200) {object} no data
     *
     */
-   @Delete('/:networkID/:paymentID')
-   public async deletePayment(@Param('networkID') networkID: number,
-                              @Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
+   @Delete('/:paymentID')
+   public async deletePayment(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
        try {
            new DeletePaymentValidator().validate({ paymentID });
-           const result = await new PaymentConnector(networkID).deletePayment(paymentID);
+           const result = await new PaymentConnector().deletePayment(paymentID);
 
            return new APIResponseHandler().handle(response, result);
        } catch (error) {

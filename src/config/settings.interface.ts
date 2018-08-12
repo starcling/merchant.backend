@@ -15,4 +15,5 @@ export interface Settings {
   database: string;
   pgPassword: string;
   pgPort: number | string;
+  networkID: number;
 }

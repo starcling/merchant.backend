@@ -16,7 +16,8 @@ export class ProductionConfig {
       pgPassword: process.env.PGPASSWORD ? process.env.PGPASSWORD : 'local_pass',
       database: process.env.PGDATABASE ? process.env.PGDATABASE : 'local_merchant_server',
 
-      serverSecret: 'sUp4hS3cr37kE9c0D3'
+      serverSecret: 'sUp4hS3cr37kE9c0D3',
+        networkID : process.env.ETH_NETWORK ? Number(process.env.ETH_NETWORK) : 1
     };
   }
 }

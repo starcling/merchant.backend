@@ -7,9 +7,10 @@
             "currency": "string",
             "startTimestamp": 10,
             "endTimestamp": 13,
-            "numberOfPayments": 4,
+            "numberOfPayments": 5,
             "type": 1,
             "frequency": 10,
+            "merchantAddress": "string",
             "networkID": 3
         },
         "updatePayment": {
@@ -23,7 +24,7 @@
             "currency": "string",
             "startTimestamp": 10,
             "endTimestamp": 13,
-            "numberOfPayments": 4,
+            "numberOfPayments": 5,
             "nextPaymentDate": "123456789",
             "lastPaymentDate": "123456789",
             "type": 1,
@@ -32,8 +33,8 @@
             "registerTxStatus": 1,
             "executeTxHash": "string",
             "executeTxStatus": 1,
-            "pullPaymentAccountAddress": "string",
             "merchantAddress": "string",
+            "pullPaymentAddress": "string",
             "userId": "string",
             "networkID": 3
         }

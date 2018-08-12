@@ -51,7 +51,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.0.0",
     "concurrently": "^3.5.1",
-    "gulp": "^4.0.0",
+    "gulp": "3.9.1",
     "gulp-apidoc-swagger": "^0.2.2",
     "gulp-typedoc": "^2.2.0",
     "husky": "^1.0.0-rc.13",

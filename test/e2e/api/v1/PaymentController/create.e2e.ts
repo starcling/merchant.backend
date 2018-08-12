@@ -23,10 +23,14 @@ const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
 let paymentID: string;
 
 const clearPayment = async () => {
-     await MerchantSDK.GET_SDK().deletePayment(paymentID);
+    await MerchantSDK.GET_SDK().deletePayment(paymentID);
 };
 
 describe('PaymentController: create', () => {
+    // after(() => {
+    //     MerchantSDK.GET_SDK().disconnectRedis();
+    // });
+
     afterEach(async () => {
         await clearPayment();
     });
@@ -50,6 +54,7 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
                     expect(body).to.have.property('message').that.is.equal(expectedResponse.message);
+                    expect(body).to.have.property('data').that.has.property('id').that.is.equal(paymentID);
                     expect(body).to.have.property('data').that.has.property('title').that.is.equal(insertPayment.title);
                     expect(body).to.have.property('data').that.has.property('description').that.is.equal(insertPayment.description);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
@@ -66,7 +71,7 @@ describe('PaymentController: create', () => {
 
     describe('unsuccessful request', () => {
         it('should return missing data', (done) => {
-            const unsuccessfullInsertPayment = clone (insertPayment);
+            const unsuccessfullInsertPayment = clone(insertPayment);
             delete unsuccessfullInsertPayment.startTimestamp;
 
             server
@@ -84,7 +89,7 @@ describe('PaymentController: create', () => {
         });
 
         it('should return invalid data', (done) => {
-            const unsuccessfullInsertPayment = clone (insertPayment);
+            const unsuccessfullInsertPayment = clone(insertPayment);
             unsuccessfullInsertPayment.startTimestamp = 'string';
 
             server
