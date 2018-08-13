@@ -36,7 +36,7 @@ class App {
     app.use(cors());
     app.use(this.loggerFactory.requestLogger);
 
-    MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD());
+    MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(Config.settings.networkID));
     this.debug('Sync with redis completed.');
 
     this.debug('Dependency Injection');

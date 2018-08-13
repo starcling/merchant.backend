@@ -4,7 +4,6 @@ import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { MerchantSDK } from '../MerchantSDK';
 
 export class Payment {
-
     /**
      * @description Create method for inserting payment into DB
      * @param {IPaymentInsertDetails} payment payment object

@@ -2,9 +2,8 @@
 
 -- DROP FUNCTION public.fc_get_all_payment_details();
 
-CREATE OR REPLACE FUNCTION public.fc_get_all_payment_details(
-	)
-    RETURNS SETOF tb_payments 
+CREATE OR REPLACE FUNCTION public.fc_get_all_payment_details()
+    RETURNS SETOF tb_payments
     LANGUAGE 'plpgsql'
 
     COST 100

@@ -35,7 +35,9 @@ export class PaymentController {
     * @apiParam {number} startTimestamp - Start timestamp of payment
     * @apiParam {number} endTimestamp - End timestamp of payment
     * @apiParam {number} type - Type of payment
+    * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
     * @apiParam {number} frequency - Frequency of execution
+    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -46,7 +48,9 @@ export class PaymentController {
     *   "startTimestamp": 10,
     *   "endTimestamp": 13,
     *   "type": 1,
-    *   "frequency": 10
+    *   "merchantAddress": "string",
+    *   "frequency": 10,
+    *   "networkID": 3
     * }
     *
     * @apiSuccess (200) {object} Payment Details
@@ -65,7 +69,31 @@ export class PaymentController {
     }
 
     /**
-    * @api {get} /api/v1/payments/:paymentID
+    * @api {get} /api/v1/payments/:networkID
+    * @apiDescription Retrieve an array of payments
+    *
+    * @apiName getAllPayments
+    * @apiGroup PaymentController
+    * @apiVersion  1.0.0
+    *
+    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    *
+    * @apiSuccess (200) {object} Payment Details
+    *
+    */
+   @Get('/')
+   public async getAllPayments(@Res() response: any): Promise<any> {
+       try {
+           const result = await new PaymentConnector().getAllPayments();
+
+           return new APIResponseHandler().handle(response, result);
+       } catch (error) {
+           return new APIResponseHandler().handle(response, error);
+       }
+   }
+
+    /**
+    * @api {get} /api/v1/payments/:networkID/:paymentID
     * @apiDescription Retrieves a single payment
     *
     * @apiName getPayment
@@ -73,6 +101,7 @@ export class PaymentController {
     * @apiVersion  1.0.0
     *
     * @apiParam {string} paymentID - ID of the payment
+    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -117,8 +146,9 @@ export class PaymentController {
     * @apiParam {string} registerTxHash - Transaction hash for register pull payment
     * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
     * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
-    * @apiParam {string} pullPaymentAccountAddress - Debit account for payment
+    * @apiParam {string} pullPaymentAddress - Debit account for payment
     * @apiParam {string} merchantAddress - Debit account for payment
+    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -136,8 +166,9 @@ export class PaymentController {
     *   "registerTxHash":"string",
     *   "executeTxHash":"string",
     *   "executeTxStatus": 1,
-    *   "pullPaymentAccountAddress": "string"
+    *   "pullPaymentAddress": "string"
     *   "merchantAddress": "string"
+    *   "networkID": number
     * }
     *
     * @apiSuccess (200) {object} updated payment details
@@ -149,28 +180,6 @@ export class PaymentController {
             payment.id = paymentID;
             new UpdateValidator().validate(payment);
             const result = await new PaymentConnector().updatePayment(payment);
-            return new APIResponseHandler().handle(response, result);
-        } catch (error) {
-            return new APIResponseHandler().handle(response, error);
-        }
-    }
-
-    /**
-    * @api {get} /api/v1/payments/
-    * @apiDescription Retrieve an array of payments
-    *
-    * @apiName getAllPayments
-    * @apiGroup PaymentController
-    * @apiVersion  1.0.0
-    *
-    * @apiSuccess (200) {object} Payment Details
-    *
-    */
-    @Get('/')
-    public async getAllPayments(@Res() response: any): Promise<any> {
-        try {
-            const result = await new PaymentConnector().getAllPayments();
-
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
             return new APIResponseHandler().handle(response, error);
@@ -200,8 +209,9 @@ export class PaymentController {
     * @apiParam {string} registerTxHash - Transaction hash for register pull payment
     * @apiParam {string} executeTxHash - Transaction hash for execute pull payment
     * @apiParam {number} executeTxStatus - Transaction hash status for execute pull payment
-    * @apiParam {string} pullPaymentAccountAddress - Debit account for payment
+    * @apiParam {string} pullPaymentAddress - Debit account for payment
     * @apiParam {string} merchantAddress - Debit account for payment
+    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -219,8 +229,9 @@ export class PaymentController {
     *   "registerTxHash":"string",
     *   "executeTxHash":"string",
     *   "executeTxStatus": 1,
-    *   "pullPaymentAccountAddress": "string"
-    *   "merchantAddress": "string"
+    *   "pullPaymentAddress": "string"
+    *   "merchantAddress": "string",
+    *   "networkID": number
     * }
     *
     * @apiSuccess (200) {object} Payment Details
@@ -267,5 +278,4 @@ export class PaymentController {
            return new APIResponseHandler().handle(response, error);
        }
    }
-
 }

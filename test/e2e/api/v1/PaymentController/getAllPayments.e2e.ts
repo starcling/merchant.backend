@@ -14,7 +14,7 @@ chai.should();
 const expect = chai.expect;
 
 const server = supertest.agent('http://localhost:3000/');
-const endpoint = 'api/v1/payments/';
+const endpoint = 'api/v1/payments';
 
 const paymentsTestData: any = require('../../../../../resources/testData.json').payments;
 const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];

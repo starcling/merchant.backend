@@ -62,13 +62,13 @@ describe('PaymentController: delete', () => {
     describe('No payment in the db', () => {
         it('should return 400', (done) => {
             server
-                .put(`${endpoint}${paymentID}NOT_IN_DB`)
+                .delete(`${endpoint}${paymentID}NOT_IN_DB`)
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
-                    expect(body).to.have.property('error').to.be.an('array');
+                    expect(body).to.have.property('error');
                     done(err);
                 });
         });

@@ -17,6 +17,7 @@ services:
       - PGPORT=5432
       - REDIS_PORT=6379
       - REDIS_HOST=redis
+      - ETH_NETWORK=3
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -51,6 +52,8 @@ services:
     image: redis:5.0-rc-alpine
     sysctls:
       net.core.somaxconn: 1024
+    ports:
+      - "6379:6379"
     command: sh -c "redis-server --appendonly yes"
     hostname: redis
     networks:

@@ -4,7 +4,6 @@ import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { IPaymentUpdateDetails } from '../payment/models';
 
 export class Scheduler {
-
     /**
      * @description Method for stopping the scheduler
      * @param {string} paymentID id of the scheduler, same as payment id
