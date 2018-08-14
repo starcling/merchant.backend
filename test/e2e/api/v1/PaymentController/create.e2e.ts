@@ -6,10 +6,6 @@ import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandl
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
 
-MerchantSDK.GET_SDK().build({
-    merchantApiUrl: 'http://merchant_server:3000/api/v1',
-});
-
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
@@ -27,9 +23,16 @@ const clearPayment = async () => {
 };
 
 describe('PaymentController: create', () => {
-    // after(() => {
-    //     MerchantSDK.GET_SDK().disconnectRedis();
-    // });
+    
+    before(() => {
+        MerchantSDK.GET_SDK().build({
+            merchantApiUrl: 'http://merchant_server:3000/api/v1',
+        });
+    })
+    
+    after(() => {
+        MerchantSDK.GET_SDK().disconnectRedis();
+    });
 
     afterEach(async () => {
         await clearPayment();
