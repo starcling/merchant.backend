@@ -27,7 +27,8 @@ export class DefaultConfig {
         ],
         exitOnError: false
       },
-      serverSecret: 'sUp4hS3cr37kE9c0D3'
+      serverSecret: 'sUp4hS3cr37kE9c0D3',
+      networkID: 3
     };
   }
 }

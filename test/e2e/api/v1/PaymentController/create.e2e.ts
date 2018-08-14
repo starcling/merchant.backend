@@ -29,7 +29,7 @@ describe('PaymentController: create', () => {
             merchantApiUrl: 'http://merchant_server:3000/api/v1',
         });
     })
-    
+
     after(() => {
         MerchantSDK.GET_SDK().disconnectRedis();
     });
