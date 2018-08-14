@@ -65,7 +65,6 @@ export class Scheduler {
                 pa.nextPaymentDate = pa.numberOfPayments === 0 ?
                     pa.nextPaymentDate : Number(pa.nextPaymentDate) + pa.frequency;
 
-                console.debug(pa);
                 await MerchantSDK.GET_SDK().updatePayment(pa);
             }).start();
 
