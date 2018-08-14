@@ -9,12 +9,13 @@ services:
       - NODE_ENV=production
       - HOST=localhost
       - PORT=3000
-      - API_URL=52.29.233.47
+      - API_URL=http://18.185.130.3/core
       - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass
       - PGDATABASE=local_merchant_server
       - PGPORT=5432
+      - ETH_NETWORK = 1
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
