@@ -3,11 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
-
-MerchantSDK.GET_SDK().build({
-    merchantApiUrl: 'http://merchant_server:3000/api/v1',
-});
+import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -20,12 +16,12 @@ const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];
 var paymentID: string;
 
 const insertPayment = async () => {
-    const result = await MerchantSDK.GET_SDK().createPayment(insertPaymentData);
+    const result = await new PaymentDbConnector().createPayment(insertPaymentData);
     paymentID = result.data[0].id;
 };
 
 const clearPayment = async () => {
-    await MerchantSDK.GET_SDK().deletePayment(paymentID);
+    await new PaymentDbConnector().deletePayment(paymentID);
 };
 
 describe('PaymentController: delete', () => {

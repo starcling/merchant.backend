@@ -2,12 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-
-import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
-
-MerchantSDK.GET_SDK().build({
-    merchantApiUrl: 'http://merchant_server:3000/api/v1',
-});
+import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -22,12 +17,12 @@ let paymentID;
 
 const insertTestPayment = async () => {
     // Need to insert test payment using Merchant SDK
-    const result = await MerchantSDK.GET_SDK().createPayment(testPayment);
+    const result = await new PaymentDbConnector().createPayment(testPayment);
     paymentID = result.data[0].id;
 }
 
 const clearTestPayment = async () => {
-    await MerchantSDK.GET_SDK().deletePayment(paymentID);
+    await new PaymentDbConnector().deletePayment(paymentID);
 };
 
 describe('PaymentController: getAllPayments', () => {
