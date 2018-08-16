@@ -10,11 +10,11 @@ services:
       - HOST=localhost
       - PORT=3000
       - API_URL=core_server
-      - PGHOST=localhost
+      - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass
       - PGDATABASE=local_merchant_server
-      - PGPORT=5431
+      - PGPORT=5432
       - REDIS_PORT=6379
       - REDIS_HOST=redis
       - ETH_NETWORK=3
