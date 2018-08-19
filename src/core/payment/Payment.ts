@@ -100,7 +100,10 @@ export class Payment {
         try {
             const response = await MerchantSDK.GET_SDK().updatePayment(payment);
             if (payment.registerTxHash && payment.registerTxHash.indexOf('0x') !== -1) {
-                MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
+                MerchantSDK.GET_SDK().monitorRegistrationTransaction(payment.registerTxHash, payment.id);
+            }
+            if (payment.cancelTxHash && payment.cancelTxHash.indexOf('0x') !== -1) {
+                MerchantSDK.GET_SDK().monitorCancellationTransaction(payment.cancelTxHash, payment.id);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);
