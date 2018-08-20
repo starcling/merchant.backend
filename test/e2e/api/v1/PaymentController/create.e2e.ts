@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
-import clone from 'clone';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
@@ -67,7 +66,7 @@ describe('PaymentController: create', () => {
 
     describe('unsuccessful request', () => {
         it('should return missing data', (done) => {
-            const unsuccessfullInsertPayment = clone(insertPayment);
+            const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
             delete unsuccessfullInsertPayment.startTimestamp;
 
             server
@@ -85,8 +84,8 @@ describe('PaymentController: create', () => {
         });
 
         it('should return invalid data', (done) => {
-            const unsuccessfullInsertPayment = clone(insertPayment);
-            unsuccessfullInsertPayment.startTimestamp = 'string';
+            const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
+            unsuccessfullInsertPayment.startTimestamp = Number('string');
 
             server
                 .post(`${endpoint}`)
