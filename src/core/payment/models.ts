@@ -32,6 +32,8 @@ export interface IPaymentUpdateDetails {
     registerTxStatus: number;
     executeTxHash: string;
     executeTxStatus: number;
+    cancelTxHash: string;
+    cancelTxStatus: number;
     pullPaymentAddress: string;
     merchantAddress: string;
     userId: string;

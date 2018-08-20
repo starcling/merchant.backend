@@ -1,14 +1,9 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
-import clone from 'clone';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentUpdateDetails, IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
-
-MerchantSDK.GET_SDK().build({
-    merchantApiUrl: 'http://merchant_server:3000/api/v1',
-});
+import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -22,12 +17,12 @@ const updatePayment: IPaymentUpdateDetails = payments['updatePayment'];
 
 
 const insertPayment = async () => {
-    const result = await MerchantSDK.GET_SDK().createPayment(insertPaymentData);
+    const result = await new PaymentDbConnector().createPayment(insertPaymentData);
     updatePayment.id = result.data[0].id;
 };
 
 const clearPayment = async () => {
-    await MerchantSDK.GET_SDK().deletePayment(updatePayment.id);
+    await new PaymentDbConnector().deletePayment(updatePayment.id);
 }
 
 describe('PaymentController: update', () => {
@@ -81,7 +76,7 @@ describe('PaymentController: update', () => {
 
     describe('unsuccessfull request', () => {
         it('should return missing data', (done) => {
-            const unsuccessfullUpdatePayment = clone (updatePayment);
+            const unsuccessfullUpdatePayment = Object.assign({}, updatePayment);
             delete unsuccessfullUpdatePayment.startTimestamp;
 
             server
@@ -98,8 +93,8 @@ describe('PaymentController: update', () => {
         });
 
         it('should return invalid data', (done) => {
-            const unsuccessfullUpdatePayment = clone (updatePayment);
-            unsuccessfullUpdatePayment.startTimestamp = 'string';
+            const unsuccessfullUpdatePayment = Object.assign({}, updatePayment);
+            unsuccessfullUpdatePayment.startTimestamp = Number('string');
 
             server
                 .put(`${endpoint}${updatePayment.id}`)

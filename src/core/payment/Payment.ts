@@ -1,6 +1,7 @@
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
+import { PaymentDbConnector } from '../../connectors/api/v1/dbConnector/PaymentDbConnector';
 import { MerchantSDK } from '../MerchantSDK';
 
 export class Payment {
@@ -11,7 +12,7 @@ export class Payment {
      */
     public async createPayment(payment: IPaymentInsertDetails) {
         try {
-            const result = await MerchantSDK.GET_SDK().createPayment(payment);
+            const result = await new PaymentDbConnector().createPayment(payment);
 
             return new HTTPResponseHandler().handleSuccess('Successful payment insert.', result.data[0]);
         } catch (error) {
@@ -30,7 +31,7 @@ export class Payment {
      */
     public async getPayment(paymentID: string) {
         try {
-            const response = await MerchantSDK.GET_SDK().getPayment(paymentID);
+            const response = await new PaymentDbConnector().getPayment(paymentID);
             if (response.data[0].id === null) {
 
                 return new HTTPResponseHandler().handleFailed('Payment with supplied ID not found.', null, HTTPResponseCodes.BAD_REQUEST());
@@ -53,7 +54,7 @@ export class Payment {
      */
     public async deletePayment(paymentID: string) {
         try {
-            const response = await MerchantSDK.GET_SDK().deletePayment(paymentID);
+            const response = await new PaymentDbConnector().deletePayment(paymentID);
             if (response.data[0].fc_delete_payment) {
                 return new HTTPResponseHandler().handleSuccess('Successfully deleted single payment.', {});
 
@@ -76,7 +77,7 @@ export class Payment {
      */
     public async getAllPayments() {
         try {
-            const response = await MerchantSDK.GET_SDK().getAllPayments();
+            const response = await new PaymentDbConnector().getAllPayments();
             if (!response.data) {
                 response.data = [];
             }
@@ -98,9 +99,12 @@ export class Payment {
      */
     public async updatePayment(payment: IPaymentUpdateDetails) {
         try {
-            const response = await MerchantSDK.GET_SDK().updatePayment(payment);
+            const response = await new PaymentDbConnector().updatePayment(payment);
             if (payment.registerTxHash && payment.registerTxHash.indexOf('0x') !== -1) {
-                MerchantSDK.GET_SDK().monitorTransaction(payment.registerTxHash, payment.id);
+                MerchantSDK.GET_SDK().monitorRegistrationTransaction(payment.registerTxHash, payment.id);
+            }
+            if (payment.cancelTxHash && payment.cancelTxHash.indexOf('0x') !== -1) {
+                MerchantSDK.GET_SDK().monitorCancellationTransaction(payment.cancelTxHash, payment.id);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);

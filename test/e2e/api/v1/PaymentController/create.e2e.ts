@@ -1,10 +1,9 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
-import clone from 'clone';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { MerchantSDK } from '../../../../../src/core/MerchantSDK';
+import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -19,26 +18,19 @@ const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
 let paymentID: string;
 
 const clearPayment = async () => {
-    await MerchantSDK.GET_SDK().deletePayment(paymentID);
+    await new PaymentDbConnector().deletePayment(paymentID);
 };
 
 describe('PaymentController: create', () => {
-    
-    before(() => {
-        MerchantSDK.GET_SDK().build({
-            merchantApiUrl: 'http://merchant_server:3000/api/v1',
-        });
-    })
-
-    after(() => {
-        MerchantSDK.GET_SDK().disconnectRedis();
-    });
 
     afterEach(async () => {
         await clearPayment();
     });
 
     describe('successful request', () => {
+        afterEach(async () => {
+            await clearPayment();
+        });
         it('should return payment inserted', (done) => {
             const expectedResponse: IResponseMessage = {
                 success: true,
@@ -74,7 +66,7 @@ describe('PaymentController: create', () => {
 
     describe('unsuccessful request', () => {
         it('should return missing data', (done) => {
-            const unsuccessfullInsertPayment = clone(insertPayment);
+            const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
             delete unsuccessfullInsertPayment.startTimestamp;
 
             server
@@ -92,8 +84,8 @@ describe('PaymentController: create', () => {
         });
 
         it('should return invalid data', (done) => {
-            const unsuccessfullInsertPayment = clone(insertPayment);
-            unsuccessfullInsertPayment.startTimestamp = 'string';
+            const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
+            unsuccessfullInsertPayment.startTimestamp = Number('string');
 
             server
                 .post(`${endpoint}`)

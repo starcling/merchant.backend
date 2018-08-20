@@ -15,7 +15,7 @@
     "debug": "nodemon -L --inspect",
     "test": "npm run lint && npm run test-e2e && npm run test-unit",
     "test-e2e": "mocha --timeout 15000 -r ts-node/register test/e2e/**/*.ts",
-    "test-unit": "mocha --timeout 15000 -r ts-node/register test/unit/**/*.ts"
+    "test-unit": "mocha --timeout 15000 -r ts-node/register test/unit/**/**/*.ts"
   },
   "keywords": [],
   "author": "",
