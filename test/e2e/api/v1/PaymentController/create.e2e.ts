@@ -23,9 +23,15 @@ const clearPayment = async () => {
 };
 
 describe('PaymentController: create', () => {
-    // after(() => {
-    //     MerchantSDK.GET_SDK().disconnectRedis();
-    // });
+
+    after(() => {
+        MerchantSDK.GET_SDK().disconnectRedis();
+    });
+
+    afterEach(async () => {
+        await clearPayment();
+    });
+
     describe('successful request', () => {
         afterEach(async () => {
             await clearPayment();
