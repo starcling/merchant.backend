@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     "registerTxStatus" integer DEFAULT 1,
     "executeTxHash" character varying(255) COLLATE pg_catalog."default",
     "executeTxStatus" integer DEFAULT 1,
+    "cancelTxHash" character varying(255) COLLATE pg_catalog."default",
+    "cancelTxStatus" integer DEFAULT 1,
     "merchantAddress" character varying(255) COLLATE pg_catalog."default",
     "pullPaymentAddress" character varying(255) COLLATE pg_catalog."default",
     "userId" character varying(255) DEFAULT NULL,

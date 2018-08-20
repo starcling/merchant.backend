@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text, integer);
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, integer, text, text, text, integer);
 
--- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text, integer);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, integer, text, text, text, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
@@ -22,6 +22,8 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_registerTxStatus integer,
 	_executeTxHash text,
 	_executeTxStatus integer,
+	_cancelTxHash text,
+	_cancelTxStatus integer,
 	_merchantAddress text,
 	_pullPaymentAddress text,
 	_userId text,
@@ -112,6 +114,14 @@ IF _executeTxStatus IS NULL
 THEN
 	_executeTxStatus = tb_temp."executeTxStatus";
 END IF;
+IF _cancelTxHash IS NULL OR _cancelTxHash = ''
+THEN
+	_cancelTxHash = tb_temp."cancelTxHash";
+END IF;
+IF _cancelTxStatus IS NULL
+THEN
+	_cancelTxStatus = tb_temp."cancelTxStatus";
+END IF;
 IF _merchantAddress IS NULL OR _merchantAddress = ''
 THEN
 	_merchantAddress = tb_temp."merchantAddress";
@@ -133,7 +143,8 @@ UPDATE public.tb_payments SET
 	title = _title, description = _description, promo = _promo, status = _status, "customerAddress" = _customerAddress, amount = _amount, currency = _currency,
 	"startTimestamp" = _startTimestamp, "endTimestamp" = _endTimestamp, "numberOfPayments" = _numberOfPayments, "nextPaymentDate" = _nextPaymentDate, "lastPaymentDate" = _lastPaymentDate,
 	type = _type, frequency = _frequency, "registerTxHash" = _registerTxHash, "registerTxStatus" = _registerTxStatus, "executeTxHash" = _executeTxHash,
-	"executeTxStatus" = _executeTxStatus, "merchantAddress" = _merchantAddress, "pullPaymentAddress" = _pullPaymentAddress, "userId" = _userId, "networkID" = _networkID
+	"executeTxStatus" = _executeTxStatus, "cancelTxHash" = _cancelTxHash, "cancelTxStatus" = _cancelTxStatus, "merchantAddress" = _merchantAddress, 
+	"pullPaymentAddress" = _pullPaymentAddress, "userId" = _userId, "networkID" = _networkID
     WHERE id = _id RETURNING * INTO tb_payments;
 
 	RETURN tb_payments;
@@ -141,5 +152,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, text, text, integer)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, integer, text, bigint, text, bigint, bigint, integer, bigint, bigint, integer, integer, text, integer, text, integer, text, integer, text, text, text, integer)
     OWNER TO local_user;
