@@ -9,9 +9,9 @@ export class Scheduler {
      * @param {string} paymentID id of the scheduler, same as payment id
      * @returns {HTTPResponse} Returns success feedback
      */
-    public stopScheduler(paymentID: string) {
+    public async stopScheduler(paymentID: string) {
         try {
-            const result = MerchantSDK.GET_SDK().Scheduler.stop(paymentID);
+            const result = await MerchantSDK.GET_SDK().Scheduler.stop(paymentID);
 
             if (result) {
                 const message = 'Successfully stopped scheduler.';
@@ -32,9 +32,9 @@ export class Scheduler {
      * @param {string} paymentID id of the scheduler, same as payment id
      * @returns {HTTPResponse} Returns success feedback
      */
-    public restartScheduler(paymentID: string) {
+    public async restartScheduler(paymentID: string) {
         try {
-            const result = MerchantSDK.GET_SDK().Scheduler.restart(paymentID);
+            const result = await MerchantSDK.GET_SDK().Scheduler.restart(paymentID);
 
             if (result) {
                 const message = 'Successfully restarted scheduler.';
@@ -57,12 +57,15 @@ export class Scheduler {
      */
     public startScheduler(payment: IPaymentUpdateDetails, callback?: any) {
         try {
-            new (MerchantSDK.GET_SDK().Scheduler)(payment, callback ? callback : async () => {
-                payment.numberOfPayments = payment.numberOfPayments - 1;
-                payment.lastPaymentDate = payment.nextPaymentDate;
-                payment.nextPaymentDate = payment.numberOfPayments === 0 ?
-                    payment.nextPaymentDate : Number(payment.nextPaymentDate) + payment.frequency;
-                await MerchantSDK.GET_SDK().updatePayment(payment);
+            new (MerchantSDK.GET_SDK().Scheduler)(payment.id, callback ? callback : async () => {
+                const pa = (await MerchantSDK.GET_SDK().getPayment(payment.id)).data[0];
+
+                pa.numberOfPayments = pa.numberOfPayments - 1;
+                pa.lastPaymentDate = Math.floor(new Date().getTime() / 1000);
+                pa.nextPaymentDate = pa.numberOfPayments === 0 ?
+                    pa.nextPaymentDate : Number(pa.nextPaymentDate) + pa.frequency;
+
+                await MerchantSDK.GET_SDK().updatePayment(pa);
             }).start();
 
             return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', payment.id);
