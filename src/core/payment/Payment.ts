@@ -1,7 +1,7 @@
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
-import { PaymentDbConnector } from '../../connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnector';
 import { MerchantSDK } from '../MerchantSDK';
 
 export class Payment {

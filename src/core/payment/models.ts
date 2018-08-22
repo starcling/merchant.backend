@@ -2,6 +2,7 @@ export interface IPaymentInsertDetails {
     title: string;
     description: string;
     amount: number;
+    initialPaymentAmount: number;
     currency: string;
     startTimestamp: number;
     endTimestamp: number;
@@ -20,6 +21,7 @@ export interface IPaymentUpdateDetails {
     status: number;
     customerAddress: string;
     amount: number;
+    initialPaymentAmount: number;
     currency: string;
     startTimestamp: number;
     endTimestamp: number;
@@ -34,6 +36,8 @@ export interface IPaymentUpdateDetails {
     executeTxStatus: number;
     cancelTxHash: string;
     cancelTxStatus: number;
+    initialPaymentTxHash: string;
+    initialPaymentTxStatus: number;
     pullPaymentAddress: string;
     merchantAddress: string;
     userId: string;

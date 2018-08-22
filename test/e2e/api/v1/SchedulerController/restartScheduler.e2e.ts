@@ -33,6 +33,7 @@ describe('SchedulerController: restartScheduler', () => {
         it('should restart the scheduler', (done) => {
             const numberOfPayments = 8;
             const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
+            
             tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 100).getTime() / 1000);
             tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 100).getTime() / 1000);
             tempPayment.numberOfPayments = numberOfPayments;

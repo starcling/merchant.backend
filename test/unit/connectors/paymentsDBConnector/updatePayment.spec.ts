@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { PaymentDbConnector } from '../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { MerchantSDK } from '../../../../src/core/MerchantSDK';

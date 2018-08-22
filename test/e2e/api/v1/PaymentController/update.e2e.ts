@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentUpdateDetails, IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -26,15 +26,12 @@ const clearPayment = async () => {
 }
 
 describe('PaymentController: update', () => {
-    
     beforeEach(async () => {
         await insertPayment();
     });
-    
     afterEach(async () => {
         await clearPayment();
     });
-
     describe('successful request', () => {
         it('should return payment patched', (done) => {
             const expectedResponse: IResponseMessage = {
@@ -60,6 +57,7 @@ describe('PaymentController: update', () => {
                     expect(body).to.have.property('data').that.has.property('status').that.is.equal(updatePayment.status);
                     expect(body).to.have.property('data').that.has.property('customerAddress').that.is.equal(updatePayment.customerAddress);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal(updatePayment.amount.toString());
+                    expect(body).to.have.property('data').that.has.property('initialPaymentAmount').that.is.equal(updatePayment.initialPaymentAmount.toString());
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(updatePayment.currency);
                     expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal(updatePayment.startTimestamp.toString());
                     expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal(updatePayment.endTimestamp.toString());
