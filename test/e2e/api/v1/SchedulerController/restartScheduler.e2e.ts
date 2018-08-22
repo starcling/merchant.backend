@@ -33,8 +33,8 @@ describe('SchedulerController: restartScheduler', () => {
         it('should restart the scheduler', (done) => {
             const numberOfPayments = 8;
             const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
-            tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 100).getTime() / 1000);
-            tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 100).getTime() / 1000);
+            tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
             tempPayment.numberOfPayments = numberOfPayments;
             tempPayment.frequency = 1;
 
@@ -64,7 +64,7 @@ describe('SchedulerController: restartScheduler', () => {
                         expect(body).to.have.property('message').that.is.equal('Successfully stopped scheduler.');
                         expect(body).to.have.property('data').that.is.an('string');
                     });
-            }, (numberOfPayments / 2) * 1000 + 100);
+            }, (numberOfPayments / 2) * 1000 + 200);
 
             setTimeout(() => {
                 server
@@ -79,7 +79,7 @@ describe('SchedulerController: restartScheduler', () => {
                         expect(body).to.have.property('message').that.is.equal('Successfully restarted scheduler.');
                         expect(body).to.have.property('data').that.is.an('string');
                     });
-            }, (numberOfPayments - 3) * 1000 + 100);
+            }, (numberOfPayments - 3) * 1000 + 200);
 
 
             setTimeout(() => {
@@ -87,7 +87,7 @@ describe('SchedulerController: restartScheduler', () => {
                     expect(res.data.numberOfPayments).to.be.equal(0);
                     done();
                 });
-            }, numberOfPayments * 1000 + 100);
+            }, numberOfPayments * 1000 + 200);
 
         });
     });
