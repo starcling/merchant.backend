@@ -10,6 +10,7 @@ services:
       - HOST=localhost
       - PORT=3000
       - API_URL=core_server
+      - MERCHANT_URL=http://merchant_server:3000
       - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass

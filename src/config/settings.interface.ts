@@ -3,6 +3,7 @@ import { LoggerOptions } from 'winston';
 
 export interface Settings {
   apiURL: string;
+  merchantURL: string;
   apiPath?: string;
   env?: string;
   host: string;

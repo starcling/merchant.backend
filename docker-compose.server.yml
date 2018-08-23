@@ -6,10 +6,11 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - HOST=localhost
       - PORT=3000
       - API_URL=http://18.185.130.3/core
+      - MERCHANT_URL=http://18.196.208.131/merchant
       - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass
@@ -17,7 +18,7 @@ services:
       - PGPORT=5432
       - REDIS_PORT=6379
       - REDIS_HOST=redis
-      - ETH_NETWORK = 1
+      - ETH_NETWORK = 3
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -27,7 +28,7 @@ services:
       - postgres_merchant
     networks:
       - pumapay_merchant_sdk
-    command: sh -c "npm start"
+    command: sh -c "npm run dev"
 
   postgres_merchant:
     image: postgres:9.6
@@ -41,9 +42,9 @@ services:
       - ./db/init-tables.sql:/docker-entrypoint-initdb.d/1-init-tables.sql:Z
       - ./db/create-function-insert-payment.sql:/docker-entrypoint-initdb.d/2-create-function-insert-payment.sql:Z
       - ./db/create-function-update-payment.sql:/docker-entrypoint-initdb.d/3-create-function-update-payment.sql:Z
+      - ./db/create-function-delete-payment.sql:/docker-entrypoint-initdb.d/4-create-function-delete-payment.sql:Z
       - ./db/create-function-get-single-payment-details.sql:/docker-entrypoint-initdb.d/4-create-function-get-single-payment-details.sql:Z
       - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/5-create-function-get-all-payments-details.sql:Z
-
     networks:
       - pumapay_merchant_sdk
     restart: unless-stopped

@@ -4,6 +4,7 @@ export class ProductionConfig {
   public static get settings(): Settings {
     return {
       apiURL: process.env.API_URL ? process.env.API_URL : 'http://18.185.130.3/core',
+      merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://18.196.208.131/merchant',
       apiPath: '/api/v1',
 
       env: process.env.NODE_ENV ? process.env.NODE_ENV : 'production',

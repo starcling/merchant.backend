@@ -7,6 +7,7 @@ export class DevelopmentConfig {
         serverSecret: 'sUp4hS3cr37kE9c0D3',
         port: process.env.PORT ? process.env.PORT : '3000',
         apiURL: process.env.API_URL ? process.env.API_URL : 'localhost',
+        merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://merchant_server:3000',
         pgUser: process.env.PGUSER ? process.env.PGUSER : 'local_user',
         pgHost: process.env.PGHOST ? process.env.PGHOST : 'localhost',
         database: process.env.PGDATABASE ? process.env.PGDATABASE : 'local_merchant_server',
