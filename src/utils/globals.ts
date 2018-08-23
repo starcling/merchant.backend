@@ -1,5 +1,5 @@
 import { DefaultConfig } from '../config/default.config';
-import { PaymentDbConnector } from '../connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 const web3 = require('web3');
 
 export class Globals {

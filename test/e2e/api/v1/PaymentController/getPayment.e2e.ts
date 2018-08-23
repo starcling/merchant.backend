@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 chai.should();

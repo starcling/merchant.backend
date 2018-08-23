@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;

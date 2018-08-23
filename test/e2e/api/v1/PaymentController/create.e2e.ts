@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { PaymentDbConnector } from '../../../../../src/connectors/api/v1/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -22,11 +22,9 @@ const clearPayment = async () => {
 };
 
 describe('PaymentController: create', () => {
-
     afterEach(async () => {
         await clearPayment();
     });
-
     describe('successful request', () => {
         afterEach(async () => {
             await clearPayment();
@@ -45,6 +43,7 @@ describe('PaymentController: create', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
+                    
                     paymentID = body.data.id;
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
@@ -53,6 +52,7 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('data').that.has.property('title').that.is.equal(insertPayment.title);
                     expect(body).to.have.property('data').that.has.property('description').that.is.equal(insertPayment.description);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
+                    expect(body).to.have.property('data').that.has.property('initialPaymentAmount').that.is.equal('' + insertPayment.initialPaymentAmount);
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(insertPayment.currency);
                     expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + insertPayment.startTimestamp);
                     expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + insertPayment.endTimestamp);

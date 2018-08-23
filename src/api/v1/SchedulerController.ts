@@ -73,5 +73,4 @@ export class SchedulerController {
             return new APIResponseHandler().handle(response, error);
         }
     }
-
 }
