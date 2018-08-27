@@ -39,12 +39,7 @@ services:
     ports:
       - "5431:5432"
     volumes:
-      - ./db/init-tables.sql:/docker-entrypoint-initdb.d/1-init-tables.sql:Z
-      - ./db/create-function-insert-payment.sql:/docker-entrypoint-initdb.d/2-create-function-insert-payment.sql:Z
-      - ./db/create-function-update-payment.sql:/docker-entrypoint-initdb.d/3-create-function-update-payment.sql:Z
-      - ./db/create-function-delete-payment.sql:/docker-entrypoint-initdb.d/4-create-function-delete-payment.sql:Z
-      - ./db/create-function-get-single-payment-details.sql:/docker-entrypoint-initdb.d/5-create-function-get-single-payment-details.sql:Z
-      - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/6-create-function-get-all-payments-details.sql:Z
+      - ./db:/docker-entrypoint-initdb.d/
     networks:
       - pumapay_merchant_sdk
     restart: unless-stopped

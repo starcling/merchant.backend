@@ -49,19 +49,11 @@ describe('A payment insert DBcontroller', () => {
         result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
         result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
         result.data[0].should.have.property('promo').that.is.equal(null);
-        result.data[0].should.have.property('status').that.is.equal(1);
-        result.data[0].should.have.property('customerAddress').that.is.equal(null);
         result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
         result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-        result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertPayment.startTimestamp);
-        result.data[0].should.have.property('endTimestamp').that.is.equal(testInsertPayment.endTimestamp);
-        result.data[0].should.have.property('type').that.is.equal(testInsertPayment.type);
+        result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
         result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-        result.data[0].should.have.property('registerTxHash').that.is.equal(null);
-        result.data[0].should.have.property('executeTxHash').that.is.equal(null);
-        result.data[0].should.have.property('executeTxStatus').that.is.equal(1);
-        result.data[0].should.have.property('merchantAddress').that.is.equal(testInsertPayment.merchantAddress);
-        result.data[0].should.have.property('userId').that.is.equal(null);
+        result.data[0].should.have.property('userID').that.is.equal(null);
     });
 
     it('should insert a new payment', async () => {
@@ -75,18 +67,10 @@ describe('A payment insert DBcontroller', () => {
         result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
         result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
         result.data[0].should.have.property('promo').that.is.equal(null);
-        result.data[0].should.have.property('status').that.is.equal(1);
-        result.data[0].should.have.property('customerAddress').that.is.equal(null);
         result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
         result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-        result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertPayment.startTimestamp);
-        result.data[0].should.have.property('endTimestamp').that.is.equal(testInsertPayment.endTimestamp);
-        result.data[0].should.have.property('type').that.is.equal(testInsertPayment.type);
+        result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
         result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-        result.data[0].should.have.property('registerTxHash').that.is.equal(null);
-        result.data[0].should.have.property('executeTxHash').that.is.equal(null);
-        result.data[0].should.have.property('executeTxStatus').that.is.equal(1);
-        result.data[0].should.have.property('merchantAddress').that.is.equal(testInsertPayment.merchantAddress);
-        result.data[0].should.have.property('userId').that.is.equal(null);
+        result.data[0].should.have.property('userID').that.is.equal(null);
     });
 });

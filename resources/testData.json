@@ -6,15 +6,26 @@
             "amount": "20",
             "initialPaymentAmount": "23",
             "currency": "PMA",
-            "startTimestamp": "1234566899",
-            "endTimestamp": "9876543211",
             "numberOfPayments": 5,
-            "type": 1,
             "frequency": 3,
-            "merchantAddress": "string",
+            "typeID": 1,
             "networkID": 3
         },
         "updateTestPayment": {
+            "id": "",
+            "title": "changes title",
+            "description": "another description",
+            "promo": "testing",
+            "amount": "20",
+            "initialPaymentAmount": "23",
+            "currency": "CVC",
+            "numberOfPayments": 5,
+            "typeID": 2,
+            "frequency": 3,
+            "userID": "string",
+            "networkID": 3
+        },
+        "updateTestPaymentContract": {
             "id": "",
             "title": "changes title",
             "description": "another description",
@@ -41,7 +52,7 @@
             "initialPaymentTxStatus": 1,
             "merchantAddress": "string",
             "pullPaymentAddress": "string",
-            "userId": "string",
+            "userID": "string",
             "networkID": 3
         }
     }

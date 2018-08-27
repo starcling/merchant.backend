@@ -1,15 +1,13 @@
 export interface IPaymentInsertDetails {
     title: string;
     description: string;
+    promo: string;
     amount: number;
     initialPaymentAmount: number;
     currency: string;
-    startTimestamp: number;
-    endTimestamp: number;
     numberOfPayments: number;
-    merchantAddress: string;
-    type: number;
     frequency: number;
+    typeID: number;
     networkID: number;
 }
 
