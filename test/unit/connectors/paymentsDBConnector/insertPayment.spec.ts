@@ -28,7 +28,7 @@ describe('A payment insert DBcontroller', () => {
         MerchantSDK.GET_SDK().build({
             createPayment: paymentDbConnector.createPayment
         });
-    }) 
+    })
 
     after(() => {
         MerchantSDK.GET_SDK().disconnectRedis();
@@ -38,39 +38,70 @@ describe('A payment insert DBcontroller', () => {
         await clearTestPayment();
     });
 
-    it('should insert a new payment', async () => {
-        const result = await paymentDbConnector.createPayment(testInsertPayment);
-        testID = result.data[0].id;
-        result.should.have.property('success').that.is.equal(true);
-        result.should.have.property('status').that.is.equal(201);
-        result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
-        result.should.have.property('data').to.be.an('array');
-        result.data[0].should.have.property('id');
-        result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
-        result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
-        result.data[0].should.have.property('promo').that.is.equal(null);
-        result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
-        result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-        result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
-        result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-        result.data[0].should.have.property('userID').that.is.equal(null);
+    describe('With successfull request', () => {
+        it('should insert a new payment from dbConnector', async () => {
+            const result = await paymentDbConnector.createPayment(testInsertPayment);
+            testID = result.data[0].id;
+            result.should.have.property('success').that.is.equal(true);
+            result.should.have.property('status').that.is.equal(201);
+            result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
+            result.should.have.property('data').to.be.an('array');
+            result.data[0].should.have.property('id');
+            result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
+            result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
+            result.data[0].should.have.property('promo').that.is.equal(null);
+            result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
+            result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
+            result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
+            result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
+            result.data[0].should.have.property('userID').that.is.equal(null);
+        });
+
+        it('should insert a new payment from SDK', async () => {
+            const result = await MerchantSDK.GET_SDK().createPayment(testInsertPayment);
+            testID = result.data[0].id;
+            result.should.have.property('success').that.is.equal(true);
+            result.should.have.property('status').that.is.equal(201);
+            result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
+            result.should.have.property('data').to.be.an('array');
+            result.data[0].should.have.property('id');
+            result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
+            result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
+            result.data[0].should.have.property('promo').that.is.equal(null);
+            result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
+            result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
+            result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
+            result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
+            result.data[0].should.have.property('userID').that.is.equal(null);
+        });
     });
 
-    it('should insert a new payment', async () => {
-        const result = await MerchantSDK.GET_SDK().createPayment(testInsertPayment);
-        testID = result.data[0].id;
-        result.should.have.property('success').that.is.equal(true);
-        result.should.have.property('status').that.is.equal(201);
-        result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
-        result.should.have.property('data').to.be.an('array');
-        result.data[0].should.have.property('id');
-        result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
-        result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
-        result.data[0].should.have.property('promo').that.is.equal(null);
-        result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
-        result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-        result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
-        result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-        result.data[0].should.have.property('userID').that.is.equal(null);
+    describe('With unsuccessfull request', () => {
+        it('should return not null violation from dbConnector', async () => {
+            const tempInsert = Object.assign({}, testInsertPayment);
+            delete tempInsert.amount;
+            try {
+                await paymentDbConnector.createPayment(tempInsert);
+            } catch (err) {
+                err.should.have.property('success').that.is.equal(false);
+                err.should.have.property('status').that.is.equal(400);
+                err.should.have.property('message').that.is.equal('SQL Query failed. Reason: not_null_violation');
+                err.should.have.property('error').that.is.equal('23502');
+            }
+        });
+
+        it('should return not null violation from SDK', async () => {
+            const tempInsert = Object.assign({}, testInsertPayment);
+            delete tempInsert.amount;
+            try {
+                await paymentDbConnector.createPayment(tempInsert);
+            } catch (err) {
+                err.should.have.property('success').that.is.equal(false);
+                err.should.have.property('status').that.is.equal(400);
+                err.should.have.property('message').that.is.equal('SQL Query failed. Reason: not_null_violation');
+                err.should.have.property('error').that.is.equal('23502');
+            }
+        });
     });
+
 });
