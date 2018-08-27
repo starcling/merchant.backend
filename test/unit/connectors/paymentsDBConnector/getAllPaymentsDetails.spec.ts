@@ -35,6 +35,10 @@ describe('A paymentDbConnector', () => {
                 getAllPayments: paymentDbConnector.getAllPayments
             });
         })
+
+        after(() => {
+            MerchantSDK.GET_SDK().disconnectRedis();
+        })
         beforeEach(async () => {
             await insertTestPayment();
         });

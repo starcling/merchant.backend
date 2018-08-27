@@ -16,6 +16,21 @@ export interface IPaymentUpdateDetails {
     title: string;
     description: string;
     promo: string;
+    amount: number;
+    initialPaymentAmount: number;
+    currency: string;
+    numberOfPayments: number;
+    typeID: number;
+    frequency: number;
+    userID: string;
+    networkID: number;
+}
+
+export interface IPaymentUpdateContractDetails {
+    id: string;
+    title: string;
+    description: string;
+    promo: string;
     status: number;
     customerAddress: string;
     amount: number;
@@ -38,6 +53,6 @@ export interface IPaymentUpdateDetails {
     initialPaymentTxStatus: number;
     pullPaymentAddress: string;
     merchantAddress: string;
-    userId: string;
+    userID: string;
     networkID: number;
 }

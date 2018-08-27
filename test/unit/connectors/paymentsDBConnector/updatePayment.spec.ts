@@ -55,19 +55,11 @@ describe('PaymentDbConnector', () => {
             result.data[0].should.have.property('title').that.is.equal(updateTestPayment.title);
             result.data[0].should.have.property('description').that.is.equal(updateTestPayment.description);
             result.data[0].should.have.property('promo').that.is.equal(updateTestPayment.promo);
-            result.data[0].should.have.property('status').that.is.equal(updateTestPayment.status);
-            result.data[0].should.have.property('customerAddress').that.is.equal(updateTestPayment.customerAddress);
             result.data[0].should.have.property('amount').that.is.equal(updateTestPayment.amount);
             result.data[0].should.have.property('currency').that.is.equal(updateTestPayment.currency);
-            result.data[0].should.have.property('startTimestamp').that.is.equal(updateTestPayment.startTimestamp);
-            result.data[0].should.have.property('endTimestamp').that.is.equal(updateTestPayment.endTimestamp);
-            result.data[0].should.have.property('type').that.is.equal(updateTestPayment.type);
+            result.data[0].should.have.property('typeID').that.is.equal(updateTestPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);
-            result.data[0].should.have.property('registerTxHash').that.is.equal(updateTestPayment.registerTxHash);
-            result.data[0].should.have.property('executeTxHash').that.is.equal(updateTestPayment.executeTxHash);
-            result.data[0].should.have.property('executeTxStatus').that.is.equal(updateTestPayment.executeTxStatus);
-            result.data[0].should.have.property('merchantAddress').that.is.equal(updateTestPayment.merchantAddress);
-            result.data[0].should.have.property('userId').that.is.equal(updateTestPayment.userId);
+            result.data[0].should.have.property('userID').that.is.equal(updateTestPayment.userID);
         });
         it('Should return true if the record is updated', async () => {
             const result = await MerchantSDK.GET_SDK().updatePayment(updateTestPayment);
@@ -79,19 +71,11 @@ describe('PaymentDbConnector', () => {
             result.data[0].should.have.property('title').that.is.equal(updateTestPayment.title);
             result.data[0].should.have.property('description').that.is.equal(updateTestPayment.description);
             result.data[0].should.have.property('promo').that.is.equal(updateTestPayment.promo);
-            result.data[0].should.have.property('status').that.is.equal(updateTestPayment.status);
-            result.data[0].should.have.property('customerAddress').that.is.equal(updateTestPayment.customerAddress);
             result.data[0].should.have.property('amount').that.is.equal(updateTestPayment.amount);
             result.data[0].should.have.property('currency').that.is.equal(updateTestPayment.currency);
-            result.data[0].should.have.property('startTimestamp').that.is.equal(updateTestPayment.startTimestamp);
-            result.data[0].should.have.property('endTimestamp').that.is.equal(updateTestPayment.endTimestamp);
-            result.data[0].should.have.property('type').that.is.equal(updateTestPayment.type);
+            result.data[0].should.have.property('typeID').that.is.equal(updateTestPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);
-            result.data[0].should.have.property('registerTxHash').that.is.equal(updateTestPayment.registerTxHash);
-            result.data[0].should.have.property('executeTxHash').that.is.equal(updateTestPayment.executeTxHash);
-            result.data[0].should.have.property('executeTxStatus').that.is.equal(updateTestPayment.executeTxStatus);
-            result.data[0].should.have.property('merchantAddress').that.is.equal(updateTestPayment.merchantAddress);
-            result.data[0].should.have.property('userId').that.is.equal(updateTestPayment.userId);
+            result.data[0].should.have.property('userID').that.is.equal(updateTestPayment.userID);
         });
     });
 

@@ -121,7 +121,8 @@ CREATE TABLE IF NOT EXISTS public.tb_payment_contracts
     CONSTRAINT tb_payment_contracts_pkey PRIMARY KEY (id),
     CONSTRAINT payment_id_id_fkey FOREIGN KEY ("paymentID")
         REFERENCES public.tb_payments (id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT status_id_id_fkey FOREIGN KEY ("statusID")
         REFERENCES public.tb_contract_status (id)
         ON UPDATE CASCADE
@@ -142,10 +143,12 @@ CREATE TABLE IF NOT EXISTS public.tb_contracts_transactions
     CONSTRAINT tb_contracts_transactions_pkey PRIMARY KEY (id),
     CONSTRAINT contract_id_fkey FOREIGN KEY ("contractID")
         REFERENCES public.tb_payment_contracts (id)
-        ON UPDATE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT transaction_id_fkey FOREIGN KEY ("transactionID")
         REFERENCES public.tb_blockchain_transactions (id)
         ON UPDATE CASCADE
+        ON DELETE CASCADE
 )
 WITH (
     OIDS = FALSE

@@ -9,12 +9,28 @@
             "startTimestamp": 10,
             "endTimestamp": 13,
             "numberOfPayments": 5,
-            "type": 1,
+            "typeID": 1,
             "frequency": 10,
             "merchantAddress": "string",
             "networkID": 3
         },
         "updatePayment": {
+            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
+            "title": "string",
+            "description": "string",
+            "promo": "string",
+            "initialPaymentAmount": 23,
+            "amount": 43,
+            "currency": "string",
+            "numberOfPayments": 5,
+            "typeID": 1,
+            "frequency": 10,
+            "userID": "string",
+            "networkID": 3
+        }
+    },
+    "contracts": {
+        "updateContract": {
             "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "title": "string",
             "description": "string",
@@ -29,7 +45,7 @@
             "numberOfPayments": 5,
             "nextPaymentDate": "123456789",
             "lastPaymentDate": "123456789",
-            "type": 1,
+            "typeID": 1,
             "frequency": 10,
             "registerTxHash": "string",
             "registerTxStatus": 1,
@@ -41,7 +57,7 @@
             "initialPaymentTxStatus": 1,
             "merchantAddress": "string",
             "pullPaymentAddress": "string",
-            "userId": "string",
+            "userID": "string",
             "networkID": 3
         }
     }
