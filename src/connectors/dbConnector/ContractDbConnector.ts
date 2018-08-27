@@ -1,4 +1,4 @@
-import { IPaymentContractInsert, IPaymentContractUpdate } from '../../core/payment/models';
+import { IPaymentContractInsert, IPaymentContractUpdate } from '../../core/contract/models';
 import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 
 export class ContractDbConnector {

@@ -61,8 +61,7 @@ UPDATE public.tb_payment_contracts SET
     "lastPaymentDate" = _lastPaymentDate, 
 	"startTimestamp" = _startTimestamp, 
     "statusID" = _statusID,
-	"userID" = _userID, 
-	"typeID" = _typeID
+	"userID" = _userID
     WHERE id = _id RETURNING * INTO tb_payment_contracts;
 
 	RETURN tb_payment_contracts;
