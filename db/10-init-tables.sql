@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     "numberOfPayments" integer NOT NULL,
     frequency integer NOT NULL,
     "typeID" integer NOT NULL,
-    "userID" character varying(255) DEFAULT NULL,
     "networkID" integer DEFAULT 0,
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id),
     CONSTRAINT type_id_id_fkey FOREIGN KEY ("typeID")
@@ -118,6 +117,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payment_contracts
     "customerAddress" character varying(255) COLLATE pg_catalog."default",
     "pullPaymentAddress" character varying(255) COLLATE pg_catalog."default",
     "statusID" integer DEFAULT 1,
+    "userID" character varying(255) DEFAULT NULL,
     CONSTRAINT tb_payment_contracts_pkey PRIMARY KEY (id),
     CONSTRAINT payment_id_id_fkey FOREIGN KEY ("paymentID")
         REFERENCES public.tb_payments (id)

@@ -59,7 +59,6 @@ describe('PaymentDbConnector', () => {
             result.data[0].should.have.property('currency').that.is.equal(updateTestPayment.currency);
             result.data[0].should.have.property('typeID').that.is.equal(updateTestPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);
-            result.data[0].should.have.property('userID').that.is.equal(updateTestPayment.userID);
         });
         it('Should return true if the record is updated', async () => {
             const result = await MerchantSDK.GET_SDK().updatePayment(updateTestPayment);
@@ -75,7 +74,6 @@ describe('PaymentDbConnector', () => {
             result.data[0].should.have.property('currency').that.is.equal(updateTestPayment.currency);
             result.data[0].should.have.property('typeID').that.is.equal(updateTestPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);
-            result.data[0].should.have.property('userID').that.is.equal(updateTestPayment.userID);
         });
     });
 

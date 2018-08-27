@@ -54,7 +54,6 @@ describe('A payment insert DBcontroller', () => {
             result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
             result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-            result.data[0].should.have.property('userID').that.is.equal(null);
         });
 
         it('should insert a new payment from SDK', async () => {
@@ -72,7 +71,6 @@ describe('A payment insert DBcontroller', () => {
             result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
             result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-            result.data[0].should.have.property('userID').that.is.equal(null);
         });
     });
 

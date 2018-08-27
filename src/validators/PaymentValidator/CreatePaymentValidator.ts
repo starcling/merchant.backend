@@ -25,9 +25,6 @@ const dataSchema = Joi.object().keys({
     initialPaymentAmount: Joi.number().min(0).required(),
     currency: Joi.string().required(),
     numberOfPayments: Joi.number().required(),
-    startTimestamp: Joi.number().min(0).max(Joi.ref('endTimestamp')).required(),
-    endTimestamp: Joi.number().min(Joi.ref('startTimestamp')).required(),
-    merchantAddress: Joi.string().required(),
     typeID: Joi.number().required(),
     frequency: Joi.number().required(),
     networkID: Joi.number().integer().min(1).max(3).invalid(2).required()

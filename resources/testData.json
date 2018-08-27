@@ -22,7 +22,6 @@
             "numberOfPayments": 5,
             "typeID": 2,
             "frequency": 3,
-            "userID": "string",
             "networkID": 3
         },
         "updateTestPaymentContract": {

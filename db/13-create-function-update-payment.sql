@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, text, integer);
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer);
 
--- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, text, integer);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
@@ -13,7 +13,6 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_numberOfPayments integer,
 	_frequency integer,
     _typeID integer,
-	_userID text,
 	_networkID integer)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
@@ -65,10 +64,6 @@ IF _typeID IS NULL
 THEN
 	_typeID = tb_temp."typeID";
 END IF;
-IF _userID IS NULL OR _userID = ''
-THEN
-	_userID = tb_temp."userID";
-END IF;
 IF _networkID IS NULL
 THEN
 	_networkID = tb_temp."networkID";
@@ -84,7 +79,6 @@ UPDATE public.tb_payments SET
 	"numberOfPayments" = _numberOfPayments, 
 	frequency = _frequency, 
 	"typeID" = _typeID,
-    "userID" = _userID, 
     "networkID" = _networkID
     WHERE id = _id RETURNING * INTO tb_payments;
 
@@ -93,5 +87,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, text, integer)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer)
     OWNER TO local_user;

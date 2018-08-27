@@ -6,12 +6,9 @@
             "initialPaymentAmount": 23,
             "amount": 43,
             "currency": "string",
-            "startTimestamp": 10,
-            "endTimestamp": 13,
             "numberOfPayments": 5,
             "typeID": 1,
             "frequency": 10,
-            "merchantAddress": "string",
             "networkID": 3
         },
         "updatePayment": {
@@ -25,7 +22,6 @@
             "numberOfPayments": 5,
             "typeID": 1,
             "frequency": 10,
-            "userID": "string",
             "networkID": 3
         }
     },
