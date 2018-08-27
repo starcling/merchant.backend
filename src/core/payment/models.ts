@@ -26,33 +26,40 @@ export interface IPaymentUpdateDetails {
     networkID: number;
 }
 
-export interface IPaymentUpdateContractDetails {
+export interface IPaymentContractView {
     id: string;
-    title: string;
-    description: string;
-    promo: string;
-    status: number;
-    customerAddress: string;
-    amount: number;
-    initialPaymentAmount: number;
-    currency: string;
-    startTimestamp: number;
-    endTimestamp: number;
+    hdWalletIndex: number;
+    paymentID: string;
     numberOfPayments: number;
     nextPaymentDate: number;
     lastPaymentDate: number;
-    type: number;
-    frequency: number;
-    registerTxHash: string;
-    registerTxStatus: number;
-    executeTxHash: string;
-    executeTxStatus: number;
-    cancelTxHash: string;
-    cancelTxStatus: number;
-    initialPaymentTxHash: string;
-    initialPaymentTxStatus: number;
+    startTimestamp: number;
+    customerAddress: string;
     pullPaymentAddress: string;
-    merchantAddress: string;
+    statusID: number;
     userID: string;
-    networkID: number;
+}
+
+export interface IPaymentContractInsert {
+    hdWalletIndex: number;
+    paymentID: string;
+    numberOfPayments: number;
+    nextPaymentDate: number;
+    lastPaymentDate: number;
+    startTimestamp: number;
+    customerAddress: string;
+    pullPaymentAddress: string;
+    statusID: number;
+    userID: string;
+}
+
+export interface IPaymentContractUpdate {
+    id: string;
+    hdWalletIndex: number;
+    numberOfPayments: number;
+    nextPaymentDate: number;
+    lastPaymentDate: number;
+    startTimestamp: number;
+    statusID: number;
+    userID: string;
 }

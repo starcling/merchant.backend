@@ -92,7 +92,7 @@ describe('A payment insert DBcontroller', () => {
             const tempInsert = Object.assign({}, testInsertPayment);
             delete tempInsert.amount;
             try {
-                await paymentDbConnector.createPayment(tempInsert);
+                await MerchantSDK.GET_SDK().createPayment(testInsertPayment);
             } catch (err) {
                 err.should.have.property('success').that.is.equal(false);
                 err.should.have.property('status').that.is.equal(400);

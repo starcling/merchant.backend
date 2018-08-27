@@ -100,12 +100,12 @@ export class Payment {
     public async updatePayment(payment: IPaymentUpdateDetails) {
         try {
             const response = await new PaymentDbConnector().updatePayment(payment);
-            if (payment.registerTxHash && payment.registerTxHash.indexOf('0x') !== -1) {
-                MerchantSDK.GET_SDK().monitorRegistrationTransaction(payment.registerTxHash, payment.id);
-            }
-            if (payment.cancelTxHash && payment.cancelTxHash.indexOf('0x') !== -1) {
-                MerchantSDK.GET_SDK().monitorCancellationTransaction(payment.cancelTxHash, payment.id);
-            }
+            // if (payment.registerTxHash && payment.registerTxHash.indexOf('0x') !== -1) {
+            //     MerchantSDK.GET_SDK().monitorRegistrationTransaction(payment.registerTxHash, payment.id);
+            // }
+            // if (payment.cancelTxHash && payment.cancelTxHash.indexOf('0x') !== -1) {
+            //     MerchantSDK.GET_SDK().monitorCancellationTransaction(payment.cancelTxHash, payment.id);
+            // }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);
         } catch (error) {
