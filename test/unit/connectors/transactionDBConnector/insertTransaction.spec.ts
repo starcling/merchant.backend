@@ -37,7 +37,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A transactionDbController', () => {
+describe('A TransactionDbController', () => {
 
     before(() => {
         //TODO: Reflect changes on the SDK and use apropiate function for this
@@ -60,7 +60,7 @@ describe('A transactionDbController', () => {
         await clearTestPayment();
     });
 
-    describe('With successfull insert request', () => {
+    describe('With successfull request', () => {
         it('should insert a new transaction from dbConnector', async () => {
             const result = await transactionDbConnector.createTransaction(testInsertTransaction);
             
