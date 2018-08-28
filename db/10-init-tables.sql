@@ -82,29 +82,6 @@ TABLESPACE pg_default;
 ALTER TABLE public.tb_payments
     OWNER to local_user;
 
-CREATE TABLE IF NOT EXISTS public.tb_blockchain_transactions
-(
-    id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
-    hash character varying(255) COLLATE pg_catalog."default",
-    "statusID" integer DEFAULT 1,
-    "typeID" integer DEFAULT 1,
-    timestamp bigint,
-    CONSTRAINT tb_blockchain_transactions_pkey PRIMARY KEY (id),
-    CONSTRAINT status_id_id_fkey FOREIGN KEY ("statusID")
-        REFERENCES public.tb_transaction_status (id)
-        ON UPDATE CASCADE,
-    CONSTRAINT type_id_id_fkey FOREIGN KEY ("typeID")
-        REFERENCES public.tb_transaction_type (id)
-        ON UPDATE CASCADE
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE public.tb_blockchain_transactions
-    OWNER to local_user;
-
 CREATE TABLE IF NOT EXISTS public.tb_payment_contracts
 (
     id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
@@ -133,6 +110,34 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.tb_payment_contracts
+    OWNER to local_user;
+
+CREATE TABLE IF NOT EXISTS public.tb_blockchain_transactions
+(
+    id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
+    hash character varying(255) COLLATE pg_catalog."default",
+    "statusID" integer DEFAULT 1,
+    "typeID" integer DEFAULT 1,
+    "contractID" uuid NOT NULL,
+    timestamp bigint,
+    CONSTRAINT tb_blockchain_transactions_pkey PRIMARY KEY (id),
+    CONSTRAINT status_id_id_fkey FOREIGN KEY ("statusID")
+        REFERENCES public.tb_transaction_status (id)
+        ON UPDATE CASCADE,
+    CONSTRAINT type_id_id_fkey FOREIGN KEY ("typeID")
+        REFERENCES public.tb_transaction_type (id)
+        ON UPDATE CASCADE,
+    CONSTRAINT contract_id_id_fkey FOREIGN KEY ("contractID")
+        REFERENCES public.tb_payment_contracts (id)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.tb_blockchain_transactions
     OWNER to local_user;
 
 CREATE TABLE IF NOT EXISTS public.tb_contracts_transactions
