@@ -1,4 +1,5 @@
 export interface ITransactionView {
+    id: string;
     hash: string;
     status: string;
     type: string;
@@ -7,6 +8,7 @@ export interface ITransactionView {
 }
 
 export interface ITransactionUpdate {
+    id: string;
     statusID: number;
 }
 
