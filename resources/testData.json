@@ -48,5 +48,17 @@
             "statusID": 1,
             "userID": "2342934"
         }
+    },
+    "transactions": {
+        "insertTestTransaction": {
+            "hash": "0xec25520d236b37109e888e89d5b9de08901e412ee48ca63d1bd6d7c37849e2cd",
+            "statusID": 1,
+            "typeID": 1,
+            "contractID": "needed to be injected",
+            "timestamp": "1535450293"
+        },
+        "updateTestTransaction": {
+            "statusID": 1
+        }
     }
 }

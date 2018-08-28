@@ -60,7 +60,7 @@ describe('A contractDbConnector', () => {
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
-            result.data.length.should.be.equal(numberOfContracts);
+            result.data.length.should.be.at.least(numberOfContracts);
         });
         it('Should retrieve the contract details for all records from SDK', async () => {
             const result = await MerchantSDK.GET_SDK().getAllPayments();
@@ -68,7 +68,7 @@ describe('A contractDbConnector', () => {
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
-            result.data.length.should.be.equal(numberOfContracts);
+            result.data.length.should.be.at.least(numberOfContracts);
         });
     });
 });

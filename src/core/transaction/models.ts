@@ -1,0 +1,19 @@
+export interface ITransactionView {
+    hash: string;
+    status: string;
+    type: string;
+    timestamp: number;
+    contractID: number;
+}
+
+export interface ITransactionUpdate {
+    statusID: number;
+}
+
+export interface ITransactionInsert {
+    hash: string;
+    statusID: number;
+    typeID: number;
+    contractID: string;
+    timestamp: number;
+}
