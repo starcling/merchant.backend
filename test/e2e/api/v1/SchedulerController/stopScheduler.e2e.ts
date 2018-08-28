@@ -90,10 +90,11 @@ describe('SchedulerController: stopScheduler', () => {
     describe('with unsuccessfull request', () => {
 
         it('should not stop scheduler if wrong ID was provided', (done) => {
+            const id = 'BAD_ID';
             server
                 .post(`${endpoint}`)
                 .send({
-                    paymentID: 'BAD_ID'
+                    paymentID: id
                 })
                 .expect(400)
                 .end((err: Error, res: any) => {

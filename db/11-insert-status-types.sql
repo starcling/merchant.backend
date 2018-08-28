@@ -3,12 +3,11 @@ INSERT INTO public.tb_payment_type("name") VALUES ('singlePull');
 INSERT INTO public.tb_payment_type("name") VALUES ('recurringPull');
 INSERT INTO public.tb_payment_type("name") VALUES ('recurringWithInitial');
 
-INSERT INTO public.tb_contract_status("name") VALUES ('failed');
 INSERT INTO public.tb_contract_status("name") VALUES ('initial');
-INSERT INTO public.tb_contract_status("name") VALUES ('scanned');
-INSERT INTO public.tb_contract_status("name") VALUES ('pending');
-INSERT INTO public.tb_contract_status("name") VALUES ('success');
+INSERT INTO public.tb_contract_status("name") VALUES ('running');
+INSERT INTO public.tb_contract_status("name") VALUES ('stopped');
 INSERT INTO public.tb_contract_status("name") VALUES ('cancelled');
+INSERT INTO public.tb_contract_status("name") VALUES ('done');
 
 INSERT INTO public.tb_transaction_type("name") VALUES ('register');
 INSERT INTO public.tb_transaction_type("name") VALUES ('initial');
