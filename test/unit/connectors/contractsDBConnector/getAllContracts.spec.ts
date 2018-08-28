@@ -37,8 +37,8 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A paymentDbConnector', () => {
-    describe('Get all payment details', () => {
+describe('A contractDbConnector', () => {
+    describe('Get all contract details', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
                 getAllPayments: contractDbConnector.getAllContracts
@@ -57,7 +57,7 @@ describe('A paymentDbConnector', () => {
         afterEach(async () => {
             await clearTestPayment();
         });
-        it('Should retrieve the payment details for all records', async () => {
+        it('Should retrieve the contract details for all records from DB connector', async () => {
             const result = await contractDbConnector.getAllContracts();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
@@ -65,7 +65,7 @@ describe('A paymentDbConnector', () => {
             result.should.have.property('data').that.is.an('array');
             result.data.length.should.be.equal(numberOfContracts);
         });
-        it('Should retrieve the payment details for all records', async () => {
+        it('Should retrieve the contract details for all records from SDK', async () => {
             const result = await MerchantSDK.GET_SDK().getAllPayments();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
