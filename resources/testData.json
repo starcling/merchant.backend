@@ -29,7 +29,7 @@
         "insertTestContract": {
             "hdWalletIndex": 0,
             "paymentID": "needed to be injected",
-            "numberOfPayments": 5,
+            "numberOfPayments": 4,
             "nextPaymentDate": 10,
             "lastPaymentDate": 20,
             "startTimestamp": 100,

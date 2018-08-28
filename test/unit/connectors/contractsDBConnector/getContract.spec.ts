@@ -4,35 +4,40 @@ import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/Payme
 import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { MerchantSDK } from '../../../../src/core/MerchantSDK';
+import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
+import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../src/core/contract/models';
 
 chai.use(chaiAsPromised);
 chai.should();
 
-const dataservice = new DataService();
+const contractDbConnector = new ContractDbConnector();
 const paymentDbConnector = new PaymentDbConnector();
+const dataservice = new DataService();
+const contracts: any = require('../../../../resources/testData.json').contracts;
+const payments: any = require('../../../../resources/testData.json').payments;
 
-const paymentsTestData: any = require('../../../../resources/testData.json').payments;
-const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
-var testId: string;
+const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
+const testUpdateContract: IPaymentContractUpdate = contracts['updateTestContract'];
+const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
 
 const insertTestPayment = async () => {
-    const result = await paymentDbConnector.createPayment(testPayment);
-    testId = result.data[0].id;
+    const result = await paymentDbConnector.createPayment(testInsertPayment);
+    testInsertContract.paymentID = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payments WHERE id = $1;',
-        values: [testId]
+        values: [testInsertContract.paymentID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A paymentDbConnector', () => {
-    describe('Get payment details', () => {
+describe('A contractDbConnector', () => {
+    describe('Get contract details', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
-                getPayment: paymentDbConnector.getPayment
+                getPayment: contractDbConnector.getContract
             });
         });
         after(() => {
@@ -40,39 +45,41 @@ describe('A paymentDbConnector', () => {
         });
         beforeEach(async () => {
             await insertTestPayment();
+            const result = await contractDbConnector.createContract(testInsertContract);
+            testUpdateContract.id = result.data[0].id;
         });
         afterEach(async () => {
             await clearTestPayment();
         });
-        it('Should retrieve the payment details for a single record', async () => {
-            const result = await paymentDbConnector.getPayment(testId);
+        it('Should retrieve the contract details for a single record', async () => {
+            const result = await contractDbConnector.getContract(testUpdateContract.id);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
-            result.data[0].should.have.property('id');
-            result.data[0].should.have.property('title').that.is.equal(testPayment.title);
-            result.data[0].should.have.property('description').that.is.equal(testPayment.description);
-            result.data[0].should.have.property('promo').that.is.equal(null);
-            result.data[0].should.have.property('amount').that.is.equal(testPayment.amount);
-            result.data[0].should.have.property('currency').that.is.equal(testPayment.currency);
-            result.data[0].should.have.property('typeID').that.is.equal(testPayment.typeID);
-            result.data[0].should.have.property('frequency').that.is.equal(testPayment.frequency);
+            result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
+            result.data[0].should.have.property('description').that.is.equal();
+            result.data[0].should.have.property('promo').that.is.equal();
+            result.data[0].should.have.property('amount').that.is.equal();
+            result.data[0].should.have.property('initialPaymentAmount').that.is.equal();
+            result.data[0].should.have.property('currency').that.is.equal();
+            result.data[0].should.have.property('numberOfPayments').that.is.equal();
+            result.data[0].should.have.property('frequency').that.is.equal();
+            result.data[0].should.have.property('type').that.is.equal();
+            result.data[0].should.have.property('status').that.is.equal();
+            result.data[0].should.have.property('networkID').that.is.equal();
+            result.data[0].should.have.property('nextPaymentDate').that.is.equal();
+            result.data[0].should.have.property('lastPaymentDate').that.is.equal();
+            result.data[0].should.have.property('startTimestamp').that.is.equal();
+            result.data[0].should.have.property('pullPaymentAddress').that.is.equal();
+            result.data[0].should.have.property('userID').that.is.equal();
         });
-        it('Should retrieve the payment details for a single record', async () => {
-            const result = await MerchantSDK.GET_SDK().getPayment(testId);
+        it('Should retrieve the contract details for a single record', async () => {
+            const result = await MerchantSDK.GET_SDK().getPayment(testUpdateContract.id);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
-            result.data[0].should.have.property('id');
-            result.data[0].should.have.property('title').that.is.equal(testPayment.title);
-            result.data[0].should.have.property('description').that.is.equal(testPayment.description);
-            result.data[0].should.have.property('promo').that.is.equal(null);
-            result.data[0].should.have.property('amount').that.is.equal(testPayment.amount);
-            result.data[0].should.have.property('currency').that.is.equal(testPayment.currency);
-            result.data[0].should.have.property('typeID').that.is.equal(testPayment.typeID);
-            result.data[0].should.have.property('frequency').that.is.equal(testPayment.frequency);
         });
     });
 });

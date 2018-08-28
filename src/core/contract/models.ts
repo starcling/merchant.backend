@@ -1,15 +1,18 @@
 export interface IPaymentContractView {
-    id: string;
+    title: string;
+    description: string;
+    promo: string;
+    amount: number;
+    initialPaymentAmount: number;
+    currency: string;
     hdWalletIndex: number;
-    paymentID: string;
     numberOfPayments: number;
     nextPaymentDate: number;
     lastPaymentDate: number;
     startTimestamp: number;
     customerAddress: string;
     pullPaymentAddress: string;
-    statusID: number;
-    userID: string;
+    status: string;
 }
 
 export interface IPaymentContractInsert {
