@@ -4,26 +4,35 @@ import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/Payme
 import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { MerchantSDK } from '../../../../src/core/MerchantSDK';
+import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
+import { EnumDbConnector } from '../../../../src/connectors/dbConnector/EnumDbConnector';
+import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../src/core/contract/models';
 
 chai.use(chaiAsPromised);
 chai.should();
 
-const dataservice = new DataService();
+const contractDbConnector = new ContractDbConnector();
 const paymentDbConnector = new PaymentDbConnector();
+const enumDbConnector = new EnumDbConnector();
+const dataservice = new DataService();
+const contracts: any = require('../../../../resources/testData.json').contracts;
+const payments: any = require('../../../../resources/testData.json').payments;
 
-const paymentsTestData: any = require('../../../../resources/testData.json').payments;
-const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
-var testId: string;
+const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
+const testUpdateContract: IPaymentContractUpdate = contracts['updateTestContract'];
+const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
+
+const numberOfContracts = 8;
 
 const insertTestPayment = async () => {
-    const result = await paymentDbConnector.createPayment(testPayment);
-    testId = result.data[0].id;
+    const result = await paymentDbConnector.createPayment(testInsertPayment);
+    testInsertContract.paymentID = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payments WHERE id = $1;',
-        values: [testId]
+        values: [testInsertContract.paymentID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
@@ -32,7 +41,7 @@ describe('A paymentDbConnector', () => {
     describe('Get all payment details', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
-                getAllPayments: paymentDbConnector.getAllPayments
+                getAllPayments: contractDbConnector.getAllContracts
             });
         })
 
@@ -41,16 +50,20 @@ describe('A paymentDbConnector', () => {
         })
         beforeEach(async () => {
             await insertTestPayment();
+            for (let i = 0; i < numberOfContracts; i++) {
+                await contractDbConnector.createContract(testInsertContract);
+            }
         });
         afterEach(async () => {
             await clearTestPayment();
         });
         it('Should retrieve the payment details for all records', async () => {
-            const result = await paymentDbConnector.getAllPayments();
+            const result = await contractDbConnector.getAllContracts();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
+            result.data.length.should.be.equal(numberOfContracts);
         });
         it('Should retrieve the payment details for all records', async () => {
             const result = await MerchantSDK.GET_SDK().getAllPayments();
@@ -58,6 +71,7 @@ describe('A paymentDbConnector', () => {
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
+            result.data.length.should.be.equal(numberOfContracts);
         });
     });
 });

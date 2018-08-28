@@ -1,9 +1,8 @@
--- FUNCTION: public.fc_get_payment_contract(uuid)
+-- FUNCTION: public.fc_get_payment_contracts(uuid)
 
--- DROP FUNCTION public.fc_get_payment_contract(uuid);
+-- DROP FUNCTION public.fc_get_payment_contracts(uuid);
 
-CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
-	_id uuid)
+CREATE OR REPLACE FUNCTION public.fc_get_payment_contracts()
     RETURNS TABLE (
         title character varying (255),
         description character varying (255),
@@ -51,16 +50,11 @@ BEGIN
     FROM (public.tb_payment_contracts 
     JOIN public.tb_payments ON public.tb_payment_contracts."paymentID" = public.tb_payments.id
     JOIN public.tb_payment_type ON public.tb_payments."typeID" = public.tb_payment_type.id
-    JOIN public.tb_contract_status ON public.tb_payment_contracts."statusID" = public.tb_contract_status.id)
-    WHERE public.tb_payment_contracts.id = _id
-    LIMIT 1);
+    JOIN public.tb_contract_status ON public.tb_payment_contracts."statusID" = public.tb_contract_status.id));
 
-    IF NOT FOUND THEN
-      RAISE EXCEPTION 'SQL Query failed. Reason: contract_with_provided_id_not_found.';
-   END IF;
 END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_get_payment_contract(uuid)
+ALTER FUNCTION public.fc_get_payment_contracts()
     OWNER TO local_user;
