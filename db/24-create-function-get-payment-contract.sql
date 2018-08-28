@@ -5,6 +5,7 @@
 CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
 	_id uuid)
     RETURNS TABLE (
+        id uuid,
         title character varying (255),
         description character varying (255),
         promo character varying (255),
@@ -32,6 +33,7 @@ BEGIN
 
     RETURN 
     QUERY (SELECT 
+        public.tb_payment_contracts.id as id,
         public.tb_payments.title as title,
         public.tb_payments.description as description,
         public.tb_payments.promo as promo,

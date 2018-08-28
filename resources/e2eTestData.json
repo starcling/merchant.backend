@@ -3,12 +3,12 @@
         "insertPayment": {
             "title": "string",
             "description": "string",
-            "initialPaymentAmount": 23,
             "amount": 43,
+            "initialPaymentAmount": 23,
             "currency": "string",
             "numberOfPayments": 5,
-            "typeID": 1,
             "frequency": 10,
+            "typeID": 1,
             "networkID": 3
         },
         "updatePayment": {
@@ -16,8 +16,8 @@
             "title": "string",
             "description": "string",
             "promo": "string",
-            "initialPaymentAmount": 23,
             "amount": 43,
+            "initialPaymentAmount": 23,
             "currency": "string",
             "numberOfPayments": 5,
             "typeID": 1,
@@ -26,35 +26,27 @@
         }
     },
     "contracts": {
-        "updateContract": {
-            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
-            "title": "string",
-            "description": "string",
-            "promo": "string",
-            "status": 1,
-            "customerAddress": "string",
-            "initialPaymentAmount": 23,
-            "amount": 43,
-            "currency": "string",
-            "startTimestamp": 10,
-            "endTimestamp": 13,
+        "insertTestContract": {
+            "hdWalletIndex": 0,
+            "paymentID": "needed to be injected",
+            "numberOfPayments": 4,
+            "nextPaymentDate": 10,
+            "lastPaymentDate": 20,
+            "startTimestamp": 100,
+            "customerAddress": "243423",
+            "pullPaymentAddress": "24234234",
+            "statusID": 1,
+            "userID": "2342934"
+        },
+        "updateTestContract": {
+            "id": "",
+            "hdWalletIndex": 0,
             "numberOfPayments": 5,
-            "nextPaymentDate": "123456789",
-            "lastPaymentDate": "123456789",
-            "typeID": 1,
-            "frequency": 10,
-            "registerTxHash": "string",
-            "registerTxStatus": 1,
-            "executeTxHash": "string",
-            "executeTxStatus": 1,
-            "cancelTxHash": "string",
-            "cancelTxStatus": 1,
-            "initialPaymentTxHash": "string",
-            "initialPaymentTxStatus": 1,
-            "merchantAddress": "string",
-            "pullPaymentAddress": "string",
-            "userID": "string",
-            "networkID": 3
+            "nextPaymentDate": 10,
+            "lastPaymentDate": 20,
+            "startTimestamp": 100,
+            "statusID": 1,
+            "userID": "2342934"
         }
     }
 }

@@ -65,6 +65,7 @@ describe('A contractDbConnector', () => {
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
+            result.data[0].should.have.property('id');
             result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
             result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
             result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
@@ -92,6 +93,7 @@ describe('A contractDbConnector', () => {
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
+            result.data[0].should.have.property('id');
             result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
             result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
             result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);

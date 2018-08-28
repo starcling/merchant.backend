@@ -1,29 +1,38 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 import * as supertest from 'supertest';
-import { SchedulerConnector } from '../../../../../src/connectors/api/v1/SchedulerConnector';
 import { PaymentConnector } from '../../../../../src/connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../../src/core/payment/models';
+import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../../src/core/contract/models';
+import { ContractDbConnector } from '../../../../../src/connectors/dbConnector/ContractDbConnector';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
+const contractDbConnector = new ContractDbConnector();
 
+const contracts: any = require('../../../../../resources/e2eTestData.json').contracts;
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
-const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];
+
+const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
+const testInsertPayment: IPaymentInsertDetails = payments['insertPayment'];
 
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/scheduler/stop';
-const schedulerConnector = new SchedulerConnector();
 const paymentConnector = new PaymentConnector();
 
 let payment;
+let contract;
+const frequency = 1;
 
 describe('SchedulerController: stopScheduler', () => {
     describe('with successfull request', () => {
 
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            testInsertPayment.frequency = frequency;
+            payment = (await paymentConnector.createPayment(testInsertPayment)).data;
+            testInsertContract.paymentID = payment.id;
+            contract = (await contractDbConnector.createContract(testInsertContract)).data[0];
         });
 
         afterEach(async () => {
@@ -32,17 +41,18 @@ describe('SchedulerController: stopScheduler', () => {
 
         it('should stop the scheduler', (done) => {
             const numberOfPayments = 8;
-            const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
-            tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
-            tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
-            tempPayment.numberOfPayments = numberOfPayments;
-            tempPayment.frequency = 1;
+            const tempContract: IPaymentContractUpdate = Object.assign({}, contract);
+            tempContract.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempContract.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempContract.numberOfPayments = numberOfPayments;
 
-            paymentConnector.updatePayment(tempPayment);
+            contractDbConnector.updateContract(tempContract);
 
             server
                 .post(`api/v1/test/start-scheduler/`)
-                .send(tempPayment)
+                .send({
+                    paymentID: tempContract.id
+                })
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -55,7 +65,7 @@ describe('SchedulerController: stopScheduler', () => {
                 server
                     .post(`${endpoint}`)
                     .send({
-                        paymentID: tempPayment.id
+                        paymentID: tempContract.id
                     })
                     .expect(200)
                     .end((err: Error, res: any) => {
@@ -68,8 +78,8 @@ describe('SchedulerController: stopScheduler', () => {
 
 
             setTimeout(() => {
-                paymentConnector.getPayment(tempPayment.id).then(res => {
-                    expect(res.data.numberOfPayments).to.be.equal(numberOfPayments / 2);
+                contractDbConnector.getContract(tempContract.id).then(res => {
+                    expect(res.data[0].numberOfPayments).to.be.equal(numberOfPayments / 2);
                     done();
                 });
             }, numberOfPayments * 1000 + 200);
@@ -79,20 +89,11 @@ describe('SchedulerController: stopScheduler', () => {
 
     describe('with unsuccessfull request', () => {
 
-        beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
-        });
-
-        afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
-        });
-
         it('should not stop scheduler if wrong ID was provided', (done) => {
-            const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
             server
                 .post(`${endpoint}`)
                 .send({
-                    paymentID: tempPayment.id + 'BAD_ID'
+                    paymentID: 'BAD_ID'
                 })
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -103,7 +104,6 @@ describe('SchedulerController: stopScheduler', () => {
                     expect(body).to.have.property('error').that.is.an('object');
                     done();
                 });
-
 
         });
     });

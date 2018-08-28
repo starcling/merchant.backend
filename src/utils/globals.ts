@@ -1,6 +1,7 @@
 import { DefaultConfig } from '../config/default.config';
 import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
+import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
 const web3 = require('web3');
 
 export class Globals {
@@ -93,11 +94,8 @@ export class Globals {
             pgPassword: DefaultConfig.settings.pgPassword,
             redisHost: process.env.REDIS_HOST,
             redisPort: process.env.REDIS_PORT,
-            createPayment: new PaymentDbConnector().createPayment,
-            deletePayment: new PaymentDbConnector().deletePayment,
-            getAllPayments: new PaymentDbConnector().getAllPayments,
-            getPayment: new PaymentDbConnector().getPayment,
-            updatePayment: new PaymentDbConnector().updatePayment
+            getPayment: new ContractDbConnector().getContract,
+            updatePayment: new ContractDbConnector().updateContract
         };
     }
 }

@@ -5,21 +5,18 @@ import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { MerchantSDK } from '../../../../src/core/MerchantSDK';
 import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
-import { EnumDbConnector } from '../../../../src/connectors/dbConnector/EnumDbConnector';
-import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../src/core/contract/models';
+import { IPaymentContractInsert } from '../../../../src/core/contract/models';
 
 chai.use(chaiAsPromised);
 chai.should();
 
 const contractDbConnector = new ContractDbConnector();
 const paymentDbConnector = new PaymentDbConnector();
-const enumDbConnector = new EnumDbConnector();
 const dataservice = new DataService();
 const contracts: any = require('../../../../resources/testData.json').contracts;
 const payments: any = require('../../../../resources/testData.json').payments;
 
 const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
-const testUpdateContract: IPaymentContractUpdate = contracts['updateTestContract'];
 const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
 
 const numberOfContracts = 8;
