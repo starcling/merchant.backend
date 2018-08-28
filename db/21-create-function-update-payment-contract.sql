@@ -64,6 +64,10 @@ UPDATE public.tb_payment_contracts SET
 	"userID" = _userID
     WHERE id = _id RETURNING * INTO tb_payment_contracts;
 
+	IF NOT FOUND THEN
+      RAISE EXCEPTION 'SQL Query failed. Reason: contract_with_provided_id_not_found.';
+    END IF;
+
 	RETURN tb_payment_contracts;
 END
 

@@ -82,6 +82,10 @@ UPDATE public.tb_payments SET
     "networkID" = _networkID
     WHERE id = _id RETURNING * INTO tb_payments;
 
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'SQL Query failed. Reason: payment_with_provided_id_not_found.';
+    END IF;
+
 	RETURN tb_payments;
 END
 

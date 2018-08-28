@@ -1,8 +1,8 @@
--- FUNCTION: public.fc_get_transaction_by_contract_id(uuid, integer, integer)
+-- FUNCTION: public.fc_get_transactions_by_contract_id(uuid, integer, integer)
 
--- DROP FUNCTION public.fc_get_transaction_by_contract_id(uuid, integer, integer);
+-- DROP FUNCTION public.fc_get_transactions_by_contract_id(uuid, integer, integer);
 
-CREATE OR REPLACE FUNCTION public.fc_get_transaction_by_contract_id(
+CREATE OR REPLACE FUNCTION public.fc_get_transactions_by_contract_id(
 	_contractID uuid,
     _statusID integer,
     _typeID integer)
@@ -21,6 +21,15 @@ CREATE OR REPLACE FUNCTION public.fc_get_transaction_by_contract_id(
 AS $BODY$
 
 BEGIN
+
+IF _statusID IS NULL
+THEN
+	_statusID = 0;
+END IF;
+IF _typeID IS NULL
+THEN
+	_typeID = 0;
+END IF;
 
     RETURN 
     QUERY (SELECT 
@@ -44,5 +53,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_get_transaction_by_contract_id(uuid, integer, integer)
+ALTER FUNCTION public.fc_get_transactions_by_contract_id(uuid, integer, integer)
     OWNER TO local_user;

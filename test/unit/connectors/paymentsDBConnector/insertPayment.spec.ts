@@ -22,7 +22,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A payment insert DBcontroller', () => {
+describe('A paymentDBcontroller', () => {
 
     before(() => {
         MerchantSDK.GET_SDK().build({
@@ -84,7 +84,9 @@ describe('A payment insert DBcontroller', () => {
                 err.should.have.property('success').that.is.equal(false);
                 err.should.have.property('status').that.is.equal(400);
                 err.should.have.property('message').that.is.equal('SQL Query failed. Reason: not_null_violation');
-                err.should.have.property('error').that.is.equal('23502');
+                err.should.have.property('error').to.be.an('object');
+                err.error.should.have.property('code').that.is.equal('23502');
+                err.error.should.have.property('where');
             }
         });
 
@@ -97,7 +99,9 @@ describe('A payment insert DBcontroller', () => {
                 err.should.have.property('success').that.is.equal(false);
                 err.should.have.property('status').that.is.equal(400);
                 err.should.have.property('message').that.is.equal('SQL Query failed. Reason: not_null_violation');
-                err.should.have.property('error').that.is.equal('23502');
+                err.should.have.property('error').to.be.an('object');
+                err.error.should.have.property('code').that.is.equal('23502');
+                err.error.should.have.property('where');
             }
         });
     });

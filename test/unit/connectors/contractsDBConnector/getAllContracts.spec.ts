@@ -52,7 +52,7 @@ describe('A contractDbConnector', () => {
             }
         });
         afterEach(async () => {
-            // await clearTestPayment();
+            await clearTestPayment();
         });
         it('Should retrieve the contract details for all records from DB connector', async () => {
             const result = await contractDbConnector.getAllContracts();

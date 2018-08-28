@@ -19,3 +19,10 @@ export interface ITransactionInsert {
     contractID: string;
     timestamp: number;
 }
+
+export interface ITransactionGet {
+    id: string;
+    contractID: string;
+    statusID: number;
+    typeID: number;
+}

@@ -19,11 +19,13 @@ BEGIN
 	UPDATE public.tb_blockchain_transactions SET "statusID" = _statusID
     WHERE id = _id RETURNING * INTO tb_blockchain_transactions;
 
-	RETURN tb_blockchain_transactions;
-
-	IF NOT FOUND THEN
+    IF NOT FOUND THEN
       RAISE EXCEPTION 'SQL Query failed. Reason: transaction_with_provided_id_not_found.';
     END IF;
+
+	RETURN tb_blockchain_transactions;
+
+	
 END
 
 $BODY$;

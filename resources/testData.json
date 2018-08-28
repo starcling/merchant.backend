@@ -58,7 +58,8 @@
             "timestamp": "1535450293"
         },
         "updateTestTransaction": {
-            "statusID": 1
+            "id": "needed to be injected",
+            "statusID": 3
         }
     }
 }

@@ -25,5 +25,5 @@ export interface IResponseMessage {
     message: string;
     data?: any;
     token?: string;
-    error?: string;
+    error?: any;
 }

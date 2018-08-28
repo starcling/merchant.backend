@@ -1,5 +1,5 @@
 import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
-import { ITransactionInsert } from '../../core/transaction/models';
+import { ITransactionInsert, ITransactionUpdate, ITransactionGet } from '../../core/transaction/models';
 
 export class TransactionDbConnector {
     public createTransaction(transaction: ITransactionInsert) {
@@ -15,6 +15,42 @@ export class TransactionDbConnector {
         };
 
         return new DataService().executeQueryAsPromise(sqlQuery, true);
+    }
+
+    public updateTransaction(transaction: ITransactionUpdate) {
+        const sqlQuery: ISqlQuery = {
+            text: 'SELECT * FROM public.fc_update_transaction($1, $2);',
+            values: [
+                transaction.id,
+                transaction.statusID
+            ]
+        };
+
+        return new DataService().executeQueryAsPromise(sqlQuery);
+    }
+
+    public getTransaction(transaction: ITransactionGet) {
+        const sqlQuery: ISqlQuery = {
+            text: 'SELECT * FROM public.fc_get_transaction($1);',
+            values: [
+                transaction.id
+            ]
+        };
+
+        return new DataService().executeQueryAsPromise(sqlQuery);
+    }
+
+    public getTransactionsByContractID(transaction: ITransactionGet) {
+        const sqlQuery: ISqlQuery = {
+            text: 'SELECT * FROM public.fc_get_transactions_by_contract_id($1, $2, $3);',
+            values: [
+                transaction.contractID,
+                transaction.statusID,
+                transaction.typeID
+            ]
+        };
+
+        return new DataService().executeQueryAsPromise(sqlQuery);
     }
 
 }

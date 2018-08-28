@@ -91,7 +91,7 @@ describe('ContractDbConnector', () => {
         });
     });
 
-    describe('Update non existing payment record', () => {
+    describe('Update non existing contract record', () => {
         it('Should return false if no record is found in the database', async () => {
             testUpdateContract.id = 'e3006e22-90bb-11e8-9daa-939c9206691a';
             const result = await contractDbConnector.updateContract(testUpdateContract);

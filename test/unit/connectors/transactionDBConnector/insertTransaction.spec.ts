@@ -61,7 +61,7 @@ describe('A transactionDbController', () => {
     });
 
     describe('With successfull insert request', () => {
-        it('should insert a new contract from dbConnector', async () => {
+        it('should insert a new transaction from dbConnector', async () => {
             const result = await transactionDbConnector.createTransaction(testInsertTransaction);
             
             result.should.have.property('success').that.is.equal(true);
@@ -76,7 +76,7 @@ describe('A transactionDbController', () => {
             
         });
 
-        it('should insert a new contract from SDK', async () => {
+        it('should insert a new transaction from SDK', async () => {
             // TODO: Reflect changes on SDK and test it
             // const result = await MerchantSDK.GET_SDK().createPayment(testInsertContract);
             // result.should.have.property('success').that.is.equal(true);
@@ -88,16 +88,18 @@ describe('A transactionDbController', () => {
 
     describe('With unsuccessfull insert request', () => {
         it('should return not null violation from dbConnector', async () => {
-            // const tempInsert = Object.assign({}, testInsertContract);
-            // delete tempInsert.paymentID;
-            // try {
-            //     await contractDbConnector.createContract(tempInsert);
-            // } catch (err) {
-            //     err.should.have.property('success').that.is.equal(false);
-            //     err.should.have.property('status').that.is.equal(400);
-            //     err.should.have.property('message').that.is.equal('SQL Query failed. Reason: not_null_violation');
-            //     err.should.have.property('error').that.is.equal('23502');
-            // }
+            const tempInsertTransaction = Object.assign({}, testInsertTransaction);
+            delete tempInsertTransaction.contractID;
+            try {
+                await transactionDbConnector.createTransaction(tempInsertTransaction);
+            } catch (err) {
+                err.should.have.property('success').that.is.equal(false);
+                err.should.have.property('status').that.is.equal(400);
+                err.should.have.property('message').that.is.equal('SQL Query failed. Reason: not_null_violation');
+                err.should.have.property('error').to.be.an('object');
+                err.error.should.have.property('code').that.is.equal('23502');
+                err.error.should.have.property('where');
+            }
         });
 
         it('should return not null violation from SDK', async () => {
