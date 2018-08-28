@@ -36,6 +36,7 @@ class App {
     app.use(cors());
     app.use(this.loggerFactory.requestLogger);
 
+    Globals.REFRESH_ENUMS();
     MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(Config.settings.networkID));
     this.debug('Sync with redis completed.');
 

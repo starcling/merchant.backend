@@ -1,12 +1,12 @@
--- FUNCTION: public.fc_get_status_types(uuid)
+-- FUNCTION: public.fc_get_enums(uuid)
 
--- DROP FUNCTION public.fc_get_status_types(uuid);
+-- DROP FUNCTION public.fc_get_enums(uuid);
 
-CREATE OR REPLACE FUNCTION public.fc_get_status_types(
+CREATE OR REPLACE FUNCTION public.fc_get_enums(
 	_table text)
     RETURNS TABLE (
-        _id integer,
-        _name character varying (255)
+        id integer,
+        name character varying (255)
     )
     LANGUAGE 'plpgsql'
 
@@ -38,5 +38,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_get_status_types(text)
+ALTER FUNCTION public.fc_get_enums(text)
     OWNER TO local_user;
