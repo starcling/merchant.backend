@@ -22,7 +22,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A paymentDBcontroller', () => {
+describe('A PaymentDBcontroller insertPayment', () => {
 
     before(() => {
         MerchantSDK.GET_SDK().build({

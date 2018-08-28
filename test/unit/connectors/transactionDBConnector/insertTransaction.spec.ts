@@ -37,7 +37,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A TransactionDbController', () => {
+describe('A TransactionDbController insertTransaction', () => {
 
     before(() => {
         //TODO: Reflect changes on the SDK and use apropiate function for this

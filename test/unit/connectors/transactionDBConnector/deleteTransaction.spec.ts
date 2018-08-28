@@ -41,7 +41,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A TransactionDbConnector getTransaction', () => {
+describe('A TransactionDbConnector deleteTransaction', () => {
     describe('With successfull request', () => {
         before(() => {
             // MerchantSDK.GET_SDK().build({
@@ -61,52 +61,13 @@ describe('A TransactionDbConnector getTransaction', () => {
         afterEach(async () => {
             await clearTestPayment();
         });
-        it('Should retrieve the transaction details from DB connector', async () => {
-            await Globals.REFRESH_ENUMS();
-
-            const transactionStatuses = Globals.GET_TRANSACTION_STATUS_ENUM();
-            const transactionTypes = Globals.GET_TRANSACTION_TYPE_ENUM();
-
-            const result = await transactionDbConnector.getTransaction(testGetTransaction);
+        it('Should delete transaction', async () => {
+            const result = await transactionDbConnector.deleteTransaction(testGetTransaction);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
-            result.data[0].should.have.property('id');
-            result.data[0].should.have.property('hash').that.is.equal(testInsertTransaction.hash);
-            result.data[0].should.have.property('contractID').that.is.equal(testInsertTransaction.contractID);
-            result.data[0].should.have.property('timestamp').that.is.equal(testInsertTransaction.timestamp);
-            result.data[0].should.have.property('type').that.is.equal(transactionTypes[testInsertTransaction.typeID]);
-            result.data[0].should.have.property('status').that.is.equal(transactionStatuses[testInsertTransaction.statusID]);
-        });
-
-        it('Should retrieve the transaction details from SDK', async () => {
-            // await Globals.REFRESH_ENUMS();
-
-            // const contractStatuses = Globals.GET_CONTRACT_STATUS_ENUM();
-            // const paymentTypes = Globals.GET_PAYMENT_TYPE_ENUM();
-
-            // const result = await MerchantSDK.GET_SDK().getPayment(testUpdateContract.id);
-            // result.should.have.property('success').that.is.equal(true);
-            // result.should.have.property('status').that.is.equal(200);
-            // result.should.have.property('message').that.is.equal('SQL Query completed successful.');
-            // result.should.have.property('data').that.is.an('array');
-            // result.data[0].should.have.property('id');
-            // result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
-            // result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
-            // result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
-            // result.data[0].should.have.property('initialPaymentAmount').that.is.equal(testInsertPayment.initialPaymentAmount);
-            // result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-            // result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertContract.numberOfPayments);
-            // result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
-            // result.data[0].should.have.property('type').that.is.equal(paymentTypes[testInsertPayment.typeID]);
-            // result.data[0].should.have.property('status').that.is.equal(contractStatuses[testInsertContract.statusID]);
-            // result.data[0].should.have.property('networkID').that.is.equal(testInsertPayment.networkID);
-            // result.data[0].should.have.property('nextPaymentDate').that.is.equal(testInsertContract.nextPaymentDate.toString());
-            // result.data[0].should.have.property('lastPaymentDate').that.is.equal(testInsertContract.lastPaymentDate.toString());
-            // result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertContract.startTimestamp.toString());
-            // result.data[0].should.have.property('pullPaymentAddress').that.is.equal(testInsertContract.pullPaymentAddress);
-            // result.data[0].should.have.property('userID').that.is.equal(testInsertContract.userID);
+            result.data[0].should.have.property('fc_delete_transaction').that.is.equal(true);
         });
     });
 
@@ -120,11 +81,11 @@ describe('A TransactionDbConnector getTransaction', () => {
             // MerchantSDK.GET_SDK().disconnectRedis();
         });
 
-        it('Should raise not found error', async () => {
+        it('Should raise not bad id exception', async () => {
             const tempGetTransaction = Object.assign({}, testGetTransaction);
             tempGetTransaction.id = 'BAD_ID'
             try {
-                await transactionDbConnector.getTransaction(testGetTransaction);
+                await transactionDbConnector.deleteTransaction(testGetTransaction);
             } catch (err) {
                 err.should.have.property('success').that.is.equal(false);
                 err.should.have.property('status').that.is.equal(400);
@@ -132,5 +93,18 @@ describe('A TransactionDbConnector getTransaction', () => {
                 err.should.have.property('error').that.is.an('object');
             }
         });
+
+        it('Should raise not found error', async () => {
+          const tempGetTransaction = Object.assign({}, testGetTransaction);
+          tempGetTransaction.id = '63c684fe-8a97-11e8-b99f-9f38301a1e03'
+          try {
+              await transactionDbConnector.deleteTransaction(testGetTransaction);
+          } catch (err) {
+              err.should.have.property('success').that.is.equal(false);
+              err.should.have.property('status').that.is.equal(400);
+              err.should.have.property('message').that.is.equal('SQL Query failed. Reason: raise_exception');
+              err.should.have.property('error').that.is.an('object');
+          }
+      });
     });
 });

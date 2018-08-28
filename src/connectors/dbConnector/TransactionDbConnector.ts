@@ -29,6 +29,17 @@ export class TransactionDbConnector {
         return new DataService().executeQueryAsPromise(sqlQuery);
     }
 
+    public deleteTransaction(transaction: ITransactionGet) {
+        const sqlQuery: ISqlQuery = {
+            text: 'SELECT * FROM public.fc_delete_transaction($1);',
+            values: [
+                transaction.id
+            ]
+        };
+
+        return new DataService().executeQueryAsPromise(sqlQuery);
+    }
+
     public getTransaction(transaction: ITransactionGet) {
         const sqlQuery: ISqlQuery = {
             text: 'SELECT * FROM public.fc_get_transaction($1);',

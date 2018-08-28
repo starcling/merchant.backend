@@ -40,7 +40,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A TransactionDbConnector', () => {
+describe('A TransactionDbConnector updateTransaction', () => {
     describe('With successfull request', () => {
         before(() => {
             // MerchantSDK.GET_SDK().build({

@@ -36,8 +36,8 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A contractDbConnector', () => {
-    describe('Get contract details', () => {
+describe('A ContractDbConnector getContract', () => {
+    describe('With successfull request', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
                 getPayment: contractDbConnector.getContract

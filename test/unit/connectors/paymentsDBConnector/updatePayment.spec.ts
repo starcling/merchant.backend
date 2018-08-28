@@ -28,8 +28,8 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('PaymentDbConnector', () => {
-    describe('Update payment record', () => {
+describe('A PaymentDbConnector updatePayment', () => {
+    describe('With successfull request', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
                 updatePayment: paymentDbConnector.updatePayment
@@ -77,13 +77,17 @@ describe('PaymentDbConnector', () => {
         });
     });
 
-    describe('Update non existing payment record', () => {
+    describe('With unsuccessfull request', () => {
         it('Should return false if no record is found in the database', async () => {
             updateTestPayment.id = 'e3006e22-90bb-11e8-9daa-939c9206691a';
-            const result = await paymentDbConnector.updatePayment(updateTestPayment);
-            result.should.have.property('success').that.is.equal(false);
-            result.should.have.property('status').that.is.equal(400);
-            result.should.have.property('message').that.is.equal('No record found with provided id.');
+            try {
+                await paymentDbConnector.updatePayment(updateTestPayment);
+            } catch (err) {
+                err.should.have.property('success').that.is.equal(false);
+                err.should.have.property('status').that.is.equal(400);
+                err.should.have.property('message').that.is.equal('SQL Query failed. Reason: raise_exception');
+                err.should.have.property('error').that.is.an('object');
+            }
         })
     })
 });

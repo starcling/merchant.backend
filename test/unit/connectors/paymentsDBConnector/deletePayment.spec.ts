@@ -28,8 +28,8 @@ const clearTestPayment = async () => {
   await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A paymentDbConnector', () => {
-  describe('Delete payment details', () => {
+describe('A PaymentDbConnector deletePayment', () => {
+  describe('With successfull request', () => {
     before(() => {
       MerchantSDK.GET_SDK().build({
         deletePayment: paymentDbConnector.deletePayment

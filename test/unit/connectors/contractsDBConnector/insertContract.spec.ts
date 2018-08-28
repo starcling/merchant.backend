@@ -26,7 +26,7 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A contractDbController', () => {
+describe('A ContractDbController insertContract', () => {
 
     before(() => {
         MerchantSDK.GET_SDK().build({
@@ -46,7 +46,7 @@ describe('A contractDbController', () => {
         await clearTestPayment();
     });
 
-    describe('With successfull insert request', () => {
+    describe('With successfull request', () => {
         it('should insert a new contract from dbConnector', async () => {
             const result = await contractDbConnector.createContract(testInsertContract);
             result.should.have.property('success').that.is.equal(true);
@@ -86,7 +86,7 @@ describe('A contractDbController', () => {
         });
     });
 
-    describe('With unsuccessfull insert request', () => {
+    describe('With unsuccessfull request', () => {
         it('should return not null violation from dbConnector', async () => {
             const tempInsert = Object.assign({}, testInsertContract);
             delete tempInsert.paymentID;
