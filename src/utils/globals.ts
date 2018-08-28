@@ -1,5 +1,4 @@
 import { DefaultConfig } from '../config/default.config';
-import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
 import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
 const web3 = require('web3');

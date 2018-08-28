@@ -37,17 +37,6 @@ const clearTestPayment = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-const getContractsTransactions = async (contractID: string, transactionID: string) => {
-    const sqlQuery: ISqlQuery = {
-        text: `SELECT * FROM public.tb_contracts_transactions WHERE "contractID" = $1 AND "transactionID" = $2;`,
-        values: [
-            contractID,
-            transactionID
-        ]
-    };
-    return await dataservice.executeQueryAsPromise(sqlQuery);
-};
-
 describe('A transactionDbController', () => {
 
     before(() => {
@@ -84,15 +73,6 @@ describe('A transactionDbController', () => {
             result.data[0].should.have.property('statusID').that.is.equal(testInsertTransaction.statusID);
             result.data[0].should.have.property('contractID').that.is.equal(testInsertTransaction.contractID);
             result.data[0].should.have.property('timestamp').that.is.equal(testInsertTransaction.timestamp);
-
-            const agregationResult = await getContractsTransactions(testInsertTransaction.contractID, result.data[0].id);
-            agregationResult.should.have.property('success').that.is.equal(true);
-            agregationResult.should.have.property('status').that.is.equal(200);
-            agregationResult.should.have.property('message').that.is.equal('SQL Query completed successful.');
-            agregationResult.should.have.property('data').to.be.an('array');
-            agregationResult.data[0].should.have.property('id');
-            agregationResult.data[0].should.have.property('contractID').that.is.equal(testInsertTransaction.contractID);
-            agregationResult.data[0].should.have.property('transactionID').that.is.equal(result.data[0].id);
             
         });
 

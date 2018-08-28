@@ -139,26 +139,3 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.tb_blockchain_transactions
     OWNER to local_user;
-
-CREATE TABLE IF NOT EXISTS public.tb_contracts_transactions
-(
-    id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
-    "contractID" uuid NOT NULL,
-    "transactionID" uuid NOT NULL,
-    CONSTRAINT tb_contracts_transactions_pkey PRIMARY KEY (id),
-    CONSTRAINT contract_id_fkey FOREIGN KEY ("contractID")
-        REFERENCES public.tb_payment_contracts (id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT transaction_id_fkey FOREIGN KEY ("transactionID")
-        REFERENCES public.tb_blockchain_transactions (id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE public.tb_contracts_transactions
-    OWNER to local_user;
