@@ -21,7 +21,7 @@ export class TransactionDbConnector {
         const sqlQuery: ISqlQuery = {
             text: 'SELECT * FROM public.fc_update_transaction($1, $2);',
             values: [
-                transaction.id,
+                transaction.hash,
                 transaction.statusID
             ]
         };
@@ -33,7 +33,7 @@ export class TransactionDbConnector {
         const sqlQuery: ISqlQuery = {
             text: 'SELECT * FROM public.fc_delete_transaction($1);',
             values: [
-                transaction.id
+                transaction.hash
             ]
         };
 
@@ -44,7 +44,7 @@ export class TransactionDbConnector {
         const sqlQuery: ISqlQuery = {
             text: 'SELECT * FROM public.fc_get_transaction($1);',
             values: [
-                transaction.id
+                transaction.hash
             ]
         };
 

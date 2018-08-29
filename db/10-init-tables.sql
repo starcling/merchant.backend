@@ -115,7 +115,7 @@ ALTER TABLE public.tb_payment_contracts
 CREATE TABLE IF NOT EXISTS public.tb_blockchain_transactions
 (
     id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
-    hash character varying(255) COLLATE pg_catalog."default",
+    hash character varying(255) COLLATE pg_catalog."default" UNIQUE,
     "statusID" integer DEFAULT 1,
     "typeID" integer DEFAULT 1,
     "contractID" uuid NOT NULL,

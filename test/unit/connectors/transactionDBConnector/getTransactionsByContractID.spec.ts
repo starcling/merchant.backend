@@ -28,6 +28,8 @@ const testInsertContract: IPaymentContractInsert = contracts['insertTestContract
 const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
 
 const numberOfTransactions = 10;
+const max = 1e+52;
+const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPayment(testInsertPayment);
@@ -53,6 +55,7 @@ describe('A TransactionDbConnector getTransactionsByContractID', () => {
             for (let i = 0; i < 10; i++) {
                 testInsertTransaction.statusID = i % 3 + 1;
                 testInsertTransaction.typeID = i % 4 + 1;
+                testInsertTransaction.hash = ((Math.random() * max - min ) + min).toString();
                 const txResult = await transactionDbConnector.createTransaction(testInsertTransaction);
                 testGetTransaction.id = txResult.data[0].id;
             }
@@ -73,7 +76,6 @@ describe('A TransactionDbConnector getTransactionsByContractID', () => {
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
             result.data[0].should.have.property('id');
-            result.data[0].should.have.property('hash').that.is.equal(testInsertTransaction.hash);
             result.data[0].should.have.property('contractID').that.is.equal(testInsertTransaction.contractID);
             result.data[0].should.have.property('timestamp').that.is.equal(testInsertTransaction.timestamp);
             result.data.length.should.be.equal(numberOfTransactions);

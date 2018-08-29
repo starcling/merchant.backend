@@ -27,6 +27,8 @@ const testInsertTransaction: ITransactionInsert = transactions['insertTestTransa
 const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
 const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
 
+const max = 1e+52;
+const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPayment(testInsertPayment);
@@ -55,8 +57,9 @@ describe('A TransactionDbConnector getTransaction', () => {
             await insertTestPayment();
             const result = await contractDbConnector.createContract(testInsertContract);
             testInsertTransaction.contractID = result.data[0].id;
+            testInsertTransaction.hash = ((Math.random() * max - min ) + min).toString();
             const txResult = await transactionDbConnector.createTransaction(testInsertTransaction);
-            testGetTransaction.id = txResult.data[0].id;
+            testGetTransaction.hash = txResult.data[0].hash;
         });
         afterEach(async () => {
             await clearTestPayment();
@@ -66,7 +69,6 @@ describe('A TransactionDbConnector getTransaction', () => {
 
             const transactionStatuses = Globals.GET_TRANSACTION_STATUS_ENUM();
             const transactionTypes = Globals.GET_TRANSACTION_TYPE_ENUM();
-
             const result = await transactionDbConnector.getTransaction(testGetTransaction);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
@@ -122,7 +124,7 @@ describe('A TransactionDbConnector getTransaction', () => {
 
         it('Should raise not found error', async () => {
             const tempGetTransaction = Object.assign({}, testGetTransaction);
-            tempGetTransaction.id = 'BAD_ID'
+            tempGetTransaction.hash = 'BAD_HASH'
             try {
                 await transactionDbConnector.getTransaction(testGetTransaction);
             } catch (err) {

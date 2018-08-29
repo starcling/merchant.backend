@@ -8,7 +8,7 @@ export interface ITransactionView {
 }
 
 export interface ITransactionUpdate {
-    id: string;
+    hash: string;
     statusID: number;
 }
 
@@ -22,6 +22,7 @@ export interface ITransactionInsert {
 
 export interface ITransactionGet {
     id: string;
+    hash: string;
     contractID: string;
     statusID: number;
     typeID: number;

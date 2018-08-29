@@ -1,9 +1,9 @@
--- FUNCTION: public.fc_get_transaction(uuid)
+-- FUNCTION: public.fc_get_transaction(text)
 
--- DROP FUNCTION public.fc_get_transaction(uuid);
+-- DROP FUNCTION public.fc_get_transaction(text);
 
 CREATE OR REPLACE FUNCTION public.fc_get_transaction(
-	_id uuid)
+	_hash text)
     RETURNS TABLE (
         id uuid,
         hash character varying (255),
@@ -31,15 +31,15 @@ BEGIN
     FROM (public.tb_blockchain_transactions 
     JOIN public.tb_transaction_status ON public.tb_blockchain_transactions."statusID" = public.tb_transaction_status.id
     JOIN public.tb_transaction_type ON public.tb_blockchain_transactions."typeID" = public.tb_transaction_type.id)
-    WHERE public.tb_blockchain_transactions.id = _id
+    WHERE public.tb_blockchain_transactions.hash = _hash
     LIMIT 1);
 
     IF NOT FOUND THEN
-      RAISE EXCEPTION 'SQL Query failed. Reason: transaction_with_provided_id_not_found.';
+      RAISE EXCEPTION 'SQL Query failed. Reason: transaction_with_provided_hash_not_found.';
     END IF;
 END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_get_transaction(uuid)
+ALTER FUNCTION public.fc_get_transaction(text)
     OWNER TO local_user;

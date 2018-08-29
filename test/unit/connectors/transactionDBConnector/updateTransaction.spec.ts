@@ -26,6 +26,8 @@ const testInsertContract: IPaymentContractInsert = contracts['insertTestContract
 const testUpdateContract: IPaymentContractUpdate = contracts['updateTestContract'];
 const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
 
+const max = 1e+52;
+const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPayment(testInsertPayment);
@@ -56,8 +58,9 @@ describe('A TransactionDbConnector updateTransaction', () => {
             const result = await contractDbConnector.createContract(testInsertContract);
             testUpdateContract.id = result.data[0].id;
             testInsertTransaction.contractID = result.data[0].id;
+            testInsertTransaction.hash = ((Math.random() * max - min ) + min).toString();
             const txResult = await transactionDbConnector.createTransaction(testInsertTransaction);
-            testUpdateTransaction.id = txResult.data[0].id;
+            testUpdateTransaction.hash = txResult.data[0].hash;
         });
         afterEach(async () => {
             await clearTestPayment();
@@ -68,7 +71,7 @@ describe('A TransactionDbConnector updateTransaction', () => {
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
-            result.data[0].should.have.property('id').that.is.equal(testUpdateTransaction.id);
+            result.data[0].should.have.property('id');
             result.data[0].should.have.property('hash').that.is.equal(testInsertTransaction.hash);
             result.data[0].should.have.property('typeID').that.is.equal(testInsertTransaction.typeID);
             result.data[0].should.have.property('statusID').that.is.equal(testUpdateTransaction.statusID);
@@ -112,19 +115,19 @@ describe('A TransactionDbConnector updateTransaction', () => {
 
         it('Should return false if id is in wrong format', async () => {
             const tempUpdateTransaction = Object.assign({}, testUpdateTransaction);
-            tempUpdateTransaction.id = 'BAD_ID';
+            tempUpdateTransaction.hash = 'BAD_ID';
             try {
                 await transactionDbConnector.updateTransaction(tempUpdateTransaction);
             } catch (err) {
                 err.should.have.property('success').that.is.equal(false);
                 err.should.have.property('status').that.is.equal(400);
-                err.should.have.property('message').that.is.equal('SQL Query failed. Reason: invalid_text_representation');
+                err.should.have.property('message').that.is.equal('SQL Query failed. Reason: raise_exception');
             }
         })
 
         it('Should return false if no record is found in the database', async () => {
             const tempUpdateTransaction = Object.assign({}, testUpdateTransaction);
-            tempUpdateTransaction.id = 'e3006e22-90bb-11e8-9daa-939c9206691a';
+            tempUpdateTransaction.hash = 'e3006e22-90bb-11e8-9daa-939c9206691a';
             try {
                 await transactionDbConnector.updateTransaction(tempUpdateTransaction);
             } catch (err) {
