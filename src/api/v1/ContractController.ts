@@ -20,19 +20,19 @@ export class ContractController {
 
     /**
     * @api {post} /api/v1/contracts/
-    * @apiDescription Create a new payment in DB
+    * @apiDescription Create a new Contract in DB
     *
     * @apiName create
     * @apiGroup ContractController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} title - Title of the payment
-    * @apiParam {string} description - Description of the payment
-    * @apiParam {number} amount - Amount of payment
-    * @apiParam {string} currency - Currency of payment
-    * @apiParam {number} startTimestamp - Start timestamp of payment
-    * @apiParam {number} endTimestamp - End timestamp of payment
-    * @apiParam {number} type - Type of payment
+    * @apiParam {string} title - Title of the Contract
+    * @apiParam {string} description - Description of the Contract
+    * @apiParam {number} amount - Amount of Contract
+    * @apiParam {string} currency - Currency of Contract
+    * @apiParam {number} startTimestamp - Start timestamp of Contract
+    * @apiParam {number} endTimestamp - End timestamp of Contract
+    * @apiParam {number} type - Type of Contract
     * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
     * @apiParam {number} frequency - Frequency of execution
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
@@ -41,7 +41,7 @@ export class ContractController {
     * {
     * }
     *
-    * @apiSuccess (200) {object} Payment Details
+    * @apiSuccess (200) {object} Contract Details
     *
     */
     @Post('/')
@@ -57,16 +57,16 @@ export class ContractController {
     }
 
     /**
-    * @api {get} /api/v1/payments/:networkID
-    * @apiDescription Retrieve an array of payments
+    * @api {get} /api/v1/contracts/:networkID
+    * @apiDescription Retrieve an array of contracts
     *
     * @apiName getAllContracts
-    * @apiGroup PaymentController
+    * @apiGroup ContractController
     * @apiVersion  1.0.0
     *
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
-    * @apiSuccess (200) {object} Payment Details
+    * @apiSuccess (200) {object} Contract Details
     *
     */
    @Get('/')
@@ -81,22 +81,21 @@ export class ContractController {
    }
 
     /**
-    * @api {get} /api/v1/payments/:networkID/:contractID
-    * @apiDescription Retrieves a single payment
+    * @api {get} /api/v1/contracts/:contractID
+    * @apiDescription Retrieves a single Contract
     *
     * @apiName getContract
-    * @apiGroup PaymentController
+    * @apiGroup ContractController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} contractID - ID of the payment
-    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    * @apiParam {string} contractID - ID of the Contract
     *
     * @apiParamExample {json} Request-Example:
     * {
     *   "contractID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
     * }
     *
-    * @apiSuccess (200) {object} Payment details for a specific id
+    * @apiSuccess (200) {object} Contract details for a specific id
     *
     */
     @Get('/:contractID')
@@ -112,14 +111,14 @@ export class ContractController {
     }
 
     /**
-    * @api {delete} /api/v1/payments/:contractID
-    * @apiDescription Delete a single payment
+    * @api {delete} /api/v1/contracts/:contractID
+    * @apiDescription Delete a single Contract
     *
     * @apiName deleteContract
-    * @apiGroup PaymentController
+    * @apiGroup ContractController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} contractID - ID of the payment
+    * @apiParam {string} contractID - ID of the Contract
     *
     * @apiParamExample {json} Request-Example:
     * {
