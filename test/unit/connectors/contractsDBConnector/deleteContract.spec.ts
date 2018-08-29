@@ -3,7 +3,6 @@ import chaiAsPromised from 'chai-as-promised';
 import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
 import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
-import { MerchantSDK } from '../../../../src/core/MerchantSDK';
 import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
 import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../src/core/contract/models';
 
@@ -35,14 +34,6 @@ const clearTestPayment = async () => {
 
 describe('A ContractDbConnector deleteContract', () => {
   describe('With successfull request', () => {
-    before(() => {
-      MerchantSDK.GET_SDK().build({
-        deletePayment: contractDbConnector.deleteContract
-      });
-    })
-    after(() => {
-      MerchantSDK.GET_SDK().disconnectRedis();
-    });
     beforeEach(async () => {
       await insertTestPayment();
       const result = await contractDbConnector.createContract(testInsertContract);
@@ -53,12 +44,6 @@ describe('A ContractDbConnector deleteContract', () => {
     });
     it('Should delete contract from a database', async () => {
       const result = await contractDbConnector.deleteContract(testUpdateContract.id);
-      result.should.have.property('success').that.is.equal(true);
-      result.should.have.property('status').that.is.equal(200);
-      result.should.have.property('message').that.is.equal('SQL Query completed successful.');
-    });
-    it('Should delete contract from a database', async () => {
-      const result = await MerchantSDK.GET_SDK().deletePayment(testUpdateContract.id);
       result.should.have.property('success').that.is.equal(true);
       result.should.have.property('status').that.is.equal(200);
       result.should.have.property('message').that.is.equal('SQL Query completed successful.');

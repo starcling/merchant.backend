@@ -40,7 +40,7 @@ describe('A ContractDbConnector getContract', () => {
     describe('With successfull request', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
-                getPayment: contractDbConnector.getContract
+                getContract: contractDbConnector.getContract
             });
         });
         after(() => {
@@ -88,7 +88,7 @@ describe('A ContractDbConnector getContract', () => {
             const contractStatuses = Globals.GET_CONTRACT_STATUS_ENUM();
             const paymentTypes = Globals.GET_PAYMENT_TYPE_ENUM();
 
-            const result = await MerchantSDK.GET_SDK().getPayment(testUpdateContract.id);
+            const result = await MerchantSDK.GET_SDK().getContract(testUpdateContract.id);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');

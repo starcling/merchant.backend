@@ -52,8 +52,7 @@ describe('A TransactionDbConnector getTransactionsByContractID', () => {
             const result = await contractDbConnector.createContract(testInsertContract);
             testInsertTransaction.contractID = result.data[0].id;
 
-            for (let i = 0; i < 10; i++) {
-                testInsertTransaction.statusID = i % 3 + 1;
+            for (let i = 0; i < numberOfTransactions; i++) {
                 testInsertTransaction.typeID = i % 4 + 1;
                 testInsertTransaction.hash = ((Math.random() * max - min ) + min).toString();
                 const txResult = await transactionDbConnector.createTransaction(testInsertTransaction);
@@ -129,15 +128,15 @@ describe('A TransactionDbConnector getTransactionsByContractID', () => {
             flag.should.be.equal(true);
         });
 
-        it('Should retrieve the transaction details with specific typeID & statusID  from DB connector', async () => {
+        it('Should retrieve the transaction details with specific typeID & statusID from DB connector', async () => {
             await Globals.REFRESH_ENUMS();
 
             const transactionTypes = Globals.GET_TRANSACTION_TYPE_ENUM();
             const transactionStatuses = Globals.GET_TRANSACTION_STATUS_ENUM();
             const tempGetTransaction = Object.assign({}, testGetTransaction);
 
-            tempGetTransaction.statusID = 3;
-            tempGetTransaction.typeID = 2;
+            tempGetTransaction.statusID = 1;
+            tempGetTransaction.typeID = 3;
 
             const result = await transactionDbConnector.getTransactionsByContractID(tempGetTransaction);
             result.should.have.property('success').that.is.equal(true);

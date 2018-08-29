@@ -3,7 +3,6 @@ import chaiAsPromised from 'chai-as-promised';
 import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
 import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
-import { MerchantSDK } from '../../../../src/core/MerchantSDK';
 import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
 import { IPaymentContractInsert } from '../../../../src/core/contract/models';
 
@@ -36,15 +35,6 @@ const clearTestPayment = async () => {
 
 describe('A ContractDbConnector getAllContracts', () => {
     describe('With successfull request', () => {
-        before(() => {
-            MerchantSDK.GET_SDK().build({
-                getAllPayments: contractDbConnector.getAllContracts
-            });
-        })
-
-        after(() => {
-            MerchantSDK.GET_SDK().disconnectRedis();
-        })
         beforeEach(async () => {
             await insertTestPayment();
             for (let i = 0; i < numberOfContracts; i++) {
@@ -56,14 +46,6 @@ describe('A ContractDbConnector getAllContracts', () => {
         });
         it('Should retrieve the contract details for all records from DB connector', async () => {
             const result = await contractDbConnector.getAllContracts();
-            result.should.have.property('success').that.is.equal(true);
-            result.should.have.property('status').that.is.equal(200);
-            result.should.have.property('message').that.is.equal('SQL Query completed successful.');
-            result.should.have.property('data').that.is.an('array');
-            result.data.length.should.be.at.least(numberOfContracts);
-        });
-        it('Should retrieve the contract details for all records from SDK', async () => {
-            const result = await MerchantSDK.GET_SDK().getAllPayments();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');

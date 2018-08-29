@@ -14,6 +14,6 @@ INSERT INTO public.tb_transaction_type("name") VALUES ('initial');
 INSERT INTO public.tb_transaction_type("name") VALUES ('execute');
 INSERT INTO public.tb_transaction_type("name") VALUES ('cancel');
 
-INSERT INTO public.tb_transaction_status("name") VALUES ('failed');
 INSERT INTO public.tb_transaction_status("name") VALUES ('pending');
+INSERT INTO public.tb_transaction_status("name") VALUES ('failed');
 INSERT INTO public.tb_transaction_status("name") VALUES ('success');

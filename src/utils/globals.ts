@@ -1,6 +1,7 @@
 import { DefaultConfig } from '../config/default.config';
 import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
 import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
+import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 const web3 = require('web3');
 
 export class Globals {
@@ -36,10 +37,12 @@ export class Globals {
     }
 
     public static async REFRESH_ENUMS(): Promise<any> {
-        Globals.paymentTypeEnums = (await new EnumDbConnector().getPaymentTypes()).data;
-        Globals.contractStatusEnums = (await new EnumDbConnector().getContractStatuses()).data;
-        Globals.transactionTypeEnums = (await new EnumDbConnector().getTransactionTypes()).data;
-        Globals.transactionStatusEnums = (await new EnumDbConnector().getTransactionStatuses()).data;
+        return {
+            paymentTypeEnums: Globals.paymentTypeEnums = (await new EnumDbConnector().getPaymentTypes()).data,
+            contranctStatusEnums: Globals.contractStatusEnums = (await new EnumDbConnector().getContractStatuses()).data,
+            transactionTypeEnums: Globals.transactionTypeEnums = (await new EnumDbConnector().getTransactionTypes()).data,
+            transactionStatusEnums: Globals.transactionStatusEnums = (await new EnumDbConnector().getTransactionStatuses()).data
+        };
     }
 
     public static GET_PAYMENT_TYPE_ENUM(): string[] {
@@ -93,8 +96,11 @@ export class Globals {
             pgPassword: DefaultConfig.settings.pgPassword,
             redisHost: process.env.REDIS_HOST,
             redisPort: process.env.REDIS_PORT,
-            getPayment: new ContractDbConnector().getContract,
-            updatePayment: new ContractDbConnector().updateContract
+            getEnums: Globals.REFRESH_ENUMS,
+            getContract: new ContractDbConnector().getContract,
+            updateContract: new ContractDbConnector().updateContract,
+            createTransaction: new TransactionDbConnector().createTransaction,
+            updateTransaction: new TransactionDbConnector().updateTransaction
         };
     }
 }

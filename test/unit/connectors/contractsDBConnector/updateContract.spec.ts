@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
-import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../src/core/payment/models';
+import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { MerchantSDK } from '../../../../src/core/MerchantSDK';
 import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
@@ -38,7 +38,7 @@ describe('A ContractDbConnector updateContract', () => {
     describe('With successful request', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
-                updatePayment: contractDbConnector.updateContract
+                updateContract: contractDbConnector.updateContract
             });
         })
 
@@ -72,7 +72,7 @@ describe('A ContractDbConnector updateContract', () => {
             result.data[0].should.have.property('userID').that.is.equal(testUpdateContract.userID);
         });
         it('Should return true if the record is updated', async () => {
-            const result = await MerchantSDK.GET_SDK().updatePayment(testUpdateContract);
+            const result = await MerchantSDK.GET_SDK().updateContract(testUpdateContract);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');

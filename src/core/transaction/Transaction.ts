@@ -1,5 +1,5 @@
 import { TransactionDbConnector } from '../../connectors/dbConnector/TransactionDbConnector';
-import { ITransactionInsert, ITransactionGet } from './models';
+import { ITransactionInsert, ITransactionGet, ITransactionUpdate } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 
@@ -44,6 +44,30 @@ export class Transaction {
             }
 
             return new HTTPResponseHandler().handleFailed('Failed to retrieve single transaction.', error);
+        }
+    }
+
+    /**
+     * @description Get method for getting single transaction from DB
+     * @param {ITransactionUpdate} transaction object of the transaction
+     * @returns {HTTPResponse} Returns response with transaction object in data
+     */
+    public async updateTransaction(transaction: ITransactionUpdate) {
+        try {
+            const response = await new TransactionDbConnector().updateTransaction(transaction);
+            if (response.data[0].id === null) {
+
+                return new HTTPResponseHandler()
+                    .handleFailed('Transaction with supplied ID not found.', {}, HTTPResponseCodes.BAD_REQUEST());
+            }
+
+            return new HTTPResponseHandler().handleSuccess('Successfully updated single transaction.', response.data[0]);
+        } catch (error) {
+            if (error.status) {
+                return error;
+            }
+
+            return new HTTPResponseHandler().handleFailed('Failed to update single transaction.', error);
         }
     }
 

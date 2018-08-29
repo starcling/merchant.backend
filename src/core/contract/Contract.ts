@@ -1,4 +1,4 @@
-import { IPaymentContractInsert } from './models';
+import { IPaymentContractInsert, IPaymentContractUpdate } from './models';
 import { ContractDbConnector } from '../../connectors/dbConnector/ContractDbConnector';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
@@ -20,6 +20,29 @@ export class Contract {
             }
 
             return new HTTPResponseHandler().handleFailed('Failed to insert contract', error);
+        }
+    }
+
+    /**
+     * @description Get method for updating single contract from DB
+     * @param {IPaymentContractUpdate} contract ID of the contract
+     * @returns {HTTPResponse} Returns response with contract object in data
+     */
+    public async updateContract(contract: IPaymentContractUpdate) {
+        try {
+            const response = await new ContractDbConnector().updateContract(contract);
+            if (response.data[0].id === null) {
+
+                return new HTTPResponseHandler().handleFailed('Contract with supplied ID not found.', {}, HTTPResponseCodes.BAD_REQUEST());
+            }
+
+            return new HTTPResponseHandler().handleSuccess('Successfully updated single contract.', response.data[0]);
+        } catch (error) {
+            if (error.status) {
+                return error;
+            }
+
+            return new HTTPResponseHandler().handleFailed('Failed to update single contract.', error);
         }
     }
 
