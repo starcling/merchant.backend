@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_create_payment_contract(integer, uuid, integer, bigint, bigint, bigint, text, text, integer, text);
+-- FUNCTION: public.fc_create_payment_contract(integer, uuid, integer, bigint, bigint, bigint, text, text, text, integer, text);
 
--- DROP FUNCTION public.fc_create_payment_contract(integer, uuid, integer, bigint, bigint, bigint, text, text, integer, text);
+-- DROP FUNCTION public.fc_create_payment_contract(integer, uuid, integer, bigint, bigint, bigint, text, text, text, integer, text);
 
 CREATE OR REPLACE FUNCTION public.fc_create_payment_contract(
 	_hdWalletIndex integer,
@@ -10,6 +10,7 @@ CREATE OR REPLACE FUNCTION public.fc_create_payment_contract(
 	_lastPaymentDate bigint,
 	_startTimestamp bigint,
 	_customerAddress text,
+    _merchantAddress text,
     _pullPaymentAddress text,
 	_statusID integer,
 	_userID text)
@@ -31,6 +32,7 @@ INSERT INTO public.tb_payment_contracts(
         "lastPaymentDate", 
         "startTimestamp", 
         "customerAddress", 
+        "merchantAddress", 
         "pullPaymentAddress", 
         "statusID", 
         "userID")
@@ -42,6 +44,7 @@ INSERT INTO public.tb_payment_contracts(
         _lastPaymentDate, 
         _startTimestamp, 
         _customerAddress, 
+        _merchantAddress, 
         _pullPaymentAddress, 
         _statusID, 
         _userID) 
@@ -51,5 +54,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_create_payment_contract(integer, uuid, integer, bigint, bigint, bigint, text, text, integer, text)
+ALTER FUNCTION public.fc_create_payment_contract(integer, uuid, integer, bigint, bigint, bigint, text, text, text, integer, text)
     OWNER TO local_user;

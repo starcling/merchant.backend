@@ -55,7 +55,6 @@ describe('PaymentController: patch', () => {
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(updatePayment.currency);
                     expect(body).to.have.property('data').that.has.property('typeID').that.is.equal(updatePayment.typeID);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(updatePayment.frequency);
-                    expect(body).to.have.property('data').that.has.property('userID').that.is.equal(null);
                     done(err);
                 });
         });

@@ -1,4 +1,5 @@
 export interface IPaymentContractView {
+    id: string;
     title: string;
     description: string;
     promo: string;
@@ -7,12 +8,17 @@ export interface IPaymentContractView {
     currency: string;
     hdWalletIndex: number;
     numberOfPayments: number;
+    frequency: number;
+    type: string;
+    status: string;
+    networkID: string;
     nextPaymentDate: number;
     lastPaymentDate: number;
     startTimestamp: number;
     customerAddress: string;
+    merchantAddress: string;
     pullPaymentAddress: string;
-    status: string;
+    userID: string;
 }
 
 export interface IPaymentContractInsert {
@@ -23,6 +29,7 @@ export interface IPaymentContractInsert {
     lastPaymentDate: number;
     startTimestamp: number;
     customerAddress: string;
+    merchantAddress: string;
     pullPaymentAddress: string;
     statusID: number;
     userID: string;

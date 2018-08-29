@@ -4,7 +4,7 @@ import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 export class ContractDbConnector {
   public createContract(insertDetails: IPaymentContractInsert) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_create_payment_contract($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+      text: 'SELECT * FROM fc_create_payment_contract($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
       values: [
         insertDetails.hdWalletIndex,
         insertDetails.paymentID,
@@ -13,6 +13,7 @@ export class ContractDbConnector {
         insertDetails.lastPaymentDate,
         insertDetails.startTimestamp,
         insertDetails.customerAddress,
+        insertDetails.merchantAddress,
         insertDetails.pullPaymentAddress,
         insertDetails.statusID,
         insertDetails.userID

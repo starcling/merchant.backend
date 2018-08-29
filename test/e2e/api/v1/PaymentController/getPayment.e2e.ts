@@ -70,7 +70,7 @@ describe('PaymentController: getPayment', () => {
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('message').that.is.equal('SQL Query failed. Reason: invalid_text_representation');
-                    expect(body).to.have.property('error').that.is.equal('22P02');
+                    expect(body).to.have.property('error').that.is.an('object');
                     done(err);
                 });  
         });

@@ -34,6 +34,7 @@
             "lastPaymentDate": 20,
             "startTimestamp": 100,
             "customerAddress": "243423",
+            "merchantAddress": "merchantadddr",
             "pullPaymentAddress": "24234234",
             "statusID": 1,
             "userID": "2342934"

@@ -92,6 +92,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payment_contracts
     "lastPaymentDate" bigint DEFAULT 0,
     "startTimestamp" bigint NOT NULL,
     "customerAddress" character varying(255) COLLATE pg_catalog."default",
+    "merchantAddress" character varying(255) COLLATE pg_catalog."default",
     "pullPaymentAddress" character varying(255) COLLATE pg_catalog."default",
     "statusID" integer DEFAULT 1,
     "userID" character varying(255) DEFAULT NULL,

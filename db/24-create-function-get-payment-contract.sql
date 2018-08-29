@@ -12,6 +12,7 @@ CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
         amount bigint,
         "initialPaymentAmount" bigint,
         currency character varying (255),
+        "hdWalletIndex" integer,
         "numberOfPayments" integer,
         frequency integer,
         type character varying (255),
@@ -20,6 +21,8 @@ CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
         "nextPaymentDate" bigint,
         "lastPaymentDate" bigint,
         "startTimestamp" bigint,
+        "customerAddress" character varying (255),
+        "merchantAddress" character varying (255),
         "pullPaymentAddress" character varying (255),
         "userID" character varying (255)
     )
@@ -40,6 +43,7 @@ BEGIN
         public.tb_payments.amount as amount,
         public.tb_payments."initialPaymentAmount" as initialPaymentAmount,
         public.tb_payments.currency as currency,
+        public.tb_payment_contracts."hdWalletIndex" as hdWalletIndex,
         public.tb_payment_contracts."numberOfPayments" as numberOfPayments,
         public.tb_payments.frequency as frequency,
         public.tb_payment_type.name as type,
@@ -48,6 +52,8 @@ BEGIN
         public.tb_payment_contracts."nextPaymentDate" as nextPaymentDate,
         public.tb_payment_contracts."lastPaymentDate" as lastPaymentDate,
         public.tb_payment_contracts."startTimestamp" as startTimestamp,
+        public.tb_payment_contracts."customerAddress" as customerAddress,
+        public.tb_payment_contracts."merchantAddress" as merchantAddress,
         public.tb_payment_contracts."pullPaymentAddress" as pullPaymentAddress,
         public.tb_payment_contracts."userID" as userID
     FROM (public.tb_payment_contracts 

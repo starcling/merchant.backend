@@ -2,6 +2,7 @@ import { DefaultConfig } from '../config/default.config';
 import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
 import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
+
 const web3 = require('web3');
 
 export class Globals {
@@ -99,6 +100,7 @@ export class Globals {
             getEnums: Globals.REFRESH_ENUMS,
             getContract: new ContractDbConnector().getContract,
             updateContract: new ContractDbConnector().updateContract,
+            getTransactions: new TransactionDbConnector().getTransactionsByContractID,
             createTransaction: new TransactionDbConnector().createTransaction,
             updateTransaction: new TransactionDbConnector().updateTransaction
         };
