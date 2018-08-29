@@ -51,6 +51,7 @@ export class Globals {
 
         for (const d of this.paymentTypeEnums) {
             payload[d.id] = d.name;
+            payload[d.name] = d.id;
         }
 
         return payload;
@@ -61,6 +62,7 @@ export class Globals {
 
         for (const d of this.contractStatusEnums) {
             payload[d.id] = d.name;
+            payload[d.name] = d.id;
         }
 
         return payload;
@@ -71,6 +73,7 @@ export class Globals {
 
         for (const d of this.transactionStatusEnums) {
             payload[d.id] = d.name;
+            payload[d.name] = d.id;
         }
 
         return payload;
@@ -81,6 +84,7 @@ export class Globals {
 
         for (const d of this.transactionTypeEnums) {
             payload[d.id] = d.name;
+            payload[d.name] = d.id;
         }
 
         return payload;

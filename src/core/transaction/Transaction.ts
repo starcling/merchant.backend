@@ -2,6 +2,8 @@ import { TransactionDbConnector } from '../../connectors/dbConnector/Transaction
 import { ITransactionInsert, ITransactionGet, ITransactionUpdate } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
+import { Globals } from '../../utils/globals';
+import { MerchantSDK } from '../MerchantSDK';
 
 export class Transaction {
     /**
@@ -12,6 +14,13 @@ export class Transaction {
     public async createTransaction(transaction: ITransactionInsert) {
         try {
             const result = await new TransactionDbConnector().createTransaction(transaction);
+
+            if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['register']) {
+                MerchantSDK.GET_SDK().monitorRegistrationTransaction(transaction.hash, transaction.contractID);
+            }
+            if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['cancel']) {
+                MerchantSDK.GET_SDK().monitorCancellationTransaction(transaction.hash, transaction.contractID);
+            }
 
             return new HTTPResponseHandler().handleSuccess('Successful transaction insert.', result.data[0]);
         } catch (error) {
