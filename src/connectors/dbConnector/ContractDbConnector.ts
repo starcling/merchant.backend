@@ -48,10 +48,10 @@ export class ContractDbConnector {
     return response;
   }
 
-  public getContract(paymentID: string) {
+  public getContract(contractID: string) {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM public.fc_get_payment_contract($1);',
-      values: [paymentID]
+      values: [contractID]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
@@ -65,10 +65,10 @@ export class ContractDbConnector {
     return new DataService().executeQueryAsPromise(sqlQuery);
   }
 
-  public deleteContract(paymentId: string) {
+  public deleteContract(contractID: string) {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM public.fc_delete_payment_contract($1);',
-      values: [paymentId]
+      values: [contractID]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);

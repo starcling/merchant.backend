@@ -60,7 +60,7 @@ export class Payment {
 
             }
 
-            return new HTTPResponseHandler().handleFailed('No payment with given ID.', {});
+            return new HTTPResponseHandler().handleFailed('No payment with given ID.', {}, HTTPResponseCodes.BAD_REQUEST());
 
         } catch (error) {
             if (error.status) {
