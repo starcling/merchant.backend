@@ -14,6 +14,7 @@ export class Payment {
     public async createPayment(payment: IPaymentInsertDetails) {
         try {
             const walletDetails : NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
+            console.debug(walletDetails);
             // TODO: set payment.hdWalletIndex = walletDetails.index
             // TODO: set payment.merchantAddress = walletDetails.address
 
