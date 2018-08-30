@@ -35,16 +35,14 @@ describe('SchedulerController: restartScheduler', () => {
             await paymentConnector.deletePayment(payment.id);
         });
 
-        it('should restart the scheduler', (done) => {
+        it('should restart the scheduler',  (done) => {
             const numberOfPayments = 8;
             const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
             tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
             tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
             tempPayment.numberOfPayments = numberOfPayments;
             tempPayment.frequency = 1;
-
             paymentConnector.updatePayment(tempPayment);
-
             server
                 .post(`api/v1/test/start-scheduler`)
                 .send(tempPayment)

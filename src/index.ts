@@ -43,7 +43,6 @@ class App {
     useContainer(Container);
     Container.set(LoggerFactory, this.loggerFactory);
     app.use('/api/v1/doc/api', swaggerUi.serve, swaggerUi.setup(SWAGGER_DOCUMENT));
-
     const apiPath = Config.settings.apiPath;
     const routingControllersOptions: RoutingControllersOptions = {
       defaultErrorHandler: false,

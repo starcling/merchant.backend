@@ -42,6 +42,7 @@ describe('PaymentController: create', () => {
                 .send(insertPayment)
                 .expect(200)
                 .end((err: Error, res: any) => {
+                    console.debug(res);
                     const body = res.body;
                     
                     paymentID = body.data.id;
