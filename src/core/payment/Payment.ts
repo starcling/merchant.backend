@@ -3,6 +3,7 @@ import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnector';
 import { MerchantSDK } from '../MerchantSDK';
+import { CreatePaymentHandler, NewPaymentHdWalletDetails } from './CreatePaymentHandler';
 
 export class Payment {
     /**
@@ -12,6 +13,10 @@ export class Payment {
      */
     public async createPayment(payment: IPaymentInsertDetails) {
         try {
+            const walletDetails : NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
+            // TODO: set payment.hdWalletIndex = walletDetails.index
+            // TODO: set payment.merchantAddress = walletDetails.address
+
             const result = await new PaymentDbConnector().createPayment(payment);
 
             return new HTTPResponseHandler().handleSuccess('Successful payment insert.', result.data[0]);

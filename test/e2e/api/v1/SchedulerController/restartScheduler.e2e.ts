@@ -8,6 +8,11 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../../src
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
+process.env.KEY_DB_HOST = 'localhost';
+process.env.KEY_DB_PORT = '3305';
+process.env.KEY_DB_USER = 'db_service';
+process.env.KEY_DB_PASSWORD = 'db_pass';
+process.env.KEY_DB_DATABASE = 'keys';
 
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];

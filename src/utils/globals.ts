@@ -1,5 +1,6 @@
 import { DefaultConfig } from '../config/default.config';
 import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
+import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
 const web3 = require('web3');
 
 export class Globals {
@@ -35,7 +36,8 @@ export class Globals {
             deletePayment: new PaymentDbConnector().deletePayment,
             getAllPayments: new PaymentDbConnector().getAllPayments,
             getPayment: new PaymentDbConnector().getPayment,
-            updatePayment: new PaymentDbConnector().updatePayment
+            updatePayment: new PaymentDbConnector().updatePayment,
+            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
         };
     }
 }

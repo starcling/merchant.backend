@@ -1,8 +1,8 @@
 import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { IResponseMessage } from '../../../../src/utils/web/HTTPResponseHandler';
 
+const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 

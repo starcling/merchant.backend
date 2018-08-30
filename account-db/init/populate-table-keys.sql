@@ -1,0 +1,1 @@
+call add_table_keys('merchantBackendEncrKey');
