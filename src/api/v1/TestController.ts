@@ -15,6 +15,7 @@ export class TestController {
             return new APIResponseHandler().handle(response, { status: 200, message: executionResult });
         } catch (err) {
             console.debug(err);
+
             return new APIResponseHandler().handle(response, { status: 400, error: err });
         }
     }
@@ -27,6 +28,7 @@ export class TestController {
             return new APIResponseHandler().handle(response, { status: 200, message: 'Successfuly created scheduler.', data: payment.id });
         } catch (err) {
             console.debug(err);
+
             return new APIResponseHandler().handle(response, { status: 400, error: err });
         }
     }

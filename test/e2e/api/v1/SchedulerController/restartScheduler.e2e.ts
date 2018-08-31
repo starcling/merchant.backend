@@ -1,38 +1,34 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 import * as supertest from 'supertest';
-import { SchedulerConnector } from '../../../../../src/connectors/api/v1/SchedulerConnector';
-import { PaymentConnector } from '../../../../../src/connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../../src/core/payment/models';
+import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import { addTestPayment, removeTestPayment, updateTestPayment, retrieveTestPayment } from '../../../../unit/core/payment/paymentHelper';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
-
-process.env.KEY_DB_HOST = 'localhost';
-process.env.KEY_DB_PORT = '3305';
-process.env.KEY_DB_USER = 'db_service';
-process.env.KEY_DB_PASSWORD = 'db_pass';
-process.env.KEY_DB_DATABASE = 'keys';
 
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];
 
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/scheduler/restart';
-const schedulerConnector = new SchedulerConnector();
-const paymentConnector = new PaymentConnector();
 
 let payment;
+process.env.MNEMONIC_ID = 'mnemonic_phrase';
 
 describe('SchedulerController: restartScheduler', () => {
     describe('with successfull request', () => {
-
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            payment = await (await addTestPayment(insertPaymentData)).data;
         });
 
         afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
+            await removeTestPayment(payment.id);
+        });
+        
+        afterEach(async () => {
+            await removeTestMnemonic('mnemonic_phrase');
         });
 
         it('should restart the scheduler',  (done) => {
@@ -42,7 +38,9 @@ describe('SchedulerController: restartScheduler', () => {
             tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
             tempPayment.numberOfPayments = numberOfPayments;
             tempPayment.frequency = 1;
-            paymentConnector.updatePayment(tempPayment);
+
+            updateTestPayment(tempPayment);
+
             server
                 .post(`api/v1/test/start-scheduler`)
                 .send(tempPayment)
@@ -51,9 +49,9 @@ describe('SchedulerController: restartScheduler', () => {
                     const body = res.body;
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message').that.is.equal('Successfuly created scheduler.');
-                    expect(body).to.have.property('data').that.is.an('string');
+                    expect(body).to.have.property('data');
                 });
-
+            
             setTimeout(() => {
                 server
                     .post(`api/v1/scheduler/stop`)
@@ -63,9 +61,10 @@ describe('SchedulerController: restartScheduler', () => {
                     .expect(200)
                     .end((err: Error, res: any) => {
                         const body = res.body;
+
                         expect(body).to.have.property('status').that.is.equal(200);
                         expect(body).to.have.property('message').that.is.equal('Successfully stopped scheduler.');
-                        expect(body).to.have.property('data').that.is.an('string');
+                        expect(body).to.have.property('data');
                     });
             }, (numberOfPayments / 2) * 1000 + 200);
 
@@ -80,13 +79,13 @@ describe('SchedulerController: restartScheduler', () => {
                         const body = res.body;
                         expect(body).to.have.property('status').that.is.equal(200);
                         expect(body).to.have.property('message').that.is.equal('Successfully restarted scheduler.');
-                        expect(body).to.have.property('data').that.is.an('string');
+                        expect(body).to.have.property('data');
                     });
             }, (numberOfPayments - 3) * 1000 + 200);
 
 
             setTimeout(() => {
-                paymentConnector.getPayment(tempPayment.id).then(res => {
+                retrieveTestPayment(tempPayment.id).then(res => {
                     expect(res.data.numberOfPayments).to.be.equal(0);
                     done();
                 });
@@ -96,13 +95,20 @@ describe('SchedulerController: restartScheduler', () => {
     });
 
     describe('with unsuccessfull request', () => {
+        beforeEach(async () => {
+            await addTestMnemonic('mnemonic_phrase');
+        });
 
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            payment = (await addTestPayment(insertPaymentData)).data;
         });
 
         afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
+            await removeTestPayment(payment.id);
+        });
+        
+        afterEach(async () => {
+            await removeTestMnemonic('mnemonic_phrase');
         });
 
         it('should not restart scheduler if wrong ID was provided', (done) => {
@@ -121,8 +127,6 @@ describe('SchedulerController: restartScheduler', () => {
                     expect(body).to.have.property('error').that.is.an('object');
                     done();
                 });
-
-
         });
     });
 });

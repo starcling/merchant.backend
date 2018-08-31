@@ -19,6 +19,15 @@ export class CreatePaymentHandler {
 
         try {
             let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
+            if (!mnemonic) {
+                redisClient.unref();
+                redisClientBlocking.unref();
+
+                return <NewPaymentHdWalletDetails>{
+                    index: null,
+                    address: null
+                };
+            }
             let hdWallet = new HdWallet(mnemonic);
 
             mnemonic = null;
@@ -33,6 +42,7 @@ export class CreatePaymentHandler {
             privateKey = null;
             redisClient.unref();
             redisClientBlocking.unref();
+
             return <NewPaymentHdWalletDetails>{
                 index: index,
                 address: address
@@ -41,6 +51,7 @@ export class CreatePaymentHandler {
             redisClient.unref();
             redisClientBlocking.unref();
             console.debug(err);
+
             return <NewPaymentHdWalletDetails>{
                 index: null,
                 address: null

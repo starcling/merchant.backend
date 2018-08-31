@@ -4,6 +4,8 @@ import * as supertest from 'supertest';
 import { SchedulerConnector } from '../../../../../src/connectors/api/v1/SchedulerConnector';
 import { PaymentConnector } from '../../../../../src/connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../../src/core/payment/models';
+import { removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import { addTestPayment, removeTestPayment, updateTestPayment, retrieveTestPayment } from '../../../../unit/core/payment/paymentHelper';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -23,11 +25,15 @@ describe('SchedulerController: stopScheduler', () => {
     describe('with successfull request', () => {
 
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            payment = await (await addTestPayment(insertPaymentData)).data;
         });
 
         afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
+            await removeTestPayment(payment.id);
+        });
+
+        afterEach(async () => {
+            await removeTestMnemonic('mnemonic_phrase');
         });
 
         it('should stop the scheduler', (done) => {
@@ -38,7 +44,7 @@ describe('SchedulerController: stopScheduler', () => {
             tempPayment.numberOfPayments = numberOfPayments;
             tempPayment.frequency = 1;
 
-            paymentConnector.updatePayment(tempPayment);
+            updateTestPayment(tempPayment);
 
             server
                 .post(`api/v1/test/start-scheduler/`)
@@ -68,7 +74,7 @@ describe('SchedulerController: stopScheduler', () => {
 
 
             setTimeout(() => {
-                paymentConnector.getPayment(tempPayment.id).then(res => {
+                retrieveTestPayment(tempPayment.id).then(res => {
                     expect(res.data.numberOfPayments).to.be.equal(numberOfPayments / 2);
                     done();
                 });
@@ -80,11 +86,11 @@ describe('SchedulerController: stopScheduler', () => {
     describe('with unsuccessfull request', () => {
 
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            payment = await (await addTestPayment(insertPaymentData)).data;
         });
 
         afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
+            await removeTestPayment(payment.id);
         });
 
         it('should not stop scheduler if wrong ID was provided', (done) => {
@@ -103,8 +109,6 @@ describe('SchedulerController: stopScheduler', () => {
                     expect(body).to.have.property('error').that.is.an('object');
                     done();
                 });
-
-
         });
     });
 });

@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -13,7 +14,6 @@ const endpoint = 'api/v1/payments/';
 
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
-
 
 let paymentID: string;
 
@@ -26,6 +26,12 @@ describe('PaymentController: create', () => {
         await clearPayment();
     });
     describe('successful request', () => {
+        beforeEach(async () => {
+            await addTestMnemonic('mnemonic_phrase');
+        });
+        afterEach(async () => {
+            await removeTestMnemonic('mnemonic_phrase');
+        });
         afterEach(async () => {
             await clearPayment();
         });
@@ -42,9 +48,8 @@ describe('PaymentController: create', () => {
                 .send(insertPayment)
                 .expect(200)
                 .end((err: Error, res: any) => {
-                    console.debug(res);
                     const body = res.body;
-                    
+
                     paymentID = body.data.id;
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
@@ -66,6 +71,12 @@ describe('PaymentController: create', () => {
     });
 
     describe('unsuccessful request', () => {
+        beforeEach(async () => {
+            await addTestMnemonic('mnemonic_phrase');
+        });
+        afterEach(async () => {
+            await removeTestMnemonic('mnemonic_phrase');
+        });
         it('should return missing data', (done) => {
             const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
             delete unsuccessfullInsertPayment.startTimestamp;
@@ -98,6 +109,24 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').to.be.an('array');
+                    done(err);
+                });
+        });
+    });
+
+    describe('mnemonic phrase does not exists in the database', async () => {
+        it('should return correct reason', (done) => {
+            process.env.MNEMONIC_ID = 'not_existing_menmonic'
+
+            server
+                .post(`${endpoint}`)
+                .send(insertPayment)
+                .expect(400)
+                .end((err: Error, res: any) => {
+                    const body = res.body;
+                    expect(body).to.have.property('success').that.is.equal(false);
+                    expect(body).to.have.property('status').that.is.equal(400);
+                    expect(body).to.have.property('error').to.exist;
                     done(err);
                 });
         });

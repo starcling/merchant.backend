@@ -46,10 +46,10 @@ export class DataServiceEncrypted {
       status: 200,
       message: ''
     };
-
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.executeQuery(sqlQuery);
+
         if (result.affectedRows !== undefined) {
           if (result.affectedRows !== 0) {
             queryMessage.success = true;
@@ -91,7 +91,6 @@ export class DataServiceEncrypted {
           queryMessage.message = `SQL Query returned no data from database.`;
           return resolve(queryMessage);
         }
-
         queryMessage.success = true;
         queryMessage.status = 200;
         queryMessage.message = `SQL Query completed successful.`;

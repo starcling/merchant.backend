@@ -94,9 +94,10 @@ const insertTestMnemonicData = async () => {
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
 
-const clearTestMnemonicData = async () => {
+const clearTestMnemonicData = async (id) => {
   const sqlQuery: ISqlQuery = {
-    text: `DELETE FROM test_mnemonic`
+    text: `DELETE FROM test_mnemonic where id = ?`,
+    values: [id]
   };
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -111,8 +112,8 @@ const insertEncryptedMnemonicData = async () => {
 
 const deleteEncryptedMnemonicData = async () => {
   const sqlQuery: ISqlQuery = {
-    text: 'delete from mnemonics',
-    values: []
+    text: 'delete from mnemonics WHERE id = ?',
+    values: ['mnemonic_test_02']
   };
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -326,7 +327,7 @@ describe('Encrypted Data Service', async () => {
 
     describe('Adding mnemonic data in incorrect format', () => {
       afterEach(async () => {
-        await clearTestMnemonicData();
+        await clearTestMnemonicData('mnemonic_test_02');
       });
 
       it('should return success when data is inserted', () => {
@@ -351,7 +352,7 @@ describe('Encrypted Data Service', async () => {
 
     describe('Adding mnemonic data in correct format', () => {
       afterEach(async () => {
-        await clearTestMnemonicData();
+        await clearTestMnemonicData('mnemonic_test_02');
       })
       it('should return success when data is inserted', () => {
         const sqlQuery: ISqlQuery = {
@@ -377,7 +378,7 @@ describe('Encrypted Data Service', async () => {
         await insertTestMnemonicData();
       })
       afterEach(async () => {
-        await clearTestMnemonicData();
+        await clearTestMnemonicData('mnemonic_test_01');
       })
       it('should return data', () => {
         const sqlQuery: ISqlQuery = {

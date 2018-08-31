@@ -14,7 +14,12 @@ export class Payment {
     public async createPayment(payment: IPaymentInsertDetails) {
         try {
             const walletDetails : NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
-            console.debug(walletDetails);
+            if (!walletDetails.index && !walletDetails.address) {
+                return new HTTPResponseHandler().handleFailed(
+                    'Failed to insert payment.',
+                    'Check the mnemonic ID.', HTTPResponseCodes.BAD_REQUEST());
+            }
+
             // TODO: set payment.hdWalletIndex = walletDetails.index
             // TODO: set payment.merchantAddress = walletDetails.address
 

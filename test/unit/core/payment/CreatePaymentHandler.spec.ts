@@ -1,5 +1,8 @@
 import * as chai from 'chai';
 import { CreatePaymentHandler } from '../../../../src/core/payment/CreatePaymentHandler';
+import { ISqlQuery } from '../../../../src/utils/datasource/DataService';
+import { DataServiceEncrypted } from '../../../../src/utils/datasource/DataServiceEncrypted';
+import { DefaultConfig } from '../../../../src/config/default.config';
 
 chai.use(require('chai-match'));
 
@@ -10,13 +13,51 @@ process.env.KEY_DB_PORT = '3305';
 process.env.KEY_DB_USER = 'db_service';
 process.env.KEY_DB_PASSWORD = 'db_pass';
 process.env.KEY_DB_DATABASE = 'keys';
-const HD_WALLET = new CreatePaymentHandler();
+process.env.MNEMONIC_ID = 'create_payment_handler_mnemonic'
 
-describe('A HDWallet', () => { 
-    it('should return the owner - wallet at index 0', async () => {
-        let walletAddress = await HD_WALLET.handle();
+const dataservice = new DataServiceEncrypted();
 
-        expect(walletAddress.index).to.exist.and.not.be.null;
-        expect(walletAddress.address).to.exist.and.not.be.null;
+const TEST_MNEMONIC = 'handler test test test test test test test test test test test test test test';
+
+const insertEncryptedMnemonicData = async () => {
+    const sqlQuery: ISqlQuery = {
+        text: 'call add_mnemonic(?, ?, ?)',
+        values: ['create_payment_handler_mnemonic', TEST_MNEMONIC, 'merchantBackendEncrKey']
+    }
+    await dataservice.executeQueryAsPromise(sqlQuery);
+}
+
+const deleteEncryptedMnemonicData = async () => {
+    const sqlQuery: ISqlQuery = {
+        text: 'delete from mnemonics where id = ?',
+        values: ['create_payment_handler_mnemonic']
+    };
+    await dataservice.executeQueryAsPromise(sqlQuery);
+}
+
+const paymentHandler = new CreatePaymentHandler();
+
+describe('A Create Payment Handler', () => {
+    beforeEach(async () => {
+        await insertEncryptedMnemonicData();
+    });
+    afterEach(async () => {
+        await deleteEncryptedMnemonicData();
+    });
+
+    it('should handle the payment before creation', async () => {
+        let walletAddress = await paymentHandler.handle();
+
+        expect(walletAddress.index).to.not.be.null;
+        expect(walletAddress.address).to.not.be.null;
+    });
+
+    it('should return an empty wallet details when the mnemonic does not exists', async () => {
+        process.env.MNEMONIC_ID = 'not_existing_menmonic'
+
+        let walletAddress = await paymentHandler.handle();
+
+        expect(walletAddress.index).to.be.null;
+        expect(walletAddress.address).to.be.null;
     });
 });
