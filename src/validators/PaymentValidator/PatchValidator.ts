@@ -25,6 +25,7 @@ const dataSchema = Joi.object().keys({
     promo: Joi.string().allow(null),
     amount: Joi.number().min(0).allow(null),
     initialPaymentAmount: Joi.number().min(0).allow(null),
+    trialPeriod: Joi.number().min(0).allow(null),
     currency: Joi.string().allow(null),
     numberOfPayments: Joi.number().allow(null),
     typeID: Joi.number().allow(null),

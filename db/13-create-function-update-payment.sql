@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer);
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
 
--- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
@@ -9,6 +9,7 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_promo text,
 	_amount bigint,
 	_initialPaymentAmount bigint,
+	_trialPeriod bigint,
 	_currency text,
 	_numberOfPayments integer,
 	_frequency integer,
@@ -48,6 +49,10 @@ IF _initialPaymentAmount IS NULL
 THEN
 	_initialPaymentAmount = tb_temp."initialPaymentAmount";
 END IF;
+IF _trialPeriod IS NULL
+THEN
+	_trialPeriod = tb_temp."trialPeriod";
+END IF;
 IF _currency IS NULL OR _currency = ''
 THEN
 	_currency = tb_temp.currency;
@@ -75,6 +80,7 @@ UPDATE public.tb_payments SET
     promo = _promo, 
     amount = _amount, 
 	"initialPaymentAmount" = _initialPaymentAmount, 
+	"trialPeriod" = _trialPeriod, 
     currency = _currency, 
 	"numberOfPayments" = _numberOfPayments, 
 	frequency = _frequency, 
@@ -91,5 +97,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer)
     OWNER TO local_user;

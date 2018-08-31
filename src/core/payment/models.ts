@@ -5,6 +5,7 @@ export interface IPaymentInsertDetails {
     promo: string;
     amount: number;
     initialPaymentAmount: number;
+    trialPeriod: number;
     currency: string;
     numberOfPayments: number;
     frequency: number;
@@ -19,6 +20,7 @@ export interface IPaymentUpdateDetails {
     promo: string;
     amount: number;
     initialPaymentAmount: number;
+    trialPeriod: number;
     currency: string;
     numberOfPayments: number;
     typeID: number;

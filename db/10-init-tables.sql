@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     promo character varying(255) COLLATE pg_catalog."default",
     amount bigint NOT NULL,
     "initialPaymentAmount" bigint NOT NULL,
+    "trialPeriod" bigint DEFAULT 0,
     currency character varying(255) COLLATE pg_catalog."default" NOT NULL,
     "numberOfPayments" integer NOT NULL,
     frequency integer NOT NULL,
@@ -97,6 +98,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payment_contracts
     "pullPaymentAddress" character varying(255) COLLATE pg_catalog."default",
     "statusID" integer DEFAULT 1,
     "userID" character varying(255) DEFAULT NULL,
+    UNIQUE ("customerAddress", "paymentID"),
     CONSTRAINT tb_payment_contracts_pkey PRIMARY KEY (id),
     CONSTRAINT payment_id_id_fkey FOREIGN KEY ("paymentID")
         REFERENCES public.tb_payments (id)

@@ -19,6 +19,8 @@ const testInsertContract: IPaymentContractInsert = contracts['insertTestContract
 const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
 
 const numberOfContracts = 8;
+const max = 1e+52;
+const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPayment(testInsertPayment);
@@ -38,6 +40,7 @@ describe('A ContractDbConnector getAllContracts', () => {
         beforeEach(async () => {
             await insertTestPayment();
             for (let i = 0; i < numberOfContracts; i++) {
+                testInsertContract.customerAddress = (Math.floor((Math.random() * max) - min) + min).toString();
                 await contractDbConnector.createContract(testInsertContract);
             }
         });

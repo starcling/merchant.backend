@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_create_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer);
+-- FUNCTION: public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
 
--- DROP FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer);
+-- DROP FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_create_payment(
     _merchantID uuid,
@@ -9,6 +9,7 @@ CREATE OR REPLACE FUNCTION public.fc_create_payment(
     _promo text,
 	_amount bigint,
 	_initialPaymentAmount bigint,
+    _trialPeriod bigint,
 	_currency text,
 	_numberOfPayments integer,
     _frequency integer,
@@ -31,6 +32,7 @@ INSERT INTO public.tb_payments(
         promo,
         amount, 
         "initialPaymentAmount", 
+        "trialPeriod",
         currency, 
         "numberOfPayments", 
         frequency, 
@@ -42,7 +44,8 @@ INSERT INTO public.tb_payments(
         _description, 
         _promo,
         _amount, 
-        _initialPaymentAmount, 
+        _initialPaymentAmount,
+        _trialPeriod,
         _currency, 
         _numberOfPayments, 
         _frequency, 
@@ -54,5 +57,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, text, integer, integer, integer, integer)
+ALTER FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer)
     OWNER TO local_user;
