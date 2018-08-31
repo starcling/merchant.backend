@@ -22,10 +22,10 @@ export class TestController {
     @Post('/start-scheduler')
     public async startScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-            const payment = (await MerchantSDK.GET_SDK().updatePayment(request)).data[0];
-            new SchedulerConnector().startScheduler(payment);
+            const result = await new SchedulerConnector().startScheduler(request.paymentID);
 
-            return new APIResponseHandler().handle(response, { status: 200, message: 'Successfuly created scheduler.', data: payment.id });
+            // tslint:disable-next-line:max-line-length
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
             console.debug(err);
 

@@ -5,6 +5,7 @@ import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandl
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
 import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import { consoleTestResultHandler } from 'tslint/lib/test';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -60,9 +61,7 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
                     expect(body).to.have.property('data').that.has.property('initialPaymentAmount').that.is.equal('' + insertPayment.initialPaymentAmount);
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(insertPayment.currency);
-                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + insertPayment.startTimestamp);
-                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + insertPayment.endTimestamp);
-                    expect(body).to.have.property('data').that.has.property('type').that.is.equal(insertPayment.type);
+                    expect(body).to.have.property('data').that.has.property('typeID').that.is.equal(insertPayment.typeID);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(insertPayment.frequency);
                     expect(body).to.have.property('data').that.has.property('networkID').that.is.equal(insertPayment.networkID);
                     done(err);
@@ -79,7 +78,7 @@ describe('PaymentController: create', () => {
         });
         it('should return missing data', (done) => {
             const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
-            delete unsuccessfullInsertPayment.startTimestamp;
+            delete unsuccessfullInsertPayment.amount;
 
             server
                 .post(`${endpoint}`)
@@ -97,7 +96,7 @@ describe('PaymentController: create', () => {
 
         it('should return invalid data', (done) => {
             const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
-            unsuccessfullInsertPayment.startTimestamp = Number('string');
+            unsuccessfullInsertPayment.frequency = Number('string');
 
             server
                 .post(`${endpoint}`)
@@ -109,24 +108,6 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').to.be.an('array');
-                    done(err);
-                });
-        });
-    });
-
-    describe('mnemonic phrase does not exists in the database', async () => {
-        it('should return correct reason', (done) => {
-            process.env.MNEMONIC_ID = 'not_existing_menmonic'
-
-            server
-                .post(`${endpoint}`)
-                .send(insertPayment)
-                .expect(400)
-                .end((err: Error, res: any) => {
-                    const body = res.body;
-                    expect(body).to.have.property('success').that.is.equal(false);
-                    expect(body).to.have.property('status').that.is.equal(400);
-                    expect(body).to.have.property('error').to.exist;
                     done(err);
                 });
         });

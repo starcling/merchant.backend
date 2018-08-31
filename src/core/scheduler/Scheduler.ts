@@ -1,7 +1,6 @@
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { MerchantSDK } from '../MerchantSDK';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
-import { IPaymentUpdateDetails } from '../payment/models';
 
 export class Scheduler {
     /**
@@ -55,20 +54,20 @@ export class Scheduler {
      * @param {string} paymentID id of the scheduler, same as payment id
      * @returns {HTTPResponse} Returns success feedback
      */
-    public startScheduler(payment: IPaymentUpdateDetails, callback?: any) {
+    public startScheduler(paymentID: string, callback?: any) {
         try {
-            new (MerchantSDK.GET_SDK().Scheduler)(payment.id, callback ? callback : async () => {
-                const pa = (await MerchantSDK.GET_SDK().getPayment(payment.id)).data[0];
+            new (MerchantSDK.GET_SDK().Scheduler)(paymentID, callback ? callback : async () => {
+                const pa = (await MerchantSDK.GET_SDK().getContract(paymentID)).data[0];
 
                 pa.numberOfPayments = pa.numberOfPayments - 1;
                 pa.lastPaymentDate = Math.floor(new Date().getTime() / 1000);
                 pa.nextPaymentDate = pa.numberOfPayments === 0 ?
                     pa.nextPaymentDate : Number(pa.nextPaymentDate) + pa.frequency;
 
-                await MerchantSDK.GET_SDK().updatePayment(pa);
+                await MerchantSDK.GET_SDK().updateContract(pa);
             }).start();
 
-            return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', payment.id);
+            return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', paymentID);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to restart scheduler.', error);
         }

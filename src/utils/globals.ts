@@ -1,14 +1,22 @@
 import { DefaultConfig } from '../config/default.config';
-import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
+import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
+import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
+import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
+
 const web3 = require('web3');
 
 export class Globals {
+    private static paymentTypeEnums: any;
+    private static contractStatusEnums: any;
+    private static transactionTypeEnums: any;
+    private static transactionStatusEnums: any;
+
     public static GET_NETWORK(networkID: number): string {
         switch (networkID) {
-            case(1):
+            case (1):
                 return 'mainnet';
-            case(3):
+            case (3):
                 return 'ropsten';
         }
     }
@@ -19,6 +27,72 @@ export class Globals {
 
     public static GET_INFURA_API_KEY(): string {
         return 'eS5XgCLEJRygOsT6E4Bf';
+    }
+
+    public static GET_ENUM_TABLE_NAMES(): IEnumTableNames {
+        return {
+            paymentType: 'tb_payment_type',
+            contractStatus: 'tb_contract_status',
+            transactionType: 'tb_transaction_type',
+            transactionStatus: 'tb_transaction_status'
+        };
+    }
+
+    public static async REFRESH_ENUMS(): Promise<any> {
+        return {
+            paymentTypeEnums: Globals.paymentTypeEnums = (await new EnumDbConnector().getPaymentTypes()).data,
+            contranctStatusEnums: Globals.contractStatusEnums = (await new EnumDbConnector().getContractStatuses()).data,
+            transactionTypeEnums: Globals.transactionTypeEnums = (await new EnumDbConnector().getTransactionTypes()).data,
+            transactionStatusEnums: Globals.transactionStatusEnums = (await new EnumDbConnector().getTransactionStatuses()).data
+        };
+    }
+
+    public static GET_PAYMENT_TYPE_ENUM_NAMES(): any {
+        return PaymentTypeEnum;
+    }
+
+    public static GET_PAYMENT_TYPE_ENUM(): any[] {
+        const payload = [];
+
+        for (const d of this.paymentTypeEnums) {
+            payload[d.id] = d.name;
+            payload[d.name] = d.id;
+        }
+
+        return payload;
+    }
+
+    public static GET_CONTRACT_STATUS_ENUM(): string[] {
+        const payload = [];
+
+        for (const d of this.contractStatusEnums) {
+            payload[d.id] = d.name;
+            payload[d.name] = d.id;
+        }
+
+        return payload;
+    }
+
+    public static GET_TRANSACTION_STATUS_ENUM(): string[] {
+        const payload = [];
+
+        for (const d of this.transactionStatusEnums) {
+            payload[d.id] = d.name;
+            payload[d.name] = d.id;
+        }
+
+        return payload;
+    }
+
+    public static GET_TRANSACTION_TYPE_ENUM(): string[] {
+        const payload = [];
+
+        for (const d of this.transactionTypeEnums) {
+            payload[d.id] = d.name;
+            payload[d.name] = d.id;
+        }
+
+        return payload;
     }
 
     public static GET_DEFAULT_SDK_BUILD(networkID: number): any {
@@ -32,12 +106,27 @@ export class Globals {
             pgPassword: DefaultConfig.settings.pgPassword,
             redisHost: process.env.REDIS_HOST,
             redisPort: process.env.REDIS_PORT,
-            createPayment: new PaymentDbConnector().createPayment,
-            deletePayment: new PaymentDbConnector().deletePayment,
-            getAllPayments: new PaymentDbConnector().getAllPayments,
-            getPayment: new PaymentDbConnector().getPayment,
-            updatePayment: new PaymentDbConnector().updatePayment,
+            getEnums: Globals.REFRESH_ENUMS,
+            getContract: new ContractDbConnector().getContract,
+            updateContract: new ContractDbConnector().updateContract,
+            getTransactions: new TransactionDbConnector().getTransactionsByContractID,
+            createTransaction: new TransactionDbConnector().createTransaction,
+            updateTransaction: new TransactionDbConnector().updateTransaction,
             getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
         };
     }
+}
+
+enum PaymentTypeEnum {
+    push = 1,
+    singlePull = 2,
+    recurringPull = 3,
+    recurringWithInitial = 4
+}
+
+interface IEnumTableNames {
+    paymentType: string;
+    contractStatus: string;
+    transactionType: string;
+    transactionStatus: string;
 }

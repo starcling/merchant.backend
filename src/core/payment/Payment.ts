@@ -2,8 +2,6 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnector';
-import { MerchantSDK } from '../MerchantSDK';
-import { CreatePaymentHandler, NewPaymentHdWalletDetails } from './CreatePaymentHandler';
 
 export class Payment {
     /**
@@ -13,16 +11,6 @@ export class Payment {
      */
     public async createPayment(payment: IPaymentInsertDetails) {
         try {
-            const walletDetails : NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
-            if (!walletDetails.index && !walletDetails.address) {
-                return new HTTPResponseHandler().handleFailed(
-                    'Failed to insert payment.',
-                    'Check the mnemonic ID.', HTTPResponseCodes.BAD_REQUEST());
-            }
-
-            // TODO: set payment.hdWalletIndex = walletDetails.index
-            // TODO: set payment.merchantAddress = walletDetails.address
-
             const result = await new PaymentDbConnector().createPayment(payment);
 
             return new HTTPResponseHandler().handleSuccess('Successful payment insert.', result.data[0]);
@@ -71,7 +59,7 @@ export class Payment {
 
             }
 
-            return new HTTPResponseHandler().handleFailed('No payment with given ID.', {});
+            return new HTTPResponseHandler().handleFailed('No payment with given ID.', {}, HTTPResponseCodes.BAD_REQUEST());
 
         } catch (error) {
             if (error.status) {
@@ -111,12 +99,6 @@ export class Payment {
     public async updatePayment(payment: IPaymentUpdateDetails) {
         try {
             const response = await new PaymentDbConnector().updatePayment(payment);
-            if (payment.registerTxHash && payment.registerTxHash.indexOf('0x') !== -1) {
-                MerchantSDK.GET_SDK().monitorRegistrationTransaction(payment.registerTxHash, payment.id);
-            }
-            if (payment.cancelTxHash && payment.cancelTxHash.indexOf('0x') !== -1) {
-                MerchantSDK.GET_SDK().monitorCancellationTransaction(payment.cancelTxHash, payment.id);
-            }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment update.', response.data[0]);
         } catch (error) {
