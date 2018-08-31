@@ -2,6 +2,9 @@ import { IPaymentContractInsert, IPaymentContractUpdate } from './models';
 import { ContractDbConnector } from '../../connectors/dbConnector/ContractDbConnector';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
+import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnector';
+import { IPaymentUpdateDetails } from '../payment/models';
+import { Globals } from '../../utils/globals';
 
 export class Contract {
     /**
@@ -11,6 +14,27 @@ export class Contract {
      */
     public async createContract(contract: IPaymentContractInsert) {
         try {
+
+            // TODO: add logic for contructing contract
+
+            contract.hdWalletIndex = 0;
+            contract.merchantAddress = '0xc5b42db793cb60b4ff9e4c1bd0c2c633af90acfb';
+
+            const paymentResult = await new PaymentDbConnector().getPayment(contract.paymentID);
+            const payment: IPaymentUpdateDetails = paymentResult.data[0];
+            contract.startTimestamp = Number(contract.startTimestamp);
+
+            if (payment.trialPeriod > 0) {
+                contract.startTimestamp += payment.trialPeriod;
+            }
+
+            if (payment.typeID === Globals.GET_PAYMENT_TYPE_ENUM()[Globals.GET_PAYMENT_TYPE_ENUM_NAMES().recurringWithInitial]) {
+                contract.startTimestamp += payment.frequency;
+            }
+
+            contract.nextPaymentDate = contract.startTimestamp;
+            contract.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
+
             const result = await new ContractDbConnector().createContract(contract);
 
             return new HTTPResponseHandler().handleSuccess('Successful contract insert.', result.data[0]);

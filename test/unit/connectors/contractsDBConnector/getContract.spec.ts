@@ -74,10 +74,10 @@ describe('A ContractDbConnector getContract', () => {
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertContract.numberOfPayments);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
             result.data[0].should.have.property('type').that.is.equal(paymentTypes[testInsertPayment.typeID]);
-            result.data[0].should.have.property('status').that.is.equal(contractStatuses[testInsertContract.statusID]);
+            result.data[0].should.have.property('status').that.is.equal(contractStatuses[1]);
             result.data[0].should.have.property('networkID').that.is.equal(testInsertPayment.networkID);
             result.data[0].should.have.property('nextPaymentDate').that.is.equal(testInsertContract.nextPaymentDate.toString());
-            result.data[0].should.have.property('lastPaymentDate').that.is.equal(testInsertContract.lastPaymentDate.toString());
+            result.data[0].should.have.property('lastPaymentDate').that.is.equal('0');
             result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertContract.startTimestamp.toString());
             result.data[0].should.have.property('pullPaymentAddress').that.is.equal(testInsertContract.pullPaymentAddress);
             result.data[0].should.have.property('userID').that.is.equal(testInsertContract.userID);
@@ -102,10 +102,10 @@ describe('A ContractDbConnector getContract', () => {
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertContract.numberOfPayments);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
             result.data[0].should.have.property('type').that.is.equal(paymentTypes[testInsertPayment.typeID]);
-            result.data[0].should.have.property('status').that.is.equal(contractStatuses[testInsertContract.statusID]);
+            result.data[0].should.have.property('status').that.is.equal(contractStatuses[1]);
             result.data[0].should.have.property('networkID').that.is.equal(testInsertPayment.networkID);
             result.data[0].should.have.property('nextPaymentDate').that.is.equal(testInsertContract.nextPaymentDate.toString());
-            result.data[0].should.have.property('lastPaymentDate').that.is.equal(testInsertContract.lastPaymentDate.toString());
+            result.data[0].should.have.property('lastPaymentDate').that.is.equal('0');
             result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertContract.startTimestamp.toString());
             result.data[0].should.have.property('pullPaymentAddress').that.is.equal(testInsertContract.pullPaymentAddress);
             result.data[0].should.have.property('userID').that.is.equal(testInsertContract.userID);

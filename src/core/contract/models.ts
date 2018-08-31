@@ -26,12 +26,10 @@ export interface IPaymentContractInsert {
     paymentID: string;
     numberOfPayments: number;
     nextPaymentDate: number;
-    lastPaymentDate: number;
     startTimestamp: number;
     customerAddress: string;
     merchantAddress: string;
     pullPaymentAddress: string;
-    statusID: number;
     userID: string;
 }
 

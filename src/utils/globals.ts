@@ -46,7 +46,11 @@ export class Globals {
         };
     }
 
-    public static GET_PAYMENT_TYPE_ENUM(): string[] {
+    public static GET_PAYMENT_TYPE_ENUM_NAMES(): any {
+        return PaymentTypeEnum;
+    }
+
+    public static GET_PAYMENT_TYPE_ENUM(): any[] {
         const payload = [];
 
         for (const d of this.paymentTypeEnums) {
@@ -109,6 +113,13 @@ export class Globals {
             updateTransaction: new TransactionDbConnector().updateTransaction
         };
     }
+}
+
+enum PaymentTypeEnum {
+    push = 1,
+    singlePull = 2,
+    recurringPull = 3,
+    recurringWithInitial = 4
 }
 
 interface IEnumTableNames {

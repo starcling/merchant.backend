@@ -46,11 +46,11 @@ describe('A ContractDbController insertContract', () => {
             result.data[0].should.have.property('paymentID').that.is.equal(testInsertContract.paymentID);
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertContract.numberOfPayments);
             result.data[0].should.have.property('nextPaymentDate').that.is.equal(testInsertContract.nextPaymentDate.toString());
-            result.data[0].should.have.property('lastPaymentDate').that.is.equal(testInsertContract.lastPaymentDate.toString());
+            result.data[0].should.have.property('lastPaymentDate').that.is.equal('0');
             result.data[0].should.have.property('startTimestamp').that.is.equal(testInsertContract.startTimestamp.toString());
             result.data[0].should.have.property('customerAddress').that.is.equal(testInsertContract.customerAddress);
             result.data[0].should.have.property('pullPaymentAddress').that.is.equal(testInsertContract.pullPaymentAddress);
-            result.data[0].should.have.property('statusID').that.is.equal(testInsertContract.statusID);
+            result.data[0].should.have.property('statusID').that.is.equal(1);
             result.data[0].should.have.property('userID').that.is.equal(testInsertContract.userID);
         });
     });
