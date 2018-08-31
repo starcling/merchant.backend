@@ -1,6 +1,7 @@
 {
     "payments": {
         "insertTestPayment": {
+            "merchantID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "title": "test payment",
             "description": "test description",
             "amount": "20",

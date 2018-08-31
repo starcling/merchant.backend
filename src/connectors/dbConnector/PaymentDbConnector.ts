@@ -4,8 +4,9 @@ import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 export class PaymentDbConnector {
   public createPayment(insertDetails: IPaymentInsertDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+      text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
       values: [
+        insertDetails.merchantID,
         insertDetails.title,
         insertDetails.description,
         insertDetails.promo,

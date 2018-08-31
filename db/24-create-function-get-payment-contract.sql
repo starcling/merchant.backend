@@ -7,6 +7,7 @@ CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
     RETURNS TABLE (
         id uuid,
         title character varying (255),
+        "merchantID" uuid,
         description character varying (255),
         promo character varying (255),
         amount bigint,
@@ -38,6 +39,7 @@ BEGIN
     QUERY (SELECT 
         public.tb_payment_contracts.id as id,
         public.tb_payments.title as title,
+        public.tb_payments."merchantID" as merchantID,
         public.tb_payments.description as description,
         public.tb_payments.promo as promo,
         public.tb_payments.amount as amount,

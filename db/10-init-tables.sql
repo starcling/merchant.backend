@@ -59,6 +59,7 @@ ALTER TABLE public.tb_transaction_type
 CREATE TABLE IF NOT EXISTS public.tb_payments
 (
     id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
+    "merchantID" uuid NOT NULL,
     title character varying(255) COLLATE pg_catalog."default" NOT NULL,
     description character varying(255) COLLATE pg_catalog."default" NOT NULL,
     promo character varying(255) COLLATE pg_catalog."default",

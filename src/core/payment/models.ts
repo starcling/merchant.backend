@@ -1,4 +1,5 @@
 export interface IPaymentInsertDetails {
+    merchantID: string;
     title: string;
     description: string;
     promo: string;
