@@ -13,11 +13,13 @@ export class CreatePaymentHandler {
         bluebird.promisifyAll(redis);
         const MERHCANT_PAYMENT_INDEX: string = 'merchantPaymentIndex';
         const testRedis = await redisClient.lrangeAsync(MERHCANT_PAYMENT_INDEX, 0, -1);
+        console.debug(testRedis);
         if (testRedis.length === 0) {
             await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, 0);
         }
 
         try {
+            console.debug('mnemonci ID ', DefaultConfig.settings.mnemonicID);
             let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
             if (!mnemonic) {
                 redisClient.unref();
@@ -33,10 +35,13 @@ export class CreatePaymentHandler {
             mnemonic = null;
             // TODO: get merchant address index from redis
             let index = await redisClient.blpopAsync(MERHCANT_PAYMENT_INDEX, 0);
+            console.debug(index);
             index = Number(index[1]);
             await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, index + 1);
             let privateKey: string = hdWallet.getPrivateKeyAtIndex(index).slice(2);
             const address: string = hdWallet.getAddressAtIndex(index);
+            console.debug(privateKey);
+            console.debug(address);
             hdWallet = null;
             await new PrivateKeysDbConnector().addAddress(address, privateKey);
             privateKey = null;

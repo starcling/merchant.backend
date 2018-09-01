@@ -30,5 +30,5 @@ const dataSchema = Joi.object().keys({
     numberOfPayments: Joi.number().allow(null),
     typeID: Joi.number().allow(null),
     frequency: Joi.number().allow(null),
-    networkID: Joi.string().allow(null)
+    networkID: Joi.number().allow(null)
 });
