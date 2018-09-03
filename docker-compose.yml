@@ -56,7 +56,7 @@ services:
       net.core.somaxconn: 1024
     ports:
       - "6379:6379"
-    command: sh -c "redis-server --appendonly yes"
+    command: sh -c "redis-server"
     hostname: redis
     networks:
       - pumapay_merchant_sdk

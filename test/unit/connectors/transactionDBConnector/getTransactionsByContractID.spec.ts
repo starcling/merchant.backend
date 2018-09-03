@@ -46,7 +46,6 @@ const clearTestPayment = async () => {
 
 describe('A TransactionDbConnector getTransactionsByContractID', () => {
     describe('With successfull request', () => {
-
         beforeEach(async () => {
             await insertTestPayment();
             const result = await contractDbConnector.createContract(testInsertContract);
@@ -155,7 +154,6 @@ describe('A TransactionDbConnector getTransactionsByContractID', () => {
     });
 
     describe('With unsuccessfull request', () => {
-
         it('Should raise expection bad id', async () => {
             const tempGetTransaction = Object.assign({}, testGetTransaction);
             tempGetTransaction.id = 'BAD_ID'

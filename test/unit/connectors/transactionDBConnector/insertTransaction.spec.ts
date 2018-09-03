@@ -38,18 +38,6 @@ const clearTestPayment = async () => {
 };
 
 describe('A TransactionDbController insertTransaction', () => {
-
-    before(() => {
-        //TODO: Reflect changes on the SDK and use apropiate function for this
-        // MerchantSDK.GET_SDK().build({
-        //     createPayment: contractDbConnector.createContract
-        // });
-    })
-
-    after(() => {
-        // MerchantSDK.GET_SDK().disconnectRedis();
-    });
-
     beforeEach(async () => {
         await insertTestPayment();
         const result = await contractDbConnector.createContract(testInsertContract);

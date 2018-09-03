@@ -43,14 +43,6 @@ const clearTestPayment = async () => {
 
 describe('A TransactionDbConnector deleteTransaction', () => {
     describe('With successfull request', () => {
-        before(() => {
-            // MerchantSDK.GET_SDK().build({
-            //     getPayment: contractDbConnector.getContract
-            // });
-        });
-        after(() => {
-            // MerchantSDK.GET_SDK().disconnectRedis();
-        });
         beforeEach(async () => {
             await insertTestPayment();
             const result = await contractDbConnector.createContract(testInsertContract);
@@ -72,15 +64,6 @@ describe('A TransactionDbConnector deleteTransaction', () => {
     });
 
     describe('With unsuccessfull request', () => {
-        before(() => {
-            // MerchantSDK.GET_SDK().build({
-            //     getPayment: contractDbConnector.getContract
-            // });
-        });
-        after(() => {
-            // MerchantSDK.GET_SDK().disconnectRedis();
-        });
-
         it('Should raise not bad id exception', async () => {
             const tempGetTransaction = Object.assign({}, testGetTransaction);
             tempGetTransaction.id = 'BAD_ID'

@@ -52,7 +52,6 @@ export class CreatePaymentHandler {
         } catch (err) {
             redisClient.unref();
             redisClientBlocking.unref();
-            console.debug(err);
 
             return <NewPaymentHdWalletDetails>{
                 index: null,

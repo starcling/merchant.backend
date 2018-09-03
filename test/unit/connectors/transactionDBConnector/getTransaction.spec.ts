@@ -45,14 +45,6 @@ const clearTestPayment = async () => {
 
 describe('A TransactionDbConnector getTransaction', () => {
     describe('With successfull request', () => {
-        before(() => {
-            // MerchantSDK.GET_SDK().build({
-            //     getPayment: contractDbConnector.getContract
-            // });
-        });
-        after(() => {
-            // MerchantSDK.GET_SDK().disconnectRedis();
-        });
         beforeEach(async () => {
             await insertTestPayment();
             const result = await contractDbConnector.createContract(testInsertContract);
@@ -113,15 +105,6 @@ describe('A TransactionDbConnector getTransaction', () => {
     });
 
     describe('With unsuccessfull request', () => {
-        before(() => {
-            // MerchantSDK.GET_SDK().build({
-            //     getPayment: contractDbConnector.getContract
-            // });
-        });
-        after(() => {
-            // MerchantSDK.GET_SDK().disconnectRedis();
-        });
-
         it('Should raise not found error', async () => {
             const tempGetTransaction = Object.assign({}, testGetTransaction);
             tempGetTransaction.hash = 'BAD_HASH'
