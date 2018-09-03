@@ -5,14 +5,16 @@ export class MnemonicRetriever {
     public async retrieve(mnemonicID: string): Promise<any> {
         const sqlQuery: ISqlQuery = {
             text: 'call get_decrypted_mnemonic(?, ?)',
-            values: [mnemonicID, 'merchantBackendEncrKey']
+            values: [mnemonicID, 'sUp4hS3cr37kE9c0D3']
         };
-        const result = await new DataServiceEncrypted().executeQueryAsPromise(sqlQuery);
 
-        if (result && !result.success) {
-            return null;
-        }
-        console.debug(result);
-        return result.data[0]['@mnemonicKey'];
+        return new Promise(async (resolve, reject) => {
+            const result = await new DataServiceEncrypted().executeQueryAsPromise(sqlQuery);
+            if (result && !result.success) {
+                return reject(result.message);
+            }
+
+            return resolve(result.data[0]['@mnemonicKey']);
+        });
     }
 }

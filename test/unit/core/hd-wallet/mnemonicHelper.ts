@@ -15,7 +15,7 @@ export const addTestMnemonic = async (mnemonicID) => {
 
     const sqlQueryInsert: ISqlQuery = {
         text: 'call add_mnemonic(?, ?, ?)',
-        values: [mnemonicID, TEST_MNEMONIC, 'merchantBackendEncrKey']
+        values: [mnemonicID, TEST_MNEMONIC, 'sUp4hS3cr37kE9c0D3']
     }
     await dataservice.executeQueryAsPromise(sqlQueryInsert);
 }

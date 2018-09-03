@@ -19,10 +19,9 @@ export class Contract {
         try {
             const contractCountResult = await dbConnector.getContractCountByCustomerAndPaymentID(
                 contract.customerAddress, contract.paymentID);
-            const contractcount = Number(contractCountResult.data[0]['fc_get_contract_count_by_customer_and_payment_id']);
+            const contractcount = Number(contractCountResult.data[0]['fn_get_contract_count_by_customer_and_payment_id']);
             if (contractcount === 0) {
                 const walletDetails : NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
-                console.debug(walletDetails);
                 if (!walletDetails.index && !walletDetails.address) {
                     return new HTTPResponseHandler().handleFailed(
                         'Failed to insert payment.',
@@ -49,9 +48,7 @@ export class Contract {
 
                 result = await dbConnector.createContract(contract);
             } else {
-                console.debug('contract------------', contract);
                 result = await dbConnector.getContractByCustomerAndPaymentID(contract.customerAddress, contract.paymentID);
-                console.debug('---------------', result);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful contract insert.', result.data[0]);

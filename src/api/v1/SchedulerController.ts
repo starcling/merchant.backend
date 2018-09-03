@@ -36,7 +36,7 @@ export class SchedulerController {
     public async stopScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
             new StopSchedulerValidator().validate(request);
-            const result = await new SchedulerConnector().stopScheduler(request.paymentID);
+            const result = await new SchedulerConnector().stopScheduler(request.contractID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -66,7 +66,7 @@ export class SchedulerController {
     public async restartScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
             new StopSchedulerValidator().validate(request);
-            const result = await new SchedulerConnector().restartScheduler(request.paymentID);
+            const result = await new SchedulerConnector().restartScheduler(request.contractID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {

@@ -54,7 +54,7 @@ const clearTestAccountData = async () => {
 const insertEncryptedAccountData = async () => {
   const sqlQuery: ISqlQuery = {
     text: 'call add_account(?, ?, ?)',
-    values: ['test', 'testKey', 'merchantBackendEncrKey']
+    values: ['test', 'testKey', 'sUp4hS3cr37kE9c0D3']
   }
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -105,7 +105,7 @@ const clearTestMnemonicData = async (id) => {
 const insertEncryptedMnemonicData = async () => {
   const sqlQuery: ISqlQuery = {
     text: 'call add_mnemonic(?, ?, ?)',
-    values: ['mnemonic_test_02', TEST_MNEMONIC, 'merchantBackendEncrKey']
+    values: ['mnemonic_test_02', TEST_MNEMONIC, 'sUp4hS3cr37kE9c0D3']
   }
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -297,7 +297,7 @@ describe('Encrypted Data Service', async () => {
     it('should dencrypt private key', () => {
       const sqlQuery: ISqlQuery = {
         text: 'call get_private_key_from_address(?, ?)',
-        values: ['test', 'merchantBackendEncrKey']
+        values: ['test', 'sUp4hS3cr37kE9c0D3']
       }
       const expectedQueryMessage: IResponseMessage = {
         success: true,
@@ -452,7 +452,7 @@ describe('Encrypted Data Service', async () => {
       it('should dencrypt mnemonic key', () => {
         const sqlQuery: ISqlQuery = {
           text: 'call get_decrypted_mnemonic(?, ?)',
-          values: ['mnemonic_test_02', 'merchantBackendEncrKey']
+          values: ['mnemonic_test_02', 'sUp4hS3cr37kE9c0D3']
         }
         const expectedQueryMessage: IResponseMessage = {
           success: true,

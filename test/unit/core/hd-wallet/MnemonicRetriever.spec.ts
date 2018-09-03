@@ -21,7 +21,7 @@ const TEST_MNEMONIC = 'test test test test test test test test test test test te
 const insertEncryptedMnemonicData = async () => {
   const sqlQuery: ISqlQuery = {
     text: 'call add_mnemonic(?, ?, ?)',
-    values: ['test_mnemonic_99', TEST_MNEMONIC, 'merchantBackendEncrKey']
+    values: ['test_mnemonic_99', TEST_MNEMONIC, 'sUp4hS3cr37kE9c0D3']
   }
   await dataservice.executeQueryAsPromise(sqlQuery);
 }

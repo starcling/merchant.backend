@@ -75,7 +75,7 @@ export class ContractDbConnector {
 
   public getContractCountByCustomerAndPaymentID(customerAddress: string, paymentID: string): Promise<any> {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM public.fc_get_contract_count_by_customer_and_payment_id($1, $2);',
+      text: 'SELECT * FROM public.fn_get_contract_count_by_customer_and_payment_id($1, $2);',
       values: [customerAddress, paymentID]
     };
 
@@ -84,10 +84,9 @@ export class ContractDbConnector {
 
   public getContractByCustomerAndPaymentID(customerAddress: string, paymentID: string): Promise<any> {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM public.fc_get_contract_by_customer_and_payment_id($1, $2);',
+      text: 'SELECT * FROM public.fn_get_contract_by_customer_and_payment_id($1, $2);',
       values: [customerAddress, paymentID]
     };
-    console.debug(sqlQuery);
 
     return new DataService().executeQueryAsPromise(sqlQuery);
   }

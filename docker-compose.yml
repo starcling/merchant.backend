@@ -17,9 +17,9 @@ services:
       - PGDATABASE=local_merchant_server
       - PGPORT=5432
       - REDIS_PORT=6379
-      - REDIS_HOST=redis
+      - REDIS_HOST=merchant_redis
       - ETH_NETWORK=3
-      - KEY_DB_HOST=db
+      - KEY_DB_HOST=merchant_db
       - KEY_DB_USER=db_service
       - KEY_DB_PASS=db_pass
       - KEY_DB=keys
@@ -50,7 +50,7 @@ services:
       - pumapay_merchant_sdk
     restart: unless-stopped
 
-  redis:
+  merchant_redis:
     image: redis:5.0-rc-alpine
     sysctls:
       net.core.somaxconn: 1024
@@ -63,7 +63,7 @@ services:
     volumes:
       - redis-data:/data
     
-  db: 
+  merchant_db: 
     image: mysql:5.7.13
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped

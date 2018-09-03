@@ -14,7 +14,6 @@ export class Transaction {
     public async createTransaction(transaction: ITransactionInsert) {
         try {
             const result = await new TransactionDbConnector().createTransaction(transaction);
-
             if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['register']) {
                 MerchantSDK.GET_SDK().monitorRegistrationTransaction(transaction.hash, transaction.contractID);
             }

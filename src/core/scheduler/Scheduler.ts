@@ -51,23 +51,22 @@ export class Scheduler {
 
     /**
      * @description Method for starting the scheduler
-     * @param {string} paymentID id of the scheduler, same as payment id
+     * @param {string} contractID id of the scheduler, same as contract id
      * @returns {HTTPResponse} Returns success feedback
      */
-    public startScheduler(paymentID: string, callback?: any) {
+    public startScheduler(contractID: string, callback?: any) {
         try {
-            new (MerchantSDK.GET_SDK().Scheduler)(paymentID, callback ? callback : async () => {
-                const pa = (await MerchantSDK.GET_SDK().getContract(paymentID)).data[0];
+            new (MerchantSDK.GET_SDK().Scheduler)(contractID, callback ? callback : async () => {
+                const contract = (await MerchantSDK.GET_SDK().getContract(contractID)).data[0];
 
-                pa.numberOfPayments = pa.numberOfPayments - 1;
-                pa.lastPaymentDate = Math.floor(new Date().getTime() / 1000);
-                pa.nextPaymentDate = pa.numberOfPayments === 0 ?
-                    pa.nextPaymentDate : Number(pa.nextPaymentDate) + pa.frequency;
-
-                await MerchantSDK.GET_SDK().updateContract(pa);
+                contract.numberOfPayments = contract.numberOfPayments - 1;
+                contract.lastPaymentDate = Math.floor(new Date().getTime() / 1000);
+                contract.nextPaymentDate = contract.numberOfPayments === 0 ?
+                contract.nextPaymentDate : Number(contract.nextPaymentDate) + contract.frequency;
+                await MerchantSDK.GET_SDK().updateContract(contract);
             }).start();
 
-            return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', paymentID);
+            return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', contractID);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to restart scheduler.', error);
         }

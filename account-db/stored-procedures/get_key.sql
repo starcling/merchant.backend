@@ -1,6 +1,6 @@
 DELIMITER $$
 CREATE DEFINER=`db_service`@`localhost` PROCEDURE `get_key`(
-  IN keyName VARCHAR(100),
+  IN keyName VARCHAR(300),
   OUT myKey VARCHAR(1000)
 )
 BEGIN

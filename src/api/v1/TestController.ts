@@ -22,7 +22,7 @@ export class TestController {
     @Post('/start-scheduler')
     public async startScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-            const result = await new SchedulerConnector().startScheduler(request.paymentID);
+            const result = await new SchedulerConnector().startScheduler(request.contractID);
 
             // tslint:disable-next-line:max-line-length
             return new APIResponseHandler().handle(response, result);

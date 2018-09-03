@@ -1,8 +1,8 @@
--- FUNCTION: public.fc_get_contract_by_customer_and_payment_id(text, uuid)
+-- FUNCTION: public.fn_get_contract_by_customer_and_payment_id(text, uuid)
 
--- DROP FUNCTION public.fc_get_contract_by_customer_and_payment_id(text, uuid);
+-- DROP FUNCTION public.fn_get_contract_by_customer_and_payment_id(text, uuid);
 
-CREATE OR REPLACE FUNCTION public.fc_get_contract_by_customer_and_payment_id(
+CREATE OR REPLACE FUNCTION public.fn_get_contract_by_customer_and_payment_id(
     _customerAddress text,
 	_paymentID uuid)
     RETURNS tb_payment_contracts
@@ -26,6 +26,6 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_get_contract_by_customer_and_payment_id(text, uuid)
+ALTER FUNCTION public.fn_get_contract_by_customer_and_payment_id(text, uuid)
     OWNER TO local_user;
 

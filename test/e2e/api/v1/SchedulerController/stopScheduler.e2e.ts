@@ -52,7 +52,7 @@ describe('SchedulerController: stopScheduler', () => {
             server
                 .post(`api/v1/test/start-scheduler/`)
                 .send({
-                    paymentID: tempContract.id
+                    contractID: tempContract.id
                 })
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -66,7 +66,7 @@ describe('SchedulerController: stopScheduler', () => {
                 server
                     .post(`${endpoint}`)
                     .send({
-                        paymentID: tempContract.id
+                        contractID: tempContract.id
                     })
                     .expect(200)
                     .end((err: Error, res: any) => {
@@ -105,7 +105,7 @@ describe('SchedulerController: stopScheduler', () => {
             server
                 .post(`${endpoint}`)
                 .send({
-                    paymentID: id
+                    contractID: id
                 })
                 .expect(400)
                 .end((err: Error, res: any) => {
