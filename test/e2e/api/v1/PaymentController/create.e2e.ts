@@ -4,6 +4,8 @@ import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import { consoleTestResultHandler } from 'tslint/lib/test';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -14,18 +16,26 @@ const endpoint = 'api/v1/payments/';
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
 
-
 let paymentID: string;
 
 const clearPayment = async () => {
     await new PaymentDbConnector().deletePayment(paymentID);
 };
-
+process.env.MNEMONIC_ID='test_mnemonic_phrase'
 describe('PaymentController: create', () => {
     afterEach(async () => {
         await clearPayment();
     });
+    after(async () => {
+        await removeTestMnemonic('test_mnemonic_phrase');
+    });
     describe('successful request', () => {
+        beforeEach(async () => {
+            await addTestMnemonic('test_mnemonic_phrase');
+        });
+        afterEach(async () => {
+            await removeTestMnemonic('test_mnemonic_phrase');
+        });
         afterEach(async () => {
             await clearPayment();
         });
@@ -43,7 +53,7 @@ describe('PaymentController: create', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-                    
+
                     paymentID = body.data.id;
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
@@ -54,9 +64,7 @@ describe('PaymentController: create', () => {
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
                     expect(body).to.have.property('data').that.has.property('initialPaymentAmount').that.is.equal('' + insertPayment.initialPaymentAmount);
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(insertPayment.currency);
-                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal('' + insertPayment.startTimestamp);
-                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal('' + insertPayment.endTimestamp);
-                    expect(body).to.have.property('data').that.has.property('type').that.is.equal(insertPayment.type);
+                    expect(body).to.have.property('data').that.has.property('typeID').that.is.equal(insertPayment.typeID);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(insertPayment.frequency);
                     expect(body).to.have.property('data').that.has.property('networkID').that.is.equal(insertPayment.networkID);
                     done(err);
@@ -65,9 +73,15 @@ describe('PaymentController: create', () => {
     });
 
     describe('unsuccessful request', () => {
+        beforeEach(async () => {
+            await addTestMnemonic('test_mnemonic_phrase');
+        });
+        afterEach(async () => {
+            await removeTestMnemonic('test_mnemonic_phrase');
+        });
         it('should return missing data', (done) => {
             const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
-            delete unsuccessfullInsertPayment.startTimestamp;
+            delete unsuccessfullInsertPayment.amount;
 
             server
                 .post(`${endpoint}`)
@@ -85,7 +99,7 @@ describe('PaymentController: create', () => {
 
         it('should return invalid data', (done) => {
             const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
-            unsuccessfullInsertPayment.startTimestamp = Number('string');
+            unsuccessfullInsertPayment.frequency = Number('string');
 
             server
                 .post(`${endpoint}`)

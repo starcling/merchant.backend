@@ -1,48 +1,68 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 import * as supertest from 'supertest';
-import { SchedulerConnector } from '../../../../../src/connectors/api/v1/SchedulerConnector';
-import { PaymentConnector } from '../../../../../src/connectors/api/v1/PaymentConnector';
-import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../../../../src/core/payment/models';
+import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
+import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import { addTestPayment, removeTestPayment, updateTestContract, retrieveTestContract, addTestContract } from '../../../../unit/core/payment/paymentHelper';
+import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../../src/core/contract/models';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-
+const contracts: any = require('../../../../../resources/e2eTestData.json').contracts;
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
-const insertPaymentData: IPaymentInsertDetails = payments['insertPayment'];
+
+const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
+const testInsertPayment: IPaymentInsertDetails = payments['insertPayment'];
 
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/scheduler/stop';
-const schedulerConnector = new SchedulerConnector();
-const paymentConnector = new PaymentConnector();
 
 let payment;
+let contract;
+const frequency = 1;
+
+process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
 
 describe('SchedulerController: stopScheduler', () => {
+    after(async () => {
+        await removeTestMnemonic('test_mnemonic_phrase');
+    });
     describe('with successfull request', () => {
 
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            testInsertPayment.frequency = frequency;
+            payment = (await addTestPayment(testInsertPayment)).data;
+            testInsertContract.paymentID = payment.id;
+            contract = (await addTestContract(testInsertContract)).data[0];
+        });
+
+        beforeEach(async () => {
+            await addTestMnemonic('test_mnemonic_phrase');
         });
 
         afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
+            await removeTestPayment(payment.id);
+        });
+
+        afterEach(async () => {
+            await removeTestMnemonic('test_mnemonic_phrase');
         });
 
         it('should stop the scheduler', (done) => {
             const numberOfPayments = 8;
-            const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
-            tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
-            tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
-            tempPayment.numberOfPayments = numberOfPayments;
-            tempPayment.frequency = 1;
+            const tempContract: IPaymentContractUpdate = Object.assign({}, contract);
+            tempContract.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempContract.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempContract.numberOfPayments = numberOfPayments;
 
-            paymentConnector.updatePayment(tempPayment);
+            updateTestContract(tempContract);
 
             server
                 .post(`api/v1/test/start-scheduler/`)
-                .send(tempPayment)
+                .send({
+                    contractID: tempContract.id
+                })
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -55,7 +75,7 @@ describe('SchedulerController: stopScheduler', () => {
                 server
                     .post(`${endpoint}`)
                     .send({
-                        paymentID: tempPayment.id
+                        contractID: tempContract.id
                     })
                     .expect(200)
                     .end((err: Error, res: any) => {
@@ -68,8 +88,8 @@ describe('SchedulerController: stopScheduler', () => {
 
 
             setTimeout(() => {
-                paymentConnector.getPayment(tempPayment.id).then(res => {
-                    expect(res.data.numberOfPayments).to.be.equal(numberOfPayments / 2);
+                retrieveTestContract(tempContract.id).then(res => {
+                    expect(res.data[0].numberOfPayments).to.be.equal(numberOfPayments / 2);
                     done();
                 });
             }, numberOfPayments * 1000 + 200);
@@ -78,21 +98,23 @@ describe('SchedulerController: stopScheduler', () => {
     });
 
     describe('with unsuccessfull request', () => {
-
         beforeEach(async () => {
-            payment = (await paymentConnector.createPayment(insertPaymentData)).data;
+            testInsertPayment.frequency = frequency;
+            payment = (await addTestPayment(testInsertPayment)).data;
+            testInsertContract.paymentID = payment.id;
+            contract = (await addTestContract(testInsertContract)).data[0];
         });
 
         afterEach(async () => {
-            await paymentConnector.deletePayment(payment.id);
+            await removeTestPayment(payment.id);
         });
 
         it('should not stop scheduler if wrong ID was provided', (done) => {
-            const tempPayment: IPaymentUpdateDetails = Object.assign({}, payment);
+            const id = 'BAD_ID';
             server
                 .post(`${endpoint}`)
                 .send({
-                    paymentID: tempPayment.id + 'BAD_ID'
+                    contractID: id
                 })
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -103,8 +125,6 @@ describe('SchedulerController: stopScheduler', () => {
                     expect(body).to.have.property('error').that.is.an('object');
                     done();
                 });
-
-
         });
     });
 });
