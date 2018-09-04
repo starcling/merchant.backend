@@ -57,7 +57,10 @@ export class DataService {
         const errorReason = DbErrorHelper.GET_DB_ERROR_CODES()[err.code] ? DbErrorHelper.GET_DB_ERROR_CODES()[err.code] : err.stack;
         queryMessage.status = 400;
         queryMessage.message = `SQL Query failed. Reason: ${errorReason}`;
-        queryMessage.error = err.code;
+        queryMessage.error = {
+          code: err.code,
+          where: err.where
+        };
 
         reject(queryMessage);
         this.pool.end();

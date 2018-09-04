@@ -1,17 +1,16 @@
 {
     "payments": {
         "insertTestPayment": {
+            "merchantID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "title": "test payment",
             "description": "test description",
             "amount": "20",
             "initialPaymentAmount": "23",
+            "trialPeriod": 23,
             "currency": "PMA",
-            "startTimestamp": "1234566899",
-            "endTimestamp": "9876543211",
             "numberOfPayments": 5,
-            "type": 1,
             "frequency": 3,
-            "merchantAddress": "string",
+            "typeID": 1,
             "networkID": 3
         },
         "updateTestPayment": {
@@ -19,30 +18,50 @@
             "title": "changes title",
             "description": "another description",
             "promo": "testing",
-            "status": 2,
-            "customerAddress": "0xuiuin2n",
             "amount": "20",
             "initialPaymentAmount": "23",
+            "trialPeriod": 23,
             "currency": "CVC",
-            "startTimestamp": "987654321",
-            "endTimestamp": "123456789",
             "numberOfPayments": 5,
-            "nextPaymentDate": "123456789",
-            "lastPaymentDate": "123456789",
-            "type": 2,
+            "typeID": 2,
             "frequency": 3,
-            "registerTxHash": "string",
-            "registerTxStatus": 1,
-            "executeTxHash": "string",
-            "executeTxStatus": 1,
-            "cancelTxHash": "string",
-            "cancelTxStatus": 1,
-            "initialPaymentTxHash": "string",
-            "initialPaymentTxStatus": 1,
-            "merchantAddress": "string",
-            "pullPaymentAddress": "string",
-            "userId": "string",
             "networkID": 3
+        }
+    },
+    "contracts": {
+        "insertTestContract": {
+            "hdWalletIndex": 0,
+            "paymentID": "needed to be injected",
+            "numberOfPayments": 4,
+            "nextPaymentDate": 10,
+            "startTimestamp": 100,
+            "customerAddress": "243423",
+            "merchantAddress": "merchantadddr",
+            "pullPaymentAddress": "24234234",
+            "userID": "2342934"
+        },
+        "updateTestContract": {
+            "id": "",
+            "hdWalletIndex": 0,
+            "numberOfPayments": 5,
+            "nextPaymentDate": 10,
+            "lastPaymentDate": 20,
+            "startTimestamp": 100,
+            "statusID": 1,
+            "userID": "2342934"
+        }
+    },
+    "transactions": {
+        "insertTestTransaction": {
+            "hash": "0xec25520d236b37109e888e89d5b9de08901e412ee48ca63d1bd6d7c37849e2cd",
+            "statusID": 1,
+            "typeID": 1,
+            "contractID": "needed to be injected",
+            "timestamp": "1535450293"
+        },
+        "updateTestTransaction": {
+            "id": "needed to be injected",
+            "statusID": 3
         }
     }
 }

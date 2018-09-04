@@ -20,7 +20,14 @@ export class ProductionConfig {
       database: process.env.PGDATABASE ? process.env.PGDATABASE : 'local_merchant_server',
 
       serverSecret: 'sUp4hS3cr37kE9c0D3',
-      networkID: process.env.ETH_NETWORK ? Number(process.env.ETH_NETWORK) : 1
+      networkID: process.env.ETH_NETWORK ? Number(process.env.ETH_NETWORK) : 1,
+
+      keyDbPort: process.env.KEY_DB_PORT ? process.env.KEY_DB_PORT : 3305,
+      keyDbUser: process.env.KEY_DB_USER ? process.env.KEY_DB_USER : 'db_service',
+      keyDbPass: process.env.KEY_DB_PASS ? process.env.KEY_DB_PASS : 'db_pass',
+      keyDbHost: process.env.KEY_DB_HOST ? process.env.KEY_DB_HOST : 'db',
+      keyDb: process.env.KEY_DB ? process.env.KEY_DB : 'keys',
+      mnemonicID: process.env.MNEMONIC_ID ? process.env.MNEMONIC_ID : 'mnemonic_phrase'
     };
   }
 }

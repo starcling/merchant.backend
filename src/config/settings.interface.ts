@@ -17,4 +17,10 @@ export interface Settings {
   pgPassword: string;
   pgPort: number | string;
   networkID: number;
+  keyDbUser: string;
+  keyDbHost: string;
+  keyDb: string;
+  keyDbPort: string | number;
+  keyDbPass: string;
+  mnemonicID: string;
 }

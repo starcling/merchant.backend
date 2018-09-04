@@ -15,18 +15,20 @@ export class TestController {
             return new APIResponseHandler().handle(response, { status: 200, message: executionResult });
         } catch (err) {
             console.debug(err);
+
             return new APIResponseHandler().handle(response, { status: 400, error: err });
         }
     }
     @Post('/start-scheduler')
     public async startScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-            const payment = (await MerchantSDK.GET_SDK().updatePayment(request)).data[0];
-            new SchedulerConnector().startScheduler(payment);
+            const result = await new SchedulerConnector().startScheduler(request.contractID);
 
-            return new APIResponseHandler().handle(response, { status: 200, message: 'Successfuly created scheduler.', data: payment.id });
+            // tslint:disable-next-line:max-line-length
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
             console.debug(err);
+
             return new APIResponseHandler().handle(response, { status: 400, error: err });
         }
     }

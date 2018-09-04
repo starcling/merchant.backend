@@ -22,7 +22,9 @@ describe('QrController: getQrCode', () => {
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message').that.is.equal('Successfully retrieved the QR code.');
                     expect(body).to.have.property('data').that.is.an('object');
-                    expect(body.data).to.have.property('url').that.is.an('string');
+                    expect(body.data).to.have.property('paymentURL').that.is.an('string');
+                    expect(body.data).to.have.property('contractURL').that.is.an('string');
+                    expect(body.data).to.have.property('transactionURL').that.is.an('string');
                     done(err);
                 });
         });

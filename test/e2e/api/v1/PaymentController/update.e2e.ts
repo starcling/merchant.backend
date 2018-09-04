@@ -33,7 +33,7 @@ describe('PaymentController: update', () => {
         await clearPayment();
     });
     describe('successful request', () => {
-        it('should return payment patched', (done) => {
+        it('should return payment updated', (done) => {
             const expectedResponse: IResponseMessage = {
                 success: true,
                 status: 200,
@@ -54,19 +54,11 @@ describe('PaymentController: update', () => {
                     expect(body).to.have.property('data').that.has.property('id').that.is.equal(updatePayment.id);
                     expect(body).to.have.property('data').that.has.property('title').that.is.equal(updatePayment.title);
                     expect(body).to.have.property('data').that.has.property('description').that.is.equal(updatePayment.description);
-                    expect(body).to.have.property('data').that.has.property('status').that.is.equal(updatePayment.status);
-                    expect(body).to.have.property('data').that.has.property('customerAddress').that.is.equal(updatePayment.customerAddress);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal(updatePayment.amount.toString());
                     expect(body).to.have.property('data').that.has.property('initialPaymentAmount').that.is.equal(updatePayment.initialPaymentAmount.toString());
                     expect(body).to.have.property('data').that.has.property('currency').that.is.equal(updatePayment.currency);
-                    expect(body).to.have.property('data').that.has.property('startTimestamp').that.is.equal(updatePayment.startTimestamp.toString());
-                    expect(body).to.have.property('data').that.has.property('endTimestamp').that.is.equal(updatePayment.endTimestamp.toString());
-                    expect(body).to.have.property('data').that.has.property('type').that.is.equal(updatePayment.type);
+                    expect(body).to.have.property('data').that.has.property('typeID').that.is.equal(updatePayment.typeID);
                     expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(updatePayment.frequency);
-                    expect(body).to.have.property('data').that.has.property('registerTxHash').that.is.equal(updatePayment.registerTxHash);
-                    expect(body).to.have.property('data').that.has.property('executeTxHash').that.is.equal(updatePayment.executeTxHash);
-                    expect(body).to.have.property('data').that.has.property('executeTxStatus').that.is.equal(updatePayment.executeTxStatus);
-                    expect(body).to.have.property('data').that.has.property('merchantAddress').that.is.equal(updatePayment.merchantAddress);
                     done(err);
                 });
         });
@@ -75,7 +67,7 @@ describe('PaymentController: update', () => {
     describe('unsuccessfull request', () => {
         it('should return missing data', (done) => {
             const unsuccessfullUpdatePayment = Object.assign({}, updatePayment);
-            delete unsuccessfullUpdatePayment.startTimestamp;
+            delete unsuccessfullUpdatePayment.amount;
 
             server
                 .put(`${endpoint}${updatePayment.id}`)
@@ -92,7 +84,7 @@ describe('PaymentController: update', () => {
 
         it('should return invalid data', (done) => {
             const unsuccessfullUpdatePayment = Object.assign({}, updatePayment);
-            unsuccessfullUpdatePayment.startTimestamp = Number('string');
+            unsuccessfullUpdatePayment.amount = Number('string');
 
             server
                 .put(`${endpoint}${updatePayment.id}`)
