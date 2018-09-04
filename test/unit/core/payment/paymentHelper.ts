@@ -8,7 +8,7 @@ export const addTestPayment = async (payment) => {
     process.env.KEY_DB_USER = 'db_service';
     process.env.KEY_DB_PASSWORD = 'db_pass';
     process.env.KEY_DB_DATABASE = 'keys';
-    process.env.MNEMONIC_ID = 'mnemonic_phrase';
+    process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
     await addTestMnemonic('mnemonic_phrase');
     
     const paymentConnector = new PaymentConnector();
@@ -22,8 +22,8 @@ export const addTestContract = async (contract) => {
     process.env.KEY_DB_USER = 'db_service';
     process.env.KEY_DB_PASSWORD = 'db_pass';
     process.env.KEY_DB_DATABASE = 'keys';
-    process.env.MNEMONIC_ID = 'mnemonic_phrase';
-    await addTestMnemonic('mnemonic_phrase');
+    process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
+    await addTestMnemonic('test_mnemonic_phrase');
 
     const contractConnector = new ContractDbConnector();
 

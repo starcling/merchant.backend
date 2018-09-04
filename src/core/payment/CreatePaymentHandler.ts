@@ -20,7 +20,7 @@ export class CreatePaymentHandler {
 
         try {
             let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
-
+            console.debug('mnemonic....', mnemonic);
             if (!mnemonic) {
                 redisClient.unref();
                 redisClientBlocking.unref();

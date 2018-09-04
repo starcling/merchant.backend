@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 import * as supertest from 'supertest';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
 import { addTestPayment, removeTestPayment, updateTestContract, retrieveTestContract, addTestContract } from '../../../../unit/core/payment/paymentHelper';
 import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../../src/core/contract/models';
 
@@ -22,7 +22,12 @@ let payment;
 let contract;
 const frequency = 1;
 
+process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
+
 describe('SchedulerController: stopScheduler', () => {
+    after(async () => {
+        await removeTestMnemonic('test_mnemonic_phrase');
+    });
     describe('with successfull request', () => {
 
         beforeEach(async () => {
@@ -32,12 +37,16 @@ describe('SchedulerController: stopScheduler', () => {
             contract = (await addTestContract(testInsertContract)).data[0];
         });
 
-        afterEach(async () => {
-            // await removeTestPayment(payment.id);
+        beforeEach(async () => {
+            await addTestMnemonic('test_mnemonic_phrase');
         });
 
         afterEach(async () => {
-            await removeTestMnemonic('mnemonic_phrase');
+            await removeTestPayment(payment.id);
+        });
+
+        afterEach(async () => {
+            await removeTestMnemonic('test_mnemonic_phrase');
         });
 
         it('should stop the scheduler', (done) => {

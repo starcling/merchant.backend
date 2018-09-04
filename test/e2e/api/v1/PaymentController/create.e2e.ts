@@ -21,17 +21,20 @@ let paymentID: string;
 const clearPayment = async () => {
     await new PaymentDbConnector().deletePayment(paymentID);
 };
-
+process.env.MNEMONIC_ID='test_mnemonic_phrase'
 describe('PaymentController: create', () => {
     afterEach(async () => {
         await clearPayment();
     });
+    after(async () => {
+        await removeTestMnemonic('test_mnemonic_phrase');
+    });
     describe('successful request', () => {
         beforeEach(async () => {
-            await addTestMnemonic('mnemonic_phrase');
+            await addTestMnemonic('test_mnemonic_phrase');
         });
         afterEach(async () => {
-            await removeTestMnemonic('mnemonic_phrase');
+            await removeTestMnemonic('test_mnemonic_phrase');
         });
         afterEach(async () => {
             await clearPayment();
@@ -71,10 +74,10 @@ describe('PaymentController: create', () => {
 
     describe('unsuccessful request', () => {
         beforeEach(async () => {
-            await addTestMnemonic('mnemonic_phrase');
+            await addTestMnemonic('test_mnemonic_phrase');
         });
         afterEach(async () => {
-            await removeTestMnemonic('mnemonic_phrase');
+            await removeTestMnemonic('test_mnemonic_phrase');
         });
         it('should return missing data', (done) => {
             const unsuccessfullInsertPayment = Object.assign({}, insertPayment);

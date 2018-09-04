@@ -20,20 +20,27 @@ const testInsertPayment: IPaymentInsertDetails = payments['insertPayment'];
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/scheduler/restart';
 
-process.env.MNEMONIC_ID = 'mnemonic_phrase';
+process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
 
 let payment;
 let contract;
 const frequency = 1;
 
 describe('SchedulerController: restartScheduler', () => {
+    after(async () => {
+        await removeTestMnemonic('test_mnemonic_phrase');
+    });
     describe('with successfull request', () => {
-        beforeEach('insert tesrt payment and contract', async () => {
+        beforeEach('insert test payment and contract', async () => {
             testInsertPayment.frequency = frequency;
             payment = (await addTestPayment(testInsertPayment)).data;
             testInsertContract.paymentID = payment.id;
 
             contract = (await addTestContract(testInsertContract)).data[0];
+        });
+        
+        beforeEach(async () => {
+            await addTestMnemonic('test_mnemonic_phrase');
         });
 
         afterEach(async () => {
@@ -41,7 +48,7 @@ describe('SchedulerController: restartScheduler', () => {
         });
 
         afterEach(async () => {
-            await removeTestMnemonic('mnemonic_phrase');
+            await removeTestMnemonic('test_mnemonic_phrase');
         });
 
         it('should restart the scheduler', (done) => {
@@ -110,7 +117,7 @@ describe('SchedulerController: restartScheduler', () => {
 
     describe('with unsuccessfull request', () => {
         beforeEach(async () => {
-            await addTestMnemonic('mnemonic_phrase');
+            await addTestMnemonic('test_mnemonic_phrase');
         });
 
         beforeEach('insert tesrt payment and contract', async () => {
@@ -126,7 +133,7 @@ describe('SchedulerController: restartScheduler', () => {
         });
 
         afterEach(async () => {
-            await removeTestMnemonic('mnemonic_phrase');
+            await removeTestMnemonic('test_mnemonic_phrase');
         });
 
         it('should not restart scheduler if wrong ID was provided', (done) => {
