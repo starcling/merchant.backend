@@ -34,9 +34,9 @@ export class CreatePaymentHandler {
 
             mnemonic = null;
             // TODO: get merchant address index from redis
-            let index = await redisClient.blpopAsync(MERHCANT_PAYMENT_INDEX, 0);
-            index = Number(index[1]);
-            await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, index + 1);
+            // let index = await redisClient.blpopAsync(MERHCANT_PAYMENT_INDEX, 0);
+            const index = 0; //Number(index[1]);
+            // await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, index + 1);
             let privateKey: string = hdWallet.getPrivateKeyAtIndex(index).slice(2);
             const address: string = hdWallet.getAddressAtIndex(index);
             hdWallet = null;
