@@ -1,4 +1,4 @@
-# docker-compose.yml
+# docker-compose.server.yml
 version: "3"
 services:
   merchant_server:
@@ -17,8 +17,14 @@ services:
       - PGDATABASE=local_merchant_server
       - PGPORT=5432
       - REDIS_PORT=6379
-      - REDIS_HOST=redis
-      - ETH_NETWORK = 3
+      - REDIS_HOST=merchant_redis
+      - ETH_NETWORK=3
+      - KEY_DB_HOST=merchant_db
+      - KEY_DB_USER=db_service
+      - KEY_DB_PASS=db_pass
+      - KEY_DB=keys
+      - KEY_DB_PORT=3306
+      - MNEMONIC_ID=mnemonic_phrase
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -39,17 +45,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db/init-tables.sql:/docker-entrypoint-initdb.d/1-init-tables.sql:Z
-      - ./db/create-function-insert-payment.sql:/docker-entrypoint-initdb.d/2-create-function-insert-payment.sql:Z
-      - ./db/create-function-update-payment.sql:/docker-entrypoint-initdb.d/3-create-function-update-payment.sql:Z
-      - ./db/create-function-delete-payment.sql:/docker-entrypoint-initdb.d/4-create-function-delete-payment.sql:Z
-      - ./db/create-function-get-single-payment-details.sql:/docker-entrypoint-initdb.d/4-create-function-get-single-payment-details.sql:Z
-      - ./db/create-function-get-all-payments-details.sql:/docker-entrypoint-initdb.d/5-create-function-get-all-payments-details.sql:Z
+      - ./db:/docker-entrypoint-initdb.d/
     networks:
       - pumapay_merchant_sdk
     restart: unless-stopped
 
-  redis:
+  merchant_redis:
     image: redis:5.0-rc-alpine
     sysctls:
       net.core.somaxconn: 1024
@@ -61,7 +62,39 @@ services:
       - pumapay_merchant_sdk
     volumes:
       - redis-data:/data
-    
+  merchant_db: 
+    image: mysql:5.7.13
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: db_pass
+      MYSQL_DATABASE: keys
+      MYSQL_USER: db_service
+      MYSQL_PASSWORD: db_pass
+    volumes: 
+      - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/10-init-tables.sql
+      - ./account-db/stored-procedures/add_table_keys.sql:/docker-entrypoint-initdb.d/11-add-table-keys.sql
+      - ./account-db/init/populate-table-keys.sql:/docker-entrypoint-initdb.d/12-populate-table-keys.sql
+      - ./account-db/stored-procedures/add_account.sql:/docker-entrypoint-initdb.d/21-add-account.sql
+      - ./account-db/stored-procedures/get_key.sql:/docker-entrypoint-initdb.d/22-get-key.sql
+      - ./account-db/stored-procedures/get_account.sql:/docker-entrypoint-initdb.d/23-get-account.sql
+      - ./account-db/stored-procedures/encrypt.sql:/docker-entrypoint-initdb.d/24-encrypt.sql
+      - ./account-db/stored-procedures/decrypt.sql:/docker-entrypoint-initdb.d/25-decrypt.sql
+      - ./account-db/stored-procedures/decrypt_private_key.sql:/docker-entrypoint-initdb.d/27-decrypt_private_key.sql
+      - ./account-db/stored-procedures/rotate_account_keys.sql:/docker-entrypoint-initdb.d/28-rotate_account_keys.sql
+      - ./account-db/stored-procedures/get_private_key_from_address.sql:/docker-entrypoint-initdb.d/29-get_private_key_from_address.sql
+      - ./account-db/stored-procedures/add_mnemonic.sql:/docker-entrypoint-initdb.d/30-add-mnemonic.sql
+      - ./account-db/stored-procedures/get_mnemonic.sql:/docker-entrypoint-initdb.d/31-get-mnemonic.sql
+      - ./account-db/stored-procedures/decrypt_mnemonic.sql:/docker-entrypoint-initdb.d/32-decrypt_mnemonic.sql
+      - ./account-db/stored-procedures/get_decrypted_mnemonic.sql:/docker-entrypoint-initdb.d/33-get_decrypted_mnemonic.sql
+      - ./account-db/init/add_data.sql:/docker-entrypoint-initdb.d/34-add_data.sql
+      - ./account-db/db-conf:/etc/mysql/conf.d/
+      - ./account-db/keys/keyring:/var/lib/mysql-keyring/keyring
+    ports:
+      - "3306:3306"
+    networks: 
+      - pumapay_merchant_sdk
+
 networks:
   pumapay_merchant_sdk:
     driver: bridge
