@@ -1,4 +1,4 @@
-import { JsonController, Res, Post, Body, Put, Patch, Param, Get, Delete } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Put, Patch, Param, Get, Delete, UseBefore } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { IPaymentInsertDetails, IPaymentUpdateDetails } from '../../core/payment/models';
@@ -7,8 +7,10 @@ import { UpdateValidator } from '../../validators/PaymentValidator/UpdateValidat
 import { PatchValidator } from '../../validators/PaymentValidator/PatchValidator';
 import { GetPaymentValidator } from '../../validators/PaymentValidator/GetPaymentValidator';
 import { DeletePaymentValidator } from '../../validators/PaymentValidator/DeletePaymentValidator';
+import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
 
 @JsonController('/payments')
+//@UseBefore(MobileValidationMiddleware)
 export class PaymentController {
 
     /**

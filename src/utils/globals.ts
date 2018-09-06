@@ -115,6 +115,10 @@ export class Globals {
             getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
         };
     }
+
+    public static GET_CORE_API_URL(): string {
+        return DefaultConfig.settings.apiURL;
+    }
 }
 
 enum PaymentTypeEnum {

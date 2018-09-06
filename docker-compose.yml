@@ -9,7 +9,7 @@ services:
       - NODE_ENV=development
       - HOST=localhost
       - PORT=3000
-      - API_URL=core_server
+      - API_URL=puma_core
       - MERCHANT_URL=http://merchant_server:3000
       - PGHOST=postgres_merchant
       - PGUSER=local_user
