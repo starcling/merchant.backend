@@ -36,7 +36,7 @@ export class Contract {
                 contract.startTimestamp = Number(contract.startTimestamp);
 
                 if (payment.trialPeriod > 0) {
-                    contract.startTimestamp += payment.trialPeriod;
+                    contract.startTimestamp += Number(payment.trialPeriod);
                 }
 
                 if (payment.typeID === Globals.GET_PAYMENT_TYPE_ENUM()[Globals.GET_PAYMENT_TYPE_ENUM_NAMES().recurringWithInitial]) {
