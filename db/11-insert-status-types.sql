@@ -2,6 +2,8 @@ INSERT INTO public.tb_payment_type("name") VALUES ('push');
 INSERT INTO public.tb_payment_type("name") VALUES ('singlePull');
 INSERT INTO public.tb_payment_type("name") VALUES ('recurringPull');
 INSERT INTO public.tb_payment_type("name") VALUES ('recurringWithInitial');
+INSERT INTO public.tb_payment_type("name") VALUES ('recurringWithTrial');
+INSERT INTO public.tb_payment_type("name") VALUES ('recurringWithTrialAndInitial');
 
 INSERT INTO public.tb_contract_status("name") VALUES ('initial');
 INSERT INTO public.tb_contract_status("name") VALUES ('running');

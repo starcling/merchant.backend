@@ -115,5 +115,4 @@ export class TransactionController {
             return new APIResponseHandler().handle(response, error);
         }
     }
-
 }

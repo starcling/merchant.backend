@@ -2,7 +2,6 @@ import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { MerchantSDK } from '../MerchantSDK';
 
 export class Qr {
-
     /**
      * @description Get method for getting payment from DB
      * @param {string} paymentID paymentID of the object
