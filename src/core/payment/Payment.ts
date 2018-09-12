@@ -2,6 +2,7 @@ import { IPaymentInsertDetails, IPaymentUpdateDetails } from './models';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnector';
+import { HTTPRequestFactory } from '../../utils/web/HTTPRequestFactory';
 
 export class Payment {
     /**
@@ -34,6 +35,16 @@ export class Payment {
             if (response.data[0].id === null) {
 
                 return new HTTPResponseHandler().handleFailed('Payment with supplied ID not found.', null, HTTPResponseCodes.BAD_REQUEST());
+            }
+            try {
+                const httpRequest = new HTTPRequestFactory()
+                    .create('http://18.185.130.3/core/api/v1/merchant/' + response.data[0].merchantID, {
+                        'Content-Type': 'application/json'
+                    }, 'GET', null, null);
+                const httpResponse = await httpRequest.getResponse();
+                response.data[0].merchantName = JSON.parse(httpResponse.body).data.businessName;
+            } catch (err) {
+                console.log(err);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successfully retrieved single payment.', response.data[0]);
