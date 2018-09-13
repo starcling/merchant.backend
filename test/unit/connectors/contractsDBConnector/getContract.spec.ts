@@ -57,7 +57,7 @@ describe('A ContractDbConnector getContract', () => {
         it('Should retrieve the contract details for a single record', async () => {
             await Globals.REFRESH_ENUMS();
 
-            const contractStatuses = Globals.GET_CONTRACT_STATUS_ENUM();
+            const contractStatuses = Globals.GET_PAYMENT_STATUS_ENUM();
             const paymentTypes = Globals.GET_PAYMENT_TYPE_ENUM();
             
             const result = await contractDbConnector.getContract(testUpdateContract.id);
@@ -85,7 +85,7 @@ describe('A ContractDbConnector getContract', () => {
         it('Should retrieve the contract details for a single record', async () => {
             await Globals.REFRESH_ENUMS();
 
-            const contractStatuses = Globals.GET_CONTRACT_STATUS_ENUM();
+            const contractStatuses = Globals.GET_PAYMENT_STATUS_ENUM();
             const paymentTypes = Globals.GET_PAYMENT_TYPE_ENUM();
 
             const result = await MerchantSDK.GET_SDK().getContract(testUpdateContract.id);

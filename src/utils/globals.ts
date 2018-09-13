@@ -51,6 +51,10 @@ export class Globals {
         return PaymentTypeEnum;
     }
 
+    public static GET_PAYMENT_STATUS_ENUM_NAMES(): any {
+        return PaymentStatusEnum;
+    }
+
     public static GET_PAYMENT_TYPE_ENUM(): any[] {
         const payload = [];
 
@@ -62,7 +66,7 @@ export class Globals {
         return payload;
     }
 
-    public static GET_CONTRACT_STATUS_ENUM(): string[] {
+    public static GET_PAYMENT_STATUS_ENUM(): string[] {
         const payload = [];
 
         for (const d of this.contractStatusEnums) {
@@ -122,6 +126,14 @@ enum PaymentTypeEnum {
     singlePull = 2,
     recurringPull = 3,
     recurringWithInitial = 4
+}
+
+enum PaymentStatusEnum {
+    initial = 1,
+    running = 2,
+    stopped = 3,
+    cancelled = 4,
+    done = 5
 }
 
 interface IEnumTableNames {

@@ -15,13 +15,15 @@ export class Contract {
      */
     public async createContract(contract: IPaymentContractInsert) {
         const dbConnector = new ContractDbConnector();
+        const paymentResult = await new PaymentDbConnector().getPayment(contract.paymentID);
+        const payment: IPaymentUpdateDetails = paymentResult.data[0];
         let result;
         try {
             const contractCountResult = await dbConnector.getContractCountByCustomerAndPaymentID(
                 contract.customerAddress, contract.paymentID);
             const contractcount = Number(contractCountResult.data[0]['fn_get_contract_count_by_customer_and_payment_id']);
             if (contractcount === 0) {
-                const walletDetails : NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
+                const walletDetails: NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
                 if (!walletDetails.index && !walletDetails.address) {
                     return new HTTPResponseHandler().handleFailed(
                         'Failed to insert payment.',
@@ -31,8 +33,6 @@ export class Contract {
                 contract.hdWalletIndex = walletDetails.index;
                 contract.merchantAddress = walletDetails.address;
 
-                const paymentResult = await new PaymentDbConnector().getPayment(contract.paymentID);
-                const payment: IPaymentUpdateDetails = paymentResult.data[0];
                 contract.startTimestamp = Number(contract.startTimestamp);
 
                 if (payment.trialPeriod > 0) {
@@ -49,6 +49,27 @@ export class Contract {
                 result = await dbConnector.createContract(contract);
             } else {
                 result = await dbConnector.getContractByCustomerAndPaymentID(contract.customerAddress, contract.paymentID);
+                if (result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().cancelled ||
+                    result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().done) {
+                    const updatePayload = <IPaymentContractUpdate>{ ...result.data[0] };
+                    updatePayload.startTimestamp = Number(contract.startTimestamp);
+
+                    if (result.data[0].trialPeriod > 0) {
+                        updatePayload.startTimestamp += Number(result.data[0].trialPeriod);
+                    }
+
+                    if (result.data[0].typeID ===
+                        Globals.GET_PAYMENT_TYPE_ENUM()[Globals.GET_PAYMENT_TYPE_ENUM_NAMES().recurringWithInitial]) {
+                        updatePayload.startTimestamp += result.data[0].frequency;
+                    }
+
+                    updatePayload.nextPaymentDate = updatePayload.startTimestamp;
+                    updatePayload.numberOfPayments = payment.numberOfPayments;
+                    updatePayload.statusID = Globals.GET_PAYMENT_STATUS_ENUM_NAMES().initial;
+                    updatePayload.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
+
+                    result = await dbConnector.updateContract(updatePayload);
+                }
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful contract insert.', result.data[0]);
