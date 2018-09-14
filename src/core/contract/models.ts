@@ -40,6 +40,7 @@ export interface IPaymentContractUpdate {
     nextPaymentDate: number;
     lastPaymentDate: number;
     startTimestamp: number;
+    merchantAddress: string;
     statusID: number;
     userID: string;
 }

@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment_contract(uuid, integer, integer, bigint, bigint, bigint, integer, text);
+-- FUNCTION: public.fc_update_payment_contract(uuid, integer, integer, bigint, bigint, bigint, text, integer, text);
 
--- DROP FUNCTION public.fc_update_payment_contract(uuid, integer, integer, bigint, bigint, bigint, integer, text);
+-- DROP FUNCTION public.fc_update_payment_contract(uuid, integer, integer, bigint, bigint, bigint, text, integer, text);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment_contract(
 	_id uuid,
@@ -9,6 +9,7 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment_contract(
 	_nextPaymentDate bigint,
 	_lastPaymentDate bigint,
 	_startTimestamp bigint,
+	_merchantAddress text,
 	_statusID integer,
 	_userID text)
     RETURNS tb_payment_contracts
@@ -45,6 +46,10 @@ IF _startTimestamp IS NULL
 THEN
 	_startTimestamp = tb_temp."startTimestamp";
 END IF;
+IF _merchantAddress IS NULL OR _merchantAddress = ''
+THEN
+	_merchantAddress = tb_temp."merchantAddress";
+END IF;
 IF _statusID IS NULL
 THEN
 	_statusID = tb_temp."statusID";
@@ -60,6 +65,7 @@ UPDATE public.tb_payment_contracts SET
     "nextPaymentDate" = _nextPaymentDate, 
     "lastPaymentDate" = _lastPaymentDate, 
 	"startTimestamp" = _startTimestamp, 
+	"merchantAddress" = _merchantAddress, 
     "statusID" = _statusID,
 	"userID" = _userID
     WHERE id = _id RETURNING * INTO tb_payment_contracts;
@@ -73,5 +79,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment_contract(uuid, integer, integer, bigint, bigint, bigint, integer, text)
+ALTER FUNCTION public.fc_update_payment_contract(uuid, integer, integer, bigint, bigint, bigint, text, integer, text)
     OWNER TO local_user;

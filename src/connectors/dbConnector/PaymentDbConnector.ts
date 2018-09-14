@@ -4,7 +4,7 @@ import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 export class PaymentDbConnector {
   public createPayment(insertDetails: IPaymentInsertDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
+      text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
       values: [
         insertDetails.merchantID,
         insertDetails.title,
@@ -17,7 +17,9 @@ export class PaymentDbConnector {
         insertDetails.numberOfPayments,
         insertDetails.frequency,
         insertDetails.typeID,
-        insertDetails.networkID
+        insertDetails.networkID,
+        insertDetails.automatedCashOut,
+        insertDetails.cashOutFrequency
       ]
     };
 
@@ -27,7 +29,7 @@ export class PaymentDbConnector {
   public async updatePayment(updateDetails: IPaymentUpdateDetails) {
     const sqlQuery: ISqlQuery = {
       // tslint:disable-next-line:max-line-length
-      text: 'SELECT * FROM fc_update_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)',
+      text: 'SELECT * FROM fc_update_payment($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
       values: [
         updateDetails.id,
         updateDetails.title,
@@ -40,7 +42,9 @@ export class PaymentDbConnector {
         updateDetails.numberOfPayments,
         updateDetails.frequency,
         updateDetails.typeID,
-        updateDetails.networkID
+        updateDetails.networkID,
+        updateDetails.automatedCashOut,
+        updateDetails.cashOutFrequency
       ]
     };
     // Handling the case when no record exists with provided id

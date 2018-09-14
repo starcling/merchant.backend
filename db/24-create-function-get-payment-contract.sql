@@ -2,8 +2,7 @@
 
 -- DROP FUNCTION public.fc_get_payment_contract(uuid);
 
-CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
-	_id uuid)
+CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(_id uuid)
     RETURNS TABLE (
         id uuid,
         title character varying (255),
@@ -26,6 +25,8 @@ CREATE OR REPLACE FUNCTION public.fc_get_payment_contract(
         "customerAddress" character varying (255),
         "merchantAddress" character varying (255),
         "pullPaymentAddress" character varying (255),
+        "automatedCashOut" boolean,
+        "cashOutFrequency" integer,
         "userID" character varying (255)
     )
     LANGUAGE 'plpgsql'
@@ -59,6 +60,8 @@ BEGIN
         public.tb_payment_contracts."customerAddress" as customerAddress,
         public.tb_payment_contracts."merchantAddress" as merchantAddress,
         public.tb_payment_contracts."pullPaymentAddress" as pullPaymentAddress,
+        public.tb_payments."automatedCashOut" as automatedCashOut,
+        public.tb_payments."cashOutFrequency" as cashOutFrequency,
         public.tb_payment_contracts."userID" as userID
     FROM (public.tb_payment_contracts 
     JOIN public.tb_payments ON public.tb_payment_contracts."paymentID" = public.tb_payments.id

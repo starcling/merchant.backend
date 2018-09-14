@@ -11,6 +11,8 @@ export interface IPaymentInsertDetails {
     frequency: number;
     typeID: number;
     networkID: number;
+    automatedCashOut: boolean;
+    cashOutFrequency: number;
 }
 
 export interface IPaymentUpdateDetails {
@@ -27,4 +29,6 @@ export interface IPaymentUpdateDetails {
     frequency: number;
     userID: string;
     networkID: number;
+    automatedCashOut: boolean;
+    cashOutFrequency: number;
 }

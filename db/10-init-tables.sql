@@ -71,6 +71,8 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     frequency integer NOT NULL,
     "typeID" integer NOT NULL,
     "networkID" integer DEFAULT 0,
+    "automatedCashOut" boolean DEFAULT FALSE,
+    "cashOutFrequency" integer DEFAULT 1,
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id),
     CONSTRAINT type_id_id_fkey FOREIGN KEY ("typeID")
         REFERENCES public.tb_payment_type (id)

@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
+-- FUNCTION: public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
--- DROP FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
+-- DROP FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_create_payment(
     _merchantID uuid,
@@ -14,7 +14,9 @@ CREATE OR REPLACE FUNCTION public.fc_create_payment(
 	_numberOfPayments integer,
     _frequency integer,
 	_typeID integer,
-	_networkID integer)
+	_networkID integer,
+    _automatedCashOut boolean default false,
+    _cashOutFrequency integer default 1)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -37,7 +39,9 @@ INSERT INTO public.tb_payments(
         "numberOfPayments", 
         frequency, 
         "typeID", 
-        "networkID")
+        "networkID",
+        "automatedCashOut",
+        "cashOutFrequency")
 	VALUES (
         _merchantID,
         _title, 
@@ -50,12 +54,14 @@ INSERT INTO public.tb_payments(
         _numberOfPayments, 
         _frequency, 
         _typeID, 
-        _networkID) 
+        _networkID,
+        _automatedCashOut,
+        _cashOutFrequency) 
     RETURNING * INTO tb_payments;
 RETURN "tb_payments";
 END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer)
+ALTER FUNCTION public.fc_create_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer)
     OWNER TO local_user;

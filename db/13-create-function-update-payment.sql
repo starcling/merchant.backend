@@ -1,6 +1,6 @@
--- FUNCTION: public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
+-- FUNCTION: public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
--- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer);
+-- DROP FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_id uuid,
@@ -14,7 +14,9 @@ CREATE OR REPLACE FUNCTION public.fc_update_payment(
 	_numberOfPayments integer,
 	_frequency integer,
     _typeID integer,
-	_networkID integer)
+	_networkID integer,
+	_automatedCashOut boolean,
+	_cashOutFrequency integer)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -73,6 +75,14 @@ IF _networkID IS NULL
 THEN
 	_networkID = tb_temp."networkID";
 END IF;
+IF _automatedCashOut IS NULL
+THEN
+	_automatedCashOut = tb_temp."automatedCashOut";
+END IF;
+IF _cashOutFrequency IS NULL
+THEN
+	_cashOutFrequency = tb_temp."cashOutFrequency";
+END IF;
 
 UPDATE public.tb_payments SET
 	title = _title, 
@@ -85,7 +95,9 @@ UPDATE public.tb_payments SET
 	"numberOfPayments" = _numberOfPayments, 
 	frequency = _frequency, 
 	"typeID" = _typeID,
-    "networkID" = _networkID
+    "networkID" = _networkID,
+	"automatedCashOut" = _automatedCashOut,
+	"cashOutFrequency" = _cashOutFrequency
     WHERE id = _id RETURNING * INTO tb_payments;
 
     IF NOT FOUND THEN
@@ -97,5 +109,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer)
+ALTER FUNCTION public.fc_update_payment(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer)
     OWNER TO local_user;
