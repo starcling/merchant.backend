@@ -44,6 +44,30 @@ describe('A PaymentDBcontroller insertPayment', () => {
             result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
         });
+
+        it('should insert a new payment with cashOut option from dbConnector', async () => {
+            const tempInsert = Object.assign({}, testInsertPayment);
+
+            tempInsert.cashOutFrequency = 5;
+            tempInsert.automatedCashOut = true;
+
+            const result = await paymentDbConnector.createPayment(tempInsert);
+            testID = result.data[0].id;
+            result.should.have.property('success').that.is.equal(true);
+            result.should.have.property('status').that.is.equal(201);
+            result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
+            result.should.have.property('data').to.be.an('array');
+            result.data[0].should.have.property('id');
+            result.data[0].should.have.property('title').that.is.equal(tempInsert.title);
+            result.data[0].should.have.property('description').that.is.equal(tempInsert.description);
+            result.data[0].should.have.property('promo').that.is.equal(null);
+            result.data[0].should.have.property('amount').that.is.equal(tempInsert.amount);
+            result.data[0].should.have.property('currency').that.is.equal(tempInsert.currency);
+            result.data[0].should.have.property('typeID').that.is.equal(tempInsert.typeID);
+            result.data[0].should.have.property('frequency').that.is.equal(tempInsert.frequency);
+            result.data[0].should.have.property('automatedCashOut').that.is.equal(tempInsert.automatedCashOut);
+            result.data[0].should.have.property('cashOutFrequency').that.is.equal(tempInsert.cashOutFrequency);
+        });
     });
 
     describe('With unsuccessfull request', () => {
