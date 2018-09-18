@@ -15,7 +15,7 @@ export class LoggerFactory {
   }
 
   /**
-   * Creates or returns an existing instance of a logger that logs with the provided (optional) prefix.
+   * @description Creates or returns an existing instance of a logger that logs with the provided (optional) prefix.
    * @param prefix
    * @returns {LoggerInstance}
    */
@@ -35,7 +35,7 @@ export class LoggerFactory {
   }
 
   /**
-   * Middleware for Express to log requests.
+   * @description Middleware for Express to log requests.
    * @returns {express.RequestHandler}
    */
   public get requestLogger(): RequestHandler {
