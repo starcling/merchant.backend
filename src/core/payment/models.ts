@@ -1,30 +1,45 @@
-export interface IPaymentInsertDetails {
-    merchantID: string;
-    title: string;
-    description: string;
-    promo: string;
-    amount: number;
-    initialPaymentAmount: number;
-    trialPeriod: number;
-    currency: string;
-    numberOfPayments: number;
-    frequency: number;
-    typeID: number;
-    networkID: number;
-}
-
-export interface IPaymentUpdateDetails {
+export interface IPaymentView {
     id: string;
     title: string;
     description: string;
     promo: string;
     amount: number;
     initialPaymentAmount: number;
-    trialPeriod: number;
     currency: string;
+    hdWalletIndex: number;
     numberOfPayments: number;
-    typeID: number;
     frequency: number;
+    type: string;
+    status: string;
+    networkID: string;
+    nextPaymentDate: number;
+    lastPaymentDate: number;
+    startTimestamp: number;
+    customerAddress: string;
+    merchantAddress: string;
+    pullPaymentAddress: string;
     userID: string;
-    networkID: number;
+}
+
+export interface IPaymentInsert {
+    hdWalletIndex: number;
+    paymentModelID: string;
+    numberOfPayments: number;
+    nextPaymentDate: number;
+    startTimestamp: number;
+    customerAddress: string;
+    merchantAddress: string;
+    pullPaymentAddress: string;
+    userID: string;
+}
+
+export interface IPaymentUpdate {
+    id: string;
+    hdWalletIndex: number;
+    numberOfPayments: number;
+    nextPaymentDate: number;
+    lastPaymentDate: number;
+    startTimestamp: number;
+    statusID: number;
+    userID: string;
 }

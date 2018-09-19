@@ -1,6 +1,6 @@
 {
-    "payments": {
-        "insertPayment": {
+    "paymentModels": {
+        "insertPaymentModel": {
             "merchantID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "title": "string",
             "description": "string",
@@ -13,7 +13,7 @@
             "typeID": 1,
             "networkID": 3
         },
-        "updatePayment": {
+        "updatePaymentModel": {
             "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "title": "string",
             "description": "string",
@@ -28,19 +28,16 @@
             "networkID": 3
         }
     },
-    "contracts": {
-        "insertTestContract": {
-            "hdWalletIndex": 0,
-            "paymentID": "needed to be injected",
+    "payments": {
+        "insertTestPayment": {
+            "paymentModelID": "needed to be injected",
             "numberOfPayments": 4,
-            "nextPaymentDate": 10,
             "startTimestamp": 100,
-            "customerAddress": "243423",
-            "merchantAddress": "merchantadddr",
-            "pullPaymentAddress": "24234234",
+            "customerAddress": "0x243423",
+            "pullPaymentAddress": "0x24234234",
             "userID": "2342934"
         },
-        "updateTestContract": {
+        "updateTestPayment": {
             "id": "",
             "hdWalletIndex": 0,
             "numberOfPayments": 5,

@@ -56,7 +56,7 @@ export class TransactionController {
     }
 
     /**
-    * @api {get} /api/v1/transactions/:networkID/:transactionHash
+    * @api {get} /api/v1/transactions/:transactionHash
     * @apiDescription Retrieves a single transaction
     *
     * @apiName getTransaction
@@ -64,7 +64,6 @@ export class TransactionController {
     * @apiVersion  1.0.0
     *
     * @apiParam {string} transactionHash - ID of the transaction
-    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -87,28 +86,28 @@ export class TransactionController {
     }
 
     /**
-     * @api {get} /api/v1/transactions/:networkID
+     * @api {get} /api/v1/transactions/payments/paymentID
      * @apiDescription Retrieve an array of transactions
      *
      * @apiName getTransactionsByContractID
      * @apiGroup TransactionController
      * @apiVersion  1.0.0
      *
-     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
      *
      * @apiSuccess (200) {object} transaction Details
      *
      */
-    @Get('/contract/:contractID/')
-    public async getTransactionsByContractID(
-        @Param('contractID') contractID: string,
+    @Get('/payment/:paymentID/')
+    public async getTransactionsByPaymentID(
+        @Param('paymentID') paymentID: string,
         @QueryParam('statusID') statusID: number,
         @QueryParam('typeID') typeID: number,
         @Res() response: any): Promise<any> {
         try {
 
-            new GetTransactionValidator().validate({ contractID, statusID, typeID });
-            const result = await new TransactionConnector().getTransactionsByContractID(<ITransactionGet>{ contractID, statusID, typeID });
+            new GetTransactionValidator().validate({ paymentID, statusID, typeID });
+            const result = await new TransactionConnector()
+                .getTransactionsByPaymentID(<ITransactionGet>{ paymentID: paymentID, statusID, typeID });
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {

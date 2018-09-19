@@ -5,7 +5,7 @@ import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 export class Scheduler {
     /**
      * @description Method for stopping the scheduler
-     * @param {string} paymentID id of the scheduler, same as payment id
+     * @param {string} paymentID id of the scheduler, same as paymentModel id
      * @returns {HTTPResponse} Returns success feedback
      */
     public async stopScheduler(paymentID: string) {
@@ -28,7 +28,7 @@ export class Scheduler {
 
     /**
      * @description Method for restarting the scheduler
-     * @param {string} paymentID id of the scheduler, same as payment id
+     * @param {string} paymentID id of the scheduler, same as paymentModel id
      * @returns {HTTPResponse} Returns success feedback
      */
     public async restartScheduler(paymentID: string) {
@@ -51,13 +51,13 @@ export class Scheduler {
 
     /**
      * @description Method for starting the scheduler
-     * @param {string} contractID id of the scheduler, same as contract id
+     * @param {string} paymentID id of the scheduler, same as payment id
      * @returns {HTTPResponse} Returns success feedback
      */
-    public startScheduler(contractID: string, callback?: any) {
+    public startScheduler(paymentID: string, callback?: any) {
         try {
-            new (MerchantSDK.GET_SDK().Scheduler)(contractID, callback ? callback : async () => {
-                const contract = (await MerchantSDK.GET_SDK().getContract(contractID)).data[0];
+            new (MerchantSDK.GET_SDK().Scheduler)(paymentID, callback ? callback : async () => {
+                const contract = (await MerchantSDK.GET_SDK().getContract(paymentID)).data[0];
 
                 contract.numberOfPayments = contract.numberOfPayments - 1;
                 contract.lastPaymentDate = Math.floor(new Date().getTime() / 1000);
@@ -66,7 +66,7 @@ export class Scheduler {
                 await MerchantSDK.GET_SDK().updateContract(contract);
             }).start();
 
-            return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', contractID);
+            return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', paymentID);
         } catch (error) {
             return new HTTPResponseHandler().handleFailed('Failed to restart scheduler.', error);
         }

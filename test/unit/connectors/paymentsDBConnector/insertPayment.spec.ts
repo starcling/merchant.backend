@@ -1,21 +1,22 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { PaymentModelDbConnector } from '../../../../src/connectors/dbConnector/PaymentModelDbConnector';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
-import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
+import { IPaymentModelInsertDetails } from '../../../../src/core/paymentModel/models';
 chai.use(chaiAsPromised);
 chai.should();
 
-let paymentDbConnector = new PaymentDbConnector();
+const paymentDbConnector = new PaymentModelDbConnector();
 const dataservice = new DataService();
-const payments: any = require('../../../../resources/testData.json').payments;
 
-const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
-var testID: string;
+const paymentModelsTestData: any = require('../../../../resources/testData.json').paymentModels;
+const testPaymentModel: IPaymentModelInsertDetails = paymentModelsTestData['insertTestPaymentModel'];
+
+let testID: string;
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
-        text: 'DELETE FROM public.tb_payments WHERE id = $1;',
+        text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
         values: [testID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
@@ -28,30 +29,31 @@ describe('A PaymentDBcontroller insertPayment', () => {
     });
 
     describe('With successfull request', () => {
-        it('should insert a new payment from dbConnector', async () => {
-            const result = await paymentDbConnector.createPayment(testInsertPayment);
+        it('should insert a new paymentModel from dbConnector', async () => {
+            const result = await paymentDbConnector.createPaymentModel(testPaymentModel);
+            console.debug(result);
             testID = result.data[0].id;
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(201);
             result.should.have.property('message').that.is.equal('SQL Insert Query completed successful.');
             result.should.have.property('data').to.be.an('array');
             result.data[0].should.have.property('id');
-            result.data[0].should.have.property('title').that.is.equal(testInsertPayment.title);
-            result.data[0].should.have.property('description').that.is.equal(testInsertPayment.description);
+            result.data[0].should.have.property('title').that.is.equal(testPaymentModel.title);
+            result.data[0].should.have.property('description').that.is.equal(testPaymentModel.description);
             result.data[0].should.have.property('promo').that.is.equal(null);
-            result.data[0].should.have.property('amount').that.is.equal(testInsertPayment.amount);
-            result.data[0].should.have.property('currency').that.is.equal(testInsertPayment.currency);
-            result.data[0].should.have.property('typeID').that.is.equal(testInsertPayment.typeID);
-            result.data[0].should.have.property('frequency').that.is.equal(testInsertPayment.frequency);
+            result.data[0].should.have.property('amount').that.is.equal(testPaymentModel.amount);
+            result.data[0].should.have.property('currency').that.is.equal(testPaymentModel.currency);
+            result.data[0].should.have.property('typeID').that.is.equal(testPaymentModel.typeID);
+            result.data[0].should.have.property('frequency').that.is.equal(testPaymentModel.frequency);
         });
     });
 
     describe('With unsuccessfull request', () => {
         it('should return not null violation from dbConnector', async () => {
-            const tempInsert = Object.assign({}, testInsertPayment);
+            const tempInsert = {...testPaymentModel};
             delete tempInsert.amount;
             try {
-                await paymentDbConnector.createPayment(tempInsert);
+                await paymentDbConnector.createPaymentModel(tempInsert);
             } catch (err) {
                 err.should.have.property('success').that.is.equal(false);
                 err.should.have.property('status').that.is.equal(400);

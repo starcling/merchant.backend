@@ -1,11 +1,10 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
-import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
+import { PaymentModelDbConnector } from '../../../../src/connectors/dbConnector/PaymentModelDbConnector';
+import { IPaymentModelInsertDetails } from '../../../../src/core/paymentModel/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
-import { MerchantSDK } from '../../../../src/core/MerchantSDK';
-import { ContractDbConnector } from '../../../../src/connectors/dbConnector/ContractDbConnector';
-import { IPaymentContractInsert } from '../../../../src/core/contract/models';
+import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { IPaymentInsert } from '../../../../src/core/payment/models';
 import { Globals } from '../../../../src/utils/globals';
 import { TransactionDbConnector } from '../../../../src/connectors/dbConnector/TransactionDbConnector';
 import { ITransactionInsert, ITransactionGet } from '../../../../src/core/transaction/models';
@@ -13,32 +12,32 @@ import { ITransactionInsert, ITransactionGet } from '../../../../src/core/transa
 chai.use(chaiAsPromised);
 chai.should();
 
-const contractDbConnector = new ContractDbConnector();
-const paymentDbConnector = new PaymentDbConnector();
+const contractDbConnector = new PaymentDbConnector();
+const paymentDbConnector = new PaymentModelDbConnector();
 const transactionDbConnector = new TransactionDbConnector();
 const dataservice = new DataService();
 
 const transactions: any = require('../../../../resources/testData.json').transactions;
-const contracts: any = require('../../../../resources/testData.json').contracts;
 const payments: any = require('../../../../resources/testData.json').payments;
+const paymentModels: any = require('../../../../resources/testData.json').paymentModels;
 
 const testGetTransaction: ITransactionGet = transactions['insertTestTransaction'];
 const testInsertTransaction: ITransactionInsert = transactions['insertTestTransaction'];
-const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
-const testInsertPayment: IPaymentInsertDetails = payments['insertTestPayment'];
+const testInsertPayment: IPaymentInsert = payments['insertTestPayment'];
+const testInsertPaymentModal: IPaymentModelInsertDetails = paymentModels['insertTestPaymentModel'];
 
 const max = 1e+52;
 const min = 1e+10;
 
 const insertTestPayment = async () => {
-    const result = await paymentDbConnector.createPayment(testInsertPayment);
-    testInsertContract.paymentID = result.data[0].id;
+    const result = await paymentDbConnector.createPaymentModel(testInsertPaymentModal);
+    testInsertPayment.paymentModelID = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
-        text: 'DELETE FROM public.tb_payments WHERE id = $1;',
-        values: [testInsertContract.paymentID]
+        text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
+        values: [testInsertPayment.paymentModelID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
@@ -47,8 +46,8 @@ describe('A TransactionDbConnector getTransaction', () => {
     describe('With successfull request', () => {
         beforeEach(async () => {
             await insertTestPayment();
-            const result = await contractDbConnector.createContract(testInsertContract);
-            testInsertTransaction.contractID = result.data[0].id;
+            const result = await contractDbConnector.createPayment(testInsertPayment);
+            testInsertTransaction.paymentID = result.data[0].id;
             testInsertTransaction.hash = ((Math.random() * max - min ) + min).toString();
             const txResult = await transactionDbConnector.createTransaction(testInsertTransaction);
             testGetTransaction.hash = txResult.data[0].hash;
@@ -68,7 +67,7 @@ describe('A TransactionDbConnector getTransaction', () => {
             result.should.have.property('data').that.is.an('array');
             result.data[0].should.have.property('id');
             result.data[0].should.have.property('hash').that.is.equal(testInsertTransaction.hash);
-            result.data[0].should.have.property('contractID').that.is.equal(testInsertTransaction.contractID);
+            result.data[0].should.have.property('paymentID').that.is.equal(testInsertTransaction.paymentID);
             result.data[0].should.have.property('timestamp').that.is.equal(testInsertTransaction.timestamp);
             result.data[0].should.have.property('type').that.is.equal(transactionTypes[testInsertTransaction.typeID]);
             result.data[0].should.have.property('status').that.is.equal(transactionStatuses[testInsertTransaction.statusID]);
@@ -80,7 +79,7 @@ describe('A TransactionDbConnector getTransaction', () => {
             // const contractStatuses = Globals.GET_CONTRACT_STATUS_ENUM();
             // const paymentTypes = Globals.GET_PAYMENT_TYPE_ENUM();
 
-            // const result = await MerchantSDK.GET_SDK().getPayment(testUpdateContract.id);
+            // const result = await MerchantSDK.GET_SDK().getPaymentModelByID(testUpdateContract.id);
             // result.should.have.property('success').that.is.equal(true);
             // result.should.have.property('status').that.is.equal(200);
             // result.should.have.property('message').that.is.equal('SQL Query completed successful.');

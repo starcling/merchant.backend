@@ -70,6 +70,7 @@
     "joi": "^13.4.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.3",
+    "nyc": "^13.0.1",
     "supertest": "^3.0.0",
     "swagger-ui-express": "^3.0.10",
     "ts-node": "~4.1.0",

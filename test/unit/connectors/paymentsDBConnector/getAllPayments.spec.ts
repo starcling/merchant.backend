@@ -1,33 +1,33 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
-import { IPaymentInsertDetails } from '../../../../src/core/payment/models';
+import { PaymentModelDbConnector } from '../../../../src/connectors/dbConnector/PaymentModelDbConnector';
+import { IPaymentModelInsertDetails } from '../../../../src/core/paymentModel/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 
 chai.use(chaiAsPromised);
 chai.should();
 
 const dataservice = new DataService();
-const paymentDbConnector = new PaymentDbConnector();
+const paymentDbConnector = new PaymentModelDbConnector();
 
-const paymentsTestData: any = require('../../../../resources/testData.json').payments;
-const testPayment: IPaymentInsertDetails = paymentsTestData['insertTestPayment'];
-var testId: string;
+const paymentModelsTestData: any = require('../../../../resources/testData.json').paymentModels;
+const testPaymentModel: IPaymentModelInsertDetails = paymentModelsTestData['insertTestPaymentModel'];
+let testId: string;
 
 const insertTestPayment = async () => {
-    const result = await paymentDbConnector.createPayment(testPayment);
+    const result = await paymentDbConnector.createPaymentModel(testPaymentModel);
     testId = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
-        text: 'DELETE FROM public.tb_payments WHERE id = $1;',
+        text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
         values: [testId]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A PaymentDbConnector getAllPayments', () => {
+describe('A PaymentModelDbConnector getAllPaymentsModels', () => {
     describe('With successfull request', () => {
         beforeEach(async () => {
             await insertTestPayment();
@@ -35,8 +35,8 @@ describe('A PaymentDbConnector getAllPayments', () => {
         afterEach(async () => {
             await clearTestPayment();
         });
-        it('Should retrieve the payment details for all records', async () => {
-            const result = await paymentDbConnector.getAllPayments();
+        it('Should retrieve the paymentModel details for all records', async () => {
+            const result = await paymentDbConnector.getAllPaymentModels();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');

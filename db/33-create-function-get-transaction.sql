@@ -9,7 +9,7 @@ CREATE OR REPLACE FUNCTION public.fc_get_transaction(
         hash character varying (255),
         status character varying (255),
         type character varying (255),
-        "contractID" uuid,
+        "paymentID" uuid,
         "timestamp" bigint
     )
     LANGUAGE 'plpgsql'
@@ -26,7 +26,7 @@ BEGIN
         public.tb_blockchain_transactions.hash as hash,
         public.tb_transaction_status.name as status,
         public.tb_transaction_type.name as type,
-        public.tb_blockchain_transactions."contractID" as "contractID",
+        public.tb_blockchain_transactions."paymentID" as "paymentID",
         public.tb_blockchain_transactions."timestamp" as "timestamp"
     FROM (public.tb_blockchain_transactions 
     JOIN public.tb_transaction_status ON public.tb_blockchain_transactions."statusID" = public.tb_transaction_status.id

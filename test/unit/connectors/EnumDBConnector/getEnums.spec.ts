@@ -14,16 +14,16 @@ describe('A enumDbConnector', () => {
             await Globals.REFRESH_ENUMS();
         })
 
-        it('Should retrieve the payment types enum', async () => {
-            const result = await enumDbConnector.getPaymentTypes();
+        it('Should retrieve the paymentModel types enum', async () => {
+            const result = await enumDbConnector.getPaymentModelTypes();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
             result.should.have.property('data').that.is.an('array');
         });
 
-        it('Should retrieve the contract statuses enum', async () => {
-            const result = await enumDbConnector.getContractStatuses();
+        it('Should retrieve the payment statuses enum', async () => {
+            const result = await enumDbConnector.getPaymentStatuses();
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');
