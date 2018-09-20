@@ -63,7 +63,7 @@ class App {
     this.logger.info(`Visit API at ${Config.settings.host}:${Config.settings.port}${apiPath}`);
 
     process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
-      this.logger.error('Unhandled rejection', error.stack);
+      this.logger.error('Unhandled rejection. Reason: ', error.stack ? error.stack : error);
     });
   }
 }

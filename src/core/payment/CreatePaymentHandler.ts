@@ -6,6 +6,11 @@ import * as redis from 'redis';
 import * as bluebird from 'bluebird';
 
 export class CreatePaymentHandler {
+    /**
+     * @description Handles the creation of new payment.
+     * It retrieves the next available index of the hd wallet from redis and stores the private key and address to the encrypted database.
+     * @returns Promise{NewPaymentHdWalletDetails} Returns the  index and address of the hd wallet linked with the payment
+     */
     public async handle(): Promise<NewPaymentHdWalletDetails> {
         let redisClient, redisClientBlocking;
         redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
@@ -20,7 +25,6 @@ export class CreatePaymentHandler {
 
         try {
             let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
-            console.debug('mnemonic....', mnemonic);
             if (!mnemonic) {
                 redisClient.unref();
                 redisClientBlocking.unref();
@@ -34,9 +38,11 @@ export class CreatePaymentHandler {
 
             mnemonic = null;
             // TODO: get merchant address index from redis
-            let index = await redisClient.blpopAsync(MERHCANT_PAYMENT_INDEX, 0);
-            index = Number(index[1]);
-            await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, index + 1);
+            // Uncomment once we have the funding flow in place.
+            // let index = await redisClient.blpopAsync(MERHCANT_PAYMENT_INDEX, 0);
+            // const index = Number(index[1]);
+            // await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, index + 1);
+            const index = 0;
             let privateKey: string = hdWallet.getPrivateKeyAtIndex(index).slice(2);
             const address: string = hdWallet.getAddressAtIndex(index);
             hdWallet = null;

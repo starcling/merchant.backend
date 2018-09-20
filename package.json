@@ -17,9 +17,14 @@
     "test-e2e": "mocha --timeout 15000 -r ts-node/register test/e2e/**/*.ts",
     "test-unit": "mocha --timeout 15000 -r ts-node/register test/unit/**/*.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "cryptocurrency",
+    "crypto-payments",
+    "pumapay",
+    "Pull Payment Protocol"
+  ],
+  "author": "developers@pumapay.io",
+  "license": "MIT",
   "dependencies": {
     "@types/body-parser": "^1.16.8",
     "@types/cors": "^2.8.3",
@@ -28,6 +33,7 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.2",
     "@types/pg": "^7.4.10",
+    "@pumapay/merchant_sdk": "0.0.4",
     "bip39": "^2.5.0",
     "bluebird": "^3.5.1",
     "cors": "^2.8.4",

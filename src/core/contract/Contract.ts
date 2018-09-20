@@ -36,7 +36,7 @@ export class Contract {
                 contract.startTimestamp = Number(contract.startTimestamp);
 
                 if (payment.trialPeriod > 0) {
-                    contract.startTimestamp += payment.trialPeriod;
+                    contract.startTimestamp += Number(payment.trialPeriod);
                 }
 
                 if (payment.typeID === Globals.GET_PAYMENT_TYPE_ENUM()[Globals.GET_PAYMENT_TYPE_ENUM_NAMES().recurringWithInitial]) {
@@ -93,7 +93,6 @@ export class Contract {
         try {
             const response = await new ContractDbConnector().getContract(contractID);
             if (response.data[0].id === null) {
-
                 return new HTTPResponseHandler().handleFailed('Contract with supplied ID not found.', {}, HTTPResponseCodes.BAD_REQUEST());
             }
 
@@ -137,7 +136,6 @@ export class Contract {
         try {
             const response = await new ContractDbConnector().deleteContract(contractID);
             if (response.data[0].fc_delete_payment_contract) {
-
                 return new HTTPResponseHandler().handleSuccess('Successfully deleted single contract.', {});
             }
 
@@ -151,5 +149,4 @@ export class Contract {
             return new HTTPResponseHandler().handleFailed('Failed to delete single contract.', error);
         }
     }
-
 }
