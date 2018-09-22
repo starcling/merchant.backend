@@ -66,7 +66,7 @@ export class Contract {
                     updatePayload.nextPaymentDate = updatePayload.startTimestamp;
                     updatePayload.numberOfPayments = payment.numberOfPayments;
                     updatePayload.statusID = Globals.GET_PAYMENT_STATUS_ENUM_NAMES().initial;
-                    updatePayload.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
+                    updatePayload.userID = contract.userID ? contract.userID : '0';
 
                     result = await dbConnector.updateContract(updatePayload);
                 }
