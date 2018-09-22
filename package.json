@@ -26,7 +26,6 @@
   "author": "developers@pumapay.io",
   "license": "MIT",
   "dependencies": {
-    "@pumapay/merchant_sdk": "0.0.2",
     "@types/body-parser": "^1.16.8",
     "@types/cors": "^2.8.3",
     "@types/debug": "^0.0.30",
@@ -65,6 +64,7 @@
     "chai-http": "^4.0.0",
     "chai-match": "^1.1.1",
     "concurrently": "^3.5.1",
+    "gulp": "^3.9.1",
     "gulp-apidoc-swagger": "^0.2.2",
     "gulp-typedoc": "^2.2.0",
     "husky": "^1.0.0-rc.13",

@@ -1,11 +1,11 @@
-import merchant_sdk from '@pumapay/merchant_sdk';
+import pumapay_merchant_sdk from 'pumapay_merchant_sdk';
 
 /**
  * @description Singleton class that holds the instance of the merchant SDK
  */
 export class MerchantSDK {
 
-    private static sdk: merchant_sdk = null;
+    private static sdk: pumapay_merchant_sdk = null;
 
     private constructor() {}
 
@@ -17,7 +17,7 @@ export class MerchantSDK {
         if (this.sdk) {
             return this.sdk;
         }
-        this.sdk = new merchant_sdk();
+        this.sdk = new pumapay_merchant_sdk();
 
         return this.sdk;
     }

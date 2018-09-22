@@ -43,6 +43,7 @@ export class Contract {
                     contract.startTimestamp += payment.frequency;
                 }
 
+                contract.numberOfPayments = payment.numberOfPayments;
                 contract.nextPaymentDate = contract.startTimestamp;
                 contract.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
 
@@ -52,6 +53,17 @@ export class Contract {
                 if (result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().cancelled ||
                     result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().done) {
                     const updatePayload = <IPaymentContractUpdate>{ ...result.data[0] };
+
+                    const walletDetails: NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
+                    if (!walletDetails.index && !walletDetails.address) {
+                        return new HTTPResponseHandler().handleFailed(
+                            'Failed to insert payment.',
+                            'Check the mnemonic ID.', HTTPResponseCodes.BAD_REQUEST());
+                    }
+
+                    updatePayload.hdWalletIndex = walletDetails.index;
+                    updatePayload.merchantAddress = walletDetails.address;
+
                     updatePayload.startTimestamp = Number(contract.startTimestamp);
 
                     if (result.data[0].trialPeriod > 0) {

@@ -11,11 +11,10 @@ export class CreatePaymentHandler {
         redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
         redisClientBlocking = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
         bluebird.promisifyAll(redis);
-        const MERHCANT_PAYMENT_INDEX: string = 'merchantPaymentIndex';
-        const testRedis = await redisClient.lrangeAsync(MERHCANT_PAYMENT_INDEX, 0, -1);
-
-        if (testRedis.length === 0) {
-            await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, 0);
+        const MERHCANT_PAYMENT_INDEX: string = 'k_merchant_payment_index';
+        const testRedis = await redisClient.getAsync(MERHCANT_PAYMENT_INDEX);
+        if (!testRedis) {
+            await redisClient.setAsync(MERHCANT_PAYMENT_INDEX, 1);
         }
 
         try {
@@ -33,18 +32,24 @@ export class CreatePaymentHandler {
             let hdWallet = new HdWallet(mnemonic);
 
             mnemonic = null;
-            // TODO: get merchant address index from redis
-            // let index = await redisClient.blpopAsync(MERHCANT_PAYMENT_INDEX, 0);
-            const index = 0; //Number(index[1]);
-            // await redisClient.lpushAsync(MERHCANT_PAYMENT_INDEX, index + 1);
+            const index = Number(await redisClient.getAsync(MERHCANT_PAYMENT_INDEX));
+            await redisClient.setAsync(MERHCANT_PAYMENT_INDEX, index + 1);
             let privateKey: string = hdWallet.getPrivateKeyAtIndex(index).slice(2);
             const address: string = hdWallet.getAddressAtIndex(index);
+            console.debug('0Wallet: ', {
+                index: hdWallet.getPrivateKeyAtIndex(0).slice(2),
+                address: hdWallet.getAddressAtIndex(0)
+            });
             hdWallet = null;
             await new PrivateKeysDbConnector().addAddress(address, privateKey);
             privateKey = null;
             redisClient.unref();
             redisClientBlocking.unref();
 
+            console.debug('hdWallet: ', {
+                index,
+                address
+            });
             return <NewPaymentHdWalletDetails>{
                 index: index,
                 address: address

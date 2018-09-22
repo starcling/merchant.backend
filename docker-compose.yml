@@ -29,6 +29,7 @@ services:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
+      - ../merchant.sdk:/usr/src/app/node_modules/pumapay_merchant_sdk
     depends_on:
       - postgres_merchant
     networks:

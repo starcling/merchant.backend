@@ -38,7 +38,7 @@ export class Payment {
             }
             try {
                 const httpRequest = new HTTPRequestFactory()
-                    .create('http://18.185.130.3/core/api/v1/merchant/' + response.data[0].merchantID, {
+                    .create(`${process.env.API_URL}/api/v1/merchant/${response.data[0].merchantID}`, {
                         'Content-Type': 'application/json'
                     }, 'GET', null, null);
                 const httpResponse = await httpRequest.getResponse();

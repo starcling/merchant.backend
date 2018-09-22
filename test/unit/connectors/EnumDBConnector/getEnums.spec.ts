@@ -8,7 +8,7 @@ chai.should();
 
 const enumDbConnector = new EnumDbConnector();
 
-describe('A enumDbConnector', () => {
+describe('A EnumDbConnector', () => {
     describe('With success request', () => {
         before(async () => {
             await Globals.REFRESH_ENUMS();
