@@ -16,7 +16,7 @@ import * as swaggerUi from 'swagger-ui-express';
 import { MerchantSDK } from './core/MerchantSDK';
 import { Globals } from './utils/globals';
 
-const SWAGGER_DOCUMENT = YAML.load('./docs/api/swagger.json');
+const SWAGGER_DOCUMENT = YAML.load('/usr/src/app/src/swagger.yml');
 
 class App {
   private loggerFactory: LoggerFactory = new LoggerFactory(Config.settings.winston, Config.settings.morgan);

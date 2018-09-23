@@ -31,7 +31,6 @@ describe('A PaymentDBcontroller insertPayment', () => {
     describe('With successfull request', () => {
         it('should insert a new paymentModel from dbConnector', async () => {
             const result = await paymentDbConnector.createPaymentModel(testPaymentModel);
-            console.debug(result);
             testID = result.data[0].id;
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(201);

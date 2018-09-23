@@ -4,7 +4,7 @@ import { MerchantSDK } from '../MerchantSDK';
 export class Qr {
     /**
      * @description Get method for getting paymentModel from DB
-     * @param {string} paymentID paymentModelID of the object
+     * @param {string} paymentID pullPaymentModelID of the object
      * @returns {HTTPResponse} Returns success feedback
      */
     public getQRCode (paymentID: string) {

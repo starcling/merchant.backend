@@ -6,8 +6,8 @@ import { CreatePaymentValidator } from '../../validators/PaymentValidator/Create
 import { GetPaymentValidator } from '../../validators/PaymentValidator/GetPaymentValidator';
 import { DeletePaymentValidator } from '../../validators/PaymentValidator/DeletePaymentValidator';
 
-@JsonController('/payments')
-export class PaymentsController {
+@JsonController('/pull-payments')
+export class PullPaymentsController {
 
     /**
     * @apiDefine Response
@@ -19,11 +19,11 @@ export class PaymentsController {
     */
 
     /**
-    * @api {post} /api/v1/payments/
+    * @api {post} /api/v1/pull-payments/
     * @apiDescription Create a new Payment in DB
     *
     * @apiName create
-    * @apiGroup PaymentsController
+    * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
     * @apiParam {string} title - Title of the Payment
@@ -57,11 +57,11 @@ export class PaymentsController {
     }
 
     /**
-    * @api {get} /api/v1/payments/
+    * @api {get} /api/v1/pull-payments/
     * @apiDescription Retrieve an array of payments
     *
     * @apiName getAllPayments
-    * @apiGroup PaymentsController
+    * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
     * @apiSuccess (200) {object} Payment Details
@@ -79,14 +79,14 @@ export class PaymentsController {
    }
 
     /**
-    * @api {get} /api/v1/payments/:paymentModelID
+    * @api {get} /api/v1/pull-payments/:pullPaymentModelID
     * @apiDescription Retrieves a single Payment
     *
     * @apiName getPaymentByID
-    * @apiGroup PaymentsController
+    * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - ID of the Payment
+    * @apiParam {string} pullPaymentModelID - ID of the Payment
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -109,11 +109,11 @@ export class PaymentsController {
     }
 
     /**
-    * @api {delete} /api/v1/payments/:paymentID
+    * @api {delete} /api/v1/pull-payments/:paymentID
     * @apiDescription Delete a single Payment
     *
     * @apiName deletePayment
-    * @apiGroup PaymentsController
+    * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
     * @apiParam {string} paymentID - ID of the Payment

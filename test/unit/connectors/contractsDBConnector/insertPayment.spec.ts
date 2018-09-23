@@ -19,14 +19,14 @@ const testInsertPaymentModel: IPaymentModelInsertDetails = paymentModels['insert
 const clearTestPaymentModel = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
-        values: [testInsertPayment.paymentModelID]
+        values: [testInsertPayment.pullPaymentModelID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
 describe('A ContractDbController insertContract', () => {
     beforeEach(async () => {
-        testInsertPayment.paymentModelID = (await paymentDbConnector.createPaymentModel(testInsertPaymentModel)).data[0].id;
+        testInsertPayment.pullPaymentModelID = (await paymentDbConnector.createPaymentModel(testInsertPaymentModel)).data[0].id;
     });
 
     afterEach(async () => {
@@ -42,7 +42,7 @@ describe('A ContractDbController insertContract', () => {
             result.should.have.property('data').to.be.an('array');
             result.data[0].should.have.property('id');
             result.data[0].should.have.property('hdWalletIndex').that.is.equal(testInsertPayment.hdWalletIndex);
-            result.data[0].should.have.property('paymentModelID').that.is.equal(testInsertPayment.paymentModelID);
+            result.data[0].should.have.property('pullPaymentModelID').that.is.equal(testInsertPayment.pullPaymentModelID);
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertPayment.numberOfPayments);
             result.data[0].should.have.property('nextPaymentDate').that.is.equal(testInsertPayment.nextPaymentDate.toString());
             result.data[0].should.have.property('lastPaymentDate').that.is.equal('0');
@@ -57,7 +57,7 @@ describe('A ContractDbController insertContract', () => {
     describe('With unsuccessfull request', () => {
         it('should return not null violation from dbConnector', async () => {
             const tempInsert = Object.assign({}, testInsertPayment);
-            delete tempInsert.paymentModelID;
+            delete tempInsert.pullPaymentModelID;
             try {
                 await contractDbConnector.createPayment(tempInsert);
             } catch (err) {

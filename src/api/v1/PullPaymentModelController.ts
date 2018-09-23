@@ -8,8 +8,8 @@ import { PatchPaymentModelValidator } from '../../validators/PaymentModelValidat
 import { GetPaymentModelValidator } from '../../validators/PaymentModelValidator/GetPaymentModelValidator';
 import { DeletePaymentModelValidator } from '../../validators/PaymentModelValidator/DeletePaymentModelValidator';
 
-@JsonController('/payment-models')
-export class PaymentModelController {
+@JsonController('/pull-payment-models')
+export class PullPaymentModelController {
 
     /**
     * @apiDefine Response
@@ -21,20 +21,20 @@ export class PaymentModelController {
     */
 
     /**
-    * @api {post} /api/v1/paymentModel-models/
+    * @api {post} /api/v1/payment-models/
     * @apiDescription Create a new paymentModel model in DB
     *
     * @apiName create
-    * @apiGroup PaymentModelController
+    * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} title - Title of the paymentModel model
-    * @apiParam {string} description - Description of the paymentModel model
-    * @apiParam {number} amount - Amount of paymentModel model
-    * @apiParam {string} currency - Currency of paymentModel model
+    * @apiParam {string} title - Title of the pull payment model
+    * @apiParam {string} description - Description of the pull payment model
+    * @apiParam {number} amount - Amount of pull payment model
+    * @apiParam {string} currency - Currency of pull payment pull payment
     * @apiParam {number} startTimestamp - Start timestamp of paymentModel model
-    * @apiParam {number} endTimestamp - End timestamp of paymentModel model
-    * @apiParam {number} type - Type of paymentModel model
+    * @apiParam {number} endTimestamp - End timestamp of pull payment model
+    * @apiParam {number} type - Type of pull payment model
     * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
     * @apiParam {number} frequency - Frequency of execution
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
@@ -53,7 +53,7 @@ export class PaymentModelController {
     *   "networkID": 3
     * }
     *
-    * @apiSuccess (200) {object} PaymentModel Details
+    * @apiSuccess (200) {object} PullPaymentModel Details
     *
     */
     @Post('/')
@@ -73,7 +73,7 @@ export class PaymentModelController {
     * @apiDescription Retrieve an array of paymentModel-models
     *
     * @apiName getAllPaymentsModels
-    * @apiGroup PaymentModelController
+    * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
     * @apiSuccess (200) {object} PaymentModel Model Details
@@ -91,28 +91,28 @@ export class PaymentModelController {
    }
 
     /**
-    * @api {get} /api/v1/paymentModel-models/:paymentModelID
+    * @api {get} /api/v1/paymentModel-models/:pullPaymentModelID
     * @apiDescription Retrieves a single paymentModel
     *
     * @apiName getPaymentModelByID
-    * @apiGroup PaymentModelController
+    * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - ID of the paymentModel model
+    * @apiParam {string} pullPaymentModelID - ID of the paymentModel model
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentModelID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
+    *   "pullPaymentModelID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
     * }
     *
     * @apiSuccess (200) {object} PaymentModel details for a specific id
     *
     */
-    @Get('/:paymentModelID')
-    public async getPaymentModelByID(@Param('paymentModelID') paymentModelID: string, @Res() response: any): Promise<any> {
+    @Get('/:pullPaymentModelID')
+    public async getPaymentModelByID(@Param('pullPaymentModelID') pullPaymentModelID: string, @Res() response: any): Promise<any> {
         try {
-            new GetPaymentModelValidator().validate({ paymentModelID });
-            const result = await new PaymentModelConnector().getPaymentModelByID(paymentModelID);
+            new GetPaymentModelValidator().validate({ pullPaymentModelID });
+            const result = await new PaymentModelConnector().getPaymentModelByID(pullPaymentModelID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -121,14 +121,14 @@ export class PaymentModelController {
     }
 
     /**
-    * @api {put} /api/v1/paymentModel-models/:paymentModelID
+    * @api {put} /api/v1/paymentModel-models/:pullPaymentModelID
     * @apiDescription Update existing paymentModel model in DB
     *
     * @apiName update
-    * @apiGroup PaymentModelController
+    * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - PaymentModel ID
+    * @apiParam {string} pullPaymentModelID - PaymentModel ID
     * @apiParam {string} title - Title of the paymentModel model
     * @apiParam {string} description - Description of the paymentModel model
     * @apiParam {string} promo - Promo code for the paymentModel model
@@ -171,11 +171,11 @@ export class PaymentModelController {
     * @apiSuccess (200) {object} updated paymentModel model details
     *
     */
-    @Put('/:paymentModelID')
-    public async updatePaymentModel(@Param('paymentModelID') paymentModelID: string, @Body() payment: IPaymentModelUpdateDetails,
+    @Put('/:pullPaymentModelID')
+    public async updatePaymentModel(@Param('pullPaymentModelID') pullPaymentModelID: string, @Body() payment: IPaymentModelUpdateDetails,
                         @Res() response: any): Promise<any> {
         try {
-            payment.id = paymentModelID;
+            payment.id = pullPaymentModelID;
             new UpdatePaymentModelValidator().validate(payment);
             const result = await new PaymentModelConnector().updatePaymentModel(payment);
             return new APIResponseHandler().handle(response, result);
@@ -185,14 +185,14 @@ export class PaymentModelController {
     }
 
     /**
-    * @api {patch} /api/v1/paymentModel-models/:paymentModelID
+    * @api {patch} /api/v1/paymentModel-models/:pullPaymentModelID
     * @apiDescription Patch existing paymentModel model in DB
     *
     * @apiName patch
-    * @apiGroup PaymentModelController
+    * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - PaymentModel ID
+    * @apiParam {string} pullPaymentModelID - PaymentModel ID
     * @apiParam {string} title - Title of the paymentModel
     * @apiParam {string} description - Description of the paymentModel
     * @apiParam {string} promo - Promo code for the paymentModel
@@ -235,11 +235,12 @@ export class PaymentModelController {
     * @apiSuccess (200) {object} PaymentModel Details
     *
     */
-    @Patch('/:paymentModelID')
-    public async patchPaymentModel(@Param('paymentModelID') paymentModelID: string, @Body() paymentModel: IPaymentModelUpdateDetails,
-                       @Res() response: any): Promise<any> {
+    @Patch('/:pullPaymentModelID')
+    public async patchPaymentModel(@Param('pullPaymentModelID') pullPaymentModelID: string,
+                                   @Body() paymentModel: IPaymentModelUpdateDetails,
+                                   @Res() response: any): Promise<any> {
         try {
-            paymentModel.id = paymentModelID;
+            paymentModel.id = pullPaymentModelID;
             new PatchPaymentModelValidator().validate(paymentModel);
             const result = await new PaymentModelConnector().updatePaymentModel(paymentModel);
             return new APIResponseHandler().handle(response, result);
@@ -249,28 +250,28 @@ export class PaymentModelController {
     }
 
     /**
-    * @api {delete} /api/v1/paymentModel-models/:paymentModelID
+    * @api {delete} /api/v1/paymentModel-models/:pullPaymentModelID
     * @apiDescription Delete a single paymentModel
     *
     * @apiName deletePaymentModel
-    * @apiGroup PaymentModelController
+    * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - ID of the paymentModel
+    * @apiParam {string} pullPaymentModelID - ID of the paymentModel
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentModelID": "32049572038495"
+    *   "pullPaymentModelID": "32049572038495"
     * }
     *
     * @apiSuccess (200) {object} no data
     *
     */
-   @Delete('/:paymentModelID')
-   public async deletePaymentModel(@Param('paymentModelID') paymentModelID: string, @Res() response: any): Promise<any> {
+   @Delete('/:pullPaymentModelID')
+   public async deletePaymentModel(@Param('pullPaymentModelID') pullPaymentModelID: string, @Res() response: any): Promise<any> {
        try {
-           new DeletePaymentModelValidator().validate({ paymentModelID });
-           const result = await new PaymentModelConnector().deletePaymentModel(paymentModelID);
+           new DeletePaymentModelValidator().validate({ pullPaymentModelID });
+           const result = await new PaymentModelConnector().deletePaymentModel(pullPaymentModelID);
 
            return new APIResponseHandler().handle(response, result);
        } catch (error) {

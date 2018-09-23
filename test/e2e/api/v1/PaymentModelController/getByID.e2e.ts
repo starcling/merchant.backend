@@ -9,22 +9,22 @@ chai.should();
 const expect = chai.expect;
 
 const server = supertest.agent('http://localhost:3000/');
-const endpoint = 'api/v1/payment-models/';
+const endpoint = 'api/v1/pull-payment-models/';
 
 const paymentModelsTestData: any = require('../../../../../resources/testData.json').paymentModels;
 const testPaymentModel: IPaymentModelInsertDetails = paymentModelsTestData['insertTestPaymentModel'];
-let paymentModelID;
+let pullPaymentModelID;
 
 const insertTestPayment = async () => {
     const result = await new PaymentModelDbConnector().createPaymentModel(testPaymentModel);
-    paymentModelID = result.data[0].id;
+    pullPaymentModelID = result.data[0].id;
 }
 
 const clearTestPayment = async () => {
-    await new PaymentModelDbConnector().deletePaymentModel(paymentModelID);
+    await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
 }
 
-describe('PaymentModelController: getPaymentModelByID', () => {
+describe('PullPaymentModelController: getPaymentModelByID', () => {
     describe('with success response', () => {
         beforeEach(async () => {
             await insertTestPayment();
@@ -34,14 +34,14 @@ describe('PaymentModelController: getPaymentModelByID', () => {
         });
         it('Should return paymentModel object', (done) => {
             server
-                .get(`${endpoint}${paymentModelID}`)
+                .get(`${endpoint}${pullPaymentModelID}`)
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
                     expect(body).to.have.property('success').that.is.equal(true);
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message')
-                        .that.is.equal(`Successfully retrieved payment model with ID: ${paymentModelID}`);
+                        .that.is.equal(`Successfully retrieved payment model with ID: ${pullPaymentModelID}`);
                     expect(body).to.have.property('data').that.is.an('object');
                     expect(body.data).to.have.property('title').that.is.equal(testPaymentModel.title);
                     expect(body.data).to.have.property('description').that.is.equal(testPaymentModel.description);

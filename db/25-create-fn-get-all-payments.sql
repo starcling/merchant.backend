@@ -60,7 +60,7 @@ BEGIN
         public.tb_payments."pullPaymentAddress" as pullPaymentAddress,
         public.tb_payments."userID" as userID
     FROM (public.tb_payments
-    JOIN public.tb_payment_models ON public.tb_payments."paymentModelID" = public.tb_payment_models.id
+    JOIN public.tb_payment_models ON public.tb_payments."pullPaymentModelID" = public.tb_payment_models.id
     JOIN public.tb_payment_model_type ON public.tb_payment_models."typeID" = public.tb_payment_model_type.id
     JOIN public.tb_payment_status ON public.tb_payments."statusID" = public.tb_payment_status.id));
 

@@ -1,0 +1,627 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Merchant Backend API
+  description: PumaPay API that allows the merchants through the Merchant Backend to create and execute crypto payments using PumaPay Pull PaymentModel Protocol over the Ethereum network.
+  contact:
+    name: PumaPay Developers Team
+    email: developers@pumapay.io
+    url: http://swagger.io
+servers:
+  - url: http://localhost:3000/
+    description: Local Server
+  - url: http://merc-qwg37z3o.pumapay.io/merchant/
+    description: Test Server
+  - url: http://merc-qwg37z3o.pumapay.io/merchant/
+    description: Prod Server
+paths:
+  /api/v1pull-payment-models/:
+    post:
+      tags:
+        - Pull Payment Models
+      summary: 'Creates a new pull payment model'
+      parameters: []
+      description: 'Creates a new pull payment model in the merchant database'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PaymentModelRequest'
+      responses:
+        '200':
+          description: Returns the newly created pull payment model
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/PaymentModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    get:
+      tags:
+        - Pull Payment Models
+      summary: 'Retrieve all the pull payment models'
+      parameters: []
+      description: 'Retrieve all the pull payment models that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns all the pull payment models
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/PaymentModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+  /api/v1/pull-payment-models/{pullPaymentModelID}:
+    get:
+      tags:
+        - Pull Payment Models
+      summary: 'Retrieve the pull payment models by pull payment model ID'
+      parameters:
+        - in: path
+          name: pullPaymentModelID
+          schema:
+            type: string
+          required: true
+          description: ID of the pull payment model to retrieve
+      description: 'Retrieve the pull payment models by ID that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns the pull payment model by ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/PaymentModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    put:
+      tags:
+        - Pull Payment Models
+      summary: 'Updates the pull payment models by pull payment model ID'
+      parameters:
+        - in: path
+          name: pullPaymentModelID
+          schema:
+            type: string
+          required: true
+          description: ID of the pull payment model to update
+      description: 'Updates the pull payment models by ID that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns the pull payment model by ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/PaymentModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    patch:
+      tags:
+        - Pull Payment Models
+      summary: 'Updates the pull payment models by pull payment model ID'
+      parameters:
+        - in: path
+          name: pullPaymentModelID
+          schema:
+            type: string
+          required: true
+          description: ID of the pull payment model to update
+      description: 'Updates the pull payment models by ID that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns the pull payment model by ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/PaymentModel'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    delete:
+      tags:
+        - Pull Payment Models
+      summary: 'Deletes a pull payment model'
+      parameters:
+        - in: path
+          name: pullPaymentModelID
+          schema:
+            type: string
+          required: true
+          description: ID of the pull payment model to delete
+      description: 'Deletes a pull payment model from the merchant database'
+      responses:
+        '200':
+          description: Deletes a pull payment model from the merchant database
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+  /api/v1/payments/:
+    post:
+      tags:
+        - Pull Payments
+      summary: 'Creates a new pull payment'
+      parameters: []
+      description: 'Creates a new pull payment in the merchant database'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PullPaymentRequest'
+      responses:
+        '200':
+          description: Returns the newly created pull payment
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Payment'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    get:
+      tags:
+        - Pull Payments
+      summary: 'Retrieve all the payments'
+      parameters: []
+      responses:
+        '200':
+          description: Returns all the paymentModel templates
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/HttpResponse'
+        '400':
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HttpResponse'
+  /api/v1/payments/{paymentID}:
+    get:
+      tags:
+        - Pull Payments
+      summary: 'Retrieve the payment by payment ID'
+      parameters:
+        - in: path
+          name: paymentID
+          schema:
+            type: string
+          required: true
+          description: ID of the payment to retrieve
+      description: 'Retrieve the payment by ID that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns the payment by ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Payment'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    put:
+      tags:
+        - Pull Payments
+      summary: 'Updates the payment by payment ID'
+      parameters:
+        - in: path
+          name: paymentID
+          schema:
+            type: string
+          required: true
+          description: ID of the payment to update
+      description: 'Updates the payment by ID that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns the pull payment model by ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Payment'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    patch:
+      tags:
+        - Pull Payments
+      summary: 'Updates the payment by payment ID'
+      parameters:
+        - in: path
+          name: paymentID
+          schema:
+            type: string
+          required: true
+          description: ID of the payment to update
+      description: 'Updates the payment by ID that exists in the merchant database'
+      responses:
+        '200':
+          description: Returns the pull payment model by ID
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Payment'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+    delete:
+      tags:
+        - Pull Payments
+      summary: 'Deletes a payment'
+      parameters:
+        - in: path
+          name: paymentID
+          schema:
+            type: string
+          required: true
+          description: ID of the payment to delete
+      description: 'Deletes a payment from the merchant database'
+      responses:
+        '200':
+          description: Deletes a payment from the merchant database
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+  /api/v1/qr/{pullPaymentModelID}:
+    get:
+      tags:
+        - QR
+      summary: 'Returns the QR payload that needs to be injected in the UI'
+      parameters:
+        - in: path
+          name: pullPaymentModelID
+          schema:
+            type: string
+          required: true
+          description: ID of the pull payment model related
+      responses:
+        '200':
+          description: Returns the QR payload of a pull payment model
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/QrPayload'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/HttpResponse'
+                  - type: object
+                    properties:
+                      error:
+                        type: string
+components:
+  schemas:
+    PaymentModel:
+      type: object
+      required:
+        - id
+        - merchantID
+        - title
+        - description
+        - amount
+        - initialPaymentAmount
+        - trialPeriod
+        - currency
+        - numberOfPayments
+        - frequency
+        - typeID
+        - networkID
+      properties:
+        id:
+          type: string
+        merchantID:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        amount:
+          type: string
+        initialPaymentAmount:
+          type: string
+        trialPeriod:
+          type: string
+        currency:
+          type: string
+        numberOfPayments:
+          type: integer
+        frequency:
+          type: integer
+        typeID:
+          type: integer
+        networkID:
+          type: integer
+    PaymentModelRequest:
+      type: object
+      required:
+        - merchantID
+        - title
+        - description
+        - amount
+        - initialPaymentAmount
+        - trialPeriod
+        - currency
+        - numberOfPayments
+        - frequency
+        - typeID
+        - networkID
+      properties:
+        merchantID:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        amount:
+          type: string
+        initialPaymentAmount:
+          type: string
+        trialPeriod:
+          type: string
+        currency:
+          type: string
+        numberOfPayments:
+          type: integer
+        frequency:
+          type: integer
+        typeID:
+          type: integer
+        networkID:
+          type: integer
+    PullPaymentRequest:
+      type: object
+      required:
+        - pullPaymentModelID
+        - numberOfPayments
+        - startTimestamp
+        - customerAddress
+      properties:
+        pullPaymentModelID:
+          type: string
+        numberOfPayments:
+          type: integer
+        startTimestamp:
+          type: string
+        customerAddress:
+          type: integer
+        pullPaymentAddress:
+          type: string
+        userID:
+          type: string
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        hdWalletIndex:
+          type: integer
+        paymentID:
+          type: string
+        numberOfPayments:
+          type: integer
+        nextPaymentDate:
+          type: string
+        lastPaymentDate:
+          type: string
+        startTimestamp:
+          type: string
+        customerAddress:
+          type: string
+        merchantAddress:
+          type: string
+        pullPaymentAddress:
+          type: string
+        statusID:
+          type: integer
+        userID:
+          type: string
+    QrPayload:
+      type: object
+      properties:
+        paymentModelURL:
+          type: string
+        paymentURL:
+          type: string
+        transactionURL:
+          type: string
+    HttpResponse:
+      required:
+        - code
+        - success
+        - message
+      properties:
+        code: 
+          type: integer
+          format: int32
+        success:
+          type: boolean
+        message: 
+          type: string

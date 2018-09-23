@@ -10,7 +10,7 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const server = supertest.agent('localhost:3000/');
-const endpoint = 'api/v1/payments/';
+const endpoint = 'api/v1/pull-payments/';
 
 const paymentModels: any = require('../../../../../resources/e2eTestData.json').paymentModels;
 const paymentModel: IPaymentModelInsertDetails = paymentModels['insertPaymentModel'];
@@ -18,12 +18,12 @@ const paymentModel: IPaymentModelInsertDetails = paymentModels['insertPaymentMod
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
 const insertPayment = payments['insertTestPayment'];
 
-let paymentModelID: string;
+let pullPaymentModelID: string;
 let paymentID: string;
 
 const insertPaymentModel = async () => {
     const result = await new PaymentModelDbConnector().createPaymentModel(paymentModel);
-    paymentModelID = result.data[0].id;
+    pullPaymentModelID = result.data[0].id;
 };
 
 const clearPaymentModel = async () => {
@@ -56,7 +56,7 @@ describe('Payment Controller: create', () => {
                 message: 'Successful payment inserted.',
                 data: []
             };
-            insertPayment.paymentModelID = paymentModelID;
+            insertPayment.pullPaymentModelID = pullPaymentModelID;
             server
                 .post(`${endpoint}`)
                 .send(insertPayment)
@@ -69,7 +69,7 @@ describe('Payment Controller: create', () => {
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
                     expect(body).to.have.property('message').that.is.equal(expectedResponse.message);
                     expect(body).to.have.property('data').that.has.property('id').that.is.equal(paymentID);
-                    expect(body).to.have.property('data').that.has.property('paymentModelID').that.is.equal(paymentModelID);
+                    expect(body).to.have.property('data').that.has.property('pullPaymentModelID').that.is.equal(pullPaymentModelID);
                     expect(body).to.have.property('data').that.has.property('numberOfPayments')
                         .that.is.equal(insertPayment.numberOfPayments);
                     expect(body).to.have.property('data').that.has.property('customerAddress').that.is.equal(insertPayment.customerAddress);

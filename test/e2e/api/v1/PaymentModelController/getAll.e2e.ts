@@ -9,23 +9,23 @@ chai.should();
 const expect = chai.expect;
 
 const server = supertest.agent('http://localhost:3000/');
-const endpoint = 'api/v1/payments';
+const endpoint = 'api/v1/pull-payments';
 
 const paymentModelsTestData: any = require('../../../../../resources/testData.json').paymentModels;
 const testPaymentModel: IPaymentModelInsertDetails = paymentModelsTestData['insertTestPaymentModel'];
-let paymentModelID;
+let pullPaymentModelID;
 
 const insertTestPayment = async () => {
     // Need to insert test paymentModel using Merchant SDK
     const result = await new PaymentModelDbConnector().createPaymentModel(testPaymentModel);
-    paymentModelID = result.data[0].id;
+    pullPaymentModelID = result.data[0].id;
 }
 
 const clearTestPayment = async () => {
-    await new PaymentModelDbConnector().deletePaymentModel(paymentModelID);
+    await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
 };
 
-describe('PaymentModelController: getAllPaymentsModels', () => {
+describe('PullPaymentModelController: getAllPaymentsModels', () => {
     describe('with success response', () => {
         beforeEach(async () => {
             await insertTestPayment();

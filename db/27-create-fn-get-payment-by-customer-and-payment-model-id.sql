@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE FUNCTION public.fn_get_payment_by_customer_and_payment_model_id(
     _customerAddress text,
-	_paymentModelID uuid)
+	_pullPaymentModelID uuid)
     RETURNS tb_payments
     LANGUAGE 'plpgsql'
 
@@ -18,7 +18,7 @@ BEGIN
     SELECT *
     FROM public.tb_payments
     WHERE public.tb_payments."customerAddress" = _customerAddress
-    AND public.tb_payments."paymentModelID" = _paymentModelID
+    AND public.tb_payments."pullPaymentModelID" = _pullPaymentModelID
     INTO tb_payments;
 
     RETURN tb_payments;

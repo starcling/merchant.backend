@@ -25,13 +25,13 @@ const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPaymentModel(testInsertPaymentModel);
-    testInsertPayment.paymentModelID = result.data[0].id;
+    testInsertPayment.pullPaymentModelID = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
-        values: [testInsertPayment.paymentModelID]
+        values: [testInsertPayment.pullPaymentModelID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
@@ -40,7 +40,6 @@ describe('A PaymentDbConnector getAllPayments', () => {
     describe('With successfull request', () => {
         beforeEach(async () => {
             const res = await insertTestPayment();
-            console.debug(res);
             for (let i = 0; i < numberOfContracts; i++) {
                 testInsertPayment.customerAddress = (Math.floor((Math.random() * max) - min) + min).toString();
                 await contractDbConnector.createPayment(testInsertPayment);

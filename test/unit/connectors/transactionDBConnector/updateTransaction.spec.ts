@@ -31,13 +31,13 @@ const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPaymentModel(testInsertPaymentModal);
-    testInsertPayment.paymentModelID = result.data[0].id;
+    testInsertPayment.pullPaymentModelID = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
-        values: [testInsertPayment.paymentModelID]
+        values: [testInsertPayment.pullPaymentModelID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
@@ -78,7 +78,7 @@ describe('A TransactionDbConnector updateTransaction', () => {
             // result.should.have.property('data').that.is.an('array');
             // result.data[0].should.have.property('id').that.is.equal(testUpdateContract.id);
             // result.data[0].should.have.property('hdWalletIndex').that.is.equal(testUpdateContract.hdWalletIndex);
-            // result.data[0].should.have.property('paymentModelID').that.is.equal(testInsertContract.paymentModelID);
+            // result.data[0].should.have.property('pullPaymentModelID').that.is.equal(testInsertContract.pullPaymentModelID);
             // result.data[0].should.have.property('numberOfPayments').that.is.equal(testUpdateContract.numberOfPayments);
             // result.data[0].should.have.property('nextPaymentDate').that.is.equal(testUpdateContract.nextPaymentDate.toString());
             // result.data[0].should.have.property('lastPaymentDate').that.is.equal(testUpdateContract.lastPaymentDate.toString());

@@ -23,13 +23,13 @@ const testInsertPaymentModel: IPaymentModelInsertDetails = paymentModels['insert
 
 const insertTestPaymentModel = async () => {
     const result = await paymentDbConnector.createPaymentModel(testInsertPaymentModel);
-    testInsertPayment.paymentModelID = result.data[0].id;
+    testInsertPayment.pullPaymentModelID = result.data[0].id;
 };
 
 const clearTestPaymentModel = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
-        values: [testInsertPayment.paymentModelID]
+        values: [testInsertPayment.pullPaymentModelID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
@@ -87,7 +87,6 @@ describe('A PaymentDbConnector getPaymentByID', () => {
             const paymentTypes = Globals.GET_PAYMENT_TYPE_ENUM();
 
             const result = await MerchantSDK.GET_SDK().getContract(testUpdatePayment.id);
-            console.debug(result);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');

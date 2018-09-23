@@ -9,23 +9,23 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const server = supertest.agent('localhost:3000/');
-const endpoint = 'api/v1/payment-models/';
+const endpoint = 'api/v1/pull-payment-models/';
 
 const paymentModels: any = require('../../../../../resources/e2eTestData.json').paymentModels;
 const insertPaymentData: IPaymentModelInsertDetails = paymentModels['insertPaymentModel'];
 
-let paymentModelID: string;
+let pullPaymentModelID: string;
 
 const insertPayment = async () => {
     const result = await new PaymentModelDbConnector().createPaymentModel(insertPaymentData);
-    paymentModelID = result.data[0].id;
+    pullPaymentModelID = result.data[0].id;
 };
 
 const clearPayment = async () => {
-    await new PaymentModelDbConnector().deletePaymentModel(paymentModelID);
+    await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
 };
 
-describe('PaymentModelController: delete', () => {
+describe('PullPaymentModelController: delete', () => {
     beforeEach(async () => {
         await insertPayment();
     });
@@ -44,7 +44,7 @@ describe('PaymentModelController: delete', () => {
             };
 
             server
-                .delete(`${endpoint}${paymentModelID}`)
+                .delete(`${endpoint}${pullPaymentModelID}`)
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -58,7 +58,7 @@ describe('PaymentModelController: delete', () => {
     describe('No paymentModel in the db', () => {
         it('should return 400', (done) => {
             server
-                .delete(`${endpoint}${paymentModelID}NOTINDB`)
+                .delete(`${endpoint}${pullPaymentModelID}NOTINDB`)
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;

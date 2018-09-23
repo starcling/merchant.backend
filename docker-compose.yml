@@ -27,6 +27,7 @@ services:
       - MNEMONIC_ID=mnemonic_phrase
     volumes:
       - ./src:/usr/src/app/src
+      - ./src/swagger.yml:/usr/src/app/src/swagger.yml
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
     depends_on:

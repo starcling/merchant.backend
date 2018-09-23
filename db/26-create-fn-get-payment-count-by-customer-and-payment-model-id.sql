@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE FUNCTION public.fn_get_payment_count_by_customer_and_payment_model_id(
     _customerAddress text,
-	_paymentModelID uuid)
+	_pullPaymentModelID uuid)
     RETURNS int
     LANGUAGE 'plpgsql'
 
@@ -17,7 +17,7 @@ DECLARE _count int;
 BEGIN
     SELECT COUNT(*)::int
     FROM public.tb_payments
-    WHERE public.tb_payments."paymentModelID" = _paymentModelID
+    WHERE public.tb_payments."pullPaymentModelID" = _pullPaymentModelID
     AND public.tb_payments."customerAddress" = _customerAddress
     INTO _count;
 

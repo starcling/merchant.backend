@@ -18,7 +18,7 @@ export class Payment {
         let result;
         try {
             const paymentCountResult = await dbConnector.getPaymentCountByCustomerAndPaymentModelID(
-                payment.customerAddress, payment.paymentModelID);
+                payment.customerAddress, payment.pullPaymentModelID);
             const paymentCcount = Number(paymentCountResult.data[0]['fn_get_payment_count_by_customer_and_payment_model_id']);
             if (paymentCcount === 0) {
                 const walletDetails : NewPaymentModelHdWalletDetails = await new CreatePaymentModelHandler().handle();
@@ -31,7 +31,7 @@ export class Payment {
                 payment.hdWalletIndex = walletDetails.index;
                 payment.merchantAddress = walletDetails.address;
 
-                const paymentModelResult = await new PaymentModelDbConnector().getPaymentModelByID(payment.paymentModelID);
+                const paymentModelResult = await new PaymentModelDbConnector().getPaymentModelByID(payment.pullPaymentModelID);
                 const paymentModel: IPaymentModelUpdateDetails = paymentModelResult.data[0];
                 payment.startTimestamp = Number(payment.startTimestamp);
 
@@ -48,7 +48,7 @@ export class Payment {
 
                 result = await dbConnector.createPayment(payment);
             } else {
-                result = await dbConnector.getPaymentByCustomerAndPaymentModelID(payment.customerAddress, payment.paymentModelID);
+                result = await dbConnector.getPaymentByCustomerAndPaymentModelID(payment.customerAddress, payment.pullPaymentModelID);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful payment inserted.', result.data[0]);

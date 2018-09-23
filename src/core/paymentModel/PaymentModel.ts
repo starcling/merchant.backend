@@ -25,12 +25,12 @@ export class PaymentModel {
 
     /**
      * @description Get method for getting single paymentModel model from DB
-     * @param {string} paymentModelID ID of the paymentModel model
+     * @param {string} pullPaymentModelID ID of the paymentModel model
      * @returns {HTTPResponse} Returns response with paymentModel model object in data
      */
-    public async getPaymentModelByID(paymentModelID: string) {
+    public async getPaymentModelByID(pullPaymentModelID: string) {
         try {
-            const response = await new PaymentModelDbConnector().getPaymentModelByID(paymentModelID);
+            const response = await new PaymentModelDbConnector().getPaymentModelByID(pullPaymentModelID);
             if (response.data[0].id === null) {
 
                 return new HTTPResponseHandler().handleFailed('Payment Model with supplied ID not found.',
@@ -38,7 +38,7 @@ export class PaymentModel {
             }
 
             return new HTTPResponseHandler().handleSuccess(
-                `Successfully retrieved payment model with ID: ${paymentModelID}`, response.data[0]);
+                `Successfully retrieved payment model with ID: ${pullPaymentModelID}`, response.data[0]);
         } catch (error) {
             if (error.status) {
                 return error;
@@ -50,19 +50,19 @@ export class PaymentModel {
 
     /**
      * @description Delete method for removing a paymentModel model from DB
-     * @param {string} paymentModelID ID of the paymentModel model
+     * @param {string} pullPaymentModelID ID of the paymentModel model
      * @returns {HTTPResponse} Returns success feedback
      */
-    public async deletePaymentModel(paymentModelID: string) {
+    public async deletePaymentModel(pullPaymentModelID: string) {
         try {
-            const response = await new PaymentModelDbConnector().deletePaymentModel(paymentModelID);
+            const response = await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
             if (response.data[0].fc_delete_payment_model) {
                 return new HTTPResponseHandler().handleSuccess(
-                    `Successfully deleted payment model with ID: ${paymentModelID}`, {});
+                    `Successfully deleted payment model with ID: ${pullPaymentModelID}`, {});
             }
 
             return new HTTPResponseHandler().handleFailed(
-                `No payment model with ID: ${paymentModelID}`, {}, HTTPResponseCodes.BAD_REQUEST());
+                `No payment model with ID: ${pullPaymentModelID}`, {}, HTTPResponseCodes.BAD_REQUEST());
 
         } catch (error) {
             if (error.status) {

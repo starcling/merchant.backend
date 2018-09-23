@@ -10,19 +10,19 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const server = supertest.agent('localhost:3000/');
-const endpoint = 'api/v1/payment-models/';
+const endpoint = 'api/v1/pull-payment-models/';
 
 const paymentModels: any = require('../../../../../resources/e2eTestData.json').paymentModels;
 const insertPayment: IPaymentModelInsertDetails = paymentModels['insertPaymentModel'];
 
-let paymentModelID: string;
+let pullPaymentModelID: string;
 
 const clearPayment = async () => {
-    await new PaymentModelDbConnector().deletePaymentModel(paymentModelID);
+    await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
 };
 process.env.MNEMONICID = 'testmnemonicphrase';
 
-describe('PaymentModelController: create', () => {
+describe('PullPaymentModelController: create', () => {
     afterEach(async () => {
         await clearPayment();
     });
@@ -54,11 +54,11 @@ describe('PaymentModelController: create', () => {
                 .end((err: Error, res: any) => {
                     const body = res.body;
 
-                    paymentModelID = body.data.id;
+                    pullPaymentModelID = body.data.id;
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
                     expect(body).to.have.property('message').that.is.equal(expectedResponse.message);
-                    expect(body).to.have.property('data').that.has.property('id').that.is.equal(paymentModelID);
+                    expect(body).to.have.property('data').that.has.property('id').that.is.equal(pullPaymentModelID);
                     expect(body).to.have.property('data').that.has.property('title').that.is.equal(insertPayment.title);
                     expect(body).to.have.property('data').that.has.property('description').that.is.equal(insertPayment.description);
                     expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);

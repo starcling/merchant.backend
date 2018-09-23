@@ -22,15 +22,15 @@ const testInsertPaymentModel: IPaymentModelInsertDetails = paymentModels['insert
 
 const insertTestPaymentModel = async () => {
     const result = await paymentDbConnector.createPaymentModel(testInsertPaymentModel);
-    testInsertPayment.paymentModelID = result.data[0].id;
-    testUpdatePayment.paymentModelID = result.data[0].id;
+    testInsertPayment.pullPaymentModelID = result.data[0].id;
+    testUpdatePayment.pullPaymentModelID = result.data[0].id;
 
 };
 
 const clearTestPaymentModel = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
-        values: [testInsertPayment.paymentModelID]
+        values: [testInsertPayment.pullPaymentModelID]
     };
     await dataService.executeQueryAsPromise(sqlQuery);
 };
@@ -64,7 +64,7 @@ describe('A PaymentDbConnector updatePayment', () => {
             result.should.have.property('data').that.is.an('array');
             result.data[0].should.have.property('id').that.is.equal(testUpdatePayment.id);
             result.data[0].should.have.property('hdWalletIndex').that.is.equal(testUpdatePayment.hdWalletIndex);
-            result.data[0].should.have.property('paymentModelID').that.is.equal(testUpdatePayment.paymentModelID);
+            result.data[0].should.have.property('pullPaymentModelID').that.is.equal(testUpdatePayment.pullPaymentModelID);
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testUpdatePayment.numberOfPayments);
             result.data[0].should.have.property('nextPaymentDate').that.is.equal(testUpdatePayment.nextPaymentDate.toString());
             result.data[0].should.have.property('lastPaymentDate').that.is.equal(testUpdatePayment.lastPaymentDate.toString());
@@ -82,7 +82,7 @@ describe('A PaymentDbConnector updatePayment', () => {
             result.should.have.property('data').that.is.an('array');
             result.data[0].should.have.property('id').that.is.equal(testUpdatePayment.id);
             result.data[0].should.have.property('hdWalletIndex').that.is.equal(testUpdatePayment.hdWalletIndex);
-            result.data[0].should.have.property('paymentModelID').that.is.equal(testInsertPayment.paymentModelID);
+            result.data[0].should.have.property('pullPaymentModelID').that.is.equal(testInsertPayment.pullPaymentModelID);
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testUpdatePayment.numberOfPayments);
             result.data[0].should.have.property('nextPaymentDate').that.is.equal(testUpdatePayment.nextPaymentDate.toString());
             result.data[0].should.have.property('lastPaymentDate').that.is.equal(testUpdatePayment.lastPaymentDate.toString());

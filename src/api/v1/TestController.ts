@@ -6,7 +6,7 @@ import { SchedulerConnector } from '../../connectors/api/v1/SchedulerConnector';
 
 @JsonController('/test')
 export class TestController {
-    @Get('/execute-pull-paymentModel/:paymentModelID')
+    @Get('/execute-pull-paymentModel/:pullPaymentModelID')
     public async test(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
         try {
             const merchant = MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(3));

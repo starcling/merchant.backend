@@ -7,7 +7,7 @@ export class PaymentDbConnector {
       text: 'SELECT * FROM fc_create_payment($1, $2, $3, $4, $5, $6, $7, $8, $9)',
       values: [
         insertDetails.hdWalletIndex,
-        insertDetails.paymentModelID,
+        insertDetails.pullPaymentModelID,
         insertDetails.numberOfPayments,
         insertDetails.nextPaymentDate,
         insertDetails.startTimestamp,
@@ -72,19 +72,19 @@ export class PaymentDbConnector {
     return new DataService().executeQueryAsPromise(sqlQuery);
   }
 
-  public getPaymentCountByCustomerAndPaymentModelID(customerAddress: string, paymentModelID: string): Promise<any> {
+  public getPaymentCountByCustomerAndPaymentModelID(customerAddress: string, pullPaymentModelID: string): Promise<any> {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM public.fn_get_payment_count_by_customer_and_payment_model_id($1, $2);',
-      values: [customerAddress, paymentModelID]
+      values: [customerAddress, pullPaymentModelID]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);
   }
 
-  public getPaymentByCustomerAndPaymentModelID(customerAddress: string, paymentModelID: string): Promise<any> {
+  public getPaymentByCustomerAndPaymentModelID(customerAddress: string, pullPaymentModelID: string): Promise<any> {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM public.fn_get_payment_by_customer_and_payment_model_id($1, $2);',
-      values: [customerAddress, paymentModelID]
+      values: [customerAddress, pullPaymentModelID]
     };
 
     return new DataService().executeQueryAsPromise(sqlQuery);

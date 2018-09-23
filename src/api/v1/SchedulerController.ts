@@ -16,18 +16,18 @@ export class SchedulerController {
 
     /**
     * @api {get} /api/v1/scheduler/stop/
-    * @apiDescription Stops the scheduler with paymentModelID
+    * @apiDescription Stops the scheduler with pullPaymentModelID
     *
     * @apiName stopScheduler
     * @apiGroup SchedulerController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - ID of the paymentModel that you want to stop the scheduler for.
+    * @apiParam {string} pullPaymentModelID - ID of the paymentModel that you want to stop the scheduler for.
     * SchedulerID and PaymentID are the same.
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentModelID": "c90de9da-8b44-11e8-a3da-774835f29b05"
+    *   "pullPaymentModelID": "c90de9da-8b44-11e8-a3da-774835f29b05"
     * }
     *
     * @apiSuccess (200) {object} success
@@ -47,18 +47,18 @@ export class SchedulerController {
 
     /**
     * @api {get} /api/v1/scheduler/restartScheduler/
-    * @apiDescription Restarts the scheduler with paymentModelID
+    * @apiDescription Restarts the scheduler with pullPaymentModelID
     *
     * @apiName restartScheduler
     * @apiGroup SchedulerController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentModelID - ID of the paymentModel that you want to restart the scheduler for.
+    * @apiParam {string} pullPaymentModelID - ID of the paymentModel that you want to restart the scheduler for.
     * SchedulerID and PaymentID are the same.
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentModelID": "c90de9da-8b44-11e8-a3da-774835f29b05"
+    *   "pullPaymentModelID": "c90de9da-8b44-11e8-a3da-774835f29b05"
     * }
     *
     * @apiSuccess (200) {object} success

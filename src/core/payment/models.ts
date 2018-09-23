@@ -23,7 +23,7 @@ export interface IPaymentView {
 
 export interface IPaymentInsert {
     hdWalletIndex: number;
-    paymentModelID: string;
+    pullPaymentModelID: string;
     numberOfPayments: number;
     nextPaymentDate: number;
     startTimestamp: number;

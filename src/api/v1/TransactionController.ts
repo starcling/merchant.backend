@@ -86,7 +86,7 @@ export class TransactionController {
     }
 
     /**
-     * @api {get} /api/v1/transactions/payments/paymentID
+     * @api {get} /api/v1/transactions/pull-payments/paymentID
      * @apiDescription Retrieve an array of transactions
      *
      * @apiName getTransactionsByContractID

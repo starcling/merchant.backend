@@ -8,7 +8,7 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const server = supertest.agent('localhost:3000/');
-const endpoint = 'api/v1/payment-models/';
+const endpoint = 'api/v1/pull-payment-models/';
 
 const payments: any = require('../../../../../resources/e2eTestData.json').paymentModels;
 const insertPaymentModel: IPaymentModelInsertDetails = payments['insertPaymentModel'];
@@ -23,7 +23,7 @@ const clearPayment = async () => {
     await new PaymentModelDbConnector().deletePaymentModel(updatePaymentModel.id);
 };
 
-describe('PaymentModelController: patch', () => {
+describe('PullPaymentModelController: patch', () => {
     beforeEach(async () => {
         await insertPayment();
     });

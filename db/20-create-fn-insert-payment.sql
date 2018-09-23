@@ -4,7 +4,7 @@
 
 CREATE OR REPLACE FUNCTION public.fc_create_payment(
 	_hdWalletIndex integer,
-	_paymentModelID uuid,
+	_pullPaymentModelID uuid,
     _numberOfPayments integer,
 	_nextPaymentDate bigint,
 	_startTimestamp bigint,
@@ -24,7 +24,7 @@ tb_payments public.tb_payments;
 BEGIN
 INSERT INTO public.tb_payments(
         "hdWalletIndex", 
-        "paymentModelID", 
+        "pullPaymentModelID",
         "numberOfPayments",
         "nextPaymentDate", 
         "startTimestamp", 
@@ -34,7 +34,7 @@ INSERT INTO public.tb_payments(
         "userID")
 	VALUES (
         _hdWalletIndex, 
-        _paymentModelID, 
+        _pullPaymentModelID,
         _numberOfPayments,
         _nextPaymentDate, 
         _startTimestamp, 

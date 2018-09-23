@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
 (
     id uuid NOT NULL DEFAULT uuid_generate_v1mc(),
     "hdWalletIndex" integer NOT NULL default 0,
-    "paymentModelID" uuid NOT NULL,
+    "pullPaymentModelID" uuid NOT NULL,
     "numberOfPayments" integer NOT NULL,
     "nextPaymentDate" bigint NOT NULL,
     "lastPaymentDate" bigint DEFAULT 0,
@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS public.tb_payments
     "pullPaymentAddress" character varying(255) COLLATE pg_catalog."default",
     "statusID" integer DEFAULT 1,
     "userID" character varying(255) DEFAULT NULL,
-    UNIQUE ("customerAddress", "paymentModelID"),
+    UNIQUE ("customerAddress", "pullPaymentModelID"),
     CONSTRAINT tb_payments_pkey PRIMARY KEY (id),
-    CONSTRAINT payment_model_id_id_fkey FOREIGN KEY ("paymentModelID")
+    CONSTRAINT payment_model_id_id_fkey FOREIGN KEY ("pullPaymentModelID")
         REFERENCES public.tb_payment_models (id)
         ON UPDATE CASCADE
         ON DELETE CASCADE,

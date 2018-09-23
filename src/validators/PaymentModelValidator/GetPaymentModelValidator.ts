@@ -20,5 +20,5 @@ export class GetPaymentModelValidator extends PaymentModelValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    paymentModelID: Joi.string().required()
+    pullPaymentModelID: Joi.string().required()
 });

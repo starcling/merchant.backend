@@ -34,7 +34,7 @@ describe('SchedulerController: restartScheduler', () => {
         beforeEach('insert test payment Model and payment', async () => {
             testInsertPaymentModel.frequency = frequency;
             paymentModel = (await addTestPaymentModel(testInsertPaymentModel)).data;
-            testInsertPayment.paymentModelID = paymentModel.id;
+            testInsertPayment.pullPaymentModelID = paymentModel.id;
 
             payment = (await addTestPayment(testInsertPayment)).data[0];
         });
@@ -122,7 +122,7 @@ describe('SchedulerController: restartScheduler', () => {
         beforeEach('insert test paymentModel and payment', async () => {
             testInsertPaymentModel.frequency = frequency;
             paymentModel = (await addTestPaymentModel(testInsertPaymentModel)).data;
-            testInsertPayment.paymentModelID = paymentModel.id;
+            testInsertPayment.pullPaymentModelID = paymentModel.id;
 
             payment = (await addTestPayment(testInsertPayment)).data[0];
         });

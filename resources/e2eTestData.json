@@ -30,7 +30,7 @@
     },
     "payments": {
         "insertTestPayment": {
-            "paymentModelID": "needed to be injected",
+            "pullPaymentModelID": "needed to be injected",
             "numberOfPayments": 4,
             "startTimestamp": 100,
             "customerAddress": "0x243423",

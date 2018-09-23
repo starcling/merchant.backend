@@ -31,13 +31,13 @@ const min = 1e+10;
 
 const insertTestPayment = async () => {
     const result = await paymentDbConnector.createPaymentModel(testInsertPaymentModal);
-    testInsertPayment.paymentModelID = result.data[0].id;
+    testInsertPayment.pullPaymentModelID = result.data[0].id;
 };
 
 const clearTestPayment = async () => {
     const sqlQuery: ISqlQuery = {
         text: 'DELETE FROM public.tb_payment_models WHERE id = $1;',
-        values: [testInsertPayment.paymentModelID]
+        values: [testInsertPayment.pullPaymentModelID]
     };
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
