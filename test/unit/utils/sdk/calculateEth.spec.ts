@@ -13,6 +13,7 @@ const web3 = require('web3');
 chai.use(require('chai-match'));
 
 const expect = chai.expect;
+const web3API = new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
 
 const contractDbConnector = new ContractDbConnector();
 const paymentDbConnector = new PaymentDbConnector();
@@ -41,9 +42,9 @@ describe('A SDK calculateEth', () => {
 
     before(() => {
         MerchantSDK.GET_SDK().build({
-            web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3))),
-            updatePayment: contractDbConnector.updateContract,
-            getPayment: contractDbConnector.getContract,
+            web3: web3API,
+            updatePullPayment: contractDbConnector.updateContract,
+            getPullPayment: contractDbConnector.getContract,
             getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
         });
     })
@@ -65,7 +66,10 @@ describe('A SDK calculateEth', () => {
     });
 
     it('should calculate transfer fee eth gas needed', async () => {
-        const result = await MerchantSDK.GET_SDK().calculateTransferFee(testInsertContract.merchantAddress, testInsertContract.customerAddress, 220);
+        const amount = '20';
+        const rate = 0.0007862;
+        const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());
+        const result = await MerchantSDK.GET_SDK().calculateTransferFee(testInsertContract.merchantAddress, testInsertContract.customerAddress, value);
         expect(result).to.be.lessThan(100000).and.greaterThan(0);
     });
 
@@ -77,7 +81,9 @@ describe('A SDK calculateEth', () => {
     it('should calculate eth gas needed', async () => {
         const result = await MerchantSDK.GET_SDK().calculateWeiToFund(testUpdateContract.id, testInsertContract.customerAddress);
 
-        const value = parseUnits(((Number(testInsertPayment.amount) / 100) / 0.0009).toString(), 14);
+        const amount = '20';
+        const rate = 0.0007862;
+        const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());;
         const transferFee = await MerchantSDK.GET_SDK().calculateTransferFee(testInsertContract.merchantAddress, testInsertContract.customerAddress, value);
         const executionFee = await MerchantSDK.GET_SDK().calculateMaxExecutionFee();
 
@@ -86,35 +92,3 @@ describe('A SDK calculateEth', () => {
     });
 
 });
-
-const parseUnits = (value, decimals: number) => {
-    if (typeof (value) !== 'string' || !value.match(/^-?[0-9.,]+$/)) {
-        throw new Error('invalid value');
-    }
-    // Remove commas
-    let _value = value.replace(/,/g, '');
-    // Is it negative?
-    const negative = (_value.substring(0, 1) === '-');
-    if (negative) { _value = _value.substring(1); }
-    if (_value === '.') { throw new Error('invalid value'); }
-    // Split it into a whole and fractional part
-    const comps = _value.split('.');
-    if (comps.length > 2) { throw new Error('too many decimal points'); }
-    let whole: any = comps[0], fraction: any = comps[1];
-    if (!whole) { whole = '0'; }
-    if (!fraction) { fraction = '0'; }
-    // Prevent underflow
-    if (fraction.length > decimals) {
-        throw new Error('too many decimal places');
-    }
-    while (fraction.length < decimals) { fraction += '0'; }
-
-    whole = web3.utils.toBN(whole);
-    fraction = web3.utils.toBN(fraction);
-    const tenPower = web3.utils.toBN('1' + Array(decimals + 1).join('0'));
-    let res = (whole.mul(tenPower)).add(fraction);
-
-    if (negative) { res = res.mul(web3.utils.toBN(-1)); }
-
-    return res;
-}

@@ -6,6 +6,11 @@ import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnec
 import { IPaymentUpdateDetails } from '../payment/models';
 import { Globals } from '../../utils/globals';
 import { NewPaymentHdWalletDetails, CreatePaymentHandler } from '../payment/CreatePaymentHandler';
+import { MerchantSDK } from '../MerchantSDK';
+
+const web3 = require('web3');
+
+const web3API = new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
 
 export class Contract {
     /**
@@ -48,6 +53,19 @@ export class Contract {
                 contract.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
 
                 result = await dbConnector.createContract(contract);
+
+                console.log({
+                    bank: walletDetails.bankAddress,
+                    address: walletDetails.address,
+                    id: result.data[0].id
+                });
+
+                console.log('WEI FUN: ', await MerchantSDK.GET_SDK().calculateWeiToFund(result.data[0].id, walletDetails.bankAddress));
+                MerchantSDK.GET_SDK().fundETH(walletDetails.bankAddress, walletDetails.address, result.data[0].id).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    console.log('ErorEror', err);
+                });
             } else {
                 result = await dbConnector.getContractByCustomerAndPaymentID(contract.customerAddress, contract.paymentID);
                 if (result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().cancelled ||
@@ -81,6 +99,8 @@ export class Contract {
                     updatePayload.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
 
                     result = await dbConnector.updateContract(updatePayload);
+
+                    MerchantSDK.GET_SDK().fundETH(walletDetails.bankAddress, walletDetails.address, result.data[0].id);
                 }
             }
 

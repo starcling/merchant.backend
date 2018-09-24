@@ -36,23 +36,16 @@ export class CreatePaymentHandler {
             await redisClient.setAsync(MERHCANT_PAYMENT_INDEX, index + 1);
             let privateKey: string = hdWallet.getPrivateKeyAtIndex(index).slice(2);
             const address: string = hdWallet.getAddressAtIndex(index);
-            console.debug('0Wallet: ', {
-                index: hdWallet.getPrivateKeyAtIndex(0).slice(2),
-                address: hdWallet.getAddressAtIndex(0)
-            });
+            const bankAddress: string = hdWallet.getAddressAtIndex(0);
             hdWallet = null;
             await new PrivateKeysDbConnector().addAddress(address, privateKey);
             privateKey = null;
             redisClient.unref();
             redisClientBlocking.unref();
-
-            console.debug('hdWallet: ', {
-                index,
-                address
-            });
             return <NewPaymentHdWalletDetails>{
                 index: index,
-                address: address
+                address: address,
+                bankAddress: bankAddress
             };
         } catch (err) {
             redisClient.unref();
@@ -70,4 +63,5 @@ export class CreatePaymentHandler {
 export interface NewPaymentHdWalletDetails {
     index: number;
     address: string;
+    bankAddress: string;
 }

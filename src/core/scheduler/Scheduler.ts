@@ -57,13 +57,13 @@ export class Scheduler {
     public startScheduler(contractID: string, callback?: any) {
         try {
             new (MerchantSDK.GET_SDK().Scheduler)(contractID, callback ? callback : async () => {
-                const contract = (await MerchantSDK.GET_SDK().getPayment(contractID)).data[0];
+                const contract = (await MerchantSDK.GET_SDK().getPullPayment(contractID)).data[0];
 
                 contract.numberOfPayments = contract.numberOfPayments - 1;
                 contract.lastPaymentDate = Math.floor(new Date().getTime() / 1000);
                 contract.nextPaymentDate = contract.numberOfPayments === 0 ?
                 contract.nextPaymentDate : Number(contract.nextPaymentDate) + contract.frequency;
-                await MerchantSDK.GET_SDK().updatePayment(contract);
+                await MerchantSDK.GET_SDK().updatePullPayment(contract);
             }).start();
 
             return new HTTPResponseHandler().handleSuccess('Successfuly created scheduler.', contractID);
