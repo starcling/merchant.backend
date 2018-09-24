@@ -38,7 +38,7 @@ describe('A ContractDbConnector updateContract', () => {
     describe('With successful request', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
-                updateContract: contractDbConnector.updateContract
+                updatePayment: contractDbConnector.updateContract
             });
         })
 
@@ -72,7 +72,7 @@ describe('A ContractDbConnector updateContract', () => {
             result.data[0].should.have.property('userID').that.is.equal(testUpdateContract.userID);
         });
         it('Should return true if the record is updated', async () => {
-            const result = await MerchantSDK.GET_SDK().updateContract(testUpdateContract);
+            const result = await MerchantSDK.GET_SDK().updatePayment(testUpdateContract);
             result.should.have.property('success').that.is.equal(true);
             result.should.have.property('status').that.is.equal(200);
             result.should.have.property('message').that.is.equal('SQL Query completed successful.');

@@ -42,8 +42,8 @@ describe('A SDK calculateEth', () => {
     before(() => {
         MerchantSDK.GET_SDK().build({
             web3: new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3))),
-            updateContract: contractDbConnector.updateContract,
-            getContract: contractDbConnector.getContract,
+            updatePayment: contractDbConnector.updateContract,
+            getPayment: contractDbConnector.getContract,
             getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
         });
     })
