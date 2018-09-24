@@ -117,7 +117,7 @@ export class Globals {
     }
 
     public static GET_CORE_API_URL(): string {
-        return DefaultConfig.settings.apiURL;
+        return DefaultConfig.settings.coreApiURL;
     }
 
     public static GET_MOBILE_VALIDATION_URL(): string {
@@ -142,6 +142,10 @@ export class Globals {
 
     public static GET_TEST_API_KEY(): string {
         return 'C2qrR2dbsBqGVbeZZXFRnzN5YzPmX564UAPHJFgX';
+    }
+
+    public static GET_CORE_API_KEY(): string {
+        return process.env.CORE_API_KEY;
     }
 
 }

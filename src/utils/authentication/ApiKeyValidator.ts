@@ -12,14 +12,12 @@ export class ApiKeyValidator {
   * @returns {boolean}: Returns true if there is a match between the hashed parameters and the API Key sent
   */
   public isValidApiKey(apiKey: string, request: any): boolean {
+    const coreApiKey = Globals.GET_CORE_API_KEY();
+    if (coreApiKey.indexOf(apiKey) === 0 && coreApiKey.length === apiKey.length) {
+      return true;
+    }
+    return false;
 
-    // TODO Check if provided merchant is in the db
-    // const hash = crypto.createHmac('sha512', this.secretKey)
-    //     .update(`${merchant.merchantID}${merchant.registrationDate}`)
-    //     .digest('hex');
-    // TODO Check it provided apiKey is valid
-    // Where do we store valid apiKeys, in a database?
-    return true;
     //return !(apiKey.match(hash) === null);
   }
 }

@@ -2,7 +2,7 @@ import { Options } from 'morgan';
 import { LoggerOptions } from 'winston';
 
 export interface Settings {
-  apiURL: string;
+  coreApiURL: string;
   merchantURL: string;
   apiPath?: string;
   env?: string;

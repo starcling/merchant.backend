@@ -4,7 +4,7 @@ import { Globals } from '../utils/globals';
 export class DefaultConfig {
   public static get settings(): Settings {
     return {
-      apiURL: process.env.API_URL ? process.env.API_URL : 'core_server',
+      coreApiURL: process.env.API_URL ? process.env.CORE_API_URL : 'core_server',
       merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://merchant_server:3000',
       apiPath: '/api/v1',
       env: process.env.NODE_ENV,
