@@ -2,7 +2,7 @@ import { Options } from 'morgan';
 import { LoggerOptions } from 'winston';
 
 export interface Settings {
-  apiURL: string;
+  coreApiURL: string;
   merchantURL: string;
   apiPath?: string;
   env?: string;
@@ -23,4 +23,5 @@ export interface Settings {
   keyDbPort: string | number;
   keyDbPass: string;
   mnemonicID: string;
+  mobileValidationUrl: string;
 }

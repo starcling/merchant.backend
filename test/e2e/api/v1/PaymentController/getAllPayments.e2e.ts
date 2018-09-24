@@ -3,6 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { Globals } from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -36,6 +37,7 @@ describe('PaymentController: getAllPayments', () => {
         it('Should return array of payments', (done) => {
             server
                 .get(`${endpoint}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;

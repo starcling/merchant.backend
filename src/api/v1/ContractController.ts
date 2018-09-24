@@ -1,12 +1,15 @@
-import { JsonController, Res, Post, Body, Get, Param, Delete } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Get, Param, Delete, UseBefore } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { IPaymentContractInsert } from '../../core/contract/models';
 import { ContractConnector } from '../../connectors/api/v1/ContractConnector';
 import { CreateContractValidator } from '../../validators/ContractValidator/CreateContractValidator';
 import { GetContractValidator } from '../../validators/ContractValidator/GetContractValidator';
 import { DeleteContractValidator } from '../../validators/ContractValidator/DeleteContractValidator';
+import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
 
 @JsonController('/contracts')
+@UseBefore(MobileValidationMiddleware)
+
 export class ContractController {
 
     /**

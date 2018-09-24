@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentUpdateDetails, IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { Globals } from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -43,6 +44,7 @@ describe('PaymentController: update', () => {
 
             server
                 .put(`${endpoint}${updatePayment.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(updatePayment)
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -71,6 +73,7 @@ describe('PaymentController: update', () => {
 
             server
                 .put(`${endpoint}${updatePayment.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -88,6 +91,7 @@ describe('PaymentController: update', () => {
 
             server
                 .put(`${endpoint}${updatePayment.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {
