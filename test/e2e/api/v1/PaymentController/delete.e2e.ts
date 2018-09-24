@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
 import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { Globals } from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -44,6 +45,7 @@ describe('PaymentController: delete', () => {
 
             server
                 .delete(`${endpoint}${paymentID}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -59,6 +61,7 @@ describe('PaymentController: delete', () => {
         it('should return 400', (done) => {
             server
                 .delete(`${endpoint}${paymentID}NOT_IN_DB`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;

@@ -1,9 +1,12 @@
-import { JsonController, Res, Get, Param } from 'routing-controllers';
+import { JsonController, Res, Get, Param, UseBefore } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { QrConnector } from '../../connectors/api/v1/QrConnector';
 import { GetQrValidator } from '../../validators/QrValidator/GetQrValidator';
+import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
 
 @JsonController('/qr')
+@UseBefore(MobileValidationMiddleware)
+
 export class QrController {
 
     /**

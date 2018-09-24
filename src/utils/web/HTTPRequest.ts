@@ -1,7 +1,6 @@
 import { IncomingMessage } from 'http';
 import { HTTPResponse } from './HTTPResponse';
-import * as request from 'request';
-
+const request = require('request');
 export class HTTPRequest {
     private url: string;
     private body: any;

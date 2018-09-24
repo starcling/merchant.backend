@@ -1,6 +1,6 @@
 import { Settings } from './settings.interface';
 import winston from 'winston';
-
+import { Globals } from '../utils/globals';
 export class DefaultConfig {
   public static get settings(): Settings {
     return {
@@ -35,7 +35,9 @@ export class DefaultConfig {
         ],
         exitOnError: false
       },
-      serverSecret: 'sUp4hS3cr37kE9c0D3'
+      serverSecret: 'sUp4hS3cr37kE9c0D3',
+      mobileValidationUrl: Globals.GET_MOBILE_VALIDATION_URL()
+
     };
   }
 }

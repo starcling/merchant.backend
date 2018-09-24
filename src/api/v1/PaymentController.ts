@@ -10,7 +10,7 @@ import { DeletePaymentValidator } from '../../validators/PaymentValidator/Delete
 import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
 
 @JsonController('/payments')
-//@UseBefore(MobileValidationMiddleware)
+@UseBefore(MobileValidationMiddleware)
 export class PaymentController {
 
     /**
