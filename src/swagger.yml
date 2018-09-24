@@ -10,8 +10,12 @@ info:
 servers:
   - url: http://localhost:3000/
     description: Local Server
+  - url: http://merc-qwg37z3o.pumapay.io/merchant/
+    description: Test Server
+  - url: http://merc-qwg37z3o.pumapay.io/merchant/
+    description: Prod Server
 paths:
-  /api/v1pull-payment-models/:
+  /api/v1/pull-payment-models/:
     post:
       tags:
         - Pull Payment Models
@@ -32,7 +36,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -44,7 +48,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -62,7 +66,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -76,7 +80,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -101,7 +105,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -113,7 +117,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -137,7 +141,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -149,7 +153,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -173,7 +177,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -185,7 +189,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -209,14 +213,14 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -242,7 +246,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -254,7 +258,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -271,7 +275,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -284,7 +288,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HttpResponse'
+                $ref: '#/components/schemas/ErrorHttpResponse'
   /api/v1/pull-payments/{PullPaymentID}:
     get:
       tags:
@@ -305,7 +309,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -317,7 +321,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -341,7 +345,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -353,7 +357,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -377,7 +381,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -389,7 +393,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -413,14 +417,14 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -446,7 +450,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -460,7 +464,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -485,7 +489,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -497,7 +501,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -522,7 +526,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -534,7 +538,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
@@ -558,7 +562,7 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/SuccessHttpResponse'
                   - type: object
                     properties:
                       data:
@@ -570,24 +574,107 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/HttpResponse'
+                  - $ref: '#/components/schemas/ErrorHttpResponse'
                   - type: object
                     properties:
                       error:
                         type: string
+  /api/v1/scheduler/stop:
+    post:
+      tags:
+        - Scheduler
+      summary: 'Stops the scheduler for a specific payment'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentID:
+                  type: string
+                  example: 4a17335e-bf18-11e8-a355-000000fb1459
+                  format: uuid
+                  description: Payment ID of the payment linked with the scheduler that needs to be stopped
+      responses:
+        '200':
+          description: Stops the scheduler linked with the provided payment ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessHttpResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorHttpResponse'
+  /api/v1/scheduler/restart:
+    post:
+      tags:
+        - Scheduler
+      summary: 'Restarts the scheduler for a specific payment'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentID:
+                  type: string
+                  example: 4a17335e-bf18-11e8-a355-000000fb1459
+                  format: uuid
+                  description: Payment ID of the payment linked with the scheduler that needs to be restarted
+      responses:
+        '200':
+          description: Restarts the scheduler linked with the provided payment ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessHttpResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorHttpResponse'
 components:
   schemas:
-    HttpResponse:
+    SuccessHttpResponse:
       required:
         - code
         - success
         - message
+        - data
       properties:
         code:
           type: integer
+          example: 200
         success:
           type: boolean
+          example: true
         message:
+          type: string
+          example: Descriptive Success message
+        data:
+          type: object
+    ErrorHttpResponse:
+      required:
+        - code
+        - success
+        - message
+        - error
+      properties:
+        code:
+          type: integer
+          example: 400
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+        error:
           type: string
     PullPaymentModel:
       type: object
@@ -884,12 +971,25 @@ components:
       properties:
         hash:
           type: string
+          example: '0x0813277eb09b5741f75ac2737db874d648dabf42c5029fbdfaa46f0000000000'
+          format: eth-transaction-hash
+          description: Transaction hash associated with payment
         paymentID:
           type: string
+          example: 4a17335e-bf18-11e8-a355-fb1459
+          format: uuid
+          description: Pull Payment ID linked with this transaction
         typeID:
           type: integer
+          enum: [register = 1, intital = 2, execute = 3, cancel = 4]
+          example: 2
+          format: integer
+          description: Transaction Type
         timestamp:
           type: string
+          example: 1537401600
+          format: unix-epoch-in-seconds
+          description: Unix Epoch Timestamp of the transaction
     TransactionResponse:
       type: object
       properties:
@@ -904,16 +1004,16 @@ components:
           format: eth-transaction-hash
           description: Transaction hash associated with payment
         status:
-          type: integer
-          enum: [pending = 1, failed = 2, success = 3]
-          example: 2
-          format: integer
+          type: string
+          enum: [pending, failed, success]
+          example: pending
+          format: status
           description: Transaction Status
         type:
-          type: integer
-          enum: [register = 1, intital = 2, execute = 3, cancel = 4]
-          example: 2
-          format: integer
+          type: string
+          enum: [register, intital, execute, cancel]
+          example: register
+          format: type
           description: Transaction Type
         paymentID:
           type: string
