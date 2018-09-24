@@ -39,7 +39,7 @@ const clearTestPayment = async () => {
 describe('A PaymentDbConnector getAllPayments', () => {
     describe('With successfull request', () => {
         beforeEach(async () => {
-            const res = await insertTestPayment();
+            await insertTestPayment();
             for (let i = 0; i < numberOfContracts; i++) {
                 testInsertPayment.customerAddress = (Math.floor((Math.random() * max) - min) + min).toString();
                 await contractDbConnector.createPayment(testInsertPayment);

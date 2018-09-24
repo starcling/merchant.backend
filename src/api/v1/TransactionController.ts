@@ -97,17 +97,17 @@ export class TransactionController {
      * @apiSuccess (200) {object} transaction Details
      *
      */
-    @Get('/payment/:paymentID/')
+    @Get('/pull-payment/:pullPaymentID/')
     public async getTransactionsByPaymentID(
-        @Param('paymentID') paymentID: string,
+        @Param('pullPaymentID') pullPaymentID: string,
         @QueryParam('statusID') statusID: number,
         @QueryParam('typeID') typeID: number,
         @Res() response: any): Promise<any> {
         try {
 
-            new GetTransactionValidator().validate({ paymentID, statusID, typeID });
+            new GetTransactionValidator().validate({ pullPaymentID, statusID, typeID });
             const result = await new TransactionConnector()
-                .getTransactionsByPaymentID(<ITransactionGet>{ paymentID: paymentID, statusID, typeID });
+                .getTransactionsByPaymentID(<ITransactionGet>{ paymentID: pullPaymentID, statusID, typeID });
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
