@@ -15,6 +15,7 @@ import * as YAML from 'yamljs';
 import * as swaggerUi from 'swagger-ui-express';
 import { MerchantSDK } from './core/MerchantSDK';
 import { Globals } from './utils/globals';
+import { CreatePaymentHandler } from './core/payment/CreatePaymentHandler';
 
 const SWAGGER_DOCUMENT = YAML.load('./docs/api/swagger.json');
 
@@ -37,6 +38,7 @@ class App {
     app.use(this.loggerFactory.requestLogger);
 
     Globals.REFRESH_ENUMS();
+    new CreatePaymentHandler().storeBankKey();
     MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(Config.settings.networkID));
     this.debug('Sync with redis completed.');
 

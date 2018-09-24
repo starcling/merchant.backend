@@ -6,11 +6,6 @@ import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnec
 import { IPaymentUpdateDetails } from '../payment/models';
 import { Globals } from '../../utils/globals';
 import { NewPaymentHdWalletDetails, CreatePaymentHandler } from '../payment/CreatePaymentHandler';
-import { MerchantSDK } from '../MerchantSDK';
-
-const web3 = require('web3');
-
-const web3API = new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
 
 export class Contract {
     /**
@@ -18,6 +13,7 @@ export class Contract {
      * @param {IPaymentContractInsert} contract contract object
      * @returns {HTTPResponse} Returns success feedback
      */
+    // tslint:disable-next-line:max-func-body-length
     public async createContract(contract: IPaymentContractInsert) {
         const dbConnector = new ContractDbConnector();
         const paymentResult = await new PaymentDbConnector().getPayment(contract.paymentID);
@@ -47,40 +43,21 @@ export class Contract {
                 if (payment.typeID === Globals.GET_PAYMENT_TYPE_ENUM()[Globals.GET_PAYMENT_TYPE_ENUM_NAMES().recurringWithInitial]) {
                     contract.startTimestamp += payment.frequency;
                 }
-
                 contract.numberOfPayments = payment.numberOfPayments;
                 contract.nextPaymentDate = contract.startTimestamp;
                 contract.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
-
                 result = await dbConnector.createContract(contract);
-
                 console.log({
                     bank: walletDetails.bankAddress,
                     address: walletDetails.address,
                     id: result.data[0].id
                 });
 
-                console.log('WEI FUN: ', await MerchantSDK.GET_SDK().calculateWeiToFund(result.data[0].id, walletDetails.bankAddress));
-                MerchantSDK.GET_SDK().fundETH(walletDetails.bankAddress, walletDetails.address, result.data[0].id).then(res => {
-                    console.log(res);
-                }).catch(err => {
-                    console.log('ErorEror', err);
-                });
             } else {
                 result = await dbConnector.getContractByCustomerAndPaymentID(contract.customerAddress, contract.paymentID);
                 if (result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().cancelled ||
                     result.data[0].statusID === Globals.GET_PAYMENT_STATUS_ENUM_NAMES().done) {
                     const updatePayload = <IPaymentContractUpdate>{ ...result.data[0] };
-
-                    const walletDetails: NewPaymentHdWalletDetails = await new CreatePaymentHandler().handle();
-                    if (!walletDetails.index && !walletDetails.address) {
-                        return new HTTPResponseHandler().handleFailed(
-                            'Failed to insert payment.',
-                            'Check the mnemonic ID.', HTTPResponseCodes.BAD_REQUEST());
-                    }
-
-                    updatePayload.hdWalletIndex = walletDetails.index;
-                    updatePayload.merchantAddress = walletDetails.address;
 
                     updatePayload.startTimestamp = Number(contract.startTimestamp);
 
@@ -99,8 +76,6 @@ export class Contract {
                     updatePayload.userID = '0'; // TODO: insert user id based on customerAddress on merchants DB
 
                     result = await dbConnector.updateContract(updatePayload);
-
-                    MerchantSDK.GET_SDK().fundETH(walletDetails.bankAddress, walletDetails.address, result.data[0].id);
                 }
             }
 

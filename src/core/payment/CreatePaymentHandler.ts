@@ -58,6 +58,53 @@ export class CreatePaymentHandler {
         }
     }
 
+    public async storeBankKey() {
+        try {
+            let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
+            console.debug('mnemonic....', mnemonic);
+            if (!mnemonic) {
+                setTimeout(() => {
+                    this.storeBankKey();
+                }, 1000);
+
+                return;
+            }
+            let hdWallet = new HdWallet(mnemonic);
+
+            mnemonic = null;
+            const bankAddress: string = hdWallet.getAddressAtIndex(0);
+            let bankPrivateKey: string = hdWallet.getPrivateKeyAtIndex(0).slice(2);
+            hdWallet = null;
+            await new PrivateKeysDbConnector().addAddress(bankAddress, bankPrivateKey);
+            bankPrivateKey = null;
+        } catch (err) {
+            console.debug(err);
+        }
+    }
+
+    public async getBankAddress() {
+        try {
+            let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
+            if (!mnemonic) {
+                setTimeout(() => {
+                    this.getBankAddress();
+                }, 1000);
+
+                return;
+            }
+            let hdWallet = new HdWallet(mnemonic);
+
+            mnemonic = null;
+            const bankAddress: string = hdWallet.getAddressAtIndex(0);
+            hdWallet = null;
+            return <NewPaymentHdWalletDetails>{
+                bankAddress: bankAddress
+            };
+        } catch (err) {
+            console.debug(err);
+        }
+    }
+
 }
 
 export interface NewPaymentHdWalletDetails {
