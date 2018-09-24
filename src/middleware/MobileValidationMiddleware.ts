@@ -24,7 +24,7 @@ export class MobileValidationMiddleware implements ExpressMiddlewareInterface {
       [Globals.GET_CORE_API_KEY_NAME()]: Globals.GET_TEST_API_KEY()
     };
     const httpRequest = new HTTPRequestFactory()
-      .create(`${DefaultConfig.settings.apiURL}${DefaultConfig.settings.mobileValidationUrl}${token}`,
+      .create(`${DefaultConfig.settings.coreApiURL}${DefaultConfig.settings.mobileValidationUrl}${token}`,
         headers, 'GET');
     try {
       const httpResponse = await httpRequest.getResponse();

@@ -2,8 +2,6 @@ import { Config } from '../../config';
 import { Globals } from '../../utils/globals';
 
 export class ApiKeyValidator {
-  private secretKey: string = Config.settings.serverSecret;
-
   /**
   * @description Validates the PMA API Key
   * @param {string} apiKey: PMA API Key sent with the request
@@ -16,8 +14,7 @@ export class ApiKeyValidator {
     if (coreApiKey.indexOf(apiKey) === 0 && coreApiKey.length === apiKey.length) {
       return true;
     }
-    return false;
 
-    //return !(apiKey.match(hash) === null);
+    return false;
   }
 }
