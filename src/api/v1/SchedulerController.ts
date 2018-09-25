@@ -16,17 +16,18 @@ export class SchedulerController {
 
     /**
     * @api {get} /api/v1/scheduler/stop/
-    * @apiDescription Stops the scheduler with paymentID
+    * @apiDescription Stops the scheduler with pullPaymentModelID
     *
     * @apiName stopScheduler
     * @apiGroup SchedulerController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentID - ID of the payment that you want to stop the scheduler for. SchedulerID and PaymentID are the same.
+    * @apiParam {string} pullPaymentModelID - ID of the paymentModel that you want to stop the scheduler for.
+    * SchedulerID and PaymentID are the same.
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
+    *   "pullPaymentModelID": "c90de9da-8b44-11e8-a3da-774835f29b05"
     * }
     *
     * @apiSuccess (200) {object} success
@@ -36,7 +37,7 @@ export class SchedulerController {
     public async stopScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
             new StopSchedulerValidator().validate(request);
-            const result = await new SchedulerConnector().stopScheduler(request.contractID);
+            const result = await new SchedulerConnector().stopScheduler(request.paymentID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -46,17 +47,18 @@ export class SchedulerController {
 
     /**
     * @api {get} /api/v1/scheduler/restartScheduler/
-    * @apiDescription Restarts the scheduler with paymentID
+    * @apiDescription Restarts the scheduler with pullPaymentModelID
     *
     * @apiName restartScheduler
     * @apiGroup SchedulerController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} paymentID - ID of the payment that you want to restart the scheduler for. SchedulerID and PaymentID are the same.
+    * @apiParam {string} pullPaymentModelID - ID of the paymentModel that you want to restart the scheduler for.
+    * SchedulerID and PaymentID are the same.
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
+    *   "pullPaymentModelID": "c90de9da-8b44-11e8-a3da-774835f29b05"
     * }
     *
     * @apiSuccess (200) {object} success
@@ -66,7 +68,7 @@ export class SchedulerController {
     public async restartScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
             new StopSchedulerValidator().validate(request);
-            const result = await new SchedulerConnector().restartScheduler(request.contractID);
+            const result = await new SchedulerConnector().restartScheduler(request.paymentID);
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {

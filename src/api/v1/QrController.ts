@@ -29,7 +29,7 @@ export class QrController {
     *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
     * }
     *
-    * @apiSuccess (200) {array} payment details
+    * @apiSuccess (200) {array} QR details for payment
     *
       */
     @Get('/:paymentID')

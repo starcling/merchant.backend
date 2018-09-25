@@ -1,14 +1,14 @@
 import { DefaultConfig } from '../config/default.config';
 import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
-import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
+import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
 
 const web3 = require('web3');
 
 export class Globals {
-    private static paymentTypeEnums: any;
-    private static contractStatusEnums: any;
+    private static paymentModelTypeEnums: any;
+    private static paymentStatusEnums: any;
     private static transactionTypeEnums: any;
     private static transactionStatusEnums: any;
 
@@ -31,8 +31,8 @@ export class Globals {
 
     public static GET_ENUM_TABLE_NAMES(): IEnumTableNames {
         return {
-            paymentType: 'tb_payment_type',
-            contractStatus: 'tb_contract_status',
+            paymentModelType: 'tb_payment_model_type',
+            paymentStatus: 'tb_payment_status',
             transactionType: 'tb_transaction_type',
             transactionStatus: 'tb_transaction_status'
         };
@@ -40,8 +40,8 @@ export class Globals {
 
     public static async REFRESH_ENUMS(): Promise<any> {
         return {
-            paymentTypeEnums: Globals.paymentTypeEnums = (await new EnumDbConnector().getPaymentTypes()).data,
-            contranctStatusEnums: Globals.contractStatusEnums = (await new EnumDbConnector().getContractStatuses()).data,
+            paymentModelTypeEnums: Globals.paymentModelTypeEnums = (await new EnumDbConnector().getPaymentModelTypes()).data,
+            paymentStatusEnums: Globals.paymentStatusEnums = (await new EnumDbConnector().getPaymentStatuses()).data,
             transactionTypeEnums: Globals.transactionTypeEnums = (await new EnumDbConnector().getTransactionTypes()).data,
             transactionStatusEnums: Globals.transactionStatusEnums = (await new EnumDbConnector().getTransactionStatuses()).data
         };
@@ -58,7 +58,7 @@ export class Globals {
     public static GET_PAYMENT_TYPE_ENUM(): any[] {
         const payload = [];
 
-        for (const d of this.paymentTypeEnums) {
+        for (const d of this.paymentModelTypeEnums) {
             payload[d.id] = d.name;
             payload[d.name] = d.id;
         }
@@ -69,7 +69,7 @@ export class Globals {
     public static GET_PAYMENT_STATUS_ENUM(): string[] {
         const payload = [];
 
-        for (const d of this.contractStatusEnums) {
+        for (const d of this.paymentStatusEnums) {
             payload[d.id] = d.name;
             payload[d.name] = d.id;
         }
@@ -111,8 +111,8 @@ export class Globals {
             redisHost: process.env.REDIS_HOST,
             redisPort: process.env.REDIS_PORT,
             getEnums: Globals.REFRESH_ENUMS,
-            getPullPayment: new ContractDbConnector().getContract,
-            updatePullPayment: new ContractDbConnector().updateContract,
+            getPullPayment: new PaymentDbConnector().getPaymentByID,
+            updatePullPayment: new PaymentDbConnector().updatePayment,
             getTransactions: new TransactionDbConnector().getTransactionsByContractID,
             createTransaction: new TransactionDbConnector().createTransaction,
             updateTransaction: new TransactionDbConnector().updateTransaction,
@@ -137,8 +137,8 @@ enum PaymentStatusEnum {
 }
 
 interface IEnumTableNames {
-    paymentType: string;
-    contractStatus: string;
+    paymentModelType: string;
+    paymentStatus: string;
     transactionType: string;
     transactionStatus: string;
 }

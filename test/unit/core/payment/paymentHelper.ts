@@ -1,8 +1,8 @@
-import { PaymentConnector } from "../../../../src/connectors/api/v1/PaymentConnector";
-import { ContractDbConnector } from "../../../../src/connectors/dbConnector/ContractDbConnector";
-import { addTestMnemonic } from "../hd-wallet/mnemonicHelper";
+import { PaymentModelConnector } from '../../../../src/connectors/api/v1/PaymentModelConnector';
+import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { addTestMnemonic } from '../hd-wallet/mnemonicHelper';
 
-export const addTestPayment = async (payment) => {
+export const addTestPaymentModel = async (paymentModel) => {
     process.env.KEY_DB_HOST = 'localhost';
     process.env.KEY_DB_PORT = '3305';
     process.env.KEY_DB_USER = 'db_service';
@@ -10,13 +10,13 @@ export const addTestPayment = async (payment) => {
     process.env.KEY_DB_DATABASE = 'keys';
     process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
     await addTestMnemonic('mnemonic_phrase');
-    
-    const paymentConnector = new PaymentConnector();
 
-    return paymentConnector.createPayment(payment);
-}
+    const paymentModelConnector = new PaymentModelConnector();
 
-export const addTestContract = async (contract) => {
+    return paymentModelConnector.createPaymentModel(paymentModel);
+};
+
+export const addTestPayment = async (contract) => {
     process.env.KEY_DB_HOST = 'localhost';
     process.env.KEY_DB_PORT = '3305';
     process.env.KEY_DB_USER = 'db_service';
@@ -25,43 +25,43 @@ export const addTestContract = async (contract) => {
     process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
     await addTestMnemonic('test_mnemonic_phrase');
 
-    const contractConnector = new ContractDbConnector();
+    const paymentDbConnector = new PaymentDbConnector();
 
-    return contractConnector.createContract(contract);
-}
+    return paymentDbConnector.createPayment(contract);
+};
 
-export const retrieveTestContract = async (id) => {
+export const retrieveTestPayment = async (id) => {
     process.env.KEY_DB_HOST = 'localhost';
     process.env.KEY_DB_PORT = '3305';
     process.env.KEY_DB_USER = 'db_service';
     process.env.KEY_DB_PASSWORD = 'db_pass';
     process.env.KEY_DB_DATABASE = 'keys';
 
-    const contractConnector = new ContractDbConnector();
+    const paymentDbConnector = new PaymentDbConnector();
 
-    return contractConnector.getContract(id);
-}
+    return paymentDbConnector.getPaymentByID(id);
+};
 
-export const updateTestContract = async (contract) => {
+export const updateTestPayment = async (contract) => {
     process.env.KEY_DB_HOST = 'localhost';
     process.env.KEY_DB_PORT = '3305';
     process.env.KEY_DB_USER = 'db_service';
     process.env.KEY_DB_PASSWORD = 'db_pass';
     process.env.KEY_DB_DATABASE = 'keys';
 
-    const contractConnector = new ContractDbConnector();
+    const paymentDbConnector = new PaymentDbConnector();
 
-    return contractConnector.updateContract(contract);
-}
+    return paymentDbConnector.updatePayment(contract);
+};
 
-export const removeTestPayment = async (id) => {
+export const removeTestPaymentModel = async (id) => {
     process.env.KEY_DB_HOST = 'localhost';
     process.env.KEY_DB_PORT = '3305';
     process.env.KEY_DB_USER = 'db_service';
     process.env.KEY_DB_PASSWORD = 'db_pass';
     process.env.KEY_DB_DATABASE = 'keys';
 
-    const paymentConnector = new PaymentConnector();
+    const paymentModelConnector = new PaymentModelConnector();
 
-    return paymentConnector.deletePayment(id);
-}
+    return paymentModelConnector.deletePaymentModel(id);
+};

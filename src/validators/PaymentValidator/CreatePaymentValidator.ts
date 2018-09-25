@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
-import { PaymentValidator } from './PaymentValidator';
 import { IValidationError } from '../IValidationError';
+import { PaymentValidator } from './PaymentValidator';
 
 export class CreatePaymentValidator extends PaymentValidator {
     public validate(data: any) {
@@ -19,15 +19,10 @@ export class CreatePaymentValidator extends PaymentValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    merchantID: Joi.string().required(),
-    title: Joi.string().required(),
-    description: Joi.string().required(),
-    amount: Joi.number().min(0).required(),
-    initialPaymentAmount: Joi.number().min(0).required(),
-    trialPeriod: Joi.number().min(0).required(),
-    currency: Joi.string().required(),
-    numberOfPayments: Joi.number().required(),
-    typeID: Joi.number().required(),
-    frequency: Joi.number().required(),
-    networkID: Joi.number().integer().min(1).max(3).invalid(2).required()
+    pullPaymentModelID: Joi.string().required(),
+    numberOfPayments: Joi.number().min(0).required(),
+    startTimestamp: Joi.number().min(0).required(),
+    customerAddress: Joi.string().required(),
+    pullPaymentAddress: Joi.string().required(),
+    userID: Joi.string().allow(null)
 });

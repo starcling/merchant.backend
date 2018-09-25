@@ -2,19 +2,19 @@ import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 import { Globals } from '../../utils/globals';
 
 export class EnumDbConnector {
-    public getContractStatuses() {
+    public getPaymentStatuses() {
         const sqlQuery: ISqlQuery = {
             text: 'SELECT * FROM public.fc_get_enums($1);',
-            values: [Globals.GET_ENUM_TABLE_NAMES().contractStatus]
+            values: [Globals.GET_ENUM_TABLE_NAMES().paymentStatus]
         };
 
         return new DataService().executeQueryAsPromise(sqlQuery);
     }
 
-    public getPaymentTypes() {
+    public getPaymentModelTypes() {
         const sqlQuery: ISqlQuery = {
             text: 'SELECT * FROM public.fc_get_enums($1);',
-            values: [Globals.GET_ENUM_TABLE_NAMES().paymentType]
+            values: [Globals.GET_ENUM_TABLE_NAMES().paymentModelType]
         };
 
         return new DataService().executeQueryAsPromise(sqlQuery);

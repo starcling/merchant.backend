@@ -4,8 +4,8 @@ import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { Globals } from '../../utils/globals';
 import { MerchantSDK } from '../MerchantSDK';
-import { CreatePaymentHandler } from '../payment/CreatePaymentHandler';
-import { Contract } from '../contract/Contract';
+import { CreatePaymentModelHandler } from '../paymentModel/CreatePaymentModelHandler';
+import { Payment } from '../payment/Payment';
 
 export class Transaction {
     /**
@@ -17,19 +17,19 @@ export class Transaction {
         try {
             const result = await new TransactionDbConnector().createTransaction(transaction);
             if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['register']) {
-                MerchantSDK.GET_SDK().monitorRegistrationTransaction(transaction.hash, transaction.contractID).then(async (res) => {
+                MerchantSDK.GET_SDK().monitorRegistrationTransaction(transaction.hash, transaction.paymentID).then(async (res) => {
                     console.log(res);
-                    const bankAddress = (await new CreatePaymentHandler().getBankAddress()).bankAddress;
-                    const merchantAddress = (await new Contract().getContract(transaction.contractID)).data.merchantAddress;
+                    const bankAddress = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress;
+                    const merchantAddress = (await new Payment().getPaymentByID(transaction.paymentID)).data.merchantAddress;
 
                     console.log(merchantAddress);
-                    MerchantSDK.GET_SDK().fundETH(bankAddress, merchantAddress, transaction.contractID);
+                    MerchantSDK.GET_SDK().fundETH(bankAddress, merchantAddress, transaction.paymentID);
                 }).catch(err => {
                     console.log(err);
                 });
             }
             if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['cancel']) {
-                MerchantSDK.GET_SDK().monitorCancellationTransaction(transaction.hash, transaction.contractID);
+                MerchantSDK.GET_SDK().monitorCancellationTransaction(transaction.hash, transaction.paymentID);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful transaction insert.', result.data[0]);
@@ -94,7 +94,7 @@ export class Transaction {
      * @description Get method for getting all contracts from DB
      * @returns {HTTPResponse} Returns response with array of contracts in data
      */
-    public async getTransactionsByContractID(transaction: ITransactionGet) {
+    public async getTransactionsByPaymentID(transaction: ITransactionGet) {
         try {
             const response = await new TransactionDbConnector().getTransactionsByContractID(transaction);
             if (!response.data) {

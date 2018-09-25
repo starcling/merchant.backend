@@ -4,7 +4,7 @@ export interface ITransactionView {
     status: string;
     type: string;
     timestamp: number;
-    contractID: number;
+    paymentID: number;
 }
 
 export interface ITransactionUpdate {
@@ -16,14 +16,14 @@ export interface ITransactionInsert {
     hash: string;
     statusID: number;
     typeID: number;
-    contractID: string;
+    paymentID: string;
     timestamp: number;
 }
 
 export interface ITransactionGet {
     id: string;
     hash: string;
-    contractID: string;
+    paymentID: string;
     statusID: number;
     typeID: number;
 }
