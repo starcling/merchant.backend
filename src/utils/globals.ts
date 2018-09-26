@@ -35,7 +35,7 @@ export class Globals {
     }
 
     public static BALANCE_CHECK_THRESHOLD(): number {
-        return Number(process.env.BALANCE_CHECK_THRESHOLD) || 0.1; // 6 hours in miliseconds
+        return Number(process.env.BALANCE_CHECK_THRESHOLD) || 0.1;
     }
 
     public static GET_SQ_MAIL_API_KEY(): string {
