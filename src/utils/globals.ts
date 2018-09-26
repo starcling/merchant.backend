@@ -13,7 +13,7 @@ export class Globals {
     private static transactionTypeEnums: any;
     private static transactionStatusEnums: any;
 
-    public static GET_NETWORK(networkID: number): string {
+    public static GET_NETWORK_NAME(networkID: number): string {
         switch (networkID) {
             case (1):
                 return 'mainnet';
@@ -23,11 +23,23 @@ export class Globals {
     }
 
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
-        return `https://${this.GET_NETWORK(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
+        return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
 
     public static GET_INFURA_API_KEY(): string {
         return 'eS5XgCLEJRygOsT6E4Bf';
+    }
+
+    public static BALANCE_CHECK_INTERVAL(): number {
+        return Number(process.env.BALANCE_MONITOR_INTERVAL) || 21600000; // 6 hours in miliseconds
+    }
+
+    public static BALANCE_CHECK_THRESHOLD(): number {
+        return Number(process.env.BALANCE_CHECK_THRESHOLD) || 0.1;
+    }
+
+    public static GET_SQ_MAIL_API_KEY(): string {
+        return process.env.SENDGRID_API_KEY || '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';
     }
 
     public static GET_ENUM_TABLE_NAMES(): IEnumTableNames {

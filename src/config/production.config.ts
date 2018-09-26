@@ -1,4 +1,5 @@
 import { Settings } from './settings.interface';
+import winston from 'winston';
 
 export class ProductionConfig {
   public static get settings(): Settings {
@@ -27,7 +28,21 @@ export class ProductionConfig {
       keyDbPass: process.env.KEY_DB_PASS ? process.env.KEY_DB_PASS : 'db_pass',
       keyDbHost: process.env.KEY_DB_HOST ? process.env.KEY_DB_HOST : 'db',
       keyDb: process.env.KEY_DB ? process.env.KEY_DB : 'keys',
-      mnemonicID: process.env.MNEMONIC_ID ? process.env.MNEMONIC_ID : 'mnemonic_phrase'
+      mnemonicID: process.env.MNEMONIC_ID ? process.env.MNEMONIC_ID : 'mnemonic_phrase',
+      balanceNotificationEmailAddress: process.env.BALANCE_CHECK_EMAIL_PROD || 'developers@pumapay.io',
+
+      winston: {
+        transports: [
+          new winston.transports.Console({
+            level: 'debug',
+            prettyPrint: true,
+            handleExceptions: true,
+            json: false,
+            colorize: true
+          })
+        ],
+        exitOnError: false
+      }
     };
   }
 }
