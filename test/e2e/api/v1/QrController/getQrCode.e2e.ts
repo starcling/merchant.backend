@@ -11,8 +11,7 @@ const endpoint = 'api/v1/qr/';
 describe('QrController: getQrCode', () => {
     describe('with successfull request', () => {
         it('should return an initialised erc20 object details', (done) => {
-            const paymentID = '4b01721f0244e7c5b5f63c20942850e447f5a5ee';
-
+            const paymentID = '6cae1452-c1c8-11e8-a355-529269fb1459';
             server
                 .get(`${endpoint}${paymentID}`)
                 .expect(200)

@@ -63,7 +63,6 @@ describe('Payment Controller: create', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-
                     paymentID = body.data.id;
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);

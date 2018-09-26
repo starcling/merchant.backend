@@ -39,8 +39,7 @@ describe('A PaymentModelDBcontroller insertPayment', () => {
             result.data[0].should.have.property('id');
             result.data[0].should.have.property('title').that.is.equal(testPaymentModel.title);
             result.data[0].should.have.property('description').that.is.equal(testPaymentModel.description);
-            result.data[0].should.have.property('promo').that.is.equal(null);
-            result.data[0].should.have.property('amount').that.is.equal(testPaymentModel.amount);
+            result.data[0].should.have.property('amount').that.is.equal(String(testPaymentModel.amount));
             result.data[0].should.have.property('currency').that.is.equal(testPaymentModel.currency);
             result.data[0].should.have.property('typeID').that.is.equal(testPaymentModel.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(testPaymentModel.frequency);
@@ -61,8 +60,7 @@ describe('A PaymentModelDBcontroller insertPayment', () => {
             result.data[0].should.have.property('id');
             result.data[0].should.have.property('title').that.is.equal(tempInsert.title);
             result.data[0].should.have.property('description').that.is.equal(tempInsert.description);
-            result.data[0].should.have.property('promo').that.is.equal(null);
-            result.data[0].should.have.property('amount').that.is.equal(tempInsert.amount);
+            result.data[0].should.have.property('amount').that.is.equal(String(tempInsert.amount));
             result.data[0].should.have.property('currency').that.is.equal(tempInsert.currency);
             result.data[0].should.have.property('typeID').that.is.equal(tempInsert.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(tempInsert.frequency);

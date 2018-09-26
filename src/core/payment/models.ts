@@ -2,7 +2,6 @@ export interface IPaymentView {
     id: string;
     title: string;
     description: string;
-    promo: string;
     amount: number;
     initialPaymentAmount: number;
     initialNumberOfPayments: number;

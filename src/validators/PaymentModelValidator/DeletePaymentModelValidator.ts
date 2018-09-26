@@ -20,5 +20,5 @@ export class DeletePaymentModelValidator extends PaymentModelValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    pullPaymentModelID: Joi.string().required()
+    pullPaymentModelID: Joi.string().max(36).required()
 });

@@ -44,8 +44,7 @@ describe('A PaymentModelDbConnector updatePaymentModel', () => {
             result.data[0].should.have.property('id').that.is.equal(updateTestPayment.id);
             result.data[0].should.have.property('title').that.is.equal(updateTestPayment.title);
             result.data[0].should.have.property('description').that.is.equal(updateTestPayment.description);
-            result.data[0].should.have.property('promo').that.is.equal(updateTestPayment.promo);
-            result.data[0].should.have.property('amount').that.is.equal(updateTestPayment.amount);
+            result.data[0].should.have.property('amount').that.is.equal(String(updateTestPayment.amount));
             result.data[0].should.have.property('currency').that.is.equal(updateTestPayment.currency);
             result.data[0].should.have.property('typeID').that.is.equal(updateTestPayment.typeID);
             result.data[0].should.have.property('frequency').that.is.equal(updateTestPayment.frequency);

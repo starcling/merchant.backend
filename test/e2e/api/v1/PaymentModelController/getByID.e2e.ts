@@ -18,11 +18,11 @@ let pullPaymentModelID;
 const insertTestPayment = async () => {
     const result = await new PaymentModelDbConnector().createPaymentModel(testPaymentModel);
     pullPaymentModelID = result.data[0].id;
-}
+};
 
 const clearTestPayment = async () => {
     await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
-}
+};
 
 describe('PullPaymentModelController: getPaymentModelByID', () => {
     describe('with success response', () => {

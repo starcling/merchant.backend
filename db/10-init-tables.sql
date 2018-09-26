@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS public.tb_payment_models
     "merchantID" uuid NOT NULL,
     title character varying(255) COLLATE pg_catalog."default" NOT NULL,
     description character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    promo character varying(255) COLLATE pg_catalog."default",
     amount bigint NOT NULL,
     "initialPaymentAmount" bigint NOT NULL,
     "trialPeriod" bigint DEFAULT 0,

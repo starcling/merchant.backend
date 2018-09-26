@@ -4,12 +4,11 @@ import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 export class PaymentModelDbConnector {
   public createPaymentModel(insertDetails: IPaymentModelInsertDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_create_payment_model($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
+      text: 'SELECT * FROM fc_create_payment_model($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
       values: [
         insertDetails.merchantID,
         insertDetails.title,
         insertDetails.description,
-        insertDetails.promo,
         insertDetails.amount,
         insertDetails.initialPaymentAmount,
         insertDetails.trialPeriod,
@@ -28,12 +27,11 @@ export class PaymentModelDbConnector {
 
   public async updatePaymentModel(updateDetails: IPaymentModelUpdateDetails) {
     const sqlQuery: ISqlQuery = {
-      text: 'SELECT * FROM fc_update_payment_model($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
+      text: 'SELECT * FROM fc_update_payment_model($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
       values: [
         updateDetails.id,
         updateDetails.title,
         updateDetails.description,
-        updateDetails.promo,
         updateDetails.amount,
         updateDetails.initialPaymentAmount,
         updateDetails.trialPeriod,

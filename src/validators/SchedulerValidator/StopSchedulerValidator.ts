@@ -20,5 +20,5 @@ export class StopSchedulerValidator extends SchedulerValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    paymentID: Joi.string().required()
+    paymentID: Joi.string().max(36).required()
 });
