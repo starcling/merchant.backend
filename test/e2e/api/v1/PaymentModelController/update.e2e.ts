@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
 import { IPaymentModelUpdateDetails, IPaymentModelInsertDetails } from '../../../../../src/core/paymentModel/models';
 import { PaymentModelDbConnector } from '../../../../../src/connectors/dbConnector/PaymentModelDbConnector';
+import {Globals} from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -14,9 +15,6 @@ const endpoint = 'api/v1/pull-payment-models/';
 const payments: any = require('../../../../../resources/testData.json').paymentModels;
 const insertPaymentModel: IPaymentModelInsertDetails = payments['insertTestPaymentModel'];
 const updatePaymentModel: IPaymentModelUpdateDetails = payments['updateTestPaymentModel'];
-
-// const paymentModelsTestData: any = require('../../../../../resources/testData.json').paymentModels;
-// const testPaymentModel: IPaymentModelInsertDetails = paymentModelsTestData['insertTestPaymentModel'];
 
 const insertPayment = async () => {
     const result = await new PaymentModelDbConnector().createPaymentModel(insertPaymentModel);
@@ -45,6 +43,7 @@ describe('PullPaymentModelController: update', () => {
 
             server
                 .put(`${endpoint}${updatePaymentModel.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(updatePaymentModel)
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -73,6 +72,7 @@ describe('PullPaymentModelController: update', () => {
 
             server
                 .put(`${endpoint}${updatePaymentModel.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -90,6 +90,7 @@ describe('PullPaymentModelController: update', () => {
 
             server
                 .put(`${endpoint}${updatePaymentModel.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {

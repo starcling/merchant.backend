@@ -1,5 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
+import { Globals } from '../../../../../src/utils/globals';
+
 import * as supertest from 'supertest';
 
 chai.use(chaiAsPromised);
@@ -14,6 +16,7 @@ describe('QrController: getQrCode', () => {
             const paymentID = '6cae1452-c1c8-11e8-a355-529269fb1459';
             server
                 .get(`${endpoint}${paymentID}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;

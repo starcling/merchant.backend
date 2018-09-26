@@ -9,7 +9,7 @@ services:
       - NODE_ENV=development
       - HOST=localhost
       - PORT=3000
-      - API_URL=core_server
+      - CORE_API_URL=http://core_server:8081/api/v1
       - MERCHANT_URL=http://merchant_server:3000
       - PGHOST=postgres_merchant
       - PGUSER=local_user
@@ -30,6 +30,7 @@ services:
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
+      - CORE_API_KEY=4YcaeJz8yaxtLEaBKq5nSbaq5AMJQRfSYzdA3Nch
     volumes:
       - ./src:/usr/src/app/src
       - ./src/swagger.yml:/usr/src/app/src/swagger.yml

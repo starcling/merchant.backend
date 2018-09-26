@@ -3,6 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
 import { IPaymentModelUpdateDetails, IPaymentModelInsertDetails } from '../../../../../src/core/paymentModel/models';
 import { PaymentModelDbConnector } from '../../../../../src/connectors/dbConnector/PaymentModelDbConnector';
+import { Globals } from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -42,6 +43,7 @@ describe('PullPaymentModelController: patch', () => {
 
             server
                 .patch(`${endpoint}${tempPayment.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(tempPayment)
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -72,6 +74,7 @@ describe('PullPaymentModelController: patch', () => {
 
             server
                 .patch(`${endpoint}${tempPayment.id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(tempPayment)
                 .expect(400)
                 .end((err: Error, res: any) => {

@@ -133,6 +133,39 @@ export class Globals {
             bankAddress: new CreatePaymentModelHandler().getBankAddress
         };
     }
+
+    public static GET_CORE_API_URL(): string {
+        return DefaultConfig.settings.coreApiURL;
+    }
+
+    public static GET_MOBILE_VALIDATION_URL(): string {
+        return '/mobile/validate/';
+    }
+
+    public static GET_FCM_MOBILE_TOKEN_NAME(): string {
+        return 'fcm-mobile-token';
+    }
+
+    public static GET_TEST_FCM_TOKEN(): string {
+        return 'MY1hzxVMVpvCrXkLDytdH3Dic2NpGjRKzPukTbJB';
+    }
+
+    public static GET_API_KEY_NAME(): string {
+        return 'pma-api-key';
+    }
+
+    public static GET_CORE_API_KEY_NAME(): string {
+        return 'pma-merchant-api-key';
+    }
+
+    public static GET_TEST_API_KEY(): string {
+        return 'C2qrR2dbsBqGVbeZZXFRnzN5YzPmX564UAPHJFgX';
+    }
+
+    public static GET_CORE_API_KEY(): string {
+        return process.env.CORE_API_KEY;
+    }
+
 }
 
 enum PaymentTypeEnum {

@@ -3,6 +3,7 @@ import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
 import { IPaymentModelInsertDetails } from '../../../../../src/core/paymentModel/models';
 import { PaymentModelDbConnector } from '../../../../../src/connectors/dbConnector/PaymentModelDbConnector';
+import { Globals } from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -35,6 +36,7 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
         it('Should return paymentModel object', (done) => {
             server
                 .get(`${endpoint}${pullPaymentModelID}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -65,6 +67,7 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
             const id = 'test_id';
             server
                 .get(`${endpoint}${id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -80,6 +83,7 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
             const id = 'eb947468-8a8d-11e8-b552-8f90e6b18af3';
             server
                 .get(`${endpoint}${id}`)
+                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
