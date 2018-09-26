@@ -3,6 +3,7 @@ import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
 import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
+import {CreatePaymentModelHandler} from '../core/paymentModel/CreatePaymentModelHandler';
 
 const web3 = require('web3');
 
@@ -116,7 +117,8 @@ export class Globals {
             getTransactions: new TransactionDbConnector().getTransactionsByContractID,
             createTransaction: new TransactionDbConnector().createTransaction,
             updateTransaction: new TransactionDbConnector().updateTransaction,
-            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
+            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey,
+            bankAddress: new CreatePaymentModelHandler().getBankAddress
         };
     }
 }

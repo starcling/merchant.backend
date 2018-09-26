@@ -35,7 +35,9 @@ describe('PullPaymentModelController: patch', () => {
         it('should return paymentModel updated', (done) => {
             const tempPayment = {
                 id: updatePaymentModel.id,
-                title: '------------------'
+                title: '------------------',
+                automatedCashOut: false,
+                cashOutFrequency: 0
             };
 
             server
@@ -44,7 +46,6 @@ describe('PullPaymentModelController: patch', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-
                     expect(body).to.have.property('success').that.is.equal(true);
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message').that.is.equal('Successful payment model updated.');
@@ -64,7 +65,9 @@ describe('PullPaymentModelController: patch', () => {
         it('should return invalid data', (done) => {
             const tempPayment = {
                 id: updatePaymentModel.id,
-                startTimestamp: '------------------'
+                startTimestamp: '------------------',
+                automatedCashOut: false,
+                cashOutFrequency: 0
             };
 
             server
@@ -73,7 +76,7 @@ describe('PullPaymentModelController: patch', () => {
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-                    
+
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').to.be.an('array');

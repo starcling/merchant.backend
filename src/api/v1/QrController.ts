@@ -43,5 +43,4 @@ export class QrController {
             return new APIResponseHandler().handle(response, error);
         }
     }
-
 }

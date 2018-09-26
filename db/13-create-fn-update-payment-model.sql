@@ -1,12 +1,11 @@
--- FUNCTION: public.fc_update_payment_model(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
+-- FUNCTION: public.fc_update_payment_model(uuid, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
--- DROP FUNCTION public.fc_update_payment_model(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
+-- DROP FUNCTION public.fc_update_payment_model(uuid, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_update_payment_model(
 	_id uuid,
 	_title text,
 	_description text,
-	_promo text,
 	_amount bigint,
 	_initialPaymentAmount bigint,
 	_trialPeriod bigint,
@@ -38,10 +37,6 @@ END IF;
 IF _description IS NULL OR _description = ''
 THEN
 	_description = tb_temp.description;
-END IF;
-IF _promo IS NULL OR _promo = ''
-THEN
-	_promo = tb_temp.promo;
 END IF;
 IF _amount IS NULL
 THEN
@@ -87,8 +82,7 @@ END IF;
 UPDATE public.tb_payment_models SET
 	title = _title, 
     description = _description, 
-    promo = _promo, 
-    amount = _amount, 
+    amount = _amount,
 	"initialPaymentAmount" = _initialPaymentAmount, 
 	"trialPeriod" = _trialPeriod, 
     currency = _currency, 
@@ -109,5 +103,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_update_payment_model(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer)
+ALTER FUNCTION public.fc_update_payment_model(uuid, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer)
     OWNER TO local_user;

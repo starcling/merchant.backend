@@ -66,8 +66,8 @@ describe('A PaymentModelDbConnector getPaymentByID', () => {
             result.data[0].should.have.property('id');
             result.data[0].should.have.property('title').that.is.equal(testInsertPaymentModel.title);
             result.data[0].should.have.property('description').that.is.equal(testInsertPaymentModel.description);
-            result.data[0].should.have.property('amount').that.is.equal(testInsertPaymentModel.amount);
-            result.data[0].should.have.property('initialPaymentAmount').that.is.equal(testInsertPaymentModel.initialPaymentAmount);
+            result.data[0].should.have.property('amount').that.is.equal(String(testInsertPaymentModel.amount));
+            result.data[0].should.have.property('initialPaymentAmount').that.is.equal(String(testInsertPaymentModel.initialPaymentAmount));
             result.data[0].should.have.property('currency').that.is.equal(testInsertPaymentModel.currency);
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertPayment.numberOfPayments);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPaymentModel.frequency);
@@ -94,8 +94,8 @@ describe('A PaymentModelDbConnector getPaymentByID', () => {
             result.data[0].should.have.property('id');
             result.data[0].should.have.property('title').that.is.equal(testInsertPaymentModel.title);
             result.data[0].should.have.property('description').that.is.equal(testInsertPaymentModel.description);
-            result.data[0].should.have.property('amount').that.is.equal(testInsertPaymentModel.amount);
-            result.data[0].should.have.property('initialPaymentAmount').that.is.equal(testInsertPaymentModel.initialPaymentAmount);
+            result.data[0].should.have.property('amount').that.is.equal(String(testInsertPaymentModel.amount));
+            result.data[0].should.have.property('initialPaymentAmount').that.is.equal(String(testInsertPaymentModel.initialPaymentAmount));
             result.data[0].should.have.property('currency').that.is.equal(testInsertPaymentModel.currency);
             result.data[0].should.have.property('numberOfPayments').that.is.equal(testInsertPayment.numberOfPayments);
             result.data[0].should.have.property('frequency').that.is.equal(testInsertPaymentModel.frequency);

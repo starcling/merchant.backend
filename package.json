@@ -33,7 +33,7 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.6.2",
     "@types/pg": "^7.4.10",
-    "@pumapay/merchant_sdk": "0.0.55",
+    "@pumapay/merchant_sdk": "0.0.6",
     "bip39": "^2.5.0",
     "bluebird": "^3.5.1",
     "cors": "^2.8.4",

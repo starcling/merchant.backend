@@ -19,15 +19,19 @@ export class CreatePaymentModelValidator extends PaymentModelValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    merchantID: Joi.string().required(),
-    title: Joi.string().required(),
-    description: Joi.string().required(),
-    amount: Joi.number().min(0).required(),
+    merchantID: Joi.string().max(36).required(),
+    title: Joi.string().max(50).required(),
+    description: Joi.string().max(140).required(),
+    amount: Joi.number().min(1).required(),
     initialPaymentAmount: Joi.number().min(0).required(),
     trialPeriod: Joi.number().min(0).required(),
-    currency: Joi.string().required(),
-    numberOfPayments: Joi.number().required(),
+    currency: Joi.string().min(3).max(3).required(),
+    numberOfPayments: Joi.number().min(1).required(),
     typeID: Joi.number().required(),
-    frequency: Joi.number().required(),
-    networkID: Joi.number().integer().min(1).max(3).invalid(2).required()
+    frequency: Joi.number().min(1).required(),
+    networkID: Joi.number().integer().min(1).max(3).invalid(2).required(),
+    automatedCashOut: Joi.boolean().required(),
+    cashOutFrequency: Joi.number()
+        .when('automatedCashOut', { is: true, then: Joi.number().min(1).required() })
+        .when('automatedCashOut', { is: false, then: Joi.number().min(0).max(0).required() })
 });

@@ -19,8 +19,8 @@ export class CreateTransactionValidator extends TransactionValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    hash: Joi.string().required(),
-    paymentID: Joi.string().required(),
+    hash: Joi.string().min(66).max(66).required(),
+    paymentID: Joi.string().max(36).required(),
     typeID: Joi.number().required(),
     timestamp: Joi.number().min(0).required()
 });

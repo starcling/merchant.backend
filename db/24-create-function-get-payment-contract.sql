@@ -8,7 +8,6 @@
 --         title character varying (255),
 --         "merchantID" uuid,
 --         description character varying (255),
---         promo character varying (255),
 --         amount bigint,
 --         "initialPaymentAmount" bigint,
 --         "initialNumberOfPayments" integer,

@@ -1,12 +1,11 @@
--- FUNCTION: public.fc_create_payment_model(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
+-- FUNCTION: public.fc_create_payment_model(uuid, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
--- DROP FUNCTION public.fc_create_payment_model(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
+-- DROP FUNCTION public.fc_create_payment_model(uuid, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer);
 
 CREATE OR REPLACE FUNCTION public.fc_create_payment_model(
     _merchantID uuid,
 	_title text,
 	_description text,
-    _promo text,
 	_amount bigint,
 	_initialPaymentAmount bigint,
     _trialPeriod bigint,
@@ -31,8 +30,7 @@ INSERT INTO public.tb_payment_models(
         "merchantID",
         title, 
         description, 
-        promo,
-        amount, 
+        amount,
         "initialPaymentAmount", 
         "trialPeriod",
         currency, 
@@ -46,8 +44,7 @@ INSERT INTO public.tb_payment_models(
         _merchantID,
         _title, 
         _description, 
-        _promo,
-        _amount, 
+        _amount,
         _initialPaymentAmount,
         _trialPeriod,
         _currency, 
@@ -63,5 +60,5 @@ END
 
 $BODY$;
 
-ALTER FUNCTION public.fc_create_payment_model(uuid, text, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer)
+ALTER FUNCTION public.fc_create_payment_model(uuid, text, text, bigint, bigint, bigint, text, integer, integer, integer, integer, boolean, integer)
     OWNER TO local_user;

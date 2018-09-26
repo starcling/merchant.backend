@@ -131,7 +131,6 @@ export class PullPaymentModelController {
     * @apiParam {string} pullPaymentModelID - PaymentModel ID
     * @apiParam {string} title - Title of the paymentModel model
     * @apiParam {string} description - Description of the paymentModel model
-    * @apiParam {string} promo - Promo code for the paymentModel model
     * @apiParam {number} status - Status of paymentModel model
     * @apiParam {string} customerAddress - Customer address of the paymentModel model
     * @apiParam {number} amount - Amount of paymentModel model
@@ -151,7 +150,6 @@ export class PullPaymentModelController {
     * {
     *   "title": "string",
     *   "description": "string",
-    *   "promo": "string",
     *   "status": 1,
     *   "customerAddress": "string",
     *   "amount": 50,
@@ -195,7 +193,6 @@ export class PullPaymentModelController {
     * @apiParam {string} pullPaymentModelID - PaymentModel ID
     * @apiParam {string} title - Title of the paymentModel
     * @apiParam {string} description - Description of the paymentModel
-    * @apiParam {string} promo - Promo code for the paymentModel
     * @apiParam {number} status - Status of paymentModel
     * @apiParam {string} customerAddress -
     * @apiParam {number} amount - Amount of paymentModel
@@ -215,7 +212,6 @@ export class PullPaymentModelController {
     * {
     *   "title": "string",
     *   "description": "string",
-    *   "promo": "string",
     *   "status": 1,
     *   "customerAddress": "string",
     *   "amount": 50,

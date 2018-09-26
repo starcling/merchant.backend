@@ -2,31 +2,33 @@
     "paymentModels": {
         "insertTestPaymentModel": {
             "merchantID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
-            "title": "test payment",
-            "description": "test description",
-            "amount": "20",
-            "initialPaymentAmount": "23",
+            "title": "string",
+            "description": "string",
+            "amount": 43,
+            "initialPaymentAmount": 23,
             "trialPeriod": 23,
             "currency": "EUR",
             "numberOfPayments": 5,
-            "frequency": 3,
+            "frequency": 10,
             "typeID": 1,
-            "networkID": 3
+            "networkID": 3,
+            "automatedCashOut": false,
+            "cashOutFrequency": 0
         },
         "updateTestPaymentModel": {
-            "merchantID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
-            "id": "",
-            "title": "changes title",
-            "description": "another description",
-            "promo": "testing",
-            "amount": "20",
-            "initialPaymentAmount": "23",
+            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
+            "title": "string",
+            "description": "string",
+            "amount": 43,
+            "initialPaymentAmount": 23,
             "trialPeriod": 23,
             "currency": "EUR",
             "numberOfPayments": 5,
-            "typeID": 2,
-            "frequency": 3,
-            "networkID": 3
+            "typeID": 1,
+            "frequency": 10,
+            "networkID": 3,
+            "automatedCashOut": true,
+            "cashOutFrequency": 1
         }
     },
     "payments": {
@@ -36,9 +38,9 @@
             "numberOfPayments": 4,
             "nextPaymentDate": 10,
             "startTimestamp": 100,
-            "customerAddress": "243423",
-            "merchantAddress": "merchantadddr",
-            "pullPaymentAddress": "24234234",
+            "customerAddress": "0x0000000000000000000000000000000000000000",
+            "merchantAddress": "0x0000000000000000000000000000000000000000",
+            "pullPaymentAddress": "0x0000000000000000000000000000000000000000",
             "userID": "2342934"
         },
         "updateTestPayment": {
@@ -54,7 +56,7 @@
     },
     "transactions": {
         "insertTestTransaction": {
-            "hash": "0xec25520d236b37109e888e89d5b9de08901e412ee48ca63d1bd6d7c37849e2cd",
+            "hash": "QrController: getQrCode",
             "statusID": 1,
             "typeID": 1,
             "contractID": "needed to be injected",

@@ -2,7 +2,6 @@ export interface IPaymentModelInsertDetails {
     merchantID: string;
     title: string;
     description: string;
-    promo: string;
     amount: number;
     initialPaymentAmount: number;
     trialPeriod: number;
@@ -19,7 +18,6 @@ export interface IPaymentModelUpdateDetails {
     id: string;
     title: string;
     description: string;
-    promo: string;
     amount: number;
     initialPaymentAmount: number;
     trialPeriod: number;

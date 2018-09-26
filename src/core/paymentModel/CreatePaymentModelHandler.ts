@@ -65,7 +65,6 @@ export class CreatePaymentModelHandler {
     public async storeBankKey() {
         try {
             let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
-            console.debug('mnemonic....', mnemonic);
             if (!mnemonic) {
                 setTimeout(() => {
                     this.storeBankKey();
@@ -108,7 +107,6 @@ export class CreatePaymentModelHandler {
             console.debug(err);
         }
     }
-
 }
 
 export interface NewPaymentModelHdWalletDetails {
