@@ -35,7 +35,8 @@ export class DefaultConfig {
         ],
         exitOnError: false
       },
-      serverSecret: 'sUp4hS3cr37kE9c0D3'
+      serverSecret: 'sUp4hS3cr37kE9c0D3',
+      balanceNotificationEmailAddress: process.env.BALANCE_CHECK_EMAIL || 'developers@pumapay.io'
     };
   }
 }
