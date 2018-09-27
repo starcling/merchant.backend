@@ -4,6 +4,7 @@ import { HdWallet } from '../hd-wallet/HdWallet';
 import { PrivateKeysDbConnector } from '../../connectors/dbConnector/PrivateKeysDbConnector';
 import * as redis from 'redis';
 import * as bluebird from 'bluebird';
+import { RedisClientCreator } from '../../utils/redisClientCreator/RedisClientCreator';
 
 export class CreatePaymentModelHandler {
     /**
@@ -12,9 +13,8 @@ export class CreatePaymentModelHandler {
      * @returns Promise{NewPaymentModelHdWalletDetails} Returns the index and address of the hd wallet linked with the paymentModel
      */
     public async handle(): Promise<NewPaymentModelHdWalletDetails> {
-        let redisClient, redisClientBlocking;
-        redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
-        redisClientBlocking = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
+        const redisClient = new RedisClientCreator().getRedisConnection();
+        const redisClientBlocking = new RedisClientCreator().getRedisConnection();
         bluebird.promisifyAll(redis);
         const MERHCANT_PAYMENT_INDEX: string = 'k_merchant_payment_index';
         const testRedis = await redisClient.getAsync(MERHCANT_PAYMENT_INDEX);

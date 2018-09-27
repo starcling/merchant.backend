@@ -7,6 +7,7 @@ import { IPaymentInsert, IPaymentUpdate } from '../../../../src/core/payment/mod
 import { IPaymentModelInsertDetails } from '../../../../src/core/paymentModel/models';
 import { PaymentModelDbConnector } from '../../../../src/connectors/dbConnector/PaymentModelDbConnector';
 import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { RedisClientCreator } from '../../../../src/utils/redisClientCreator/RedisClientCreator';
 
 const web3 = require('web3');
 
@@ -33,20 +34,24 @@ const insertTestPayment = async () => {
 const clearTestPayment = async () => {
     paymentModelDbConnector.deletePaymentModel(testInsertPayment.pullPaymentModelID);
 };
+let rclient;
 
 describe('A SDK calculateEth', () => {
 
     before(() => {
+        rclient = new RedisClientCreator().getRedisConnection();
         MerchantSDK.GET_SDK().build({
             web3: web3API,
             updatePullPayment: paymentDbConnector.updatePayment,
             getPullPayment: paymentDbConnector.getPaymentByID,
-            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
+            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey,
+            redisClient: rclient
         });
     })
 
     after(() => {
-        MerchantSDK.GET_SDK().disconnectRedis();
+        rclient.quit();
+        rclient.unref();
     });
 
     beforeEach(async () => {
@@ -78,13 +83,15 @@ describe('A SDK calculateEth', () => {
         const result = await MerchantSDK.GET_SDK().calculateWeiToFund(testUpdatePayment.id, testInsertPayment.customerAddress);
 
         const amount = '20';
+        const mistake = 200;
         const rate = 0.0007862;
         const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());;
         const transferFee = await MerchantSDK.GET_SDK().calculateTransferFee(testInsertPayment.merchantAddress, testInsertPayment.customerAddress, value);
         const executionFee = await MerchantSDK.GET_SDK().calculateMaxExecutionFee();
 
         const calculation = (testInsertPayment.numberOfPayments * (transferFee + executionFee)) * 1.5;
-        expect(result).to.be.equal(calculation);
+        expect(result).to.be.greaterThan(calculation - mistake);
+        expect(result).to.be.lessThan(calculation + mistake);
     });
 
 });

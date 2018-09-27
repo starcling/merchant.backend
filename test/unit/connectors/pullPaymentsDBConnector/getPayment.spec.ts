@@ -34,15 +34,12 @@ const clearTestPaymentModel = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A PaymentModelDbConnector getPaymentByID', () => {
+describe('A PaymentDbConnector getPaymentByID', () => {
     describe('With successfull request', () => {
         before(() => {
             MerchantSDK.GET_SDK().build({
                 getPullPayment: paymentDbConnector.getPaymentByID
             });
-        });
-        after(() => {
-            MerchantSDK.GET_SDK().disconnectRedis();
         });
         beforeEach(async () => {
             await insertTestPaymentModel();

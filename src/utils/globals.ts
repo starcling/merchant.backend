@@ -4,6 +4,7 @@ import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
 import {CreatePaymentModelHandler} from '../core/paymentModel/CreatePaymentModelHandler';
+import { RedisClientCreator } from './redisClientCreator/RedisClientCreator';
 
 const web3 = require('web3');
 
@@ -121,8 +122,7 @@ export class Globals {
             pgPort: Number(DefaultConfig.settings.pgPort),
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
-            redisHost: process.env.REDIS_HOST,
-            redisPort: process.env.REDIS_PORT,
+            redisClient: new RedisClientCreator().getRedisConnection(),
             getEnums: Globals.REFRESH_ENUMS,
             getPullPayment: new PaymentDbConnector().getPaymentByID,
             updatePullPayment: new PaymentDbConnector().updatePayment,
@@ -166,6 +166,10 @@ export class Globals {
         return process.env.CORE_API_KEY;
     }
 
+    public static GET_ENVIRONMENT_TYPES(): any {
+        return EnvironmentTypesEnum;
+    }
+
 }
 
 enum PaymentTypeEnum {
@@ -188,4 +192,10 @@ interface IEnumTableNames {
     paymentStatus: string;
     transactionType: string;
     transactionStatus: string;
+}
+
+enum EnvironmentTypesEnum {
+    development = 'development',
+    staging = 'staging',
+    production = 'production'
 }

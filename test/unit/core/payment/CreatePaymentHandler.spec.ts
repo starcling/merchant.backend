@@ -14,6 +14,7 @@ process.env.KEY_DB_USER = 'db_service';
 process.env.KEY_DB_PASSWORD = 'db_pass';
 process.env.KEY_DB_DATABASE = 'keys';
 process.env.MNEMONIC_ID = 'create_payment_handler_mnemonic'
+process.env.NODE_ENV = 'development';
 
 const dataservice = new DataServiceEncrypted();
 

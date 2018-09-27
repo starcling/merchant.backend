@@ -17,6 +17,7 @@ services:
       - PGDATABASE=local_merchant_server
       - PGPORT=5432
       - REDIS_PORT=6379
+      - REDIS_TOKEN=123456789
       - REDIS_HOST=merchant_redis
       - ETH_NETWORK=3
       - KEY_DB_HOST=merchant_db
@@ -36,7 +37,6 @@ services:
       - ./src/swagger.yml:/usr/src/app/src/swagger.yml
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
-      - ../merchant.sdk:/usr/src/app/node_modules/pumapay_merchant_sdk
     depends_on:
       - postgres_merchant
     networks:
