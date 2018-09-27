@@ -3,7 +3,8 @@ import chaiAsPromised from 'chai-as-promised';
 import * as supertest from 'supertest';
 import { IPaymentModelInsertDetails } from '../../../../../src/core/paymentModel/models';
 import { PaymentModelDbConnector } from '../../../../../src/connectors/dbConnector/PaymentModelDbConnector';
-import {PaymentDbConnector} from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
+import { HTTPRequestFactory } from '../../../../../src/utils/web/HTTPRequestFactory';
 
 chai.use(chaiAsPromised);
 chai.should();
@@ -20,8 +21,43 @@ const insertPaymentData = payments['insertTestPayment'];
 
 let pullPaymentModelID: string;
 let paymentID: string;
+let merchantID: string;
+let merchantName: string;
+
+const insertMerchant = async () => {
+    const merchantPayload = {
+        "firstName": "John",
+        "lastName": "Doe",
+        "businessName": "PumaPay Test: " + Math.random() * 50,
+        "phoneNumber": "222523" + Math.floor(Math.random() * 90 + 10),
+        "country": "Cyprus",
+        "city": "Nicosia",
+        "streetAddress": "address1",
+        "zipCode": "1234"
+    };
+
+    const httpRequest = new HTTPRequestFactory()
+        .create(`http://localhost:8081/api/v1/merchant/create`, {
+            'Content-Type': 'application/json',
+            'pma-api-key': 'tCx3x8lH5TqSZZGSYHPWMZg7UvDdN1Rs'
+        }, 'POST', merchantPayload, null);
+    const httpResponse = await httpRequest.getResponse();
+    merchantID = merchantName = JSON.parse(httpResponse.body).data.merchantID;
+    merchantName = JSON.parse(httpResponse.body).data.businessName;
+};
+
+const deleteMerchant = async () => {
+
+    const httpRequest = new HTTPRequestFactory()
+        .create(`http://localhost:8081/api/v1/merchant/delete/${merchantID}`, {
+            'Content-Type': 'application/json',
+            'pma-api-key': 'tCx3x8lH5TqSZZGSYHPWMZg7UvDdN1Rs'
+        }, 'DELETE', null, null);
+    await httpRequest.getResponse();
+};
 
 const insertPaymentModel = async () => {
+    paymentModel.merchantID = merchantID;
     const result = await new PaymentModelDbConnector().createPaymentModel(paymentModel);
     pullPaymentModelID = result.data[0].id;
 };
@@ -40,9 +76,18 @@ const clearPayment = async () => {
     await new PaymentDbConnector().deletePayment(paymentID);
 };
 
-describe('PullPaymentModelController: getPaymentModelByID', () => {
+describe('PaymentController: getPaymentByID', () => {
     describe('with success response', () => {
-        beforeEach('insert test payment model',async () => {
+
+        before('insert test merchant', async () => {
+            await insertMerchant();
+        });
+
+        after('insert test merchant', async () => {
+            await deleteMerchant();
+        });
+
+        beforeEach('insert test payment model', async () => {
             await insertPaymentModel();
         });
 
@@ -89,13 +134,14 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
                         .that.is.equal('' + insertPaymentData.startTimestamp);
                     expect(body).to.have.property('data').that.has.property('merchantAddress');
                     expect(body).to.have.property('data').that.has.property('hdWalletIndex');
+                    expect(body).to.have.property('data').that.has.property('merchantName').that.is.equal(merchantName);
                     done(err);
                 });
         });
     });
 
     describe('with error response', () => {
-        beforeEach('insert test payment model',async () => {
+        beforeEach('insert test payment model', async () => {
             await insertPaymentModel();
         });
 

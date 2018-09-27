@@ -24,7 +24,7 @@ export class Payment {
                 payment.customerAddress, payment.pullPaymentModelID);
             const paymentCcount = Number(paymentCountResult.data[0]['fn_get_payment_count_by_customer_and_payment_model_id']);
             if (paymentCcount === 0) {
-                const walletDetails : NewPaymentModelHdWalletDetails = await new CreatePaymentModelHandler().handle();
+                const walletDetails: NewPaymentModelHdWalletDetails = await new CreatePaymentModelHandler().handle();
                 if (!walletDetails.index && !walletDetails.address) {
                     return new HTTPResponseHandler().handleFailed(
                         'Failed to insert paymentModel.',
@@ -99,16 +99,6 @@ export class Payment {
 
                 return new HTTPResponseHandler().handleFailed('Payment with supplied ID not found.', {}, HTTPResponseCodes.BAD_REQUEST());
             }
-            try {
-                const httpRequest = new HTTPRequestFactory()
-                    .create(`${process.env.API_URL}/api/v1/merchant/${response.data[0].merchantID}`, {
-                        'Content-Type': 'application/json'
-                    }, 'GET', null, null);
-                const httpResponse = await httpRequest.getResponse();
-                response.data[0].merchantName = JSON.parse(httpResponse.body).data.businessName;
-            } catch (err) {
-                console.log(err);
-            }
 
             return new HTTPResponseHandler().handleSuccess('Successfully updated single payment.', response.data[0]);
         } catch (error) {
@@ -129,6 +119,20 @@ export class Payment {
         try {
             const response = await new PaymentDbConnector().getPaymentByID(paymentID);
             if (response.data && response.data[0] && response.data[0].id !== null) {
+
+                console.log(response.data[0]);
+                try {
+                    const httpRequest = new HTTPRequestFactory()
+                        .create(`${process.env.CORE_API_URL}/merchant/${response.data[0].merchantID}`, {
+                            'Content-Type': 'application/json',
+                            'pma-api-key': 'tCx3x8lH5TqSZZGSYHPWMZg7UvDdN1Rs'
+                        }, 'GET', null, null);
+                    const httpResponse = await httpRequest.getResponse();
+                    response.data[0].merchantName = JSON.parse(httpResponse.body).data.businessName;
+                } catch (err) {
+                    console.log(err);
+                }
+
                 return new HTTPResponseHandler().handleSuccess(`Successfully retrieved payment with ID: ${paymentID}.`,
                     response.data[0]);
             }

@@ -37,7 +37,7 @@ const insertPayment = async () => {
     paymentID = result.data[0].id;
 };
 
-describe('Payment Controller: delete', () => {
+describe('PaymentController: delete', () => {
     beforeEach('insert test payment model',async () => {
         await insertPaymentModel();
     });

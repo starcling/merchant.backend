@@ -34,7 +34,7 @@ const insertPayment = async () => {
     await new PaymentDbConnector().createPayment(insertPaymentData);
 };
 
-describe('Payment Controller: getAllPayments', () => {
+describe('PaymentController: getAllPayments', () => {
     describe('with success response', () => {
         beforeEach('insert test payment model',async () => {
             await insertPaymentModel();

@@ -33,7 +33,7 @@ const clearPaymentModel = async () => {
 
 process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
 
-describe('Payment Controller: create', () => {
+describe('PaymentController: create', () => {
     beforeEach('add payment model', async () => {
         await insertPaymentModel();
     });
