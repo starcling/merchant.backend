@@ -4,7 +4,7 @@ import { HdWallet } from '../hd-wallet/HdWallet';
 import { PrivateKeysDbConnector } from '../../connectors/dbConnector/PrivateKeysDbConnector';
 import * as redis from 'redis';
 import * as bluebird from 'bluebird';
-
+import { Globals } from '../../utils/globals';
 export class CreatePaymentHandler {
     /**
      * @description Handles the creation of new payment.
@@ -13,8 +13,21 @@ export class CreatePaymentHandler {
      */
     public async handle(): Promise<NewPaymentHdWalletDetails> {
         let redisClient, redisClientBlocking;
-        redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
-        redisClientBlocking = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
+        const environments = Globals.GET_ENVIRONMENT_TYPES();
+        if (process.env.NODE_ENV === environments.staging || process.env.NODE_ENV === environments.production) {
+            redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_TOKEN, {
+                no_ready_check: true
+            }); // this creates a new client
+            redisClientBlocking = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_TOKEN, {
+                no_ready_check: true
+            });
+        }
+
+        if (process.env.NODE_ENV === environments.development) {
+            redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
+            redisClientBlocking = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST); // this creates a new client
+        }
+
         bluebird.promisifyAll(redis);
         const MERHCANT_PAYMENT_INDEX: string = 'merchantPaymentIndex';
         const testRedis = await redisClient.lrangeAsync(MERHCANT_PAYMENT_INDEX, 0, -1);

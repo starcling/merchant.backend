@@ -23,6 +23,7 @@ const clearPayment = async () => {
     await new PaymentDbConnector().deletePayment(paymentID);
 };
 process.env.MNEMONIC_ID='test_mnemonic_phrase'
+
 describe('PaymentController: create', () => {
     afterEach(async () => {
         await clearPayment();

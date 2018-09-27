@@ -148,6 +148,10 @@ export class Globals {
         return process.env.CORE_API_KEY;
     }
 
+    public static GET_ENVIRONMENT_TYPES(): any {
+        return EnvironmentTypesEnum;
+    }
+
 }
 
 enum PaymentTypeEnum {
@@ -162,4 +166,10 @@ interface IEnumTableNames {
     contractStatus: string;
     transactionType: string;
     transactionStatus: string;
+}
+
+enum EnvironmentTypesEnum {
+    development = 'development',
+    staging = 'staging',
+    production = 'production'
 }
