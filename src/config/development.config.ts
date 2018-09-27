@@ -1,5 +1,6 @@
 import { Settings } from './settings.interface';
 import winston from 'winston';
+import { Globals } from '../utils/globals';
 
 export class DevelopmentConfig {
   public static get settings(): Settings {
@@ -22,6 +23,7 @@ export class DevelopmentConfig {
       keyDb: process.env.KEY_DB ? process.env.KEY_DB : 'keys',
       mnemonicID: process.env.MNEMONIC_ID ? process.env.MNEMONIC_ID : 'mnemonic_phrase',
       balanceNotificationEmailAddress: process.env.BALANCE_CHECK_EMAIL || 'developers@pumapay.io',
+      mobileValidationUrl: Globals.GET_MOBILE_VALIDATION_URL(),
       winston: {
         transports: [
           new winston.transports.Console({
