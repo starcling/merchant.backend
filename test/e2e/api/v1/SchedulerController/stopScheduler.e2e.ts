@@ -1,25 +1,33 @@
+import {IPaymentInsert, IPaymentUpdate} from '../../../../../src/core/payment/models';
+
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 import * as supertest from 'supertest';
-import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
+import { IPaymentModelInsertDetails } from '../../../../../src/core/paymentModel/models';
 import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
-import { addTestPayment, removeTestPayment, updateTestContract, retrieveTestContract, addTestContract } from '../../../../unit/core/payment/paymentHelper';
-import { IPaymentContractInsert, IPaymentContractUpdate } from '../../../../../src/core/contract/models';
+import {
+    addTestPaymentModel,
+    removeTestPaymentModel,
+    addTestPayment,
+    updateTestPayment,
+    retrieveTestPayment
+} from '../../../../unit/core/payment/paymentHelper';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-const contracts: any = require('../../../../../resources/e2eTestData.json').contracts;
-const payments: any = require('../../../../../resources/e2eTestData.json').payments;
+const paymentModels: any = require('../../../../../resources/e2eTestData.json').paymentModels;
+const testInsertPaymentModel: IPaymentModelInsertDetails = paymentModels['insertPaymentModel'];
 
-const testInsertContract: IPaymentContractInsert = contracts['insertTestContract'];
-const testInsertPayment: IPaymentInsertDetails = payments['insertPayment'];
+const payments: any = require('../../../../../resources/TestData.json').payments;
+const testInsertPayment: IPaymentInsert = payments['insertTestPayment'];
 
 const server = supertest.agent('http://localhost:3000/');
 const endpoint = 'api/v1/scheduler/stop';
 
+let paymentModel;
 let payment;
-let contract;
+
 const frequency = 1;
 
 process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
@@ -28,13 +36,13 @@ describe('SchedulerController: stopScheduler', () => {
     after(async () => {
         await removeTestMnemonic('test_mnemonic_phrase');
     });
-    describe('with successfull request', () => {
+    describe('with successful request', () => {
 
         beforeEach(async () => {
-            testInsertPayment.frequency = frequency;
-            payment = (await addTestPayment(testInsertPayment)).data;
-            testInsertContract.paymentID = payment.id;
-            contract = (await addTestContract(testInsertContract)).data[0];
+            testInsertPaymentModel.frequency = frequency;
+            paymentModel = (await addTestPaymentModel(testInsertPaymentModel)).data;
+            testInsertPayment.pullPaymentModelID = paymentModel.id;
+            payment = (await addTestPayment(testInsertPayment)).data[0];
         });
 
         beforeEach(async () => {
@@ -42,7 +50,7 @@ describe('SchedulerController: stopScheduler', () => {
         });
 
         afterEach(async () => {
-            await removeTestPayment(payment.id);
+            await removeTestPaymentModel(paymentModel.id);
         });
 
         afterEach(async () => {
@@ -51,17 +59,17 @@ describe('SchedulerController: stopScheduler', () => {
 
         it('should stop the scheduler', (done) => {
             const numberOfPayments = 8;
-            const tempContract: IPaymentContractUpdate = Object.assign({}, contract);
-            tempContract.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
-            tempContract.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
-            tempContract.numberOfPayments = numberOfPayments;
+            const tempPayment: IPaymentUpdate = {...payment};
+            tempPayment.startTimestamp = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempPayment.nextPaymentDate = Math.floor(new Date(Date.now() + 1000).getTime() / 1000);
+            tempPayment.numberOfPayments = numberOfPayments;
 
-            updateTestContract(tempContract);
+            updateTestPayment(tempPayment);
 
             server
                 .post(`api/v1/test/start-scheduler/`)
                 .send({
-                    contractID: tempContract.id
+                    paymentID: tempPayment.id
                 })
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -75,7 +83,7 @@ describe('SchedulerController: stopScheduler', () => {
                 server
                     .post(`${endpoint}`)
                     .send({
-                        contractID: tempContract.id
+                        paymentID: tempPayment.id
                     })
                     .expect(200)
                     .end((err: Error, res: any) => {
@@ -88,7 +96,7 @@ describe('SchedulerController: stopScheduler', () => {
 
 
             setTimeout(() => {
-                retrieveTestContract(tempContract.id).then(res => {
+                retrieveTestPayment(tempPayment.id).then(res => {
                     expect(res.data[0].numberOfPayments).to.be.equal(numberOfPayments / 2);
                     done();
                 });
@@ -99,14 +107,14 @@ describe('SchedulerController: stopScheduler', () => {
 
     describe('with unsuccessfull request', () => {
         beforeEach(async () => {
-            testInsertPayment.frequency = frequency;
-            payment = (await addTestPayment(testInsertPayment)).data;
-            testInsertContract.paymentID = payment.id;
-            contract = (await addTestContract(testInsertContract)).data[0];
+            testInsertPaymentModel.frequency = frequency;
+            paymentModel = (await addTestPaymentModel(testInsertPaymentModel)).data;
+            testInsertPayment.pullPaymentModelID = paymentModel.id;
+            payment = (await addTestPayment(testInsertPayment)).data[0];
         });
 
         afterEach(async () => {
-            await removeTestPayment(payment.id);
+            await removeTestPaymentModel(paymentModel.id);
         });
 
         it('should not stop scheduler if wrong ID was provided', (done) => {
@@ -114,7 +122,7 @@ describe('SchedulerController: stopScheduler', () => {
             server
                 .post(`${endpoint}`)
                 .send({
-                    contractID: id
+                    paymentID: id
                 })
                 .expect(400)
                 .end((err: Error, res: any) => {

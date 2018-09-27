@@ -1,32 +1,44 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import supertest from 'supertest';
-import { IResponseMessage } from '../../../../../src/utils/web/HTTPResponseHandler';
-import { IPaymentInsertDetails } from '../../../../../src/core/payment/models';
-import { PaymentDbConnector } from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
-import { addTestMnemonic, removeTestMnemonic } from '../../../../unit/core/hd-wallet/mnemonicHelper';
-import { consoleTestResultHandler } from 'tslint/lib/test';
-import { Globals } from '../../../../../src/utils/globals';
+import {IResponseMessage} from '../../../../../src/utils/web/HTTPResponseHandler';
+import {IPaymentModelInsertDetails} from '../../../../../src/core/paymentModel/models';
+import {PaymentModelDbConnector} from '../../../../../src/connectors/dbConnector/PaymentModelDbConnector';
+import {addTestMnemonic, removeTestMnemonic} from '../../../../unit/core/hd-wallet/mnemonicHelper';
+import {Globals} from '../../../../../src/utils/globals';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 const server = supertest.agent('localhost:3000/');
-const endpoint = 'api/v1/payments/';
+const endpoint = 'api/v1/pull-payments/';
+
+const paymentModels: any = require('../../../../../resources/e2eTestData.json').paymentModels;
+const paymentModel: IPaymentModelInsertDetails = paymentModels['insertPaymentModel'];
 
 const payments: any = require('../../../../../resources/e2eTestData.json').payments;
-const insertPayment: IPaymentInsertDetails = payments['insertPayment'];
+const insertPayment = payments['insertTestPayment'];
 
+let pullPaymentModelID: string;
 let paymentID: string;
 
-const clearPayment = async () => {
-    await new PaymentDbConnector().deletePayment(paymentID);
+const insertPaymentModel = async () => {
+    const result = await new PaymentModelDbConnector().createPaymentModel(paymentModel);
+    pullPaymentModelID = result.data[0].id;
 };
-process.env.MNEMONIC_ID='test_mnemonic_phrase'
 
-describe('PaymentController: create', () => {
-    afterEach(async () => {
-        await clearPayment();
+const clearPaymentModel = async () => {
+    await new PaymentModelDbConnector().deletePaymentModel(pullPaymentModelID);
+};
+
+process.env.MNEMONIC_ID = 'test_mnemonic_phrase';
+
+describe('Payment Controller: create', () => {
+    beforeEach('add payment model', async () => {
+        await insertPaymentModel();
+    });
+    afterEach('clear payment mode;l', async () => {
+        await clearPaymentModel();
     });
     after(async () => {
         await removeTestMnemonic('test_mnemonic_phrase');
@@ -38,17 +50,14 @@ describe('PaymentController: create', () => {
         afterEach(async () => {
             await removeTestMnemonic('test_mnemonic_phrase');
         });
-        afterEach(async () => {
-            await clearPayment();
-        });
         it('should return payment inserted', (done) => {
             const expectedResponse: IResponseMessage = {
                 success: true,
                 status: 200,
-                message: 'Successful payment insert.',
+                message: 'Successful payment inserted.',
                 data: []
             };
-
+            insertPayment.pullPaymentModelID = pullPaymentModelID;
             server
                 .post(`${endpoint}`)
                 .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
@@ -56,20 +65,26 @@ describe('PaymentController: create', () => {
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-
                     paymentID = body.data.id;
                     expect(body).to.have.property('success').that.is.equal(expectedResponse.success);
                     expect(body).to.have.property('status').that.is.equal(expectedResponse.status);
                     expect(body).to.have.property('message').that.is.equal(expectedResponse.message);
                     expect(body).to.have.property('data').that.has.property('id').that.is.equal(paymentID);
-                    expect(body).to.have.property('data').that.has.property('title').that.is.equal(insertPayment.title);
-                    expect(body).to.have.property('data').that.has.property('description').that.is.equal(insertPayment.description);
-                    expect(body).to.have.property('data').that.has.property('amount').that.is.equal('' + insertPayment.amount);
-                    expect(body).to.have.property('data').that.has.property('initialPaymentAmount').that.is.equal('' + insertPayment.initialPaymentAmount);
-                    expect(body).to.have.property('data').that.has.property('currency').that.is.equal(insertPayment.currency);
-                    expect(body).to.have.property('data').that.has.property('typeID').that.is.equal(insertPayment.typeID);
-                    expect(body).to.have.property('data').that.has.property('frequency').that.is.equal(insertPayment.frequency);
-                    expect(body).to.have.property('data').that.has.property('networkID').that.is.equal(insertPayment.networkID);
+                    expect(body).to.have.property('data').that.has.property('pullPaymentModelID').that.is.equal(pullPaymentModelID);
+                    expect(body).to.have.property('data').that.has.property('numberOfPayments')
+                        .that.is.equal(paymentModel.numberOfPayments);
+                    expect(body).to.have.property('data').that.has.property('customerAddress').that.is.equal(insertPayment.customerAddress);
+                    expect(body).to.have.property('data').that.has.property('pullPaymentAddress')
+                        .that.is.equal(insertPayment.pullPaymentAddress);
+                    expect(body).to.have.property('data').that.has.property('statusID').that.is.equal(1);
+                    expect(body).to.have.property('data').that.has.property('userID').that.is.equal(insertPayment.userID);
+                    expect(body).to.have.property('data').that.has.property('nextPaymentDate')
+                        .that.is.equal('' + (insertPayment.startTimestamp + paymentModel.trialPeriod));
+                    expect(body).to.have.property('data').that.has.property('lastPaymentDate').that.is.equal('0');
+                    expect(body).to.have.property('data').that.has.property('startTimestamp')
+                        .that.is.equal('' + (insertPayment.startTimestamp + paymentModel.trialPeriod));
+                    expect(body).to.have.property('data').that.has.property('merchantAddress');
+                    expect(body).to.have.property('data').that.has.property('hdWalletIndex');
                     done(err);
                 });
         });
@@ -83,8 +98,8 @@ describe('PaymentController: create', () => {
             await removeTestMnemonic('test_mnemonic_phrase');
         });
         it('should return missing data', (done) => {
-            const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
-            delete unsuccessfullInsertPayment.amount;
+            const unsuccessfullInsertPayment = {...insertPayment};
+            delete unsuccessfullInsertPayment.startTimestamp;
 
             server
                 .post(`${endpoint}`)
@@ -102,7 +117,7 @@ describe('PaymentController: create', () => {
         });
 
         it('should return invalid data', (done) => {
-            const unsuccessfullInsertPayment = Object.assign({}, insertPayment);
+            const unsuccessfullInsertPayment = {...insertPayment};
             unsuccessfullInsertPayment.frequency = Number('string');
 
             server

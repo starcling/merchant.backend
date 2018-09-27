@@ -23,5 +23,6 @@ export interface Settings {
   keyDbPort: string | number;
   keyDbPass: string;
   mnemonicID: string;
+  balanceNotificationEmailAddress: string;
   mobileValidationUrl: string;
 }

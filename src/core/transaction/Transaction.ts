@@ -4,6 +4,8 @@ import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { Globals } from '../../utils/globals';
 import { MerchantSDK } from '../MerchantSDK';
+import { CreatePaymentModelHandler } from '../paymentModel/CreatePaymentModelHandler';
+import { Payment } from '../payment/Payment';
 
 export class Transaction {
     /**
@@ -15,10 +17,11 @@ export class Transaction {
         try {
             const result = await new TransactionDbConnector().createTransaction(transaction);
             if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['register']) {
-                MerchantSDK.GET_SDK().monitorRegistrationTransaction(transaction.hash, transaction.contractID);
+                MerchantSDK.GET_SDK().monitorRegistrationTransaction(transaction.hash, transaction.paymentID);
             }
+
             if (transaction.typeID === Globals.GET_TRANSACTION_TYPE_ENUM()['cancel']) {
-                MerchantSDK.GET_SDK().monitorCancellationTransaction(transaction.hash, transaction.contractID);
+                MerchantSDK.GET_SDK().monitorCancellationTransaction(transaction.hash, transaction.paymentID);
             }
 
             return new HTTPResponseHandler().handleSuccess('Successful transaction insert.', result.data[0]);
@@ -83,7 +86,7 @@ export class Transaction {
      * @description Get method for getting all contracts from DB
      * @returns {HTTPResponse} Returns response with array of contracts in data
      */
-    public async getTransactionsByContractID(transaction: ITransactionGet) {
+    public async getTransactionsByPaymentID(transaction: ITransactionGet) {
         try {
             const response = await new TransactionDbConnector().getTransactionsByContractID(transaction);
             if (!response.data) {

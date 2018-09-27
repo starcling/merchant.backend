@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
-import { PaymentValidator } from './PaymentValidator';
 import { IValidationError } from '../IValidationError';
+import { PaymentValidator } from './PaymentValidator';
 
 export class DeletePaymentValidator extends PaymentValidator {
     public validate(data: any) {
@@ -20,5 +20,5 @@ export class DeletePaymentValidator extends PaymentValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    paymentID: Joi.string().required()
+    paymentID: Joi.string().max(36).required()
 });

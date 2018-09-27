@@ -8,7 +8,7 @@ export class TransactionDbConnector {
             values: [
                 transaction.hash,
                 transaction.typeID,
-                transaction.contractID,
+                transaction.paymentID,
                 transaction.timestamp
             ]
         };
@@ -52,9 +52,9 @@ export class TransactionDbConnector {
 
     public getTransactionsByContractID(transaction: ITransactionGet) {
         const sqlQuery: ISqlQuery = {
-            text: 'SELECT * FROM public.fc_get_transactions_by_contract_id($1, $2, $3);',
+            text: 'SELECT * FROM public.fc_get_transactions_by_payment_id($1, $2, $3);',
             values: [
-                transaction.contractID,
+                transaction.paymentID,
                 transaction.statusID,
                 transaction.typeID
             ]

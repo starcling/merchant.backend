@@ -13,8 +13,7 @@ const endpoint = 'api/v1/qr/';
 describe('QrController: getQrCode', () => {
     describe('with successfull request', () => {
         it('should return an initialised erc20 object details', (done) => {
-            const paymentID = '4b01721f0244e7c5b5f63c20942850e447f5a5ee';
-
+            const paymentID = '6cae1452-c1c8-11e8-a355-529269fb1459';
             server
                 .get(`${endpoint}${paymentID}`)
                 .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
@@ -25,8 +24,8 @@ describe('QrController: getQrCode', () => {
                     expect(body).to.have.property('status').that.is.equal(200);
                     expect(body).to.have.property('message').that.is.equal('Successfully retrieved the QR code.');
                     expect(body).to.have.property('data').that.is.an('object');
-                    expect(body.data).to.have.property('paymentURL').that.is.an('string');
-                    expect(body.data).to.have.property('contractURL').that.is.an('string');
+                    expect(body.data).to.have.property('pullPaymentModelURL').that.is.an('string');
+                    expect(body.data).to.have.property('pullPaymentURL').that.is.an('string');
                     expect(body.data).to.have.property('transactionURL').that.is.an('string');
                     done(err);
                 });

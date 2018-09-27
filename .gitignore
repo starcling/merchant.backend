@@ -9,3 +9,4 @@ docs
 .idea/
 dump.rdb
 account-db/keys/keyring
+.nyc_output

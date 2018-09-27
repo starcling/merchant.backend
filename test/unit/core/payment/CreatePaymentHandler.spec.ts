@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import { CreatePaymentHandler } from '../../../../src/core/payment/CreatePaymentHandler';
+import { CreatePaymentModelHandler } from '../../../../src/core/paymentModel/CreatePaymentModelHandler';
 import { ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { DataServiceEncrypted } from '../../../../src/utils/datasource/DataServiceEncrypted';
 import { DefaultConfig } from '../../../../src/config/default.config';
@@ -36,9 +36,9 @@ const deleteEncryptedMnemonicData = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 }
 
-const paymentHandler = new CreatePaymentHandler();
+const paymentHandler = new CreatePaymentModelHandler();
 
-describe('A Create Payment Handler', () => {
+describe('A Create PaymentModel Handler', () => {
     beforeEach(async () => {
         await insertEncryptedMnemonicData();
     });
@@ -46,7 +46,7 @@ describe('A Create Payment Handler', () => {
         await deleteEncryptedMnemonicData();
     });
 
-    it('should handle the payment before creation', async () => {
+    it('should handle the paymentModel before creation', async () => {
         let walletAddress = await paymentHandler.handle();
 
         expect(walletAddress.index).to.not.be.null;

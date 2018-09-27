@@ -15,8 +15,10 @@ import * as YAML from 'yamljs';
 import * as swaggerUi from 'swagger-ui-express';
 import { MerchantSDK } from './core/MerchantSDK';
 import { Globals } from './utils/globals';
+import { CreatePaymentModelHandler } from './core/paymentModel/CreatePaymentModelHandler';
+import { BankBalanceMonitor } from './core/monitors/BankBalanceMonitor';
 
-const SWAGGER_DOCUMENT = YAML.load('./docs/api/swagger.json');
+const SWAGGER_DOCUMENT = YAML.load('/usr/src/app/src/swagger.yml');
 
 class App {
   private loggerFactory: LoggerFactory = new LoggerFactory(Config.settings.winston, Config.settings.morgan);
@@ -37,7 +39,12 @@ class App {
     app.use(this.loggerFactory.requestLogger);
 
     Globals.REFRESH_ENUMS();
+    new CreatePaymentModelHandler().storeBankKey();
+    this.logger.info('Stored bank address keys.');
     MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(Config.settings.networkID));
+    this.logger.info('SDK build completed.');
+    new BankBalanceMonitor(Number(process.env.ETH_NETWORK)).monitor();
+
     this.debug('Sync with redis completed.');
 
     this.debug('Dependency Injection');

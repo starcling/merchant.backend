@@ -11,7 +11,7 @@ export const addTestMnemonic = async (mnemonicID) => {
 
     const dataservice = new DataServiceEncrypted();
 
-    const TEST_MNEMONIC = 'payment test test test test test test test test test test test test test test';
+    const TEST_MNEMONIC = 'paymentModel test test test test test test test test test test test test test test';
 
     const sqlQueryInsert: ISqlQuery = {
         text: 'call add_mnemonic(?, ?, ?)',

@@ -1,18 +1,20 @@
 import { DefaultConfig } from '../config/default.config';
 import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
-import { ContractDbConnector } from '../connectors/dbConnector/ContractDbConnector';
+import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
+import {CreatePaymentModelHandler} from '../core/paymentModel/CreatePaymentModelHandler';
+import { RedisClientCreator } from './redisClientCreator/RedisClientCreator';
 
 const web3 = require('web3');
 
 export class Globals {
-    private static paymentTypeEnums: any;
-    private static contractStatusEnums: any;
+    private static paymentModelTypeEnums: any;
+    private static paymentStatusEnums: any;
     private static transactionTypeEnums: any;
     private static transactionStatusEnums: any;
 
-    public static GET_NETWORK(networkID: number): string {
+    public static GET_NETWORK_NAME(networkID: number): string {
         switch (networkID) {
             case (1):
                 return 'mainnet';
@@ -22,17 +24,29 @@ export class Globals {
     }
 
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
-        return `https://${this.GET_NETWORK(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
+        return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
 
     public static GET_INFURA_API_KEY(): string {
         return 'eS5XgCLEJRygOsT6E4Bf';
     }
 
+    public static BALANCE_CHECK_INTERVAL(): number {
+        return Number(process.env.BALANCE_MONITOR_INTERVAL) || 21600000; // 6 hours in miliseconds
+    }
+
+    public static BALANCE_CHECK_THRESHOLD(): number {
+        return Number(process.env.BALANCE_CHECK_THRESHOLD) || 0.1;
+    }
+
+    public static GET_SQ_MAIL_API_KEY(): string {
+        return process.env.SENDGRID_API_KEY || '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';
+    }
+
     public static GET_ENUM_TABLE_NAMES(): IEnumTableNames {
         return {
-            paymentType: 'tb_payment_type',
-            contractStatus: 'tb_contract_status',
+            paymentModelType: 'tb_payment_model_type',
+            paymentStatus: 'tb_payment_status',
             transactionType: 'tb_transaction_type',
             transactionStatus: 'tb_transaction_status'
         };
@@ -40,8 +54,8 @@ export class Globals {
 
     public static async REFRESH_ENUMS(): Promise<any> {
         return {
-            paymentTypeEnums: Globals.paymentTypeEnums = (await new EnumDbConnector().getPaymentTypes()).data,
-            contranctStatusEnums: Globals.contractStatusEnums = (await new EnumDbConnector().getContractStatuses()).data,
+            paymentModelTypeEnums: Globals.paymentModelTypeEnums = (await new EnumDbConnector().getPaymentModelTypes()).data,
+            paymentStatusEnums: Globals.paymentStatusEnums = (await new EnumDbConnector().getPaymentStatuses()).data,
             transactionTypeEnums: Globals.transactionTypeEnums = (await new EnumDbConnector().getTransactionTypes()).data,
             transactionStatusEnums: Globals.transactionStatusEnums = (await new EnumDbConnector().getTransactionStatuses()).data
         };
@@ -51,10 +65,14 @@ export class Globals {
         return PaymentTypeEnum;
     }
 
+    public static GET_PAYMENT_STATUS_ENUM_NAMES(): any {
+        return PaymentStatusEnum;
+    }
+
     public static GET_PAYMENT_TYPE_ENUM(): any[] {
         const payload = [];
 
-        for (const d of this.paymentTypeEnums) {
+        for (const d of this.paymentModelTypeEnums) {
             payload[d.id] = d.name;
             payload[d.name] = d.id;
         }
@@ -62,10 +80,10 @@ export class Globals {
         return payload;
     }
 
-    public static GET_CONTRACT_STATUS_ENUM(): string[] {
+    public static GET_PAYMENT_STATUS_ENUM(): string[] {
         const payload = [];
 
-        for (const d of this.contractStatusEnums) {
+        for (const d of this.paymentStatusEnums) {
             payload[d.id] = d.name;
             payload[d.name] = d.id;
         }
@@ -104,15 +122,15 @@ export class Globals {
             pgPort: Number(DefaultConfig.settings.pgPort),
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
-            redisHost: process.env.REDIS_HOST,
-            redisPort: process.env.REDIS_PORT,
+            redisClient: new RedisClientCreator().getRedisConnection(),
             getEnums: Globals.REFRESH_ENUMS,
-            getContract: new ContractDbConnector().getContract,
-            updateContract: new ContractDbConnector().updateContract,
+            getPullPayment: new PaymentDbConnector().getPaymentByID,
+            updatePullPayment: new PaymentDbConnector().updatePayment,
             getTransactions: new TransactionDbConnector().getTransactionsByContractID,
             createTransaction: new TransactionDbConnector().createTransaction,
             updateTransaction: new TransactionDbConnector().updateTransaction,
-            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey
+            getPrivateKey: new PrivateKeysDbConnector().getPrivateKey,
+            bankAddress: new CreatePaymentModelHandler().getBankAddress
         };
     }
 
@@ -161,9 +179,17 @@ enum PaymentTypeEnum {
     recurringWithInitial = 4
 }
 
+enum PaymentStatusEnum {
+    initial = 1,
+    running = 2,
+    stopped = 3,
+    cancelled = 4,
+    done = 5
+}
+
 interface IEnumTableNames {
-    paymentType: string;
-    contractStatus: string;
+    paymentModelType: string;
+    paymentStatus: string;
     transactionType: string;
     transactionStatus: string;
 }

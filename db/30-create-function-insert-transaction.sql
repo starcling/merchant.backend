@@ -5,7 +5,7 @@
 CREATE OR REPLACE FUNCTION public.fc_create_transaction(
 	_hash text,
     _typeID integer,
-    _contractID uuid,
+    _paymentID uuid,
 	_timestamp bigint)
     RETURNS tb_blockchain_transactions
     LANGUAGE 'plpgsql'
@@ -20,12 +20,12 @@ BEGIN
 INSERT INTO public.tb_blockchain_transactions(
         hash, 
         "typeID",
-        "contractID",
+        "paymentID",
         timestamp)
 	VALUES (
         _hash, 
         _typeID,
-        _contractID,
+        _paymentID,
         _timestamp) 
     RETURNING * INTO tb_blockchain_transactions;
 RETURN tb_blockchain_transactions;

@@ -6,7 +6,7 @@ import { SchedulerConnector } from '../../connectors/api/v1/SchedulerConnector';
 
 @JsonController('/test')
 export class TestController {
-    @Get('/execute-pull-payment/:paymentID')
+    @Get('/execute-pull-paymentModel/:pullPaymentModelID')
     public async test(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
         try {
             const merchant = MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(3));
@@ -22,9 +22,8 @@ export class TestController {
     @Post('/start-scheduler')
     public async startScheduler(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-            const result = await new SchedulerConnector().startScheduler(request.contractID);
+            const result = await new SchedulerConnector().startScheduler(request.paymentID);
 
-            // tslint:disable-next-line:max-line-length
             return new APIResponseHandler().handle(response, result);
         } catch (err) {
             console.debug(err);

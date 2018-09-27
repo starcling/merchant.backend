@@ -26,9 +26,15 @@ services:
       - KEY_DB=keys
       - KEY_DB_PORT=3306
       - MNEMONIC_ID=mnemonic_phrase
+      - SENDGRID_API_KEY=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
+      - BALANCE_MONITOR_INTERVAL=21600000
+      - BALANCE_CHECK_THRESHOLD=0.1
+      - BALANCE_CHECK_EMAIL=developers@pumapay.io
+      - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
       - CORE_API_KEY=4YcaeJz8yaxtLEaBKq5nSbaq5AMJQRfSYzdA3Nch
     volumes:
       - ./src:/usr/src/app/src
+      - ./src/swagger.yml:/usr/src/app/src/swagger.yml
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
     depends_on:
