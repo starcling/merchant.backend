@@ -134,9 +134,16 @@ paths:
           required: true
           description: ID of the pull payment model to update
       description: 'Updates the pull payment models by ID that exists in the merchant database'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PullPaymentModelNoMerchantRequest'
       responses:
         '200':
-          description: Returns the pull payment model by ID
+          description: Returns the updated pull payment model by ID
           content:
             application/json:
               schema:
@@ -161,7 +168,7 @@ paths:
     patch:
       tags:
         - Pull Payment Models
-      summary: 'Updates the pull payment models by pull payment model ID'
+      summary: 'Updates the pull payment models by pull payment model ID - with optional fields'
       parameters:
         - in: path
           name: PullPaymentModelID
@@ -170,6 +177,13 @@ paths:
           required: true
           description: ID of the pull payment model to update
       description: 'Updates the pull payment models by ID that exists in the merchant database'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PullPaymentModelNoMerchantRequest'
       responses:
         '200':
           description: Returns the pull payment model by ID
@@ -688,9 +702,11 @@ components:
         - trialPeriod
         - currency
         - numberOfPayments
-        - frequency
         - typeID
+        - frequency
         - networkID
+        - automatedCashOut
+        - cashOutFrequency
       properties:
         id:
           type: string
@@ -737,23 +753,33 @@ components:
           example: 12
           format: integer
           description: Number of payments that the merchant will be allowed to pull from the customer's wallet
+        typeID:
+          type: integer
+          enum: [push = 1, singlePull = 2, recurringPull = 3, recurringWithInitial = 4, recurringWithTrial = 5, recurringWithTrialAndInitial = 6]
+          example: 2
+          format: integer
+          description: Payment Type ID
         frequency:
           type: integer
           example: 604800
           format: seconds
           description: How often the merchant will be able to pull funds from the customer's wallet (604800 => 1 week)
-        typeID:
-          type: integer
-          enum: [singlePull = 2, recurringPull = 3, recurringWithInitial = 4]
-          example: 2
-          format: integer
-          description: Payment Type ID
         networkID:
           type: integer
           example: 3
           format: integer
           enum: [MainNet = 1, TestNet (Ropsten) = 3]
           description: Ethereum network ID
+        automatedCashOut:
+          type: boolean
+          example: true
+          format: boolean
+          description: True if cash out is autometed, false if not
+        cashOutFrequency:
+          type: integer
+          example: 1
+          format: seconds
+          description: The cash out frequency
     PullPaymentModelRequest:
       type: object
       required:
@@ -765,9 +791,11 @@ components:
         - trialPeriod
         - currency
         - numberOfPayments
-        - frequency
         - typeID
+        - frequency
         - networkID
+        - automatedCashOut
+        - cashOutFrequency
       properties:
         merchantID:
           type: string
@@ -809,23 +837,111 @@ components:
           example: 12
           format: integer
           description: Number of payments that the merchant will be allowed to pull from the customer's wallet
+        typeID:
+          type: integer
+          enum: [push = 1, singlePull = 2, recurringPull = 3, recurringWithInitial = 4, recurringWithTrial = 5, recurringWithTrialAndInitial = 6]
+          example: 2
+          format: integer
+          description: Payment Type ID
         frequency:
           type: integer
           example: 604800
           format: seconds
           description: How often the merchant will be able to pull funds from the customer's wallet (604800 => 1 week)
-        typeID:
-          type: integer
-          enum: [singlePull = 2, recurringPull = 3, recurringWithInitial = 4]
-          example: 2
-          format: integer
-          description: Payment Type ID
         networkID:
           type: integer
           example: 3
           format: integer
           enum: [MainNet = 1, TestNet (Ropsten) = 3]
           description: Ethereum network ID
+        automatedCashOut:
+          type: boolean
+          example: true
+          format: boolean
+          description: True if cash out is autometed, false if not
+        cashOutFrequency:
+          type: integer
+          example: 1
+          format: seconds
+          description: The cash out frequency
+    PullPaymentModelNoMerchantRequest:
+      type: object
+      required:
+        - title
+        - description
+        - amount
+        - initialPaymentAmount
+        - trialPeriod
+        - currency
+        - numberOfPayments
+        - typeID
+        - frequency
+        - networkID
+        - automatedCashOut
+        - cashOutFrequency
+      properties:
+        title:
+          type: string
+          format: text
+          example: National Cryptographic Gold Mebmership
+          description: Title of the  payment model
+        description:
+          type: string
+          format: text
+          example: Access to all gold articles
+          description: Description of the  payment model
+        amount:
+          type: integer
+          example: 1099
+          format: cents
+          description: Cost of the payment in cents (1099 => 10.99)
+        initialPaymentAmount:
+          type: integer
+          example: 199
+          format: cents
+          description: Cost of the payment in cents (199 => 1.99) - Set to zero if no intial fees are required for the payment
+        trialPeriod:
+          type: integer
+          format: seconds
+          example: 86400
+          description: Trial period for the subscription in seconds (86400 => 1 day) - Set to zero if the payment has no trial period
+        currency:
+          type: string
+          example: USD
+          format: text
+          description: Currency the merchant is using specified in 3-letter abbriviation - USD, EUR, GBP etc
+        numberOfPayments:
+          type: integer
+          example: 12
+          format: integer
+          description: Number of payments that the merchant will be allowed to pull from the customer's wallet
+        typeID:
+          type: integer
+          enum: [push = 1, singlePull = 2, recurringPull = 3, recurringWithInitial = 4, recurringWithTrial = 5, recurringWithTrialAndInitial = 6]
+          example: 2
+          format: integer
+          description: Payment Type ID
+        frequency:
+          type: integer
+          example: 604800
+          format: seconds
+          description: How often the merchant will be able to pull funds from the customer's wallet (604800 => 1 week)
+        networkID:
+          type: integer
+          example: 3
+          format: integer
+          enum: [MainNet = 1, TestNet (Ropsten) = 3]
+          description: Ethereum network ID
+        automatedCashOut:
+          type: boolean
+          example: true
+          format: boolean
+          description: True if cash out is autometed, false if not
+        cashOutFrequency:
+          type: integer
+          example: 1
+          format: seconds
+          description: The cash out frequency
     PullPayment:
       type: object
       properties:
@@ -1034,3 +1150,4 @@ components:
           type: string
         transactionURL:
           type: string
+    
