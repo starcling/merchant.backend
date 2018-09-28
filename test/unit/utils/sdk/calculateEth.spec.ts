@@ -1,5 +1,4 @@
 import * as chai from 'chai';
-import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 import { MerchantSDK } from '../../../../src/core/MerchantSDK';
 import { Globals } from '../../../../src/utils/globals';
 import { PrivateKeysDbConnector } from '../../../../src/connectors/dbConnector/PrivateKeysDbConnector';
@@ -8,6 +7,8 @@ import { IPaymentModelInsertDetails } from '../../../../src/core/paymentModel/mo
 import { PaymentModelDbConnector } from '../../../../src/connectors/dbConnector/PaymentModelDbConnector';
 import { PaymentDbConnector } from '../../../../src/connectors/dbConnector/PaymentDbConnector';
 import { RedisClientCreator } from '../../../../src/utils/redisClientCreator/RedisClientCreator';
+
+process.env.MERCHANT_ID = '6873da04-c31a-11e8-9d71-83d7341786f7';
 
 const web3 = require('web3');
 
@@ -18,7 +19,6 @@ const web3API = new web3(new web3.providers.HttpProvider(Globals.GET_SPECIFIC_IN
 
 const paymentDbConnector = new PaymentDbConnector();
 const paymentModelDbConnector = new PaymentModelDbConnector();
-const dataservice = new DataService();
 const payments: any = require('../../../../resources/testData.json').payments;
 const paymentModels: any = require('../../../../resources/testData.json').paymentModels;
 
@@ -47,7 +47,7 @@ describe('A SDK calculateEth', () => {
             getPrivateKey: new PrivateKeysDbConnector().getPrivateKey,
             redisClient: rclient
         });
-    })
+    });
 
     after(() => {
         rclient.quit();
@@ -70,7 +70,8 @@ describe('A SDK calculateEth', () => {
         const amount = '20';
         const rate = 0.0007862;
         const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());
-        const result = await MerchantSDK.GET_SDK().calculateTransferFee(testInsertPayment.merchantAddress, testInsertPayment.customerAddress, value);
+        const result = await MerchantSDK.GET_SDK().calculateTransferFee(
+            testInsertPayment.merchantAddress, testInsertPayment.customerAddress, value);
         expect(result).to.be.lessThan(100000).and.greaterThan(0);
     });
 
@@ -86,7 +87,8 @@ describe('A SDK calculateEth', () => {
         const mistake = 200;
         const rate = 0.0007862;
         const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());;
-        const transferFee = await MerchantSDK.GET_SDK().calculateTransferFee(testInsertPayment.merchantAddress, testInsertPayment.customerAddress, value);
+        const transferFee = await MerchantSDK.GET_SDK().calculateTransferFee(
+            testInsertPayment.merchantAddress, testInsertPayment.customerAddress, value);
         const executionFee = await MerchantSDK.GET_SDK().calculateMaxExecutionFee();
 
         const calculation = (testInsertPayment.numberOfPayments * (transferFee + executionFee)) * 1.5;

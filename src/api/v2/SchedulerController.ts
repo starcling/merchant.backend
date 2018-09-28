@@ -15,7 +15,7 @@ export class SchedulerController {
     */
 
     /**
-    * @api {get} /api/v1/scheduler/stop/
+    * @api {get} /api/v2/scheduler/stop/
     * @apiDescription Stops the scheduler with pullPaymentModelID
     *
     * @apiName stopScheduler
@@ -46,7 +46,7 @@ export class SchedulerController {
     }
 
     /**
-    * @api {get} /api/v1/scheduler/restartScheduler/
+    * @api {get} /api/v2/scheduler/restartScheduler/
     * @apiDescription Restarts the scheduler with pullPaymentModelID
     *
     * @apiName restartScheduler

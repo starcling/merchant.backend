@@ -7,6 +7,8 @@ import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataSer
 chai.use(chaiAsPromised);
 chai.should();
 
+process.env.MERCHANT_ID = '6873da04-c31a-11e8-9d71-83d7341786f7';
+
 const dataservice = new DataService();
 const paymentDbConnector = new PaymentModelDbConnector();
 

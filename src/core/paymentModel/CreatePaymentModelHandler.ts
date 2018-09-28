@@ -8,7 +8,7 @@ import { RedisClientCreator } from '../../utils/redisClientCreator/RedisClientCr
 
 export class CreatePaymentModelHandler {
     /**
-     * @description Handles the creation of new paymentModel model.
+     * @description Handles the creation of new payment model.
      * It retrieves the next available index of the hd wallet from redis and stores the private key and address to the encrypted database.
      * @returns Promise{NewPaymentModelHdWalletDetails} Returns the index and address of the hd wallet linked with the paymentModel
      */

@@ -7,7 +7,7 @@ export class ProductionConfig {
     return {
       coreApiURL: process.env.CORE_API_URL ? process.env.CORE_API_URL : 'http://18.185.130.3/core',
       merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://18.196.208.131/merchant',
-      apiPath: '/api/v1',
+      apiPath: '/api/v2',
 
       env: process.env.NODE_ENV ? process.env.NODE_ENV : 'production',
 

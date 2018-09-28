@@ -19,7 +19,7 @@ export class PullPaymentsController {
     */
 
     /**
-    * @api {post} /api/v1/pull-payments/
+    * @api {post} /api/v2/pull-payments/
     * @apiDescription Create a new Payment in DB
     *
     * @apiName create
@@ -57,7 +57,7 @@ export class PullPaymentsController {
     }
 
     /**
-    * @api {get} /api/v1/pull-payments/
+    * @api {get} /api/v2/pull-payments/
     * @apiDescription Retrieve an array of payments
     *
     * @apiName getAllPayments
@@ -79,7 +79,7 @@ export class PullPaymentsController {
    }
 
     /**
-    * @api {get} /api/v1/pull-payments/:pullPaymentModelID
+    * @api {get} /api/v2/pull-payments/:pullPaymentModelID
     * @apiDescription Retrieves a single Payment
     *
     * @apiName getPaymentByID
@@ -109,7 +109,7 @@ export class PullPaymentsController {
     }
 
     /**
-    * @api {delete} /api/v1/pull-payments/:paymentID
+    * @api {delete} /api/v2/pull-payments/:paymentID
     * @apiDescription Delete a single Payment
     *
     * @apiName deletePayment

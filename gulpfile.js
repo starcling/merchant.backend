@@ -12,14 +12,14 @@ gulp.task("generate-docs", () => {
             out: "docs/documentation/",
             experimentalDecorators: true,
             ignoreCompilerErrors: true,
-            name: "Puma Pay Framework v1"
+            name: "Puma Pay Framework v2"
         }))
     ;
 });
 
 gulp.task('generate-swagger', function(){
     swaggerGenerator.exec({
-        src: "src/api/v1/",
+        src: "src/api/v2/",
         dest: "docs/api"
     });
 

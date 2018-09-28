@@ -21,8 +21,8 @@ export class PullPaymentModelController {
     */
 
     /**
-    * @api {post} /api/v1/payment-models/
-    * @apiDescription Create a new paymentModel model in DB
+    * @api {post} /api/v2/payment-models/
+    * @apiDescription Create a new payment model in DB
     *
     * @apiName create
     * @apiGroup PullPaymentModelController
@@ -32,7 +32,7 @@ export class PullPaymentModelController {
     * @apiParam {string} description - Description of the pull payment model
     * @apiParam {number} amount - Amount of pull payment model
     * @apiParam {string} currency - Currency of pull payment pull payment
-    * @apiParam {number} startTimestamp - Start timestamp of paymentModel model
+    * @apiParam {number} startTimestamp - Start timestamp of payment model
     * @apiParam {number} endTimestamp - End timestamp of pull payment model
     * @apiParam {number} type - Type of pull payment model
     * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
@@ -69,7 +69,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {get} /api/v1/paymentModel-models/
+    * @api {get} /api/v2/paymentModel-models/
     * @apiDescription Retrieve an array of paymentModel-models
     *
     * @apiName getAllPaymentsModels
@@ -91,14 +91,14 @@ export class PullPaymentModelController {
    }
 
     /**
-    * @api {get} /api/v1/paymentModel-models/:pullPaymentModelID
+    * @api {get} /api/v2/paymentModel-models/:pullPaymentModelID
     * @apiDescription Retrieves a single paymentModel
     *
     * @apiName getPaymentModelByID
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} pullPaymentModelID - ID of the paymentModel model
+    * @apiParam {string} pullPaymentModelID - ID of the payment model
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -121,23 +121,23 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {put} /api/v1/paymentModel-models/:pullPaymentModelID
-    * @apiDescription Update existing paymentModel model in DB
+    * @api {put} /api/v2/paymentModel-models/:pullPaymentModelID
+    * @apiDescription Update existing payment model in DB
     *
     * @apiName update
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
     * @apiParam {string} pullPaymentModelID - PaymentModel ID
-    * @apiParam {string} title - Title of the paymentModel model
-    * @apiParam {string} description - Description of the paymentModel model
-    * @apiParam {number} status - Status of paymentModel model
-    * @apiParam {string} customerAddress - Customer address of the paymentModel model
-    * @apiParam {number} amount - Amount of paymentModel model
-    * @apiParam {string} currency - Currency of paymentModel model
-    * @apiParam {number} startTimestamp - Start timestamp of paymentModel model
-    * @apiParam {number} endTimestamp - End timestamp of paymentModel model
-    * @apiParam {number} type - Type of paymentModel model
+    * @apiParam {string} title - Title of the payment model
+    * @apiParam {string} description - Description of the payment model
+    * @apiParam {number} status - Status of payment model
+    * @apiParam {string} customerAddress - Customer address of the payment model
+    * @apiParam {number} amount - Amount of payment model
+    * @apiParam {string} currency - Currency of payment model
+    * @apiParam {number} startTimestamp - Start timestamp of payment model
+    * @apiParam {number} endTimestamp - End timestamp of payment model
+    * @apiParam {number} type - Type of payment model
     * @apiParam {number} frequency - Frequency of execution model
     * @apiParam {string} registerTxHash - Transaction hash for register pull paymentModel
     * @apiParam {string} executeTxHash - Transaction hash for execute pull paymentModel
@@ -166,7 +166,7 @@ export class PullPaymentModelController {
     *   "networkID": number
     * }
     *
-    * @apiSuccess (200) {object} updated paymentModel model details
+    * @apiSuccess (200) {object} updated payment model details
     *
     */
     @Put('/:pullPaymentModelID')
@@ -183,8 +183,8 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {patch} /api/v1/paymentModel-models/:pullPaymentModelID
-    * @apiDescription Patch existing paymentModel model in DB
+    * @api {patch} /api/v2/paymentModel-models/:pullPaymentModelID
+    * @apiDescription Patch existing payment model in DB
     *
     * @apiName patch
     * @apiGroup PullPaymentModelController
@@ -246,7 +246,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {delete} /api/v1/paymentModel-models/:pullPaymentModelID
+    * @api {delete} /api/v2/paymentModel-models/:pullPaymentModelID
     * @apiDescription Delete a single paymentModel
     *
     * @apiName deletePaymentModel
