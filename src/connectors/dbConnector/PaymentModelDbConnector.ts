@@ -1,12 +1,13 @@
 import { IPaymentModelInsertDetails, IPaymentModelUpdateDetails } from '../../core/paymentModel/models';
 import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
+import {Globals} from '../../utils/globals';
 
 export class PaymentModelDbConnector {
   public createPaymentModel(insertDetails: IPaymentModelInsertDetails) {
     const sqlQuery: ISqlQuery = {
       text: 'SELECT * FROM fc_create_payment_model($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
       values: [
-        insertDetails.merchantID,
+        Globals.GET_MERCHANT_ID(),
         insertDetails.title,
         insertDetails.description,
         insertDetails.amount,

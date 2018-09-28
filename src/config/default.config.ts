@@ -6,7 +6,7 @@ export class DefaultConfig {
     return {
       coreApiURL: process.env.CORE_API_URL ? process.env.CORE_API_URL : 'core_server',
       merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://merchant_server:3000',
-      apiPath: '/api/v1',
+      apiPath: '/api/v2',
       env: process.env.NODE_ENV,
       host: process.env.HOST ? process.env.HOST : '0.0.0.0',
       port: process.env.PORT ? process.env.PORT : '3000',

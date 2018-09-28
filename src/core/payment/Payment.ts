@@ -119,13 +119,11 @@ export class Payment {
         try {
             const response = await new PaymentDbConnector().getPaymentByID(paymentID);
             if (response.data && response.data[0] && response.data[0].id !== null) {
-
-                console.log(response.data[0]);
                 try {
                     const httpRequest = new HTTPRequestFactory()
-                        .create(`${process.env.CORE_API_URL}/merchant/${response.data[0].merchantID}`, {
+                        .create(`${process.env.CORE_API_URL}/api/v2/merchant/${response.data[0].merchantID}`, {
                             'Content-Type': 'application/json',
-                            'pma-api-key': 'tCx3x8lH5TqSZZGSYHPWMZg7UvDdN1Rs'
+                            'pma-api-key': Globals.GET_CORE_API_KEY()
                         }, 'GET', null, null);
                     const httpResponse = await httpRequest.getResponse();
                     response.data[0].merchantName = JSON.parse(httpResponse.body).data.businessName;

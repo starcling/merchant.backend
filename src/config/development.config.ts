@@ -7,6 +7,7 @@ export class DevelopmentConfig {
     return {
       host: '0.0.0.0',
       serverSecret: 'sUp4hS3cr37kE9c0D3',
+      apiPath: '/api/v2',
       port: process.env.PORT ? process.env.PORT : '3000',
       coreApiURL: process.env.CORE_API_URL ? process.env.CORE_API_URL : 'localhost',
       merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://merchant_server:3000',

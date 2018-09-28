@@ -17,6 +17,7 @@ services:
       - PGDATABASE=local_merchant_server
       - PGPORT=5432
       - REDIS_PORT=6379
+      - REDIS_TOKEN=123456789
       - REDIS_HOST=merchant_redis
       - ETH_NETWORK=3
       - KEY_DB_HOST=merchant_db
@@ -30,6 +31,8 @@ services:
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
+      - CORE_API_KEY=TO_BE_INSERTED_ONCE_OBTAINED_FROM_CORE
+      - MERCHANT_ID=TO_BE_INSERTED_ONCE_OBTAINED_FROM_CORE
     volumes:
       - ./src:/usr/src/app/src
       - ./tsconfig.json:/usr/src/app/tsconfig.json

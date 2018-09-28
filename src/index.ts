@@ -50,7 +50,7 @@ class App {
     this.debug('Dependency Injection');
     useContainer(Container);
     Container.set(LoggerFactory, this.loggerFactory);
-    app.use('/api/v1/doc/api', swaggerUi.serve, swaggerUi.setup(SWAGGER_DOCUMENT));
+    app.use('/api/v2/doc/api', swaggerUi.serve, swaggerUi.setup(SWAGGER_DOCUMENT));
     const apiPath = Config.settings.apiPath;
     const routingControllersOptions: RoutingControllersOptions = {
       defaultErrorHandler: false,
