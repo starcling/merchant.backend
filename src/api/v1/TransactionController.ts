@@ -25,19 +25,17 @@ export class TransactionController {
     * @apiGroup TransactionController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} title - Title of the transaction
-    * @apiParam {string} description - Description of the transaction
-    * @apiParam {number} amount - Amount of transaction
-    * @apiParam {string} currency - Currency of transaction
-    * @apiParam {number} startTimestamp - Start timestamp of transaction
-    * @apiParam {number} endTimestamp - End timestamp of transaction
-    * @apiParam {number} type - Type of transaction
-    * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
-    * @apiParam {number} frequency - Frequency of execution
-    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    * @apiParam {string} hash - The hash of the transaction
+    * @apiParam {string} paymentID - The payment id
+    * @apiParam {number} typeID - The type id of the transaction. 1 for register,2 for initial,3 for execute and 4 for cancel
+    * @apiParam {string} timestamp - The timestamp of the transaction
     *
     * @apiParamExample {json} Request-Example:
     * {
+    *   "hash": "0xn9jaj46edm5oplfq6m8ta96221553588139c14ios01gqp5jcpqms3eo8m1r4mtl",
+    *   "paymentID": "82150f2c-c325-11e8-b3bc-2b0173837727",
+    *   "typeID": 2,
+    *   "timestamp": 15381442010077
     * }
     *
     * @apiSuccess (200) {object} transaction Details
@@ -92,7 +90,6 @@ export class TransactionController {
      * @apiName getTransactionsByContractID
      * @apiGroup TransactionController
      * @apiVersion  1.0.0
-     *
      *
      * @apiSuccess (200) {object} transaction Details
      *
