@@ -31,8 +31,8 @@ services:
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
-      - CORE_API_KEY=bbe37b8d231f946ddc080ee304bd069038a8082e9b54e462d4eca7e966c807cf379d6f0722b5665cc6200c3dea20c64f0b7bcdd974cb5c65cefcfdf66926d92a
-      - MERCHANT_ID=6873da04-c31a-11e8-9d71-83d7341786f7
+      - CORE_API_KEY=a0f83683ab23f6b3669626dcb03c7a3d50522c72e17ed55b6c21cd6246827390367cd592edf5769b8b9b02fd219b193b15e514409d69c8e4283b4ff7c60536c7
+      - MERCHANT_ID=f829ba82-c3ca-11e8-9c44-ef5ee2f973a1
     volumes:
       - ./src:/usr/src/app/src
       - ./src/swagger.yml:/usr/src/app/src/swagger.yml
