@@ -1,9 +1,10 @@
-import { JsonController, Res, Post, Body, Get, Param, QueryParam } from 'routing-controllers';
+import {JsonController, Res, Post, Body, Get, Param, QueryParam, UseBefore} from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { TransactionConnector } from '../../connectors/api/v1/TransactionConnector';
 import { CreateTransactionValidator } from '../../validators/TransactionValidator/CreateTransactionValidator';
 import { ITransactionInsert, ITransactionGet } from '../../core/transaction/models';
 import { GetTransactionValidator } from '../../validators/TransactionValidator/GetTransactionValidator';
+import {ApiAuthenticationMiddleware} from '../../middleware/ApiAuthenticationMilddleware';
 
 @JsonController('/transactions')
 export class TransactionController {
@@ -18,7 +19,7 @@ export class TransactionController {
     */
 
     /**
-    * @api {post} /api/v1/transactions/
+    * @api {post} /api/v2/transactions/
     * @apiDescription Create a new transaction in DB
     *
     * @apiName createTransaction
@@ -42,6 +43,7 @@ export class TransactionController {
     *
     */
     @Post('/')
+    @UseBefore(ApiAuthenticationMiddleware)
     public async createTransaction(@Body() transaction: ITransactionInsert, @Res() response: any): Promise<any> {
         try {
             new CreateTransactionValidator().validate(transaction);
@@ -54,7 +56,7 @@ export class TransactionController {
     }
 
     /**
-    * @api {get} /api/v1/transactions/:transactionHash
+    * @api {get} /api/v2/transactions/:transactionHash
     * @apiDescription Retrieves a single transaction
     *
     * @apiName getTransaction
@@ -84,7 +86,7 @@ export class TransactionController {
     }
 
     /**
-     * @api {get} /api/v1/transactions/pull-payments/paymentID
+     * @api {get} /api/v2/transactions/pull-payments/paymentID
      * @apiDescription Retrieve an array of transactions
      *
      * @apiName getTransactionsByContractID

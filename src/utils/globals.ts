@@ -4,6 +4,7 @@ import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
 import {CreatePaymentModelHandler} from '../core/paymentModel/CreatePaymentModelHandler';
+import { RedisClientCreator } from './redisClientCreator/RedisClientCreator';
 
 const web3 = require('web3');
 
@@ -115,14 +116,13 @@ export class Globals {
     public static GET_DEFAULT_SDK_BUILD(networkID: number): any {
         return {
             web3: new web3(new web3.providers.HttpProvider(this.GET_SPECIFIC_INFURA_URL(networkID))),
-            merchantApiUrl: `${DefaultConfig.settings.merchantURL}/api/v1`,
+            merchantApiUrl: `${DefaultConfig.settings.merchantURL}/api/v2`,
             pgUser: DefaultConfig.settings.pgUser,
             pgHost: DefaultConfig.settings.pgHost,
             pgPort: Number(DefaultConfig.settings.pgPort),
             pgDatabase: DefaultConfig.settings.database,
             pgPassword: DefaultConfig.settings.pgPassword,
-            redisHost: process.env.REDIS_HOST,
-            redisPort: process.env.REDIS_PORT,
+            redisClient: new RedisClientCreator().getRedisConnection(),
             getEnums: Globals.REFRESH_ENUMS,
             getPullPayment: new PaymentDbConnector().getPaymentByID,
             updatePullPayment: new PaymentDbConnector().updatePayment,
@@ -162,8 +162,16 @@ export class Globals {
         return 'C2qrR2dbsBqGVbeZZXFRnzN5YzPmX564UAPHJFgX';
     }
 
+    public static GET_MERCHANT_ID(): string {
+        return process.env.MERCHANT_ID;
+    }
+
     public static GET_CORE_API_KEY(): string {
         return process.env.CORE_API_KEY;
+    }
+
+    public static GET_ENVIRONMENT_TYPES(): any {
+        return EnvironmentTypesEnum;
     }
 
 }
@@ -188,4 +196,10 @@ interface IEnumTableNames {
     paymentStatus: string;
     transactionType: string;
     transactionStatus: string;
+}
+
+enum EnvironmentTypesEnum {
+    development = 'development',
+    staging = 'staging',
+    production = 'production'
 }

@@ -1,11 +1,13 @@
 import { Settings } from './settings.interface';
 import winston from 'winston';
+import { Globals } from '../utils/globals';
 
 export class DevelopmentConfig {
   public static get settings(): Settings {
     return {
       host: '0.0.0.0',
       serverSecret: 'sUp4hS3cr37kE9c0D3',
+      apiPath: '/api/v2',
       port: process.env.PORT ? process.env.PORT : '3000',
       coreApiURL: process.env.CORE_API_URL ? process.env.CORE_API_URL : 'localhost',
       merchantURL: process.env.MERCHANT_URL ? process.env.MERCHANT_URL : 'http://merchant_server:3000',
@@ -22,6 +24,7 @@ export class DevelopmentConfig {
       keyDb: process.env.KEY_DB ? process.env.KEY_DB : 'keys',
       mnemonicID: process.env.MNEMONIC_ID ? process.env.MNEMONIC_ID : 'mnemonic_phrase',
       balanceNotificationEmailAddress: process.env.BALANCE_CHECK_EMAIL || 'developers@pumapay.io',
+      mobileValidationUrl: Globals.GET_MOBILE_VALIDATION_URL(),
       winston: {
         transports: [
           new winston.transports.Console({

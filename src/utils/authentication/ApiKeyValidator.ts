@@ -1,4 +1,3 @@
-import { Config } from '../../config';
 import { Globals } from '../../utils/globals';
 
 export class ApiKeyValidator {

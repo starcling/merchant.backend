@@ -4,6 +4,8 @@ import { PaymentModelDbConnector } from '../../../../src/connectors/dbConnector/
 import { IPaymentModelInsertDetails } from '../../../../src/core/paymentModel/models';
 import { DataService, ISqlQuery } from '../../../../src/utils/datasource/DataService';
 
+process.env.MERCHANT_ID = '6873da04-c31a-11e8-9d71-83d7341786f7';
+
 chai.use(chaiAsPromised);
 chai.should();
 

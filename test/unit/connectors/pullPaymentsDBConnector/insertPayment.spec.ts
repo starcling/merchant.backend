@@ -24,7 +24,7 @@ const clearTestPaymentModel = async () => {
     await dataservice.executeQueryAsPromise(sqlQuery);
 };
 
-describe('A ContractDbController insertContract', () => {
+describe('A PaymentDbController insertPayment', () => {
     beforeEach(async () => {
         testInsertPayment.pullPaymentModelID = (await paymentDbConnector.createPaymentModel(testInsertPaymentModel)).data[0].id;
     });

@@ -11,7 +11,6 @@ export class BankBalanceMonitor {
     private static loggerFactory: LoggerFactory = new LoggerFactory(Config.settings.winston, Config.settings.morgan);
     private static logger: LoggerInstance = BankBalanceMonitor.loggerFactory.getInstance('BankBalanceMonitor');
     private static web3: any;
-    private checkInterval: any;
 
     public constructor(private networkID: number) {
         const infuraURL = `wss://${Globals.GET_NETWORK_NAME(this.networkID)}.infura.io/ws`;
@@ -30,7 +29,7 @@ export class BankBalanceMonitor {
     }
 
     public async monitor() {
-        this.checkInterval = setInterval(this.checkBalance, Globals.BALANCE_CHECK_INTERVAL());
+        setInterval(this.checkBalance, Globals.BALANCE_CHECK_INTERVAL());
         BankBalanceMonitor.logger.info('Monitoring Smart Contract Balance');
     }
 

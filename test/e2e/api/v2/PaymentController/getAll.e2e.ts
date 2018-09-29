@@ -5,12 +5,16 @@ import { IPaymentModelInsertDetails } from '../../../../../src/core/paymentModel
 import { PaymentModelDbConnector } from '../../../../../src/connectors/dbConnector/PaymentModelDbConnector';
 import {PaymentDbConnector} from '../../../../../src/connectors/dbConnector/PaymentDbConnector';
 
+process.env.CORE_API_KEY =
+    'bbe37b8d231f946ddc080ee304bd069038a8082e9b54e462d4eca7e966c807cf379d6f0722b5665cc6200c3dea20c64f0b7bcdd974cb5c65cefcfdf66926d92a';
+process.env.MERCHANT_ID = '6873da04-c31a-11e8-9d71-83d7341786f7';
+
 chai.use(chaiAsPromised);
 chai.should();
 const expect = chai.expect;
 
 const server = supertest.agent('localhost:3000/');
-const endpoint = 'api/v1/pull-payments/';
+const endpoint = 'api/v2/pull-payments/';
 
 const paymentModels: any = require('../../../../../resources/e2eTestData.json').paymentModels;
 const paymentModel: IPaymentModelInsertDetails = paymentModels['insertPaymentModel'];
@@ -34,7 +38,7 @@ const insertPayment = async () => {
     await new PaymentDbConnector().createPayment(insertPaymentData);
 };
 
-describe('Payment Controller: getAllPayments', () => {
+describe('PaymentController: getAllPayments', () => {
     describe('with success response', () => {
         beforeEach('insert test payment model',async () => {
             await insertPaymentModel();

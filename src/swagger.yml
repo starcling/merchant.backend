@@ -12,10 +12,8 @@ servers:
     description: Local Server
   - url: http://merc-qwg37z3o.pumapay.io/merchant/
     description: Test Server
-  - url: http://merc-qwg37z3o.pumapay.io/merchant/
-    description: Prod Server
 paths:
-  /api/v1/pull-payment-models/:
+  /api/v2/pull-payment-models/:
     post:
       tags:
         - Pull Payment Models
@@ -85,7 +83,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/pull-payment-models/{PullPaymentModelID}:
+  /api/v2/pull-payment-models/{PullPaymentModelID}:
     get:
       tags:
         - Pull Payment Models
@@ -232,7 +230,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/pull-payments/:
+  /api/v2/pull-payments/:
     post:
       tags:
         - Pull Payments
@@ -296,7 +294,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorHttpResponse'
-  /api/v1/pull-payments/{PullPaymentID}:
+  /api/v2/pull-payments/{PullPaymentID}:
     get:
       tags:
         - Pull Payments
@@ -436,7 +434,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/transactions/:
+  /api/v2/transactions/:
     post:
       tags:
         - Blockhain Transactions
@@ -476,7 +474,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/transactions/{transactionHash}:
+  /api/v2/transactions/{transactionHash}:
     get:
       tags:
         - Blockhain Transactions
@@ -513,7 +511,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/transactions/{pullPaymentID}:
+  /api/v2/transactions/{pullPaymentID}:
     get:
       tags:
         - Blockhain Transactions
@@ -550,7 +548,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/qr/{PullPaymentModelID}:
+  /api/v2/qr/{PullPaymentModelID}:
     get:
       tags:
         - QR Payload
@@ -588,7 +586,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v1/scheduler/stop:
+  /api/v2/scheduler/stop:
     post:
       tags:
         - Scheduler
@@ -618,7 +616,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorHttpResponse'
-  /api/v1/scheduler/restart:
+  /api/v2/scheduler/restart:
     post:
       tags:
         - Scheduler

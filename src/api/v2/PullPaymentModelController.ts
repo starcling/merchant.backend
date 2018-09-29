@@ -21,7 +21,7 @@ export class PullPaymentModelController {
     */
 
     /**
-    * @api {post} /api/v1/pull-payment-models/
+    * @api {post} /api/v2/pull-payment-models/
     * @apiDescription Create a new paymentModel model in DB
     *
     * @apiName createPaymentModel
@@ -75,7 +75,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {get} /api/v1/pull-payment-models/
+    * @api {get} /api/v2/pull-payment-models/
     * @apiDescription Retrieve an array of payment models
     *
     * @apiName getAllPaymentModels
@@ -97,14 +97,14 @@ export class PullPaymentModelController {
    }
 
     /**
-    * @api {get} /api/v1/pull-payment-models/:pullPaymentModelID
+    * @api {get} /api/v2/pull-payment-models/:pullPaymentModelID
     * @apiDescription Retrieves a single payment model
     *
     * @apiName getPaymentModelByID
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} pullPaymentModelID - ID of the paymentModel model
+    * @apiParam {string} pullPaymentModelID - ID of the payment model
     *
     * @apiParamExample {json} Request-Example:
     * {
@@ -127,7 +127,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {put} /api/v1/pull-payment-models/:pullPaymentModelID
+    * @api {put} /api/v2/pull-payment-models/:pullPaymentModelID
     * @apiDescription Update existing payment model in the DB
     *
     * @apiName updatePaymentModel
@@ -181,7 +181,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {patch} /api/v1/pull-payment-models/:pullPaymentModelID
+    * @api {patch} /api/v2/pull-payment-models/:pullPaymentModelID
     * @apiDescription Patch existing paymentModel model in DB
     *
     * @apiName patchPaymentModel
@@ -236,7 +236,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {delete} /api/v1/pull-payment-models/:pullPaymentModelID
+    * @api {delete} /api/v2/pull-payment-models/:pullPaymentModelID
     * @apiDescription Delete a single paymentModel
     *
     * @apiName deletePaymentModel

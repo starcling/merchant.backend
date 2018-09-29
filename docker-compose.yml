@@ -9,7 +9,7 @@ services:
       - NODE_ENV=development
       - HOST=localhost
       - PORT=3000
-      - CORE_API_URL=http://core_server:8081/api/v1
+      - CORE_API_URL=http://core_server:8081
       - MERCHANT_URL=http://merchant_server:3000
       - PGHOST=postgres_merchant
       - PGUSER=local_user
@@ -17,6 +17,7 @@ services:
       - PGDATABASE=local_merchant_server
       - PGPORT=5432
       - REDIS_PORT=6379
+      - REDIS_TOKEN=123456789
       - REDIS_HOST=merchant_redis
       - ETH_NETWORK=3
       - KEY_DB_HOST=merchant_db
@@ -30,13 +31,13 @@ services:
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
-      - CORE_API_KEY=4YcaeJz8yaxtLEaBKq5nSbaq5AMJQRfSYzdA3Nch
+      - CORE_API_KEY=a0f83683ab23f6b3669626dcb03c7a3d50522c72e17ed55b6c21cd6246827390367cd592edf5769b8b9b02fd219b193b15e514409d69c8e4283b4ff7c60536c7
+      - MERCHANT_ID=f829ba82-c3ca-11e8-9c44-ef5ee2f973a1
     volumes:
       - ./src:/usr/src/app/src
       - ./src/swagger.yml:/usr/src/app/src/swagger.yml
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
-      - ../merchant.sdk:/usr/src/app/node_modules/pumapay_merchant_sdk
     depends_on:
       - postgres_merchant
     networks:

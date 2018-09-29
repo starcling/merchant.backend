@@ -4,8 +4,6 @@ import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { Globals } from '../../utils/globals';
 import { MerchantSDK } from '../MerchantSDK';
-import { CreatePaymentModelHandler } from '../paymentModel/CreatePaymentModelHandler';
-import { Payment } from '../payment/Payment';
 
 export class Transaction {
     /**

@@ -2,11 +2,13 @@ import { IPaymentModelInsertDetails, IPaymentModelUpdateDetails } from './models
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
 import { PaymentModelDbConnector } from '../../connectors/dbConnector/PaymentModelDbConnector';
+import {HTTPRequestFactory} from '../../utils/web/HTTPRequestFactory';
+import {Globals} from '../../utils/globals';
 
 export class PaymentModel {
     /**
-     * @description Create method for inserting paymentModel model into DB
-     * @param {IPaymentModelInsertDetails} paymentModel paymentModel model object
+     * @description Create method for inserting payment model into DB
+     * @param {IPaymentModelInsertDetails} paymentModel payment model object
      * @returns {HTTPResponse} Returns success feedback
      */
     public async createPaymentModel(paymentModel: IPaymentModelInsertDetails) {
@@ -24,21 +26,32 @@ export class PaymentModel {
     }
 
     /**
-     * @description Get method for getting single paymentModel model from DB
-     * @param {string} pullPaymentModelID ID of the paymentModel model
-     * @returns {HTTPResponse} Returns response with paymentModel model object in data
+     * @description Get method for getting single payment model from DB
+     * @param {string} pullPaymentModelID ID of the payment model
+     * @returns {HTTPResponse} Returns response with payment model object in data
      */
     public async getPaymentModelByID(pullPaymentModelID: string) {
         try {
             const response = await new PaymentModelDbConnector().getPaymentModelByID(pullPaymentModelID);
-            if (response.data[0].id === null) {
+            if (response.data && response.data[0] && response.data[0].id !== null) {
+                try {
+                    const httpRequest = new HTTPRequestFactory()
+                        .create(`${process.env.CORE_API_URL}/api/v2/merchant/${response.data[0].merchantID}`, {
+                            'Content-Type': 'application/json',
+                            'pma-api-key': Globals.GET_CORE_API_KEY()
+                        }, 'GET', null, null);
+                    const httpResponse = await httpRequest.getResponse();
+                    response.data[0].merchantName = JSON.parse(httpResponse.body).data.businessName;
+                } catch (err) {
+                    console.log(err);
+                }
 
-                return new HTTPResponseHandler().handleFailed('Payment Model with supplied ID not found.',
-                    null, HTTPResponseCodes.BAD_REQUEST());
+                return new HTTPResponseHandler().handleSuccess(
+                    `Successfully retrieved payment model with ID: ${pullPaymentModelID}`, response.data[0]);
             }
 
-            return new HTTPResponseHandler().handleSuccess(
-                `Successfully retrieved payment model with ID: ${pullPaymentModelID}`, response.data[0]);
+            return new HTTPResponseHandler().handleFailed('Payment Model with supplied ID not found.',
+                null, HTTPResponseCodes.BAD_REQUEST());
         } catch (error) {
             if (error.status) {
                 return error;
@@ -49,8 +62,8 @@ export class PaymentModel {
     }
 
     /**
-     * @description Delete method for removing a paymentModel model from DB
-     * @param {string} pullPaymentModelID ID of the paymentModel model
+     * @description Delete method for removing a payment model from DB
+     * @param {string} pullPaymentModelID ID of the payment model
      * @returns {HTTPResponse} Returns success feedback
      */
     public async deletePaymentModel(pullPaymentModelID: string) {
@@ -69,13 +82,13 @@ export class PaymentModel {
                 return error;
             }
 
-            return new HTTPResponseHandler().handleFailed('Failed to delete paymentModel model.', error);
+            return new HTTPResponseHandler().handleFailed('Failed to delete payment model.', error);
         }
     }
 
     /**
-     * @description Get method for getting all paymentModel models from DB
-     * @returns {HTTPResponse} Returns response with array of paymentModel models in data
+     * @description Get method for getting all payment models from DB
+     * @returns {HTTPResponse} Returns response with array of payment models in data
      */
     public async getAllPaymentModels() {
         try {
@@ -84,19 +97,19 @@ export class PaymentModel {
                 response.data = [];
             }
 
-            return new HTTPResponseHandler().handleSuccess('Successfully retrieved paymentModel models.', response.data);
+            return new HTTPResponseHandler().handleSuccess('Successfully retrieved payment models.', response.data);
         } catch (error) {
             if (error.status) {
                 return error;
             }
 
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve paymentModel models.', error);
+            return new HTTPResponseHandler().handleFailed('Failed to retrieve payment models.', error);
         }
     }
 
     /**
-     * @description Create method for updating a paymentModel model in DB
-     * @param {IPaymentModelUpdateDetails} paymentModel paymentModel model object
+     * @description Create method for updating a payment model in DB
+     * @param {IPaymentModelUpdateDetails} paymentModel payment model object
      * @returns {HTTPResponse} Returns success feedback
      */
     public async updatePaymentModel(paymentModel: IPaymentModelUpdateDetails) {
