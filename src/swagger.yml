@@ -175,6 +175,13 @@ paths:
           required: true
           description: ID of the pull payment model to update
       description: 'Updates the pull payment models by ID that exists in the merchant database'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PullPaymentModelNoMerchantPatch'
       responses:
         '200':
           description: Returns the pull payment model by ID
@@ -331,78 +338,6 @@ paths:
                     properties:
                       error:
                         type: string
-    put:
-      tags:
-        - Pull Payments
-      summary: 'Updates the pull payment by payment ID'
-      parameters:
-        - in: path
-          name: PullPaymentID
-          schema:
-            type: string
-          required: true
-          description: ID of the pull payment to update
-      description: 'Updates the pull payment by ID that exists in the merchant database'
-      responses:
-        '200':
-          description: Returns the pull payment model by ID
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessHttpResponse'
-                  - type: object
-                    properties:
-                      data:
-                        type: object
-                        $ref: '#/components/schemas/PullPayment'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ErrorHttpResponse'
-                  - type: object
-                    properties:
-                      error:
-                        type: string
-    patch:
-      tags:
-        - Pull Payments
-      summary: 'Updates the pull payment by pull payment ID'
-      parameters:
-        - in: path
-          name: PullPaymentID
-          schema:
-            type: string
-          required: true
-          description: ID of the pull payment to update
-      description: 'Updates the pull payment by ID that exists in the merchant database'
-      responses:
-        '200':
-          description: Returns the pull payment model by ID
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/SuccessHttpResponse'
-                  - type: object
-                    properties:
-                      data:
-                        type: object
-                        $ref: '#/components/schemas/PullPayment'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/ErrorHttpResponse'
-                  - type: object
-                    properties:
-                      error:
-                        type: string
     delete:
       tags:
         - Pull Payments
@@ -438,6 +373,8 @@ paths:
     post:
       tags:
         - Blockhain Transactions
+      security:
+        - TokenAuth: []
       summary: 'Creates a new transaction for a pull payment'
       parameters: []
       description: 'Creates a new transaction for a pull payment in the merchant database'
@@ -478,6 +415,8 @@ paths:
     get:
       tags:
         - Blockhain Transactions
+      security:
+        - TokenAuth: []
       summary: 'Retrieve the transaction by transaction hash'
       parameters:
         - in: path
@@ -515,6 +454,8 @@ paths:
     get:
       tags:
         - Blockhain Transactions
+      security:
+        - TokenAuth: []
       summary: 'Retrieve all the transactions for a pull payment'
       parameters:
         - in: path
@@ -586,6 +527,36 @@ paths:
                     properties:
                       error:
                         type: string
+  /api/v2/test/start-scheduler/:
+    post:
+      tags:
+        - Scheduler
+      summary: 'Starts the scheduler for a specific payment'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paymentID:
+                  type: string
+                  example: 4a17335e-bf18-11e8-a355-000000fb1459
+                  format: uuid
+                  description: Payment ID of the payment linked with the scheduler that needs to be started
+      responses:
+        '200':
+          description: Starts the scheduler linked with the provided payment ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessHttpResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorHttpResponse'
   /api/v2/scheduler/stop:
     post:
       tags:
@@ -1007,7 +978,7 @@ components:
       properties:
         hash:
           type: string
-          example: '0x0813277eb09b5741f75ac2737db874d648dabf42c5029fbdfaa46f0000000000'
+          example: '0xalmr2o8po5c2gkiioqfjb7900285752431268b4p1e0c9jd4qkeginakhol8f9d4'
           format: eth-transaction-hash
           description: Transaction hash associated with payment
         paymentID:
@@ -1036,7 +1007,7 @@ components:
           description: Auto-generated ID for the transaction
         hash:
           type: string
-          example: '0x0813277eb09b5741f75ac2737db874d648dabf42c5029fbdfaa46f0000000000'
+          example: '0xalmr2o8po5c2gkiioqfjb7900285752431268b4p1e0c9jd4qkeginakhol8f9d4'
           format: eth-transaction-hash
           description: Transaction hash associated with payment
         status:
@@ -1070,6 +1041,22 @@ components:
           type: string
         transactionURL:
           type: string
+    PullPaymentModelNoMerchantPatch:
+      type: object
+      required:
+        - automatedCashOut
+        - cashOutFrequency
+      properties:
+        automatedCashOut:
+          type: boolean
+          example: true
+          format: boolean
+          description: True if cash out is autometed, false if not
+        cashOutFrequency:
+          type: integer
+          example: 1
+          format: seconds
+          description: The cash out frequency
     PullPaymentModelNoMerchant:
       type: object
       required:
