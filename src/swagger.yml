@@ -374,7 +374,7 @@ paths:
       tags:
         - Blockhain Transactions
       security:
-        - TokenAuth: []
+        - ApiKey: []
       summary: 'Creates a new transaction for a pull payment'
       parameters: []
       description: 'Creates a new transaction for a pull payment in the merchant database'
@@ -623,6 +623,11 @@ components:
       type: apiKey
       in: header
       name: fcm-mobile-token
+    ApiKey:
+      description: 'Api Key'
+      type: 'apiKey'
+      in: 'header'
+      name: 'pma-api-key'
  schemas:
     SuccessHttpResponse:
       required:
