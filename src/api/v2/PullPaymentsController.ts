@@ -22,26 +22,28 @@ export class PullPaymentsController {
     * @api {post} /api/v2/pull-payments/
     * @apiDescription Create a new Payment in DB
     *
-    * @apiName create
+    * @apiName createPayment
     * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} title - Title of the Payment
-    * @apiParam {string} description - Description of the Payment
-    * @apiParam {number} amount - Amount of Payment
-    * @apiParam {string} currency - Currency of Payment
-    * @apiParam {number} startTimestamp - Start timestamp of Payment
-    * @apiParam {number} endTimestamp - End timestamp of Payment
-    * @apiParam {number} type - Type of Payment
-    * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
-    * @apiParam {number} frequency - Frequency of execution
-    * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    * @apiParam {string} pullPaymentModelID - The id of the pull payment model
+    * @apiParam {number} numberOfPayments - The amount of time you can execute a pull payment model
+    * @apiParam {number} startTimestamp - The start timestamp of the pull payment
+    * @apiParam {string} customerAddress - The ethereum wallet address of customer
+    * @apiParam {string} pullPaymentAddress - The pull payment address
+    * @apiParam {string} userID - The id of the user
     *
     * @apiParamExample {json} Request-Example:
     * {
+    *   "pullPaymentModelID": "2c4defb8-c25e-11e8-a47a-db2aef6722d6",
+    *   "numberOfPayments": 5,
+    *   "startTimestamp": "1538057110",
+    *   "customerAddress": "0x9d11DDd84198B30E56E31Aa89227344Cdb645e34",
+    *   "pullPaymentAddress": " 0x7990fc1d2527d00c22db4c2b72e3e74f80b97d9c",
+    *   "userID": "123456"
     * }
     *
-    * @apiSuccess (200) {object} Payment Details
+    * @apiSuccess (200) {object} New Payment Details
     *
     */
     @Post('/')
@@ -64,7 +66,7 @@ export class PullPaymentsController {
     * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
-    * @apiSuccess (200) {object} Payment Details
+    * @apiSuccess (200) {object} All Payments Details
     *
     */
    @Get('/')
@@ -86,11 +88,11 @@ export class PullPaymentsController {
     * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *
-    * @apiParam {string} pullPaymentModelID - ID of the Payment
+    * @apiParam {string} paymentID - ID of the Payment
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "paymentID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
+    *   "pullPaymentModelID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
     * }
     *
     * @apiSuccess (200) {object} Payment details for a specific id
@@ -112,7 +114,7 @@ export class PullPaymentsController {
     * @api {delete} /api/v2/pull-payments/:paymentID
     * @apiDescription Delete a single Payment
     *
-    * @apiName deletePayment
+    * @apiName deletePaymentByID
     * @apiGroup PullPaymentsController
     * @apiVersion  1.0.0
     *

@@ -21,36 +21,42 @@ export class PullPaymentModelController {
     */
 
     /**
-    * @api {post} /api/v2/payment-models/
-    * @apiDescription Create a new payment model in DB
+    * @api {post} /api/v2/pull-payment-models/
+    * @apiDescription Create a new paymentModel model in DB
     *
-    * @apiName create
+    * @apiName createPaymentModel
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
+    * @apiParam {string} merchantID - The id of the merchant
     * @apiParam {string} title - Title of the pull payment model
     * @apiParam {string} description - Description of the pull payment model
     * @apiParam {number} amount - Amount of pull payment model
+    * @apiParam {number} initialPaymentAmount - The initial pull payment model amount
+    * @apiParam {number} trialPeriod - The trial period of the pull payment model
     * @apiParam {string} currency - Currency of pull payment pull payment
-    * @apiParam {number} startTimestamp - Start timestamp of payment model
-    * @apiParam {number} endTimestamp - End timestamp of pull payment model
-    * @apiParam {number} type - Type of pull payment model
-    * @apiParam {string} merchantAddress - Ethereum wallet address of merchant
-    * @apiParam {number} frequency - Frequency of execution
+    * @apiParam {number} numberOfPayments - The amount of time you can execute a pull payment model
+    * @apiParam {number} typeID - Type of pull payment model
+    * @apiParam {number} frequency - The frequency of the pull payment model execution
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    * @apiParam {boolean} automatedCashOut - True if cash out is autometed, false if not
+    * @apiParam {number} cashOutFrequency - The cash out frequency
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "title": "string",
-    *   "description": "string",
-    *   "amount": 43,
-    *   "currency": "string",
-    *   "startTimestamp": 10,
-    *   "endTimestamp": 13,
-    *   "type": 1,
-    *   "merchantAddress": "string",
-    *   "frequency": 10,
-    *   "networkID": 3
+    *   "merchantID": "f3d0b32a-c229-11e8-9e05-dff013c3fd20",
+    *   "title": "Gold Subscription",
+    *   "description": "National Cryptographic Monthly Gold subscription",
+    *    "amount": 10,
+    *   "initialPaymentAmount": 5,
+    *   "trialPeriod" : 10,
+    *   "currency": "EUR",
+    *   "numberOfPayments": 10,
+    *   "typeID": 2,
+    *   "frequency": 300,
+    *   "networkID": 3,
+    *   "automatedCashOut": true,
+    *   "cashOutFrequency": 1
     * }
     *
     * @apiSuccess (200) {object} PullPaymentModel Details
@@ -69,14 +75,14 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {get} /api/v2/paymentModel-models/
-    * @apiDescription Retrieve an array of paymentModel-models
+    * @api {get} /api/v2/pull-payment-models/
+    * @apiDescription Retrieve an array of payment models
     *
-    * @apiName getAllPaymentsModels
+    * @apiName getAllPaymentModels
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
-    * @apiSuccess (200) {object} PaymentModel Model Details
+    * @apiSuccess (200) {object} PaymentModel Details
     *
     */
    @Get('/')
@@ -91,8 +97,8 @@ export class PullPaymentModelController {
    }
 
     /**
-    * @api {get} /api/v2/paymentModel-models/:pullPaymentModelID
-    * @apiDescription Retrieves a single paymentModel
+    * @api {get} /api/v2/pull-payment-models/:pullPaymentModelID
+    * @apiDescription Retrieves a single payment model
     *
     * @apiName getPaymentModelByID
     * @apiGroup PullPaymentModelController
@@ -121,49 +127,41 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {put} /api/v2/paymentModel-models/:pullPaymentModelID
-    * @apiDescription Update existing payment model in DB
+    * @api {put} /api/v2/pull-payment-models/:pullPaymentModelID
+    * @apiDescription Update existing payment model in the DB
     *
-    * @apiName update
+    * @apiName updatePaymentModel
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
     * @apiParam {string} pullPaymentModelID - PaymentModel ID
-    * @apiParam {string} title - Title of the payment model
-    * @apiParam {string} description - Description of the payment model
-    * @apiParam {number} status - Status of payment model
-    * @apiParam {string} customerAddress - Customer address of the payment model
-    * @apiParam {number} amount - Amount of payment model
-    * @apiParam {string} currency - Currency of payment model
-    * @apiParam {number} startTimestamp - Start timestamp of payment model
-    * @apiParam {number} endTimestamp - End timestamp of payment model
-    * @apiParam {number} type - Type of payment model
-    * @apiParam {number} frequency - Frequency of execution model
-    * @apiParam {string} registerTxHash - Transaction hash for register pull paymentModel
-    * @apiParam {string} executeTxHash - Transaction hash for execute pull paymentModel
-    * @apiParam {number} executeTxStatus - Transaction hash status for execute pull paymentModel
-    * @apiParam {string} pullPaymentAddress - Debit account for paymentModel
-    * @apiParam {string} merchantAddress - Debit account for paymentModel
+    * @apiParam {string} title - Title of the pull payment model
+    * @apiParam {string} description - Description of the pull payment model
+    * @apiParam {number} amount - Amount of pull payment model
+    * @apiParam {number} initialPaymentAmount - The initial pull payment model amount
+    * @apiParam {number} trialPeriod - The trial period of the pull payment model
+    * @apiParam {string} currency - Currency of pull payment pull payment
+    * @apiParam {number} numberOfPayments - The amount of time you can execute a pull payment model
+    * @apiParam {number} typeID - Type of pull payment model
+    * @apiParam {number} frequency - The frequency of the pull payment model execution
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    * @apiParam {boolean} automatedCashOut - True if cash out is autometed, false if not
+    * @apiParam {number} cashOutFrequency - The cash out frequency
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "title": "string",
-    *   "description": "string",
-    *   "status": 1,
-    *   "customerAddress": "string",
-    *   "amount": 50,
-    *   "currency": "string",
-    *   "startTimestamp": 10,
-    *   "endTimestamp": 11,
-    *   "type": 1,
-    *   "frequency": 10,
-    *   "registerTxHash":"string",
-    *   "executeTxHash":"string",
-    *   "executeTxStatus": 1,
-    *   "pullPaymentAddress": "string"
-    *   "merchantAddress": "string"
-    *   "networkID": number
+    *   "title": "Gold Subscription",
+    *   "description": "National Cryptographic Monthly Gold subscription",
+    *    "amount": 10,
+    *   "initialPaymentAmount": 5,
+    *   "trialPeriod" : 10,
+    *   "currency": "EUR",
+    *   "numberOfPayments": 10,
+    *   "typeID": 2,
+    *   "frequency": 300,
+    *   "networkID": 3,
+    *   "automatedCashOut": true,
+    *   "cashOutFrequency": 1
     * }
     *
     * @apiSuccess (200) {object} updated payment model details
@@ -183,49 +181,41 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {patch} /api/v2/paymentModel-models/:pullPaymentModelID
-    * @apiDescription Patch existing payment model in DB
+    * @api {patch} /api/v2/pull-payment-models/:pullPaymentModelID
+    * @apiDescription Patch existing paymentModel model in DB
     *
-    * @apiName patch
+    * @apiName patchPaymentModel
     * @apiGroup PullPaymentModelController
     * @apiVersion  1.0.0
     *
     * @apiParam {string} pullPaymentModelID - PaymentModel ID
-    * @apiParam {string} title - Title of the paymentModel
-    * @apiParam {string} description - Description of the paymentModel
-    * @apiParam {number} status - Status of paymentModel
-    * @apiParam {string} customerAddress -
-    * @apiParam {number} amount - Amount of paymentModel
-    * @apiParam {string} currency - Currency of paymentModel
-    * @apiParam {number} startTimestamp - Start timestamp of paymentModel
-    * @apiParam {number} endTimestamp - End timestamp of paymentModel
-    * @apiParam {number} type - Type of paymentModel
-    * @apiParam {number} frequency - Frequency of execution
-    * @apiParam {string} registerTxHash - Transaction hash for register pull paymentModel
-    * @apiParam {string} executeTxHash - Transaction hash for execute pull paymentModel
-    * @apiParam {number} executeTxStatus - Transaction hash status for execute pull paymentModel
-    * @apiParam {string} pullPaymentAddress - Debit account for paymentModel
-    * @apiParam {string} merchantAddress - Debit account for paymentModel
+    * @apiParam {string} title - Title of the pull payment model
+    * @apiParam {string} description - Description of the pull payment model
+    * @apiParam {number} amount - Amount of pull payment model
+    * @apiParam {number} initialPaymentAmount - The initial pull payment model amount
+    * @apiParam {number} trialPeriod - The trial period of the pull payment model
+    * @apiParam {string} currency - Currency of pull payment pull payment
+    * @apiParam {number} numberOfPayments - The amount of time you can execute a pull payment model
+    * @apiParam {number} typeID - Type of pull payment model
+    * @apiParam {number} frequency - The frequency of the pull payment model execution
     * @apiParam {number} networkID - ETH Network ID - 1 mainnet / 3 ropsten
+    * @apiParam {boolean} automatedCashOut - True if cash out is autometed, false if not
+    * @apiParam {number} cashOutFrequency - The cash out frequency
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "title": "string",
-    *   "description": "string",
-    *   "status": 1,
-    *   "customerAddress": "string",
-    *   "amount": 50,
-    *   "currency": "string",
-    *   "startTimestamp": 10,
-    *   "endTimestamp": 11,
-    *   "type": 1,
-    *   "frequency": 10,
-    *   "registerTxHash":"string",
-    *   "executeTxHash":"string",
-    *   "executeTxStatus": 1,
-    *   "pullPaymentAddress": "string"
-    *   "merchantAddress": "string",
-    *   "networkID": number
+    *   "title": "Gold Subscription",
+    *   "description": "National Cryptographic Monthly Gold subscription",
+    *    "amount": 10,
+    *   "initialPaymentAmount": 5,
+    *   "trialPeriod" : 10,
+    *   "currency": "EUR",
+    *   "numberOfPayments": 10,
+    *   "typeID": 2,
+    *   "frequency": 300,
+    *   "networkID": 3,
+    *   "automatedCashOut": true,
+    *   "cashOutFrequency": 1
     * }
     *
     * @apiSuccess (200) {object} PaymentModel Details
@@ -246,7 +236,7 @@ export class PullPaymentModelController {
     }
 
     /**
-    * @api {delete} /api/v2/paymentModel-models/:pullPaymentModelID
+    * @api {delete} /api/v2/pull-payment-models/:pullPaymentModelID
     * @apiDescription Delete a single paymentModel
     *
     * @apiName deletePaymentModel
@@ -257,7 +247,7 @@ export class PullPaymentModelController {
     *
     * @apiParamExample {json} Request-Example:
     * {
-    *   "pullPaymentModelID": "32049572038495"
+    *   "pullPaymentModelID": "5bf2c85e-c238-11e8-a4af-63e315e13612"
     * }
     *
     * @apiSuccess (200) {object} no data
