@@ -10,7 +10,7 @@ info:
 servers:
   - url: http://localhost:3000/
     description: Local Server
-  - url: http://stgmbackend.pumapay.io/merchant/
+  - url: https://stgmbackend.pumapay.io/merchant/
     description: Test Server
 paths:
   /api/v2/pull-payment-models/:
