@@ -27,8 +27,8 @@ const dataSchema = Joi.object().keys({
     trialPeriod: Joi.number().min(0).required(),
     currency: Joi.string().min(3).max(3).required(),
     numberOfPayments: Joi.number().min(1).required(),
-    typeID: Joi.number().required(),
-    frequency: Joi.number().min(1).required(),
+    typeID: Joi.number().integer().min(1).max(6).required(),
+    frequency: Joi.number().integer().min(1).required(),
     networkID: Joi.number().integer().min(1).max(3).invalid(2).required(),
     automatedCashOut: Joi.boolean().required(),
     cashOutFrequency: Joi.number()
