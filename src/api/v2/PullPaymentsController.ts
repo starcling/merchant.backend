@@ -49,7 +49,7 @@ export class PullPaymentsController {
     @Post('/')
     public async createPayment(@Body() payment: IPaymentInsert, @Res() response: any): Promise<any> {
         try {
-            new CreatePaymentValidator().validate(payment);
+            await new CreatePaymentValidator().validate(payment);
             const result = await new PaymentConnector().createPayment(payment);
 
             return new APIResponseHandler().handle(response, result);
