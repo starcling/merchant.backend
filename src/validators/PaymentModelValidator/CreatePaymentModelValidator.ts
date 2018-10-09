@@ -19,7 +19,7 @@ export class CreatePaymentModelValidator extends PaymentModelValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    merchantID: Joi.string().max(36).required(),
+    merchantID: Joi.string().max(36).allow(null),
     title: Joi.string().max(50).required(),
     description: Joi.string().max(140).required(),
     amount: Joi.number().min(1).required(),

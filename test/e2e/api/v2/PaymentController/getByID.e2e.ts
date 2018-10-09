@@ -62,6 +62,7 @@ let paymentID: string;
 
 const insertPaymentModel = async () => {
     // paymentModel.merchantID = merchantID;
+    paymentModel.merchantID = null;
     const result = await new PaymentModelDbConnector().createPaymentModel(paymentModel);
     pullPaymentModelID = result.data[0].id;
 };
@@ -141,7 +142,7 @@ describe('PaymentController: getPaymentByID', () => {
                     // expect(body).to.have.property('data').that.has.property('merchantName').that.is.equal(merchantName);
                     done(err);
                 });
-        });
+        }).timeout(25000);
     });
 
     describe('with error response', () => {
