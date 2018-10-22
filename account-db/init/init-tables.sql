@@ -1,11 +1,3 @@
-INSTALL PLUGIN keyring_udf SONAME 'keyring_udf.so';
-
-CREATE FUNCTION keyring_key_generate RETURNS INTEGER SONAME 'keyring_udf.so';
-CREATE FUNCTION keyring_key_fetch RETURNS STRING SONAME 'keyring_udf.so';
-CREATE FUNCTION keyring_key_length_fetch RETURNS INTEGER SONAME 'keyring_udf.so';
-CREATE FUNCTION keyring_key_type_fetch RETURNS STRING SONAME 'keyring_udf.so';
-CREATE FUNCTION keyring_key_store RETURNS INTEGER SONAME 'keyring_udf.so';
-CREATE FUNCTION keyring_key_remove RETURNS INTEGER SONAME 'keyring_udf.so';
 
 GRANT EXECUTE ON *.* TO db_service;
 

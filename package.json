@@ -4,8 +4,8 @@
   "description": "Pumapay merchant backend server",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -L",
-    "start": "npm run build && node dist/src/index.js",
+    "start": "npm run lint -s && pm2-runtime start  server.js --name 'merchant.backed'",
+    "dev": "npm run lint -s && pm2-dev start  server.js",
     "build": "tsc",
     "build:watch": "tsc -w",
     "lint": "node_modules/.bin/tslint --fix -c tslint.json 'src/**/*.ts'",
