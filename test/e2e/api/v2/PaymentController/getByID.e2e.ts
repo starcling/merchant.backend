@@ -162,17 +162,17 @@ describe('PaymentController: getPaymentByID', () => {
             await clearPayment();
         });
 
-        it('Should return query failed', (done) => {
+        it('Should return bad request for paymentID', (done) => {
             const id = 'test_id';
             server
                 .get(`${endpoint}${id}`)
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
+                    console.log(body);
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
-                    expect(body).to.have.property('message').that.is.equal('SQL Query failed. Reason: invalid_text_representation');
-                    expect(body).to.have.property('error').that.is.an('object');
+                    expect(body).to.have.property('error').that.is.an('array');
                     done(err);
                 });
         });

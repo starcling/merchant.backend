@@ -1,6 +1,7 @@
 import * as Joi from 'joi';
 import { IValidationError } from '../IValidationError';
 import { TransactionValidator } from './TransactionValidator';
+import {Globals} from '../../utils/globals';
 
 export class GetTransactionValidator extends TransactionValidator {
     public validate(data: any) {
@@ -20,8 +21,8 @@ export class GetTransactionValidator extends TransactionValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    transactionHash: Joi.string().allow(null),
-    pullPaymentID: Joi.string().allow(null),
+    transactionHash: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).allow(null),
+    pullPaymentID: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).allow(null),
     statusID: Joi.number().allow(null),
     typeID: Joi.number().allow(null)
 });

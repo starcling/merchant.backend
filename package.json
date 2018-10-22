@@ -26,7 +26,7 @@
   "author": "developers@pumapay.io",
   "license": "MIT",
   "dependencies": {
-    "@pumapay/merchant_sdk": "0.0.7",
+    "@pumapay/merchant_sdk": "2.0.0-alpha05",
     "@sendgrid/mail": "^6.3.1",
     "@types/body-parser": "^1.16.8",
     "@types/cors": "^2.8.3",
@@ -50,6 +50,7 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "routing-controllers": "^0.7.7",
+    "sinon": "^7.0.0",
     "solc": "0.4.24",
     "typedi": "^0.7.2",
     "typescript": "^2.8.1",
