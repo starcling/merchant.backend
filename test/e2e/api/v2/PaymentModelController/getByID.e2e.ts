@@ -10,7 +10,8 @@ process.env.CORE_API_KEY =
 process.env.MERCHANT_ID = '6873da04-c31a-11e8-9d71-83d7341786f7';
 
 chai.use(chaiAsPromised);
-chai.should();
+
+const should = chai.should();
 const expect = chai.expect;
 
 const server = supertest.agent('http://localhost:3000/');
@@ -77,8 +78,11 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
                     const body = res.body;
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
-                    expect(body).to.have.property('message').that.is.equal('SQL Query failed. Reason: invalid_text_representation');
-                    expect(body).to.have.property('error').that.is.an('object');
+                    should.equal(body.error.length, 2);
+                    expect(body.error[0]).to.have.property('message').that.is.equal('"pullPaymentModelID" with value "test_id" fails ' +
+                        'to match the required pattern: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/');
+                    expect(body.error[1]).to.have.property('message').that.is.equal('"pullPaymentModelID" length must be at least ' +
+                        '36 characters long');
                     done(err);
                 });
         });
