@@ -1,8 +1,10 @@
-import { JsonController, Res, Get, Param, UseBefore } from 'routing-controllers';
+import {JsonController, Res, Get, Param, UseBefore, Body} from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { QrConnector } from '../../connectors/api/v1/QrConnector';
 import { GetQrValidator } from '../../validators/QrValidator/GetQrValidator';
 import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
+import {GetEtherPushQrCode} from '../../validators/QrValidator/GetEtherPushQrCode';
+import {IEtherPushQrCodeDetails} from '../../core/qr/models';
 
 @JsonController('/qr')
 @UseBefore(MobileValidationMiddleware)
@@ -40,6 +42,49 @@ export class QrController {
         try {
             new GetQrValidator().validate({ paymentID });
             const result = await new QrConnector().getQRCode(paymentID);
+
+            return new APIResponseHandler().handle(response, result);
+        } catch (error) {
+            return new APIResponseHandler().handle(response, error);
+        }
+    }
+
+    /**
+     * @api {get} /api/v2/qr/:address/value/gas
+     * @apiDescription PENDING
+     *
+     * @apiName getEthPushQrCode
+     * @apiGroup QrController
+     * @apiVersion  1.0.0
+     *
+     * @apiParam {string} address - PENDING
+     * * @apiParam {string} value - PENDING
+     * * @apiParam {numnber} gas - PENDING
+     *
+     * @apiParamExample {json} Request-Example:
+     * {
+     *   "to": "0x0000000000000000000000000000000000000000",
+         "value": "23c534fe8c9711e8b47f9a38301a1e03",
+         "gas": 354.65,
+         "data": ""
+     * }
+     *
+     * @apiSuccess (200) {array} QR details for payment
+     *
+     */
+    @Get('/:address/value/gas')
+    public async getEthPushQrCode(@Param('address') address: string,
+                                  @Param('value') value: string,
+                                  @Param('gas') gas: number,
+                                  @Res() response: any): Promise<any> {
+        try {
+            new GetEtherPushQrCode().validate({ address, value, gas });
+
+            const result = await new QrConnector().getEtherQrCode(
+                <IEtherPushQrCodeDetails>{
+                    address: address,
+                    value: value,
+                    gas: gas });
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
