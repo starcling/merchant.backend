@@ -1,6 +1,6 @@
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { MerchantSDK } from '../MerchantSDK';
-import {IEtherPushQrCodeDetails} from '../../core/qr/models';
+import {IErc20PushQrCodeDetails, IEtherPushQrCodeDetails} from '../../core/qr/models';
 
 export class Qr {
     /**
@@ -25,13 +25,29 @@ export class Qr {
      */
     public getEtherQrCode (qrCodeForEther: IEtherPushQrCodeDetails) {
         try {
-            // const result = MerchantSDK.GET_SDK().generateQRCode(paymentID);
-            const result = {
-                to: qrCodeForEther.address,
-                value: qrCodeForEther.value,
-                gas: qrCodeForEther.gas,
-                data: null
-            };
+            const result = MerchantSDK.GET_SDK().generateEthPushQRCode(
+                qrCodeForEther.address,
+                qrCodeForEther.value,
+                qrCodeForEther.gas);
+
+            return new HTTPResponseHandler().handleSuccess('Successfully retrieved the QR code.', result);
+        } catch (error) {
+            return new HTTPResponseHandler().handleFailed('Failed retrieve QR code.', error);
+        }
+    }
+
+    /**
+     * @description Get method for getting PENDING
+     * @param {IErc20PushQrCodeDetails} qrCodeForEther PENDING
+     * @returns {HTTPResponse} Returns success feedback
+     */
+    public async getErc20QrCode (qrCodeForEther: IErc20PushQrCodeDetails) {
+        try {
+            const result = await MerchantSDK.GET_SDK().generateErc20PushQRCode(
+                qrCodeForEther.tokenAddress,
+                qrCodeForEther.address,
+                qrCodeForEther.value,
+                qrCodeForEther.gas);
 
             return new HTTPResponseHandler().handleSuccess('Successfully retrieved the QR code.', result);
         } catch (error) {

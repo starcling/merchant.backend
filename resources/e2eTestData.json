@@ -105,6 +105,12 @@
             "address": "24947f2e-9164-11e8-bc8e-27e75bf6baf4",
             "value": "23c534fe8c9711e8b47f9a38301a1e03",
             "gas": 354.65
+        },
+        "qrValidatorForErc20": {
+            "tokenAddress": "0x0000000000000000000000000000000000000000",
+            "address": "24947f2e-9164-11e8-bc8e-27e75bf6baf4",
+            "value": "23c534fe8c9711e8b47f9a38301a1e03",
+            "gas": 354.65
         }
     }
 }
