@@ -1,6 +1,0 @@
-[mysqld]
-
-max_allowed_packet=32M
-
-early-plugin-load=keyring_file.so
-

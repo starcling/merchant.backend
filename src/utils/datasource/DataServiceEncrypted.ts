@@ -7,12 +7,12 @@ import { DefaultConfig } from '../../../src/config/default.config';
 
 export class DataServiceEncrypted {
   private logger: LoggerInstance = Container.get(LoggerFactory).getInstance('DataService');
-  private pool: any;
+  private connection: any;
   private databaseConnected: Boolean = false;
 
   protected async executeQuery(sqlQuery: ISqlQuery): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.pool = mysql.createPool({
+      this.connection = mysql.createConnection({
         user: DefaultConfig.settings.keyDbUser,
         host: DefaultConfig.settings.keyDbHost,
         database: DefaultConfig.settings.keyDb,
@@ -21,18 +21,18 @@ export class DataServiceEncrypted {
         multipleStatements: true
       });
 
-      this.pool.getConnection((err, connection) => {
+      this.connection.connect((err, connection) => {
         if (err) {
           this.logger.error(`Error On MySQL Pool. Reason: ${err.message}`);
           process.exit(-1);
         }
 
-        connection.query(sqlQuery.text, sqlQuery.values, (error: any, results: any, fields: any) => {
+        this.connection.query(sqlQuery.text, sqlQuery.values, (error: any, results: any, fields: any) => {
           if (error) {
-            this.pool.end();
+            this.connection.end();
             reject(error);
           } else {
-            this.pool.end();
+            this.connection.end();
             resolve(results);
           }
         });
