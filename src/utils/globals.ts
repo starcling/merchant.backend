@@ -174,6 +174,14 @@ export class Globals {
         return EnvironmentTypesEnum;
     }
 
+    public static GET_AWS_KEY_ID(): string {
+        return process.env.AWS_KEY_ID;
+    }
+
+    public static GET_ENCRYPTION_MODULE(): string {
+        return process.env.ENCRYPTION_MODULE;
+    }
+
 }
 
 enum PaymentTypeEnum {

@@ -22,6 +22,7 @@ export class DataServiceEncrypted {
       });
 
       this.connection.connect((err, connection) => {
+
         if (err) {
           this.logger.error(`Error On MySQL Pool. Reason: ${err.message}`);
           process.exit(-1);
@@ -49,7 +50,6 @@ export class DataServiceEncrypted {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.executeQuery(sqlQuery);
-
         if (result.affectedRows !== undefined) {
           if (result.affectedRows !== 0) {
             queryMessage.success = true;
@@ -86,7 +86,7 @@ export class DataServiceEncrypted {
           return resolve(queryMessage);
         }
 
-        if (result[0][0].length === 0) {
+        if (result[0].length === 0) {
           queryMessage.status = 204;
           queryMessage.message = `SQL Query returned no data from database.`;
           return resolve(queryMessage);
