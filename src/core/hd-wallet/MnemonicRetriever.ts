@@ -11,12 +11,6 @@ export class MnemonicRetriever {
 
             const mnemonic = result.data[0].mnemonic;
 
-            if (process.env.NODE_ENV !== 'development' && process.env.AWS_SECRET_ACCESS_KEY) {
-                const decryptedMnemonic = await new AwsEncryptionService().decrypt(mnemonic);
-
-                return resolve(decryptedMnemonic);
-            }
-
             return resolve(mnemonic);
         });
     }
