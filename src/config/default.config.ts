@@ -19,7 +19,7 @@ export class DefaultConfig {
       keyDbPort: process.env.KEY_DB_PORT ? process.env.KEY_DB_PORT : 3305,
       keyDbUser: process.env.KEY_DB_USER ? process.env.KEY_DB_USER : 'db_service',
       keyDbPass: process.env.KEY_DB_PASS ? process.env.KEY_DB_PASS : 'db_pass',
-      keyDbHost: process.env.KEY_DB_HOST ? process.env.KEY_DB_HOST : 'db',
+      keyDbHost: process.env.KEY_DB_HOST ? process.env.KEY_DB_HOST : 'localhost',
       keyDb: process.env.KEY_DB ? process.env.KEY_DB : 'keys',
       mnemonicID: process.env.MNEMONIC_ID ? process.env.MNEMONIC_ID : 'mnemonic_phrase',
       morgan: {},

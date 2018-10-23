@@ -33,6 +33,11 @@ services:
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
       - CORE_API_KEY=a0f83683ab23f6b3669626dcb03c7a3d50522c72e17ed55b6c21cd6246827390367cd592edf5769b8b9b02fd219b193b15e514409d69c8e4283b4ff7c60536c7
       - MERCHANT_ID=f829ba82-c3ca-11e8-9c44-ef5ee2f973a1
+      - AWS_ACCESS_KEY_ID=0
+      - AWS_SECRET_ACCESS_KEY=0
+      - AWS_REGION=0
+      - AWS_KEY_ID=0
+      - ENCRYPTION_MODULE=none
     volumes:
       - ./src:/usr/src/app/src
       - ./src/swagger.yml:/usr/src/app/src/swagger.yml
@@ -82,23 +87,12 @@ services:
       MYSQL_PASSWORD: db_pass
     volumes: 
       - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/10-init-tables.sql
-      - ./account-db/stored-procedures/add_table_keys.sql:/docker-entrypoint-initdb.d/11-add-table-keys.sql
-      - ./account-db/init/populate-table-keys.sql:/docker-entrypoint-initdb.d/12-populate-table-keys.sql
       - ./account-db/stored-procedures/add_account.sql:/docker-entrypoint-initdb.d/21-add-account.sql
-      - ./account-db/stored-procedures/get_key.sql:/docker-entrypoint-initdb.d/22-get-key.sql
       - ./account-db/stored-procedures/get_account.sql:/docker-entrypoint-initdb.d/23-get-account.sql
-      - ./account-db/stored-procedures/encrypt.sql:/docker-entrypoint-initdb.d/24-encrypt.sql
-      - ./account-db/stored-procedures/decrypt.sql:/docker-entrypoint-initdb.d/25-decrypt.sql
-      - ./account-db/stored-procedures/decrypt_private_key.sql:/docker-entrypoint-initdb.d/27-decrypt_private_key.sql
-      - ./account-db/stored-procedures/rotate_account_keys.sql:/docker-entrypoint-initdb.d/28-rotate_account_keys.sql
-      - ./account-db/stored-procedures/get_private_key_from_address.sql:/docker-entrypoint-initdb.d/29-get_private_key_from_address.sql
       - ./account-db/stored-procedures/add_mnemonic.sql:/docker-entrypoint-initdb.d/30-add-mnemonic.sql
       - ./account-db/stored-procedures/get_mnemonic.sql:/docker-entrypoint-initdb.d/31-get-mnemonic.sql
-      - ./account-db/stored-procedures/decrypt_mnemonic.sql:/docker-entrypoint-initdb.d/32-decrypt_mnemonic.sql
-      - ./account-db/stored-procedures/get_decrypted_mnemonic.sql:/docker-entrypoint-initdb.d/33-get_decrypted_mnemonic.sql
+      - ./account-db/stored-procedures/get_private_key_from_address.sql:/docker-entrypoint-initdb.d/32-get-private-key-from-address.sql
       - ./account-db/init/add_data.sql:/docker-entrypoint-initdb.d/34-add_data.sql
-      - ./account-db/db-conf:/etc/mysql/conf.d/
-      - ./account-db/keys/keyring:/var/lib/mysql-keyring/keyring
     ports:
       - "3305:3306"
     networks: 

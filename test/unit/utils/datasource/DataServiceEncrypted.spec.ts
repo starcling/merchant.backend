@@ -22,8 +22,7 @@ const createAccountTable = async () => {
           id   INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
           address  VARCHAR(100) UNIQUE                 NOT NULL,
           privateKey     VARCHAR(2000)                    NULL
-        )
-        ENGINE = INNODB ENCRYPTION='Y';`
+        )`
   };
 
   await dataservice.executeQueryAsPromise(sqlQuery);
@@ -53,8 +52,8 @@ const clearTestAccountData = async () => {
 
 const insertEncryptedAccountData = async () => {
   const sqlQuery: ISqlQuery = {
-    text: 'call add_account(?, ?, ?)',
-    values: ['test', 'testKey', 'sUp4hS3cr37kE9c0D3']
+    text: 'call add_account(?, ?)',
+    values: ['test', 'testKey']
   }
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -72,8 +71,7 @@ const createMnemonicTable = async () => {
       `CREATE TABLE test_mnemonic (
         id VARCHAR(255) PRIMARY KEY NOT NULL,
         mnemonic VARCHAR(2000) UNIQUE NOT NULL
-      )
-        ENGINE = INNODB ENCRYPTION='Y';`
+      )`
   };
 
   await dataservice.executeQueryAsPromise(sqlQuery);
@@ -104,8 +102,8 @@ const clearTestMnemonicData = async (id) => {
 
 const insertEncryptedMnemonicData = async () => {
   const sqlQuery: ISqlQuery = {
-    text: 'call add_mnemonic(?, ?, ?)',
-    values: ['mnemonic_test_02', TEST_MNEMONIC, 'sUp4hS3cr37kE9c0D3']
+    text: 'call add_mnemonic(?, ?)',
+    values: ['mnemonic_test_02', TEST_MNEMONIC]
   }
   await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -290,14 +288,14 @@ describe('Encrypted Data Service', async () => {
         expect(result).to.have.property('data');
         expect(result.data).to.have.property('0');
         expect(result.data['0']).to.have.property('address').that.is.equal('test');
-        expect(result.data['0']).to.have.property('privateKey').that.is.not.equal('testKey');
+        expect(result.data['0']).to.have.property('privateKey').that.is.equal('testKey');
       })
     })
 
-    it('should dencrypt private key', () => {
+    it('should decrypt private key', () => {
       const sqlQuery: ISqlQuery = {
-        text: 'call get_private_key_from_address(?, ?)',
-        values: ['test', 'sUp4hS3cr37kE9c0D3']
+        text: 'call get_private_key_from_address(?)',
+        values: ['test']
       }
       const expectedQueryMessage: IResponseMessage = {
         success: true,
@@ -445,14 +443,14 @@ describe('Encrypted Data Service', async () => {
           expect(result).to.have.property('message').that.is.equal(expectedQueryMessage.message);
           expect(result).to.have.property('data');
           expect(result.data).to.have.property('0');
-          expect(result.data['0']).to.have.property('mnemonic').that.is.not.equal(TEST_MNEMONIC);
+          expect(result.data['0']).to.have.property('mnemonic').that.is.equal(TEST_MNEMONIC);
         });
       });
 
-      it('should dencrypt mnemonic key', () => {
+      it('should decrypt mnemonic key', () => {
         const sqlQuery: ISqlQuery = {
-          text: 'call get_decrypted_mnemonic(?, ?)',
-          values: ['mnemonic_test_02', 'sUp4hS3cr37kE9c0D3']
+          text: 'call get_mnemonic(?)',
+          values: ['mnemonic_test_02']
         }
         const expectedQueryMessage: IResponseMessage = {
           success: true,
@@ -466,7 +464,7 @@ describe('Encrypted Data Service', async () => {
           expect(result).to.have.property('message').that.is.equal(expectedQueryMessage.message);
           expect(result).to.have.property('data');
           expect(result.data).to.have.property('0');
-          expect(result.data['0']).to.have.property('@mnemonicKey').that.is.equal(TEST_MNEMONIC);
+          expect(result.data['0']).to.have.property('mnemonic').that.is.equal(TEST_MNEMONIC);
         });
       });
     });

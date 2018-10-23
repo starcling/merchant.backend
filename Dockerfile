@@ -1,4 +1,4 @@
-FROM node:8.11
+FROM keymetrics/pm2:latest-stretch
 
 # Workdir
 RUN mkdir -p /usr/src/app/
