@@ -1,6 +1,7 @@
 import * as Joi from 'joi';
 import { PaymentModelValidator } from './PaymentModelValidator';
 import { IValidationError } from '../IValidationError';
+import {Globals} from '../../utils/globals';
 
 export class GetPaymentModelValidator extends PaymentModelValidator {
     public validate(data: any) {
@@ -20,5 +21,5 @@ export class GetPaymentModelValidator extends PaymentModelValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    pullPaymentModelID: Joi.string().max(36).required()
+    pullPaymentModelID: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).min(36).max(36).required()
 });

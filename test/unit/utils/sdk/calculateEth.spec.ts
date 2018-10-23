@@ -86,7 +86,7 @@ describe('A SDK calculateEth', () => {
         const amount = '20';
         const mistake = 200;
         const rate = 0.0007862;
-        const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());;
+        const value = web3API.utils.toWei(((Number(amount) / 100) / rate).toString());
         const transferFee = await MerchantSDK.GET_SDK().calculateTransferFee(
             testInsertPayment.merchantAddress, testInsertPayment.customerAddress, value);
         const executionFee = await MerchantSDK.GET_SDK().calculateMaxExecutionFee();

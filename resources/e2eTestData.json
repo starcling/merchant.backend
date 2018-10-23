@@ -5,15 +5,30 @@
             "title": "string",
             "description": "string",
             "amount": 43,
-            "initialPaymentAmount": 23,
-            "trialPeriod": 23,
+            "initialPaymentAmount": 0,
+            "trialPeriod": 0,
             "currency": "EUR",
-            "numberOfPayments": 5,
+            "numberOfPayments": 1,
             "frequency": 10,
             "typeID": 1,
             "networkID": 3,
             "automatedCashOut": false,
             "cashOutFrequency": 0
+        },
+        "patchPaymentModel": {
+            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
+            "title": "string",
+            "description": "string",
+            "amount": 43,
+            "initialPaymentAmount": 0,
+            "trialPeriod": 0,
+            "currency": "EUR",
+            "numberOfPayments": 1,
+            "typeID": 1,
+            "frequency": 10,
+            "networkID": 3,
+            "automatedCashOut": true,
+            "cashOutFrequency": 1
         },
         "updatePaymentModel": {
             "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
@@ -29,26 +44,62 @@
             "networkID": 3,
             "automatedCashOut": true,
             "cashOutFrequency": 1
+        },
+        "getPaymentModel": {
+            "pullPaymentModelID": "23c534fe-8c97-11e8-b47f-9a38301a1e03"
+        },
+        "deletePaymentModel": {
+            "pullPaymentModelID": "23c534fe-8c97-11e8-b47f-9a38301a1e03"
         }
     },
     "payments": {
         "insertTestPayment": {
-            "pullPaymentModelID": "needed to be injected",
+            "pullPaymentModelID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "numberOfPayments": 4,
             "startTimestamp": 100,
             "customerAddress": "0x0000000000000000000000000000000000000000",
             "pullPaymentAddress": "0x0000000000000000000000000000000000000000",
-            "userID": "2342934"
+            "userID": "23c534fe-8c97-11e8-b47f-9a38301a1e03"
         },
         "updateTestPayment": {
-            "id": "",
+            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
             "hdWalletIndex": 0,
             "numberOfPayments": 5,
             "nextPaymentDate": 10,
             "lastPaymentDate": 20,
             "startTimestamp": 100,
             "statusID": 1,
-            "userID": "2342934"
+            "userID": "23c534fe-8c97-11e8-b47f-9a38301a1e03"
+        },
+        "getTestPayment": {
+            "paymentID": "23c534fe-8c97-11e8-b47f-9a38301a1e03"
+        },
+        "deleteTestPayment": {
+            "paymentID": "23c534fe-8c97-11e8-b47f-9a38301a1e03"
+        }
+    },
+    "transactions": {
+        "getTestTransaction": {
+            "transactionHash": "24947f2e-9164-11e8-bc8e-27e75bf6baf4",
+            "pullPaymentID": "23c534fe-8c97-11e8-b47f-9a38301a1e03",
+            "statusID": 1,
+            "typeID": 2
+        },
+        "createTestTransaction": {
+            "hash": "0xn9jaj46edm5oplfq6m8ta96221553588139c14ios01gqp5jcpqms3eo8m1r4mtl",
+            "paymentID": "82150f2c-c325-11e8-b3bc-2b0173837727",
+            "typeID": 2,
+            "timestamp": 15381442010077
+        }
+    },
+    "scheduler": {
+        "stopSqcheduler": {
+            "paymentID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
+        }
+    },
+    "qrValidator": {
+        "getQrValidator": {
+            "paymentID": "24947f2e-9164-11e8-bc8e-27e75bf6baf4"
         }
     }
 }

@@ -23,6 +23,22 @@ export class Globals {
         }
     }
 
+    public static GET_LOWERCASE_ALPHANUMERIC_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^[a-z0-9]+$/);
+    }
+
+    public static GET_ALPHANUMERIC_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^[a-zA-Z0-9]+$/);
+    }
+
+    public static GET_UPPERCASE_ALPABETIC_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^[A-Z]+$/);
+    }
+
+    public static GET_UUID_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
+    }
+
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
         return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
@@ -182,6 +198,12 @@ export class Globals {
         return process.env.ENCRYPTION_MODULE;
     }
 
+    public static GET_CURRENCIES(): CurrenciesEnum[] {
+        return [CurrenciesEnum.USD,
+                CurrenciesEnum.JPY,
+                CurrenciesEnum.EUR,
+                CurrenciesEnum.GBP];
+    }
 }
 
 enum PaymentTypeEnum {
@@ -197,6 +219,13 @@ enum PaymentStatusEnum {
     stopped = 3,
     cancelled = 4,
     done = 5
+}
+
+enum CurrenciesEnum {
+    EUR = 'EUR',
+    USD = 'USD',
+    GBP = 'GBP',
+    JPY = 'JPY'
 }
 
 interface IEnumTableNames {

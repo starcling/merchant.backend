@@ -1,6 +1,7 @@
 import * as Joi from 'joi';
 import { IValidationError } from '../IValidationError';
 import { SchedulerValidator } from './SchedulerValidator';
+import {Globals} from '../../utils/globals';
 
 export class StopSchedulerValidator extends SchedulerValidator {
     public validate(data: any) {
@@ -20,5 +21,5 @@ export class StopSchedulerValidator extends SchedulerValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    paymentID: Joi.string().max(36).required()
+    paymentID: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).max(36).required()
 });
