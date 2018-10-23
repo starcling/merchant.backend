@@ -1,9 +1,9 @@
 DELIMITER $$
 CREATE DEFINER=`db_service`@`localhost` PROCEDURE `get_mnemonic`(
-  IN id VARCHAR(255)
+  IN _id VARCHAR(255)
 )
 BEGIN
   SELECT mnemonic FROM mnemonics
-  WHERE id = id;
+  WHERE id = _id;
 END $$
 DELIMITER ;
