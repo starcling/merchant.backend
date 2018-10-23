@@ -3,10 +3,10 @@ import { JsonController, Get, Res, Param, Post, Body } from 'routing-controllers
 import { MerchantSDK } from '../../core/MerchantSDK';
 import { Globals } from '../../utils/globals';
 import { SchedulerConnector } from '../../connectors/api/v1/SchedulerConnector';
+import { AwsEncryptionService } from '../../utils/AwsHelper/AwsEncryptionService';
 
 @JsonController('/test')
 export class TestController {
-
     /**
     * @api {get} /api/v2/execute-pull-paymentModel/:pullPaymentModelID
     * @apiDescription Test the execution of pull payment  with pullPaymentModelID
@@ -33,7 +33,6 @@ export class TestController {
 
             return new APIResponseHandler().handle(response, { status: 200, message: executionResult });
         } catch (err) {
-            console.debug(err);
 
             return new APIResponseHandler().handle(response, { status: 400, error: err });
         }

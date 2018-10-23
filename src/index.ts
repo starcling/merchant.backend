@@ -57,7 +57,6 @@ class App {
       routePrefix: apiPath,
       controllers: [`${__dirname}${apiPath}/*.ts`]
     };
-
     this.debug('Routing: %o', routingControllersOptions);
     useExpressServer(app, routingControllersOptions);
 
@@ -68,6 +67,10 @@ class App {
     // listening to host and port defined in configuration
     server.listen(Number(Config.settings.port), Config.settings.host);
     this.logger.info(`Visit API at ${Config.settings.host}:${Config.settings.port}${apiPath}`);
+
+    app.get('/', (req, res) => {
+      res.status(200).send();
+    });
 
     process.on('unhandledRejection', (error: Error, promise: Promise<any>) => {
       this.logger.error('Unhandled rejection. Reason: ', error.stack ? error.stack : error);

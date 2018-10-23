@@ -14,8 +14,16 @@ export class PrivateKeysDbConnector {
             if (response.success) {
                 switch (Globals.GET_ENCRYPTION_MODULE()) {
                     case 'aws':
-                        response.data[0]['@accountKey'] = await (new AwsEncryptionService().decrypt(response.data[0]['@accountKey']));
-                        break;
+                        try {
+                            const accountKey = await (new AwsEncryptionService().decrypt(response.data[0]['@accountKey']));
+                            response.data[0]['@accountKey'] = accountKey;
+                            break;
+                        } catch (err) {
+                            response.success = false;
+                            response.status = err.statusCode;
+                            response.message = 'Failed to decrypt private key';
+                            break;
+                        }
                     default:
                 }
             }
@@ -24,11 +32,16 @@ export class PrivateKeysDbConnector {
     }
 
     public addAddress(address: string, pKey: string): Promise<any> {
-        return new Promise(async resolve => {
+        return new Promise(async (resolve, reject) => {
             switch (Globals.GET_ENCRYPTION_MODULE()) {
                 case 'aws':
-                    pKey = await (new AwsEncryptionService().encrypt(pKey));
-                    break;
+                    try {
+                        pKey = await (new AwsEncryptionService().encrypt(pKey));
+                        break;
+                    } catch (err) {
+                        pKey = null;
+                        break;
+                    }
                 default:
             }
             const sqlQuery: ISqlQuery = {
@@ -49,8 +62,16 @@ export class PrivateKeysDbConnector {
             if (response.success) {
                 switch (Globals.GET_ENCRYPTION_MODULE()) {
                     case 'aws':
-                        response.data[0]['mnemonic'] = await (new AwsEncryptionService().decrypt(response.data[0]['mnemonic']));
-                        break;
+                        try {
+                            const mnemonic = await (new AwsEncryptionService().decrypt(response.data[0]['mnemonic']));
+                            response.data[0]['mnemonic'] = mnemonic;
+                            break;
+                        } catch (err) {
+                            response.success = false;
+                            response.status = err.statusCode;
+                            response.message = 'Failed to decrypt mnemonic';
+                            break;
+                        }
                     default:
                 }
             }
