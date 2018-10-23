@@ -57,7 +57,6 @@ describe('A Create PaymentModel Handler', () => {
         process.env.MNEMONIC_ID = 'not_existing_menmonic'
 
         let walletAddress = await paymentHandler.handle();
-        console.log(walletAddress);
         expect(walletAddress.index).to.be.null;
         expect(walletAddress.address).to.be.null;
     });
