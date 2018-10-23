@@ -24,7 +24,6 @@ export class CreatePaymentModelHandler {
 
         try {
             let mnemonic: string = await new MnemonicRetriever().retrieve(DefaultConfig.settings.mnemonicID);
-            console.debug('WE DO GET MNEMONIC', DefaultConfig.settings.mnemonicID, mnemonic);
             if (!mnemonic) {
                 redisClient.unref();
                 redisClientBlocking.unref();
@@ -38,7 +37,6 @@ export class CreatePaymentModelHandler {
 
             mnemonic = null;
             const index = Number(await redisClient.getAsync(MERHCANT_PAYMENT_INDEX));
-            console.debug('TEST', index);
             await redisClient.setAsync(MERHCANT_PAYMENT_INDEX, index + 1);
             let privateKey: string = hdWallet.getPrivateKeyAtIndex(index).slice(2);
             const address: string = hdWallet.getAddressAtIndex(index);
