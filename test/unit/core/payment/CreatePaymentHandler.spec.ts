@@ -22,8 +22,8 @@ const TEST_MNEMONIC = 'handler test test test test test test test test test test
 
 const insertEncryptedMnemonicData = async () => {
     const sqlQuery: ISqlQuery = {
-        text: 'call add_mnemonic(?, ?, ?)',
-        values: ['create_payment_handler_mnemonic', TEST_MNEMONIC, 'sUp4hS3cr37kE9c0D3']
+        text: 'call add_mnemonic(?, ?)',
+        values: ['create_payment_handler_mnemonic', TEST_MNEMONIC]
     }
     await dataservice.executeQueryAsPromise(sqlQuery);
 }
@@ -57,7 +57,7 @@ describe('A Create PaymentModel Handler', () => {
         process.env.MNEMONIC_ID = 'not_existing_menmonic'
 
         let walletAddress = await paymentHandler.handle();
-
+        console.log(walletAddress);
         expect(walletAddress.index).to.be.null;
         expect(walletAddress.address).to.be.null;
     });
