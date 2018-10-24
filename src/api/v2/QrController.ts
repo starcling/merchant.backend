@@ -52,25 +52,24 @@ export class QrController {
 
     /**
      * @api {get} /api/v2/qr/:address/value/gas
-     * @apiDescription PENDING
+     * @apiDescription Get QR code for Ethernet push transactions
      *
      * @apiName getEthPushQrCode
      * @apiGroup QrController
      * @apiVersion  1.0.0
      *
-     * @apiParam {string} address - PENDING
-     * * @apiParam {string} value - PENDING
-     * * @apiParam {numnber} gas - PENDING
+     * @apiParam {string} address - Wallet address
+     * @apiParam {string} value - Amount value
+     * @apiParam {numnber} gas - Gas value
      *
      * @apiParamExample {json} Request-Example:
      * {
-     *   "to": "0x0000000000000000000000000000000000000000",
-         "value": "23c534fe8c9711e8b47f9a38301a1e03",
-         "gas": 354.65,
-         "data": ""
+         "address": "0xa9acc3a896548b6afb4e94c0731b04a2982f3c9c",
+         "value": "32458723409853475",
+         "gas": 354
      * }
      *
-     * @apiSuccess (200) {array} QR details for payment
+     * @apiSuccess (200) {array} QR details for Etherium push transactions
      *
      */
     @Get('/:address/:value/:gas')
@@ -95,25 +94,25 @@ export class QrController {
 
     /**
      * @api {get} /api/v2/qr/:tokenAddress/:address/:value/:gas
-     * @apiDescription PENDING
+     * @apiDescription Get QR code for Erc20 push transactions
      *
      * @apiName getErc20PushQrCode
      * @apiGroup QrController
      * @apiVersion  1.0.0
-     * @apiParam {string} tokenAddress - PENDING
-     * @apiParam {string} address - PENDING
-     * @apiParam {string} value - PENDING
-     * @apiParam {numnber} gas - PENDING
+     * @apiParam {string} tokenAddress - Contract address
+     * @apiParam {string} address - Wallet address
+     * @apiParam {string} value - Amount value
+     * @apiParam {numnber} gas - Gas value
      *
      * @apiParamExample {json} Request-Example:
      * {
-     *   "to": "0x0000000000000000000000000000000000000000",
-         "value": "23c534fe8c9711e8b47f9a38301a1e03",
-         "gas": 354.65,
-         "data": ""
+     *   "tokenAddress": "0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1",
+         "address": "0xa9acc3a896548b6afb4e94c0731b04a2982f3c9c",
+         "value": "32458723409853475",
+         "gas": 354
      * }
      *
-     * @apiSuccess (200) {array} QR details for payment
+     * @apiSuccess (200) {array} QR details for Erc20 tokens push transactions
      *
      */
     @Get('/:tokenAddress/:address/:value/:gas')

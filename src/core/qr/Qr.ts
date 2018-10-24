@@ -19,8 +19,8 @@ export class Qr {
     }
 
     /**
-     * @description Get method for getting PENDING
-     * @param {IEtherPushQrCodeDetails} qrCodeForEther PENDING
+     * @description Get method for getting QR code details for Etherium push transactions from Merchant SDK
+     * @param {IEtherPushQrCodeDetails} qrCodeForEther - Etherium push transaction QR code details
      * @returns {HTTPResponse} Returns success feedback
      */
     public getEtherQrCode (qrCodeForEther: IEtherPushQrCodeDetails) {
@@ -37,8 +37,8 @@ export class Qr {
     }
 
     /**
-     * @description Get method for getting PENDING
-     * @param {IErc20PushQrCodeDetails} qrCodeForEther PENDING
+     * @description Get method for getting QR code details for ERC20 push transactions from Merchant SDK
+     * @param {IErc20PushQrCodeDetails} getErc20QrCode - ERC20 push transaction QR code details
      * @returns {HTTPResponse} Returns success feedback
      */
     public async getErc20QrCode (qrCodeForEther: IErc20PushQrCodeDetails) {

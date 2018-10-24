@@ -22,5 +22,5 @@ export class GetEtherPushQrCode extends QrValidator {
 const dataSchema = Joi.object().keys({
     address: Joi.string().regex(Globals.GET_LOWERCASE_ALPHANUMERIC_REG_EXPRESSION()).min(42).max(42).required(),
     value: Joi.string().regex(Globals.GET_ALPHANUMERIC_REG_EXPRESSION()).required(),
-    gas: Joi.number().required()
+    gas: Joi.number().min(0).required()
 });
