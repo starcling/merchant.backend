@@ -47,7 +47,7 @@ const dataSchema = Joi.object().keys({
     pullPaymentModelID: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).min(36).max(36).required(),
     numberOfPayments: Joi.number().min(1).required(),
     startTimestamp: Joi.number().min(0).required(),
-    customerAddress: Joi.string().regex(Globals.GET_LOWERCASE_ALPHANUMERIC_REG_EXPRESSION()).min(42).max(42).required(),
+    customerAddress: Joi.string().regex(Globals.GET_ALPHANUMERIC_REG_EXPRESSION()).min(42).max(42).required(),
     pullPaymentAddress: Joi.string().regex(Globals.GET_ALPHANUMERIC_REG_EXPRESSION()).min(42).max(42).required(),
     userID: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).max(36).allow(null)
 });
