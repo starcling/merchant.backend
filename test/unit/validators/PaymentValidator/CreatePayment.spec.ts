@@ -33,7 +33,7 @@ describe('A Create Payment Test', () => {
         tempPayment.pullPaymentModelID = '63c684fe-8a97-11e8-b99f59f38301a1e03';
         tempPayment.numberOfPayments = 0;
         tempPayment.startTimestamp = '1';
-        tempPayment.customerAddress = '0X0000000000000000000000000000000000000000';
+        tempPayment.customerAddress = '0X000000000000000000000000000';
         tempPayment.pullPaymentAddress = '0x000000000000000p000000p000000000000000000';
         tempPayment.userID = '23c534fe-8c97-11e82b47f-9a38301a1e03';
 
@@ -47,8 +47,7 @@ describe('A Create Payment Test', () => {
             expect(err.error[0]).to.have.property('message').that.is.equal('"pullPaymentModelID" with value "63c684fe-8a97-11e8-' +
                 'b99f59f38301a1e03" fails to match the required pattern: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/');
             expect(err.error[1]).to.have.property('message').that.is.equal('"numberOfPayments" must be larger than or equal to 1');
-            expect(err.error[2]).to.have.property('message').that.is.equal('"customerAddress" with value ' +
-                '"0X0000000000000000000000000000000000000000" fails to match the required pattern: /^[a-z0-9]+$/');
+            expect(err.error[2]).to.have.property('message').that.is.equal('"customerAddress" length must be at least 42 characters long');
             expect(err.error[3]).to.have.property('message').that.is.equal('"pullPaymentAddress" ' +
                 'length must be less than or equal to 42 characters long');
             expect(err.error[4]).to.have.property('message').that.is.equal('"userID" with value "23c534fe-8c97-11e82b47f-9a38301a1e03" ' +
