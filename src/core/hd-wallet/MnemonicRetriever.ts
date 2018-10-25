@@ -1,5 +1,5 @@
 import { PrivateKeysDbConnector } from '../../connectors/dbConnector/PrivateKeysDbConnector';
-import { AwsEncryptionService } from '../../utils/AwsHelper/AwsEncryptionService';
+
 export class MnemonicRetriever {
     public async retrieve(mnemonicID: string): Promise<any> {
         return new Promise(async (resolve, reject) => {

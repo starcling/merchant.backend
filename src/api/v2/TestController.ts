@@ -3,7 +3,6 @@ import { JsonController, Get, Res, Param, Post, Body } from 'routing-controllers
 import { MerchantSDK } from '../../core/MerchantSDK';
 import { Globals } from '../../utils/globals';
 import { SchedulerConnector } from '../../connectors/api/v1/SchedulerConnector';
-import { AwsEncryptionService } from '../../utils/AwsHelper/AwsEncryptionService';
 
 @JsonController('/test')
 export class TestController {
