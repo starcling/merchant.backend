@@ -211,7 +211,9 @@ enum PaymentTypeEnum {
     push = 1,
     singlePull = 2,
     recurringPull = 3,
-    recurringWithInitial = 4
+    recurringWithInitial = 4,
+    recurringWithTrial = 5,
+    recurringWithTrialAndInitial = 6
 }
 
 enum PaymentStatusEnum {
