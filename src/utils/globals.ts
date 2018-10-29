@@ -3,7 +3,7 @@ import { EnumDbConnector } from '../connectors/dbConnector/EnumDbConnector';
 import { PaymentDbConnector } from '../connectors/dbConnector/PaymentDbConnector';
 import { TransactionDbConnector } from '../connectors/dbConnector/TransactionDbConnector';
 import { PrivateKeysDbConnector } from '../connectors/dbConnector/PrivateKeysDbConnector';
-import {CreatePaymentModelHandler} from '../core/paymentModel/CreatePaymentModelHandler';
+import { CreatePaymentModelHandler } from '../core/paymentModel/CreatePaymentModelHandler';
 import { RedisClientCreator } from './redisClientCreator/RedisClientCreator';
 
 const web3 = require('web3');
@@ -140,6 +140,7 @@ export class Globals {
             pgPassword: DefaultConfig.settings.pgPassword,
             redisClient: new RedisClientCreator().getRedisConnection(),
             getEnums: Globals.REFRESH_ENUMS,
+            network: Globals.GET_NETWORK_NAME(networkID),
             getPullPayment: new PaymentDbConnector().getPaymentByID,
             updatePullPayment: new PaymentDbConnector().updatePayment,
             getTransactions: new TransactionDbConnector().getTransactionsByContractID,
@@ -200,9 +201,9 @@ export class Globals {
 
     public static GET_CURRENCIES(): CurrenciesEnum[] {
         return [CurrenciesEnum.USD,
-                CurrenciesEnum.JPY,
-                CurrenciesEnum.EUR,
-                CurrenciesEnum.GBP];
+            CurrenciesEnum.JPY,
+            CurrenciesEnum.EUR,
+            CurrenciesEnum.GBP];
     }
 }
 
