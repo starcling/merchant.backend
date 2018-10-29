@@ -32,7 +32,7 @@ export class PrivateKeysDbConnector {
     }
 
     public addAddress(address: string, pKey: string): Promise<any> {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async resolve => {
             switch (Globals.GET_ENCRYPTION_MODULE()) {
                 case 'aws':
                     try {

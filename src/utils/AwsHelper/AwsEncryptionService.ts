@@ -35,7 +35,7 @@ export class AwsEncryptionService {
           if (err) {
             return reject(err);
           }
-
+          //@ts-ignore
           return resolve(cipher.CiphertextBlob.toString('base64'));
         });
       } catch (err) {
