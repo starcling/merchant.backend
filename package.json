@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -L",
-    "start": "npm run build &&  pm2-runtime start  dist/src/index.js --name 'merchant.backen'",
+    "start": "npm run build &&  pm2-runtime start  dist/src/index.js --name 'merchant.backend'",
     "build": "tsc",
     "build:watch": "tsc -w",
     "lint": "node_modules/.bin/tslint --fix -c tslint.json 'src/**/*.ts'",
