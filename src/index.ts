@@ -52,10 +52,11 @@ class App {
     Container.set(LoggerFactory, this.loggerFactory);
     app.use('/api/v2/doc/api', swaggerUi.serve, swaggerUi.setup(SWAGGER_DOCUMENT));
     const apiPath = Config.settings.apiPath;
+    const ext = process.env.enviroment === 'development' ? 'ts' : 'js';
     const routingControllersOptions: RoutingControllersOptions = {
       defaultErrorHandler: false,
       routePrefix: apiPath,
-      controllers: [`${__dirname}${apiPath}/*.ts`]
+      controllers: [`${__dirname}${apiPath}/*.${ext}`]
     };
     this.debug('Routing: %o', routingControllersOptions);
     useExpressServer(app, routingControllersOptions);
