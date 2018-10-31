@@ -4,4 +4,9 @@ package-lock.json
 .vscode
 .vs/
 dist
+docs
 .DS_Store
+.idea/
+dump.rdb
+account-db/keys/keyring
+.nyc_output

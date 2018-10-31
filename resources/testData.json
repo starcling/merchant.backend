@@ -1,0 +1,70 @@
+{
+    "paymentModels": {
+        "insertTestPaymentModel": {
+            "merchantID": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
+            "title": "string",
+            "description": "string",
+            "amount": 43,
+            "initialPaymentAmount": 0,
+            "trialPeriod": 0,
+            "currency": "EUR",
+            "numberOfPayments": 1,
+            "frequency": 10,
+            "typeID": 1,
+            "networkID": 3,
+            "automatedCashOut": false,
+            "cashOutFrequency": 0
+        },
+        "updateTestPaymentModel": {
+            "id": "63c684fe-8a97-11e8-b99f-9f38301a1e03",
+            "title": "string",
+            "description": "string",
+            "amount": 43,
+            "initialPaymentAmount": 0,
+            "trialPeriod": 0,
+            "currency": "EUR",
+            "numberOfPayments": 1,
+            "typeID": 1,
+            "frequency": 10,
+            "networkID": 3,
+            "automatedCashOut": true,
+            "cashOutFrequency": 1
+        }
+    },
+    "payments": {
+        "insertTestPayment": {
+            "hdWalletIndex": 0,
+            "paymentID": "needed to be injected",
+            "numberOfPayments": 4,
+            "nextPaymentDate": 10,
+            "startTimestamp": 100,
+            "customerAddress": "0x0000000000000000000000000000000000000000",
+            "merchantAddress": "0x0000000000000000000000000000000000000000",
+            "pullPaymentAddress": "0x0000000000000000000000000000000000000000",
+            "userID": "2342934"
+        },
+        "updateTestPayment": {
+            "id": "",
+            "hdWalletIndex": 0,
+            "numberOfPayments": 5,
+            "nextPaymentDate": 10,
+            "lastPaymentDate": 20,
+            "startTimestamp": 100,
+            "statusID": 1,
+            "userID": "2342934"
+        }
+    },
+    "transactions": {
+        "insertTestTransaction": {
+            "hash": "QrController: getQrCode",
+            "statusID": 1,
+            "typeID": 1,
+            "contractID": "needed to be injected",
+            "timestamp": "1535450293"
+        },
+        "updateTestTransaction": {
+            "id": "needed to be injected",
+            "statusID": 3
+        }
+    }
+}

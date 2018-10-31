@@ -9,36 +9,98 @@ services:
       - NODE_ENV=development
       - HOST=localhost
       - PORT=3000
-      - API_URL=core_server
+      - CORE_API_URL=http://core_server:8081
+      - MERCHANT_URL=http://merchant_server:3000
       - PGHOST=postgres_merchant
       - PGUSER=local_user
       - PGPASSWORD=local_pass
       - PGDATABASE=local_merchant_server
-      - PGPORT=5431
+      - PGPORT=5432
+      - REDIS_PORT=6379
+      - REDIS_TOKEN=123456789
+      - REDIS_HOST=merchant_redis
+      - ETH_NETWORK=3
+      - KEY_DB_HOST=merchant_db
+      - KEY_DB_USER=db_service
+      - KEY_DB_PASS=db_pass
+      - KEY_DB=keys
+      - KEY_DB_PORT=3306
+      - MNEMONIC_ID=mnemonic_phrase
+      - SENDGRID_API_KEY=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
+      - BALANCE_MONITOR_INTERVAL=21600000
+      - BALANCE_CHECK_THRESHOLD=0.1
+      - BALANCE_CHECK_EMAIL=developers@pumapay.io
+      - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
+      - CORE_API_KEY=a0f83683ab23f6b3669626dcb03c7a3d50522c72e17ed55b6c21cd6246827390367cd592edf5769b8b9b02fd219b193b15e514409d69c8e4283b4ff7c60536c7
+      - MERCHANT_ID=f829ba82-c3ca-11e8-9c44-ef5ee2f973a1
+      - AWS_ACCESS_KEY_ID=0
+      - AWS_SECRET_ACCESS_KEY=0
+      - AWS_REGION=0
+      - AWS_KEY_ID=0
+      - ENCRYPTION_MODULE=none
     volumes:
       - ./src:/usr/src/app/src
+      - ./src/swagger.yml:/usr/src/app/src/swagger.yml
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
-      - ../merchant.sdk:/usr/src/app/node_modules/puma_sdk_core
     depends_on:
       - postgres_merchant
-    command: sh -c "npm run dev"
     networks:
-      - pumacore_puma_core
+      - pumapay_merchant_sdk
+    command: sh -c "npm run dev"
 
   postgres_merchant:
     image: postgres:9.6
     environment:
-      POSTGRES_PASSWORD: local_pass
       POSTGRES_USER: local_user
+      POSTGRES_PASSWORD: local_pass
       POSTGRES_DB: local_merchant_server
     ports:
       - "5431:5432"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
     networks:
-      - pumacore_puma_core
+      - pumapay_merchant_sdk
     restart: unless-stopped
+
+  merchant_redis:
+    image: redis:5.0-rc-alpine
+    sysctls:
+      net.core.somaxconn: 1024
+    ports:
+      - "6379:6379"
+    command: sh -c "redis-server"
+    hostname: redis
+    networks:
+      - pumapay_merchant_sdk
+    volumes:
+      - redis-data:/data
+    
+  merchant_db: 
+    image: mysql:5.7.13
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: db_pass
+      MYSQL_DATABASE: keys
+      MYSQL_USER: db_service
+      MYSQL_PASSWORD: db_pass
+    volumes: 
+      - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/10-init-tables.sql
+      - ./account-db/stored-procedures/add_account.sql:/docker-entrypoint-initdb.d/21-add-account.sql
+      - ./account-db/stored-procedures/get_account.sql:/docker-entrypoint-initdb.d/23-get-account.sql
+      - ./account-db/stored-procedures/add_mnemonic.sql:/docker-entrypoint-initdb.d/30-add-mnemonic.sql
+      - ./account-db/stored-procedures/get_mnemonic.sql:/docker-entrypoint-initdb.d/31-get-mnemonic.sql
+      - ./account-db/stored-procedures/get_private_key_from_address.sql:/docker-entrypoint-initdb.d/32-get-private-key-from-address.sql
+      - ./account-db/init/add_data.sql:/docker-entrypoint-initdb.d/34-add_data.sql
+    ports:
+      - "3305:3306"
+    networks: 
+      - pumapay_merchant_sdk
     
 networks:
-  pumacore_puma_core:
+  pumapay_merchant_sdk:
     external:
       name: pumacore_puma_core
+volumes:
+  redis-data:

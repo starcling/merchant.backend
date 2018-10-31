@@ -1,0 +1,52 @@
+# docker-compose.server.yml
+version: "3"
+services:
+  merchant_server:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - HOST=localhost
+      - PORT=3000
+      - CORE_API_URL=http://18.185.130.3/core
+      - MERCHANT_URL=http://18.196.208.131/merchant
+      - PGHOST=postgres_merchant
+      - PGUSER=local_user
+      - PGPASSWORD=local_pass
+      - PGDATABASE=local_merchant_server
+      - PGPORT=5432
+      - REDIS_PORT=6379
+      - REDIS_TOKEN=123456789
+      - REDIS_HOST=merchant_redis
+      - ETH_NETWORK=3
+      - KEY_DB_HOST=merchant_db
+      - KEY_DB_USER=db_service
+      - KEY_DB_PASS=db_pass
+      - KEY_DB=keys
+      - KEY_DB_PORT=3306
+      - MNEMONIC_ID=mnemonic_phrase
+      - SENDGRID_API_KEY=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
+      - BALANCE_MONITOR_INTERVAL=21600000
+      - BALANCE_CHECK_THRESHOLD=0.1
+      - BALANCE_CHECK_EMAIL=developers@pumapay.io
+      - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
+      - CORE_API_KEY=TO_BE_INSERTED_ONCE_OBTAINED_FROM_CORE
+      - MERCHANT_ID=TO_BE_INSERTED_ONCE_OBTAINED_FROM_CORE
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
+      - ./package.json:/usr/src/app/package.json
+      - ../merchant.sdk:/usr/src/app/node_modules/pumapay_merchant_sdk
+    depends_on:
+      - postgres_merchant
+    networks:
+      - pumapay_merchant_sdk
+    command: sh -c "npm run dev"
+
+networks:
+  pumapay_merchant_sdk:
+    driver: bridge
+    
+volumes:
+  redis-data:
