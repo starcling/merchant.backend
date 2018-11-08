@@ -205,6 +205,29 @@ export class Globals {
             CurrenciesEnum.EUR,
             CurrenciesEnum.GBP];
     }
+
+    public static GET_SMART_CONTRACT_ADDRESS(): ISmartContracts {
+        return {
+            token: process.env.TOKEN_ADDRESS.toLowerCase(),
+            pumaPayPullPayment: process.env.PUMAPAY_PULL_PAYMENT_ADDRESS
+        };
+    }
+
+    public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
+        return 'PumaPayPullPayment';
+    }
+
+    public static GET_SMART_CONTRACTS(): string {
+        return `${process.cwd()}/contracts/contracts.sol`;
+    }
+
+    public static GET_PULL_PAYMENT_TOPICS(): IPullPaymentContract {
+        return {
+            execute: process.env.PULL_PAYMENT_TOPIC_EXECUTE,
+            register: process.env.PULL_PAYMENT_TOPIC_REGISTER,
+            cancel: process.env.PULL_PAYMENT_TOPIC_CANCEL
+        };
+    }
 }
 
 enum PaymentTypeEnum {
@@ -242,4 +265,15 @@ enum EnvironmentTypesEnum {
     development = 'development',
     staging = 'staging',
     production = 'production'
+}
+
+interface  ISmartContracts {
+    token: string;
+    pumaPayPullPayment: string;
+}
+
+interface IPullPaymentContract {
+    execute: string;
+    register: string;
+    cancel: string;
 }
