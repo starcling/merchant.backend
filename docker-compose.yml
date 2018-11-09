@@ -92,7 +92,7 @@ services:
       MYSQL_USER: db_service
       MYSQL_PASSWORD: db_pass
     volumes: 
-      - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/10-init-tables.sql
+      - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/01-init-tables.sql
       - ./account-db/stored-procedures/add_account.sql:/docker-entrypoint-initdb.d/21-add-account.sql
       - ./account-db/stored-procedures/get_account.sql:/docker-entrypoint-initdb.d/23-get-account.sql
       - ./account-db/stored-procedures/add_mnemonic.sql:/docker-entrypoint-initdb.d/30-add-mnemonic.sql

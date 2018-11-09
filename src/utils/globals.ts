@@ -14,6 +14,10 @@ export class Globals {
     private static transactionTypeEnums: any;
     private static transactionStatusEnums: any;
 
+    public static GET_JWT_NAME(): string {
+        return 'x-access-token';
+    }
+
     public static GET_NETWORK_NAME(networkID: number): string {
         switch (networkID) {
             case (1):

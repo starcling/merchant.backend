@@ -144,3 +144,21 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.tb_blockchain_transactions
     OWNER to local_user;
+
+CREATE TABLE IF NOT EXISTS public.tb_users
+(
+    "userID" uuid NOT NULL DEFAULT uuid_generate_v1mc(),
+    "firstName" character varying(255) COLLATE pg_catalog."default",
+    "lastName" character varying(255) COLLATE pg_catalog."default",
+    hash character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    salt character varying(2000) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tb_users_pkey PRIMARY KEY ("userID")
+    )
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.tb_users
+    OWNER to local_user;
