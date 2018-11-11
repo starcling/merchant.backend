@@ -2,34 +2,34 @@ openapi: "3.0.0"
 info:
   version: 1.0.0
   title: Merchant Backend API
-  description: PumaPay API that allows the merchants through the Merchant Backend to create and execute crypto payments using PumaPay Pull PullPaymentModel Protocol over the Ethereum network.
+  description: PumaPay API that allows the merchants through the Merchant Backend to create and execute crypto payments using PumaPay Pull Payment Protocol over the Ethereum network.
   contact:
     name: PumaPay Developers Team
     email: developers@pumapay.io
-    url: http://swagger.io
+    url: https://github.com/pumapayio/wiki
 servers:
   - url: http://localhost:3000/
     description: Local Server
-  - url: https://stgmbackend.pumapay.io/merchant/
+  - url: https://prembackend.pumapay.io/
     description: Test Server
 paths:
   /api/v2/pull-payment-models/:
     post:
       tags:
-        - Pull Payment Models
-      summary: 'Creates a new pull payment model'
+        - Billing Model
+      summary: 'Creates a new billing model'
       parameters: []
-      description: 'Creates a new pull payment model in the merchant database'
+      description: 'Creates a new billing model in the merchant database'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/PullPaymentModelRequest'
+              $ref: '#/components/schemas/BillingModelRequest'
       responses:
         '200':
-          description: Returns the newly created pull payment model
+          description: Returns the newly created billing model
           content:
             application/json:
               schema:
@@ -39,7 +39,7 @@ paths:
                     properties:
                       data:
                         type: object
-                        $ref: '#/components/schemas/PullPaymentModel'
+                        $ref: '#/components/schemas/BillingModel'
         '400':
           description: Bad Request
           content:
@@ -53,13 +53,13 @@ paths:
                         type: string
     get:
       tags:
-        - Pull Payment Models
-      summary: 'Retrieve all the pull payment models'
+        - Billing Model
+      summary: 'Retrieve all the billing models'
       parameters: []
-      description: 'Retrieve all the pull payment models that exists in the merchant database'
+      description: 'Retrieve all the billing models that exists in the merchant database'
       responses:
         '200':
-          description: Returns all the pull payment models
+          description: Returns all the billing models
           content:
             application/json:
               schema:
@@ -71,7 +71,7 @@ paths:
                         type: array
                         items:
                           type: object
-                          $ref: '#/components/schemas/PullPaymentModel'
+                          $ref: '#/components/schemas/BillingModel'
         '400':
           description: Bad Request
           content:
@@ -83,22 +83,22 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v2/pull-payment-models/{PullPaymentModelID}:
+  /api/v2/pull-payment-models/{BillingModelID}:
     get:
       tags:
-        - Pull Payment Models
-      summary: 'Retrieve the pull payment models by pull payment model ID'
+        - Billing Model
+      summary: 'Retrieve the billing models by billing model ID'
       parameters:
         - in: path
-          name: PullPaymentModelID
+          name: BillingModelID
           schema:
             type: string
           required: true
-          description: ID of the pull payment model to retrieve
-      description: 'Retrieve the pull payment models by ID that exists in the merchant database'
+          description: ID of the billing model to retrieve
+      description: 'Retrieve the billing models by ID that exists in the merchant database'
       responses:
         '200':
-          description: Returns the pull payment model by ID
+          description: Returns the billing model by ID
           content:
             application/json:
               schema:
@@ -108,7 +108,7 @@ paths:
                     properties:
                       data:
                         type: object
-                        $ref: '#/components/schemas/PullPaymentModel'
+                        $ref: '#/components/schemas/BillingModel'
         '400':
           description: Bad Request
           content:
@@ -122,26 +122,26 @@ paths:
                         type: string
     put:
       tags:
-        - Pull Payment Models
-      summary: 'Updates the pull payment models by pull payment model ID'
+        - Billing Model
+      summary: 'Updates the billing models by billing model ID'
       parameters:
         - in: path
-          name: PullPaymentModelID
+          name: BillingModelID
           schema:
             type: string
           required: true
-          description: ID of the pull payment model to update
-      description: 'Updates the pull payment models by ID that exists in the merchant database'
+          description: ID of the billing model to update
+      description: 'Updates the billing models by ID that exists in the merchant database'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/PullPaymentModelNoMerchant'
+              $ref: '#/components/schemas/BillingModelNoMerchant'
       responses:
         '200':
-          description: Returns the pull payment model by ID
+          description: Returns the billing model by ID
           content:
             application/json:
               schema:
@@ -151,7 +151,7 @@ paths:
                     properties:
                       data:
                         type: object
-                        $ref: '#/components/schemas/PullPaymentModel'
+                        $ref: '#/components/schemas/BillingModel'
         '400':
           description: Bad Request
           content:
@@ -165,26 +165,26 @@ paths:
                         type: string
     patch:
       tags:
-        - Pull Payment Models
-      summary: 'Updates the pull payment models by pull payment model ID'
+        - Billing Model
+      summary: 'Updates the billing models by billing model ID'
       parameters:
         - in: path
-          name: PullPaymentModelID
+          name: BillingModelID
           schema:
             type: string
           required: true
-          description: ID of the pull payment model to update
-      description: 'Updates the pull payment models by ID that exists in the merchant database'
+          description: ID of the billing model to update
+      description: 'Updates the billing models by ID that exists in the merchant database'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/PullPaymentModelNoMerchantPatch'
+              $ref: '#/components/schemas/BillingModelNoMerchantPatch'
       responses:
         '200':
-          description: Returns the pull payment model by ID
+          description: Returns the billing model by ID
           content:
             application/json:
               schema:
@@ -194,7 +194,7 @@ paths:
                     properties:
                       data:
                         type: object
-                        $ref: '#/components/schemas/PullPaymentModel'
+                        $ref: '#/components/schemas/BillingModel'
         '400':
           description: Bad Request
           content:
@@ -208,19 +208,19 @@ paths:
                         type: string
     delete:
       tags:
-        - Pull Payment Models
-      summary: 'Deletes a pull payment model'
+        - Billing Model
+      summary: 'Deletes a billing model'
       parameters:
         - in: path
-          name: PullPaymentModelID
+          name: BillingModelID
           schema:
             type: string
           required: true
-          description: ID of the pull payment model to delete
-      description: 'Deletes a pull payment model from the merchant database'
+          description: ID of the billing model to delete
+      description: 'Deletes a billing model from the merchant database'
       responses:
         '200':
-          description: Deletes a pull payment model from the merchant database
+          description: Deletes a billing model from the merchant database
           content:
             application/json:
               schema:
@@ -489,7 +489,7 @@ paths:
                     properties:
                       error:
                         type: string
-  /api/v2/qr/{PullPaymentModelID}:
+  /api/v2/qr/{BillingModelID}:
     get:
       tags:
         - QR Payload
@@ -498,14 +498,14 @@ paths:
       summary: 'Returns the QR payload that needs to be injected in the UI'
       parameters:
         - in: path
-          name: PullPaymentModelID
+          name: BillingModelID
           schema:
             type: string
           required: true
-          description: ID of the pull payment model related
+          description: ID of the billing model related
       responses:
         '200':
-          description: Returns the QR payload of a pull payment model
+          description: Returns the QR payload of a billing model
           content:
             application/json:
               schema:
@@ -630,6 +630,7 @@ components:
       name: 'pma-api-key'
  schemas:
     SuccessHttpResponse:
+      description: Every API succesfull request is returned in the following format
       required:
         - code
         - success
@@ -638,16 +639,21 @@ components:
       properties:
         code:
           type: integer
+          description: 'Response Code'
           example: 200
         success:
           type: boolean
+          description: 'Whethere the request is succefull'
           example: true
         message:
           type: string
-          example: Descriptive Success message
+          description: 'Descriptive response message'
+          example: 'Billing model details retrieved successfully'
         data:
           type: object
+          description: 'The data object depends on the API'
     ErrorHttpResponse:
+      description: Every API failed request is returned in the following format
       required:
         - code
         - success
@@ -656,16 +662,22 @@ components:
       properties:
         code:
           type: integer
+          description: 'Response Code'
           example: 400
         success:
           type: boolean
+          description: 'Whethere the request is succefull'
           example: false
         message:
           type: string
+          description: 'Descriptive response message'
+          example: 'Failed to retrieve Billing model details'
         error:
           type: string
-    PullPaymentModel:
+          description: 'The error message depends on the API'
+    BillingModel:
       type: object
+      description: Billing Model describes the payment details. A merchant can have multiple billing models. For exmample, an online magazine can have a monthly plan which gives access to the customer to certain magazines and it also has billing models for one-time purchase of a magazine.
       required:
         - id
         - merchantID
@@ -686,22 +698,22 @@ components:
           type: string
           example: 4a17335e-bf18-11e8-a355-000000fb1459
           format: uuid
-          description: Auto-generated ID for the pull payment model
+          description: Auto-generated ID for the billing model
         merchantID:
           type: string
           example: 4a17335e-bf18-11e8-a355-111111fb1459
           format: uuid
-          description: ID provided to the merchant by PumaPay
+          description: Merchant ID as specified by the merchant. It is recommended to be UUID
         title:
           type: string
           format: text
           example: National Cryptographic Gold Mebmership
-          description: Title of the  payment model
+          description: Title of the billing model
         description:
           type: string
           format: text
           example: Access to all gold articles
-          description: Description of the  payment model
+          description: Description of the billing model
         amount:
           type: integer
           example: 1099
@@ -754,8 +766,9 @@ components:
           example: 1
           format: seconds
           description: The cash out frequency
-    PullPaymentModelRequest:
+    BillingModelRequest:
       type: object
+      description: Billing Model describes the payment details. A merchant can have multiple billing models. For exmample, an online magazine can have a monthly plan which gives access to the customer to certain magazines and it also has billing models for one-time purchase of a magazine.
       required:
         - merchantID
         - title
@@ -780,12 +793,12 @@ components:
           type: string
           format: text
           example: National Cryptographic Gold Mebmership
-          description: Title of the  payment model
+          description: Title of the  billing model
         description:
           type: string
           format: text
           example: Access to all gold articles
-          description: Description of the  payment model
+          description: Description of the  billing model
         amount:
           type: integer
           example: 1099
@@ -840,6 +853,7 @@ components:
           description: The cash out frequency
     PullPayment:
       type: object
+      description: PullPayments are actual payments or subscriptions that the customer has registered to. Each PullPayment is related with a billing model that the merchant has defined.
       properties:
         id:
           type: string
@@ -903,8 +917,9 @@ components:
           description: The userID of the customer as it is being used in merchant's existing system
     PullPaymentRequest:
       type: object
+      description: PullPayments are actual payments or subscriptions that the customer has registered to. Each PullPayment is related with a billing model that the merchant has defined.
       required:
-        - PullPaymentModelID
+        - BillingModelID
         - numberOfPayments
         - startTimestamp
         - customerAddress
@@ -940,6 +955,7 @@ components:
           description: The userID of the customer as it is being used in merchant's existing system
     Transaction:
       type: object
+      description: On the Ethereum network any interaction and change to the state of the blockchain is considered as a transaction. In the PumaPay ecosystem a transaction is used in the same context. Each PullPayment can have multiple transactions and there are multiple types of transactions.
       properties:
         id:
           type: string
@@ -962,7 +978,7 @@ components:
           enum: [register = 1, intital = 2, execute = 3, cancel = 4]
           example: 2
           format: integer
-          description: Transaction Type
+          description: Transaction Types. Registration transaction for when the customer registers to a billing model. Execute transaction for when a merchant pull funds from the customer based on the billing model. Cancel transaction for when the customer cancels a subscription. Initial transaction for when the billing model has initial payment specified and the merchant pulls the relevant funds.
         paymentID:
           type: string
           example: 4a17335e-bf18-11e8-a355-fb1459
@@ -996,7 +1012,7 @@ components:
           enum: [register = 1, intital = 2, execute = 3, cancel = 4]
           example: 2
           format: integer
-          description: Transaction Type
+          description: Transaction Types. Registration transaction for when the customer registers to a billing model. Execute transaction for when a merchant pull funds from the customer based on the billing model. Cancel transaction for when the customer cancels a subscription. Initial transaction for when the billing model has initial payment specified and the merchant pulls the relevant funds.
         timestamp:
           type: string
           example: 1537401600
@@ -1004,6 +1020,7 @@ components:
           description: Unix Epoch Timestamp of the transaction
     TransactionResponse:
       type: object
+      description: On the Ethereum network any interaction and change to the state of the blockchain is considered as a transaction. In the PumaPay ecosystem a transaction is used in the same context. Each PullPayment can have multiple transactions and there are multiple types of transactions.
       properties:
         id:
           type: string
@@ -1039,6 +1056,7 @@ components:
           description: Unix Epoch Timestamp of the transaction
     QrPayload:
       type: object
+      description: QR Code is used by the wallet in order to initiate the PullPayment. These methods return a JSON payload, and it is up to the frontend application or the UI merchant is using to display a QR image.
       properties:
         paymentModelURL:
           type: string
@@ -1046,7 +1064,7 @@ components:
           type: string
         transactionURL:
           type: string
-    PullPaymentModelNoMerchantPatch:
+    BillingModelNoMerchantPatch:
       type: object
       required:
         - automatedCashOut
@@ -1062,7 +1080,7 @@ components:
           example: 1
           format: seconds
           description: The cash out frequency
-    PullPaymentModelNoMerchant:
+    BillingModelNoMerchant:
       type: object
       required:
         - title
@@ -1082,12 +1100,12 @@ components:
           type: string
           format: text
           example: National Cryptographic Gold Mebmership
-          description: Title of the  payment model
+          description: Title of the  billing model
         description:
           type: string
           format: text
           example: Access to all gold articles
-          description: Description of the  payment model
+          description: Description of the  billing model
         amount:
           type: integer
           example: 1099
@@ -1140,7 +1158,7 @@ components:
           example: 1
           format: seconds
           description: The cash out frequency
-    PullPaymentModelNoMerchantRequest:
+    BillingModelNoMerchantRequest:
       type: object
       required:
         - title
@@ -1165,12 +1183,12 @@ components:
           type: string
           format: text
           example: National Cryptographic Gold Mebmership
-          description: Title of the  payment model
+          description: Title of the  billing model
         description:
           type: string
           format: text
           example: Access to all gold articles
-          description: Description of the  payment model
+          description: Description of the  billing model
         amount:
           type: integer
           example: 1099
