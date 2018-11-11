@@ -100,4 +100,5 @@ Please adhere to this [code of conduct](./CODE_OF_CONDUCT.md) in any interaction
 
 ## License
 This software is under the MIT License.
+
 See the full [LICENCE](./LICENCE) file.
