@@ -52,6 +52,7 @@ $ docker-compose up -d merchant_redis
 $ npm run
 ```
 Server is up and running on `http://localhost:3000/`
+
 To check the API Swagger file `http://localhost:3000/api/v2/docs/api/`
 
 ### Getting Started Docker
@@ -73,6 +74,7 @@ $ docker-compose up -d
 ```
 
 Server is up and running on `http://localhost:3000/`
+
 To check the API Swagger file `http://localhost:3000/api/v2/docs/api/`
 
 ### Testing
@@ -89,3 +91,13 @@ $ npm run test-unit
 ```
 $ npm run test
 ```
+
+## Code of Conduct
+
+In order to have a more open and welcoming community, PumaPay adheres to a code of conduct adapted from [W3C’s Code of Ethics and Professional Conduct](https://www.w3.org/Consortium/cepc) with some additions from the [Cloud Foundry's](https://www.cloudfoundry.org/) Code of Conduct.
+
+Please adhere to this [code of conduct](./CODE_OF_CONDUCT.md) in any interactions you have in the PumaPay community. It is strictly enforced on all official PumaPay repositories, websites, and resources. If you encounter someone violating these terms, please let one of our core team members know and we will address it as soon as possible.
+
+## License
+This software is under the MIT License.
+See the full [LICENCE](./LICENCE) file.
