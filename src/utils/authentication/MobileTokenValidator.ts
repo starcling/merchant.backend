@@ -6,8 +6,8 @@ export class MobileTokenValidator {
   * @param {any} request: The request coming from the mobile app
   * @returns {string}: Returns a string of tfcm token
   */
-  public static GET_FCM_TOKEN_FROM_REQUEST(request: any): string {
-    const fcmTokenName = Globals.GET_FCM_MOBILE_TOKEN_NAME();
+  public static GET_AUTH_TOKEN_FROM_REQUEST(request: any): string {
+    const fcmTokenName = Globals.GET_MOBILE_AUTH_TOKEN_NAME();
     let token = request.headers[fcmTokenName] as string;
     if (!token) {
       token = request.body ? request.body[fcmTokenName] : null;

@@ -1,10 +1,11 @@
-import { JsonController, Res, Post, Body, Get, Param, Delete } from 'routing-controllers';
+import { JsonController, Res, Post, Body, Get, Param, Delete, UseBefore } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { IPaymentInsert } from '../../core/payment/models';
 import { PaymentConnector } from '../../connectors/api/v1/PaymentConnector';
 import { CreatePaymentValidator } from '../../validators/PaymentValidator/CreatePaymentValidator';
 import { GetPaymentValidator } from '../../validators/PaymentValidator/GetPaymentValidator';
 import { DeletePaymentValidator } from '../../validators/PaymentValidator/DeletePaymentValidator';
+import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
 
 @JsonController('/pull-payments')
 export class PullPaymentsController {
@@ -47,6 +48,7 @@ export class PullPaymentsController {
     *
     */
     @Post('/')
+    @UseBefore(MobileValidationMiddleware)
     public async createPayment(@Body() payment: IPaymentInsert, @Res() response: any): Promise<any> {
         try {
             await new CreatePaymentValidator().validate(payment);

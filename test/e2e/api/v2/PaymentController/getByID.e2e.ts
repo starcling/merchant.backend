@@ -169,7 +169,6 @@ describe('PaymentController: getPaymentByID', () => {
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-                    console.log(body);
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').that.is.an('array');

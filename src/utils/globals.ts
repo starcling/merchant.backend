@@ -163,8 +163,8 @@ export class Globals {
         return '/mobile/validate/';
     }
 
-    public static GET_FCM_MOBILE_TOKEN_NAME(): string {
-        return 'fcm-mobile-token';
+    public static GET_MOBILE_AUTH_TOKEN_NAME(): string {
+        return 'pumapay-mobile-auth-token';
     }
 
     public static GET_TEST_FCM_TOKEN(): string {
@@ -271,7 +271,7 @@ enum EnvironmentTypesEnum {
     production = 'production'
 }
 
-interface  ISmartContracts {
+interface ISmartContracts {
     token: string;
     pumaPayPullPayment: string;
 }

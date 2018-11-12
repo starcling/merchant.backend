@@ -1,43 +1,40 @@
-import {JsonController, Res, Get, Param, UseBefore} from 'routing-controllers';
+import { JsonController, Res, Get, Param } from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { QrConnector } from '../../connectors/api/v1/QrConnector';
 import { GetQrValidator } from '../../validators/QrValidator/GetQrValidator';
-import { MobileValidationMiddleware } from '../../middleware/MobileValidationMiddleware';
-import {GetEtherPushQrCode} from '../../validators/QrValidator/GetEtherPushQrCode';
-import {IErc20PushQrCodeDetails, IEtherPushQrCodeDetails} from '../../core/qr/models';
-import {GetErc20PushQrCode} from '../../validators/QrValidator/GetErc20PushQrCode';
+import { GetEtherPushQrCode } from '../../validators/QrValidator/GetEtherPushQrCode';
+import { IErc20PushQrCodeDetails, IEtherPushQrCodeDetails } from '../../core/qr/models';
+import { GetErc20PushQrCode } from '../../validators/QrValidator/GetErc20PushQrCode';
 
 @JsonController('/qr')
-@UseBefore(MobileValidationMiddleware)
-
 export class QrController {
 
     /**
-    * @apiDefine Response
-    * @apiSuccess {boolean} success The HTTP success of the call
-    * @apiSuccess {number} status The HTTP status of the call
-    * @apiSuccess {string} message A human-friendly summary of the result of the call
-    * @apiSuccess {object} data The response data of the call
-    */
+     * @apiDefine Response
+     * @apiSuccess {boolean} success The HTTP success of the call
+     * @apiSuccess {number} status The HTTP status of the call
+     * @apiSuccess {string} message A human-friendly summary of the result of the call
+     * @apiSuccess {object} data The response data of the call
+     */
 
     /**
-    * @api {get} /api/v2/qr/:paymentID
-    * @apiDescription Gets generated qr code from the SDK
-    *
-    * @apiName getQRCode
-    * @apiGroup QrController
-    * @apiVersion  1.0.0
-    *
-    * @apiParam {string} paymentID - ID of the payment
-    *
-    * @apiParamExample {json} Request-Example:
-    * {
-    *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
-    * }
-    *
-    * @apiSuccess (200) {array} QR details for payment
-    *
-      */
+     * @api {get} /api/v2/qr/:paymentID
+     * @apiDescription Gets generated qr code from the SDK
+     *
+     * @apiName getQRCode
+     * @apiGroup QrController
+     * @apiVersion  1.0.0
+     *
+     * @apiParam {string} paymentID - ID of the payment
+     *
+     * @apiParamExample {json} Request-Example:
+     * {
+     *   "paymentID": "c90de9da-8b44-11e8-a3da-774835f29b05"
+     * }
+     *
+     * @apiSuccess (200) {array} QR details for payment
+     *
+     */
     @Get('/:paymentID')
     public async getQRCode(@Param('paymentID') paymentID: string, @Res() response: any): Promise<any> {
         try {
@@ -84,7 +81,8 @@ export class QrController {
                 <IEtherPushQrCodeDetails>{
                     address: address,
                     value: value,
-                    gas: gas });
+                    gas: gas
+                });
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
@@ -128,7 +126,8 @@ export class QrController {
                     tokenAddress: tokenAddress,
                     address: address,
                     value: value,
-                    gas: gas});
+                    gas: gas
+                });
 
             return new APIResponseHandler().handle(response, result);
         } catch (error) {
