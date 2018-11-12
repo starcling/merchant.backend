@@ -33,6 +33,7 @@ services:
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
       - CORE_API_KEY=439b42e67a947be164e8ba4dfd6cc24ff0915154e33d48c8924088d39a35ff7413a32849d88cb96ecead49a58329bd8a69c38f0374305c3699b7835491693a0c
       - MERCHANT_ID=4a17335e-bf18-11e8-a355-111111fb1459
+      - MERCHANT_NAME=PumaPay Developers
       - AWS_ACCESS_KEY_ID=0
       - AWS_SECRET_ACCESS_KEY=0
       - AWS_REGION=0
@@ -81,8 +82,8 @@ services:
       - pumapay_merchant_sdk
     volumes:
       - redis-data:/data
-    
-  merchant_db: 
+
+  merchant_db:
     image: mysql:5.7.13
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
@@ -91,7 +92,7 @@ services:
       MYSQL_DATABASE: keys
       MYSQL_USER: db_service
       MYSQL_PASSWORD: db_pass
-    volumes: 
+    volumes:
       - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/01-init-tables.sql
       - ./account-db/stored-procedures/add_account.sql:/docker-entrypoint-initdb.d/21-add-account.sql
       - ./account-db/stored-procedures/get_account.sql:/docker-entrypoint-initdb.d/23-get-account.sql
@@ -101,9 +102,9 @@ services:
       - ./account-db/init/add_data.sql:/docker-entrypoint-initdb.d/34-add_data.sql
     ports:
       - "3305:3306"
-    networks: 
+    networks:
       - pumapay_merchant_sdk
-    
+
 networks:
   pumapay_merchant_sdk:
     external:

@@ -187,6 +187,10 @@ export class Globals {
         return process.env.MERCHANT_ID;
     }
 
+    public static GET_MERCHANT_NAME(): string {
+        return process.env.MERCHANT_NAME;
+    }
+
     public static GET_CORE_API_KEY(): string {
         return process.env.CORE_API_KEY;
     }
