@@ -54,7 +54,7 @@ services:
       - postgres_merchant
     networks:
       - pumapay_merchant_sdk
-    command: sh -c "npm run dev"
+    command: dockerize -wait tcp://postgres_merchant:5432 -wait tcp://merchant_db:3306 -timeout 5m  npm run dev
 
   postgres_merchant:
     image: postgres:9.6
