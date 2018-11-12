@@ -2,7 +2,6 @@ import { IPaymentInsert, IPaymentUpdate } from './models';
 import { PaymentDbConnector } from '../../connectors/dbConnector/PaymentDbConnector';
 import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
-import { HTTPRequestFactory } from '../../utils/web/HTTPRequestFactory';
 import { PaymentModelDbConnector } from '../../connectors/dbConnector/PaymentModelDbConnector';
 import { IPaymentModelUpdateDetails } from '../paymentModel/models';
 import { Globals } from '../../utils/globals';
@@ -120,13 +119,7 @@ export class Payment {
             const response = await new PaymentDbConnector().getPaymentByID(paymentID);
             if (response.data && response.data[0] && response.data[0].id !== null) {
                 try {
-                    const httpRequest = new HTTPRequestFactory()
-                        .create(`${process.env.CORE_API_URL}/api/v2/merchant/${response.data[0].merchantID}`, {
-                            'Content-Type': 'application/json',
-                            'pma-api-key': Globals.GET_CORE_API_KEY()
-                        }, 'GET', null, null);
-                    const httpResponse = await httpRequest.getResponse();
-                    response.data[0].merchantName = JSON.parse(httpResponse.body).data.businessName;
+                    response.data[0].merchantName = Globals.GET_MERCHANT_NAME();
                 } catch (err) {
                     console.log(err);
                 }
