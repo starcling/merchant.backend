@@ -43,6 +43,10 @@ export class Globals {
         return new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
     }
 
+    public static GET_TX_HASH_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^0x([A-Fa-f0-9]{64})$/);
+    }
+
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
         return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
