@@ -55,6 +55,10 @@ export class Globals {
         return 'eS5XgCLEJRygOsT6E4Bf';
     }
 
+    public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
+        return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
+    }
+
     public static BALANCE_CHECK_INTERVAL(): number {
         return Number(process.env.BALANCE_MONITOR_INTERVAL) || 21600000; // 6 hours in miliseconds
     }
