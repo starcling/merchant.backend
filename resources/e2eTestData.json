@@ -80,7 +80,7 @@
     },
     "transactions": {
         "getTestTransaction": {
-            "transactionHash": "24947f2e-9164-11e8-bc8e-27e75bf6baf4",
+            "transactionHash": "0x5001eb375228166ec3be82299524d8c4e8bb6aa3c368d71829ae234e7947e39d",
             "pullPaymentID": "23c534fe-8c97-11e8-b47f-9a38301a1e03",
             "statusID": 1,
             "typeID": 2
