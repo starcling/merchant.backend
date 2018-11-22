@@ -224,6 +224,7 @@ export class BCEventListener {
             this.web3.setProvider(p);
             this.monitor();
         } catch (error) {
+            this.reconnectToEtherscan(error);
             BCEventListener.logger.error(`Etherscan websocket reconnection has failed...${error.message}`);
         }
     }
