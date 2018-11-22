@@ -51,7 +51,9 @@ export class BCEventListener {
             address: Globals.GET_SMART_CONTRACT_ADDRESS().pumaPayPullPayment,
             topics: registerTopic
         }, async (error, response) => {
-            this.handleRegisterLog(error, response);
+            if (!error) {
+                this.handleRegisterLog(error, response);
+            }
         }).on('error', (error) => {
             BCEventListener.logger.error(`Failed to subscribe to etherscan logs: ${error}`);
         });
@@ -60,7 +62,9 @@ export class BCEventListener {
             address: Globals.GET_SMART_CONTRACT_ADDRESS().pumaPayPullPayment,
             topics: cancelTopic
         }, async (error, response) => {
-            this.handleCancelLog(error, response);
+            if (!error) {
+                this.handleCancelLog(error, response);
+            }
         }).on('error', (error) => {
             BCEventListener.logger.error(`Failed to subscribe to etherscan logs: ${error}`);
         });
@@ -223,9 +227,17 @@ export class BCEventListener {
             p.on('end', this.reconnectToEtherscan);
             this.web3.setProvider(p);
             this.monitor();
+            this.web3.eth.net.isListening()
+                .then(() => {
+                    BCEventListener.logger.info('Monitoring logs for smart contract registration and cancelation');
+                })
+                .catch(eror => {
+                    BCEventListener.logger.error(`Monitoring the blockchain failed, ${eror.message}`);
+                });
         } catch (error) {
             this.reconnectToEtherscan(error);
             BCEventListener.logger.error(`Etherscan websocket reconnection has failed...${error.message}`);
+            this.reconnectToEtherscan(error);
         }
     }
 }
