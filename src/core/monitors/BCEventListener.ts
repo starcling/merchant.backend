@@ -23,7 +23,6 @@ export class BCEventListener {
     public constructor(private networkID: number) {
         const infuraURL = `wss://${Globals.GET_NETWORK_NAME(networkID)}.infura.io/ws`;
         this.web3 = new WEB3(new WEB3.providers.WebsocketProvider(infuraURL));
-        const provider = new WEB3.providers.WebsocketProvider(`wss://${Globals.GET_NETWORK_NAME(networkID)}.infura.io/ws`);
         this.smartContractReader = new SmartContractReader(Globals.GET_PULL_PAYMENT_CONTRACT_NAME(), networkID);
         this.paymentDbConnector = new PaymentDbConnector();
         this.redisClient = new RedisClientCreator().getRedisConnection();
@@ -35,10 +34,6 @@ export class BCEventListener {
             .catch(e => {
                 BCEventListener.logger.error(`Monitoring the blockchain failed, ${e.message}`);
             });
-
-        provider.on('end', (e) => {
-            this.reconnectToEtherscan(e);
-        });
     }
 
     public async monitor() {
@@ -120,7 +115,6 @@ export class BCEventListener {
                 const paymentData = await this.paymentDbConnector.getPaymentByID(logResponse.paymentID);
                 if (paymentData.success && paymentData.data.length > 0) {
                     BCEventListener.logger.info(`Smart Contract Registration Detected.`);
-                    console.log(response);
                     try {
                         this.transactionConnector.createTransaction({
                             hash: response.transactionHash,
@@ -210,6 +204,7 @@ export class BCEventListener {
 
     // This is used to regulary check for the socket health.
     private socketHealthCheck = async () => {
+        BCEventListener.logger.info('Socket health check start');
         try {
             clearTimeout(this.etherscanHealthCheckInterval);
             this.etherscanHealthCheckInterval = setTimeout(this.socketHealthCheck, Globals.GET_ETHERSCAN_HEALTH_CHECK_INTERVAL());
@@ -224,7 +219,9 @@ export class BCEventListener {
             BCEventListener.logger.warn(`Etherscan websocket connection has closed. ${e}`);
             BCEventListener.logger.info(`Attempting to reconnect...`);
             const p = new WEB3.providers.WebsocketProvider(`wss://${Globals.GET_NETWORK_NAME(this.networkID)}.infura.io/ws`);
-            p.on('end', this.reconnectToEtherscan);
+            p.on('end', (err) => {
+                this.reconnectToEtherscan(err);
+            });
             this.web3.setProvider(p);
             this.monitor();
             this.web3.eth.net.isListening()
