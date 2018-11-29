@@ -1,10 +1,8 @@
-import {JsonController, Res, Post, Body, Get, Param, QueryParam, UseBefore} from 'routing-controllers';
+import {JsonController, Res, Get, Param, QueryParam} from 'routing-controllers';
 import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
 import { TransactionConnector } from '../../connectors/api/v1/TransactionConnector';
-import { CreateTransactionValidator } from '../../validators/TransactionValidator/CreateTransactionValidator';
-import { ITransactionInsert, ITransactionGet } from '../../core/transaction/models';
+import { ITransactionGet } from '../../core/transaction/models';
 import { GetTransactionValidator } from '../../validators/TransactionValidator/GetTransactionValidator';
-import {ApiAuthenticationMiddleware} from '../../middleware/ApiAuthenticationMilddleware';
 
 @JsonController('/transactions')
 export class TransactionController {
