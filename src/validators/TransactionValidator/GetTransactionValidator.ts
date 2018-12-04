@@ -21,7 +21,7 @@ export class GetTransactionValidator extends TransactionValidator {
 }
 
 const dataSchema = Joi.object().keys({
-    transactionHash: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).allow(null),
+    transactionHash: Joi.string().regex(Globals.GET_TX_HASH_REG_EXPRESSION()).allow(null),
     pullPaymentID: Joi.string().regex(Globals.GET_UUID_REG_EXPRESSION()).allow(null),
     statusID: Joi.number().allow(null),
     typeID: Joi.number().allow(null)

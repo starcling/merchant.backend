@@ -31,15 +31,22 @@ services:
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
-      - CORE_API_KEY=a0f83683ab23f6b3669626dcb03c7a3d50522c72e17ed55b6c21cd6246827390367cd592edf5769b8b9b02fd219b193b15e514409d69c8e4283b4ff7c60536c7
-      - MERCHANT_ID=f829ba82-c3ca-11e8-9c44-ef5ee2f973a1
+      - CORE_API_KEY=439b42e67a947be164e8ba4dfd6cc24ff0915154e33d48c8924088d39a35ff7413a32849d88cb96ecead49a58329bd8a69c38f0374305c3699b7835491693a0c
+      - MERCHANT_ID=4a17335e-bf18-11e8-a355-111111fb1459
+      - MERCHANT_NAME=PumaPay Developers
       - AWS_ACCESS_KEY_ID=0
       - AWS_SECRET_ACCESS_KEY=0
       - AWS_REGION=0
       - AWS_KEY_ID=0
       - ENCRYPTION_MODULE=none
+      - TOKEN_ADDRESS=0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1
+      - PULL_PAYMENT_TOPIC_REGISTER=0x428ab8c1610a031128b670bb25673444ab666a8ffc071f4d10f9a4d4111cc4b9
+      - PULL_PAYMENT_TOPIC_CANCEL=0x172a33cda438041634fc514b27425640f7d77fd7bd679f07f1931d454b08fa78
+      - PULL_PAYMENT_TOPIC_EXECUTE=0x13492443fb72a9a7d56cc1aa2e262bcf2442d4b084def464b7934b3485114e59
+      - PUMAPAY_PULL_PAYMENT_ADDRESS=0xd996F8A7298D822eEb71868c93ECEB106401A5fe
     volumes:
       - ./src:/usr/src/app/src
+      - ./contracts:/usr/src/app/contracts
       - ./src/swagger.yml:/usr/src/app/src/swagger.yml
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./package.json:/usr/src/app/package.json
@@ -47,7 +54,7 @@ services:
       - postgres_merchant
     networks:
       - pumapay_merchant_sdk
-    command: sh -c "npm run dev"
+    command: dockerize -wait tcp://postgres_merchant:5432 -wait tcp://merchant_db:3306 -timeout 5m  npm run dev
 
   postgres_merchant:
     image: postgres:9.6
@@ -75,8 +82,8 @@ services:
       - pumapay_merchant_sdk
     volumes:
       - redis-data:/data
-    
-  merchant_db: 
+
+  merchant_db:
     image: mysql:5.7.13
     command: --default-authentication-plugin=mysql_native_password
     restart: unless-stopped
@@ -85,8 +92,8 @@ services:
       MYSQL_DATABASE: keys
       MYSQL_USER: db_service
       MYSQL_PASSWORD: db_pass
-    volumes: 
-      - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/10-init-tables.sql
+    volumes:
+      - ./account-db/init/init-tables.sql:/docker-entrypoint-initdb.d/01-init-tables.sql
       - ./account-db/stored-procedures/add_account.sql:/docker-entrypoint-initdb.d/21-add-account.sql
       - ./account-db/stored-procedures/get_account.sql:/docker-entrypoint-initdb.d/23-get-account.sql
       - ./account-db/stored-procedures/add_mnemonic.sql:/docker-entrypoint-initdb.d/30-add-mnemonic.sql
@@ -95,9 +102,9 @@ services:
       - ./account-db/init/add_data.sql:/docker-entrypoint-initdb.d/34-add_data.sql
     ports:
       - "3305:3306"
-    networks: 
+    networks:
       - pumapay_merchant_sdk
-    
+
 networks:
   pumapay_merchant_sdk:
     external:

@@ -25,40 +25,6 @@ const insertPaymentData = payments['insertTestPayment'];
 
 let pullPaymentModelID: string;
 let paymentID: string;
-// let merchantID: string;
-// let merchantName: string;
-
-// const insertMerchant = async () => {
-    // const merchantPayload = {
-    //     "firstName": "John",
-    //     "lastName": "Doe",
-    //     "businessName": "PumaPay Test: " + Math.random() * 50,
-    //     "phoneNumber": "222523" + Math.floor(Math.random() * 90 + 10),
-    //     "country": "Cyprus",
-    //     "city": "Nicosia",
-    //     "streetAddress": "address1",
-    //     "zipCode": "1234"
-    // };
-    //
-    // const httpRequest = new HTTPRequestFactory()
-    //     .create(`http://localhost:8081/api/v2/merchant/create`, {
-    //         'Content-Type': 'application/json',
-    //         'pma-api-key': 'tCx3x8lH5TqSZZGSYHPWMZg7UvDdN1Rs'
-    //     }, 'POST', merchantPayload, null);
-    // const httpResponse = await httpRequest.getResponse();
-    // console.debug(httpResponse);
-    // merchantID = merchantName = JSON.parse(httpResponse.body).data.merchantID;
-    // merchantName = JSON.parse(httpResponse.body).data.businessName;
-// };
-
-// const deleteMerchant = async () => {
-    // const httpRequest = new HTTPRequestFactory()
-    //     .create(`http://localhost:8081/api/v2/merchant/delete/${merchantID}`, {
-    //         'Content-Type': 'application/json',
-    //         'pma-api-key': 'tCx3x8lH5TqSZZGSYHPWMZg7UvDdN1Rs'
-    //     }, 'DELETE', null, null);
-    // await httpRequest.getResponse();
-// };
 
 const insertPaymentModel = async () => {
     // paymentModel.merchantID = merchantID;
@@ -83,14 +49,6 @@ const clearPayment = async () => {
 
 describe('PaymentController: getPaymentByID', () => {
     describe('with success response', () => {
-
-        // before('insert test merchant', async () => {
-        //     await insertMerchant();
-        // });
-        //
-        // after('insert test merchant', async () => {
-        //     await deleteMerchant();
-        // });
 
         beforeEach('insert test payment model', async () => {
             await insertPaymentModel();
@@ -169,7 +127,6 @@ describe('PaymentController: getPaymentByID', () => {
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
-                    console.log(body);
                     expect(body).to.have.property('success').that.is.equal(false);
                     expect(body).to.have.property('status').that.is.equal(400);
                     expect(body).to.have.property('error').that.is.an('array');

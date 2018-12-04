@@ -64,7 +64,7 @@ describe('PaymentController: create', () => {
             insertPayment.pullPaymentModelID = pullPaymentModelID;
             server
                 .post(`${endpoint}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(insertPayment)
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -107,7 +107,7 @@ describe('PaymentController: create', () => {
 
             server
                 .post(`${endpoint}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullInsertPayment)
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -126,7 +126,7 @@ describe('PaymentController: create', () => {
 
             server
                 .post(`${endpoint}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullInsertPayment)
                 .expect(400)
                 .end((err: Error, res: any) => {

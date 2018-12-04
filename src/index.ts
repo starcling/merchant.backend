@@ -17,6 +17,7 @@ import { MerchantSDK } from './core/MerchantSDK';
 import { Globals } from './utils/globals';
 import { CreatePaymentModelHandler } from './core/paymentModel/CreatePaymentModelHandler';
 import { BankBalanceMonitor } from './core/monitors/BankBalanceMonitor';
+import { BCEventListener } from './core/monitors/BCEventListener';
 
 const SWAGGER_DOCUMENT = YAML.load('/usr/src/app/src/swagger.yml');
 
@@ -44,7 +45,7 @@ class App {
     MerchantSDK.GET_SDK().build(Globals.GET_DEFAULT_SDK_BUILD(Config.settings.networkID));
     this.logger.info('SDK build completed.');
     new BankBalanceMonitor(Number(process.env.ETH_NETWORK)).monitor();
-
+    new BCEventListener(Number(process.env.ETH_NETWORK)).monitor();
     this.debug('Sync with redis completed.');
 
     this.debug('Dependency Injection');
@@ -52,7 +53,7 @@ class App {
     Container.set(LoggerFactory, this.loggerFactory);
     app.use('/api/v2/doc/api', swaggerUi.serve, swaggerUi.setup(SWAGGER_DOCUMENT));
     const apiPath = Config.settings.apiPath;
-    const ext = process.env.enviroment === 'development' ? 'ts' : 'js';
+    const ext = process.env.NODE_ENV === 'development' ? 'ts' : 'js';
     const routingControllersOptions: RoutingControllersOptions = {
       defaultErrorHandler: false,
       routePrefix: apiPath,

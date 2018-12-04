@@ -47,7 +47,7 @@ describe('PullPaymentModelController: update', () => {
 
             server
                 .put(`${endpoint}${updatePaymentModel.id}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(updatePaymentModel)
                 .expect(200)
                 .end((err: Error, res: any) => {
@@ -76,7 +76,7 @@ describe('PullPaymentModelController: update', () => {
 
             server
                 .put(`${endpoint}${updatePaymentModel.id}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {
@@ -94,7 +94,7 @@ describe('PullPaymentModelController: update', () => {
 
             server
                 .put(`${endpoint}${updatePaymentModel.id}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .send(unsuccessfullUpdatePayment)
                 .expect(400)
                 .end((err: Error, res: any) => {

@@ -65,7 +65,7 @@ describe('PaymentController: delete', () => {
 
             server
                 .delete(`${endpoint}${paymentID}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -81,7 +81,7 @@ describe('PaymentController: delete', () => {
         it('should return 400', (done) => {
             server
                 .delete(`${endpoint}${paymentID}NOT_IN_DB`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;

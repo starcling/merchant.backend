@@ -31,7 +31,7 @@ describe('A Get QR For Ethernet E2E Test', () => {
 
         server
             .get(`${endpoint}${address}/${value}/${gas}`)
-            .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+            .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
             .expect(200)
             .end((err: Error, res: any) => {
                 const body = res.body;
@@ -59,7 +59,7 @@ describe('A Get QR For Ethernet E2E Test', () => {
 
         server
             .get(`${endpoint}${address}/${value}/${gas}`)
-            .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+            .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
             .expect(400)
             .end((err: Error, res: any) => {
                 const body = res.body;

@@ -41,7 +41,7 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
         it('Should return paymentModel object', (done) => {
             server
                 .get(`${endpoint}${pullPaymentModelID}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(200)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -72,7 +72,7 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
             const id = 'test_id';
             server
                 .get(`${endpoint}${id}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;
@@ -91,7 +91,7 @@ describe('PullPaymentModelController: getPaymentModelByID', () => {
             const id = 'eb947468-8a8d-11e8-b552-8f90e6b18af3';
             server
                 .get(`${endpoint}${id}`)
-                .set(Globals.GET_FCM_MOBILE_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
+                .set(Globals.GET_MOBILE_AUTH_TOKEN_NAME(), Globals.GET_TEST_FCM_TOKEN())
                 .expect(400)
                 .end((err: Error, res: any) => {
                     const body = res.body;

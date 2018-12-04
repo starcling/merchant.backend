@@ -14,6 +14,10 @@ export class Globals {
     private static transactionTypeEnums: any;
     private static transactionStatusEnums: any;
 
+    public static GET_JWT_NAME(): string {
+        return 'x-access-token';
+    }
+
     public static GET_NETWORK_NAME(networkID: number): string {
         switch (networkID) {
             case (1):
@@ -39,12 +43,20 @@ export class Globals {
         return new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
     }
 
+    public static GET_TX_HASH_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^0x([A-Fa-f0-9]{64})$/);
+    }
+
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
         return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
 
     public static GET_INFURA_API_KEY(): string {
         return 'eS5XgCLEJRygOsT6E4Bf';
+    }
+
+    public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
+        return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
     }
 
     public static BALANCE_CHECK_INTERVAL(): number {
@@ -159,8 +171,8 @@ export class Globals {
         return '/mobile/validate/';
     }
 
-    public static GET_FCM_MOBILE_TOKEN_NAME(): string {
-        return 'fcm-mobile-token';
+    public static GET_MOBILE_AUTH_TOKEN_NAME(): string {
+        return 'pumapay-mobile-auth-token';
     }
 
     public static GET_TEST_FCM_TOKEN(): string {
@@ -181,6 +193,10 @@ export class Globals {
 
     public static GET_MERCHANT_ID(): string {
         return process.env.MERCHANT_ID;
+    }
+
+    public static GET_MERCHANT_NAME(): string {
+        return process.env.MERCHANT_NAME;
     }
 
     public static GET_CORE_API_KEY(): string {
@@ -204,6 +220,29 @@ export class Globals {
             CurrenciesEnum.JPY,
             CurrenciesEnum.EUR,
             CurrenciesEnum.GBP];
+    }
+
+    public static GET_SMART_CONTRACT_ADDRESS(): ISmartContracts {
+        return {
+            token: process.env.TOKEN_ADDRESS.toLowerCase(),
+            pumaPayPullPayment: process.env.PUMAPAY_PULL_PAYMENT_ADDRESS
+        };
+    }
+
+    public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
+        return 'PumaPayPullPayment';
+    }
+
+    public static GET_SMART_CONTRACTS(): string {
+        return `${process.cwd()}/contracts/contracts.sol`;
+    }
+
+    public static GET_PULL_PAYMENT_TOPICS(): IPullPaymentContract {
+        return {
+            execute: process.env.PULL_PAYMENT_TOPIC_EXECUTE,
+            register: process.env.PULL_PAYMENT_TOPIC_REGISTER,
+            cancel: process.env.PULL_PAYMENT_TOPIC_CANCEL
+        };
     }
 }
 
@@ -242,4 +281,15 @@ enum EnvironmentTypesEnum {
     development = 'development',
     staging = 'staging',
     production = 'production'
+}
+
+interface ISmartContracts {
+    token: string;
+    pumaPayPullPayment: string;
+}
+
+interface IPullPaymentContract {
+    execute: string;
+    register: string;
+    cancel: string;
 }
