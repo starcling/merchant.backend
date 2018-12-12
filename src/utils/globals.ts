@@ -26,12 +26,12 @@ export class Globals {
                 return 'ropsten';
         }
     }
-	
-	   public static GET_TOKEN_ADDRESS(): string {
+
+    public static GET_TOKEN_ADDRESS(): string {
         return '0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1';
     }
-	
-	public static GET_CRYPTOCOMPARE_KEY(): string {
+
+    public static GET_CRYPTOCOMPARE_KEY(): string {
         return 'fe1cb6a158fd41264a04aeec270fd55050787964e3c47bf830c8dd366687b4c4';
     }
     public static GET_GAS_ESTIMATE_TO(): string {
@@ -42,7 +42,7 @@ export class Globals {
         return '0x506b8cce6aaf7a3d6558be0d29dd5229b14bc95a7070d427e4ac6dde441036b0';
     }
 
-	public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
+    public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
         return 'PumaPayToken';
     }
 
@@ -224,9 +224,9 @@ export class Globals {
 
     public static GET_CURRENCIES(): CurrenciesEnum[] {
         return [CurrenciesEnum.USD,
-            CurrenciesEnum.JPY,
-            CurrenciesEnum.EUR,
-            CurrenciesEnum.GBP];
+        CurrenciesEnum.JPY,
+        CurrenciesEnum.EUR,
+        CurrenciesEnum.GBP];
     }
 
     public static GET_SMART_CONTRACT_ADDRESS(): ISmartContracts {
@@ -236,9 +236,6 @@ export class Globals {
         };
     }
 
-    public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
-        return 'PumaPayPullPayment';
-    }
 
     public static GET_SMART_CONTRACTS(): string {
         return `${process.cwd()}/contracts/contracts.sol`;
