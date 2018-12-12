@@ -26,6 +26,25 @@ export class Globals {
                 return 'ropsten';
         }
     }
+	
+	   public static GET_TOKEN_ADDRESS(): string {
+        return '0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1';
+    }
+	
+	public static GET_CRYPTOCOMPARE_KEY(): string {
+        return 'fe1cb6a158fd41264a04aeec270fd55050787964e3c47bf830c8dd366687b4c4';
+    }
+    public static GET_GAS_ESTIMATE_TO(): string {
+        return '0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe';
+    }
+
+    public static GET_GAS_ESTIMATE_DATA(): string {
+        return '0x506b8cce6aaf7a3d6558be0d29dd5229b14bc95a7070d427e4ac6dde441036b0';
+    }
+
+	public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
+        return 'PumaPayToken';
+    }
 
     public static GET_LOWERCASE_ALPHANUMERIC_REG_EXPRESSION(): RegExp {
         return new RegExp(/^[a-z0-9]+$/);
