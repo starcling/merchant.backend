@@ -62,12 +62,20 @@ export class Globals {
         return new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
     }
 
+    public static GET_TX_HASH_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^0x([A-Fa-f0-9]{64})$/);
+    }
+
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
         return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
 
     public static GET_INFURA_API_KEY(): string {
         return 'eS5XgCLEJRygOsT6E4Bf';
+    }
+
+    public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
+        return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
     }
 
     public static BALANCE_CHECK_INTERVAL(): number {
@@ -204,6 +212,10 @@ export class Globals {
 
     public static GET_MERCHANT_ID(): string {
         return process.env.MERCHANT_ID;
+    }
+
+    public static GET_MERCHANT_NAME(): string {
+        return process.env.MERCHANT_NAME;
     }
 
     public static GET_CORE_API_KEY(): string {

@@ -4,6 +4,7 @@ import { LoggerFactory } from '../../utils/logger';
 import { Globals } from '../../utils/globals';
 import { CreatePaymentModelHandler } from '../paymentModel/CreatePaymentModelHandler';
 import { EmailHelper } from '../../utils/email/EmailHelper';
+
 const WEB3 = require('web3');
 
 export class BankBalanceMonitor {
@@ -13,8 +14,8 @@ export class BankBalanceMonitor {
     private static web3: any;
 
     public constructor(private networkID: number) {
-        const infuraURL = `wss://${Globals.GET_NETWORK_NAME(this.networkID)}.infura.io/ws`;
-        BankBalanceMonitor.web3 = new WEB3(new WEB3.providers.WebsocketProvider(infuraURL));
+        const infuraURL = `https://${Globals.GET_NETWORK_NAME(this.networkID)}.infura.io/eS5XgCLEJRygOsT6E4Bf`;
+        BankBalanceMonitor.web3 = new WEB3(new WEB3.providers.HttpProvider(infuraURL));
     }
 
     private async checkBalance(): Promise<any> {
