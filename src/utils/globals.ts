@@ -27,25 +27,6 @@ export class Globals {
         }
     }
 
-    public static GET_TOKEN_ADDRESS(): string {
-        return '0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1';
-    }
-
-    public static GET_CRYPTOCOMPARE_KEY(): string {
-        return 'fe1cb6a158fd41264a04aeec270fd55050787964e3c47bf830c8dd366687b4c4';
-    }
-    public static GET_GAS_ESTIMATE_TO(): string {
-        return '0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe';
-    }
-
-    public static GET_GAS_ESTIMATE_DATA(): string {
-        return '0x506b8cce6aaf7a3d6558be0d29dd5229b14bc95a7070d427e4ac6dde441036b0';
-    }
-
-    public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
-        return 'PumaPayToken';
-    }
-
     public static GET_LOWERCASE_ALPHANUMERIC_REG_EXPRESSION(): RegExp {
         return new RegExp(/^[a-z0-9]+$/);
     }
@@ -62,12 +43,20 @@ export class Globals {
         return new RegExp(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
     }
 
+    public static GET_TX_HASH_REG_EXPRESSION(): RegExp {
+        return new RegExp(/^0x([A-Fa-f0-9]{64})$/);
+    }
+
     public static GET_SPECIFIC_INFURA_URL(networkID: number): string {
         return `https://${this.GET_NETWORK_NAME(networkID)}.infura.io/${this.GET_INFURA_API_KEY()}`;
     }
 
     public static GET_INFURA_API_KEY(): string {
         return 'eS5XgCLEJRygOsT6E4Bf';
+    }
+
+    public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
+        return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
     }
 
     public static BALANCE_CHECK_INTERVAL(): number {
@@ -106,6 +95,25 @@ export class Globals {
 
     public static GET_PAYMENT_STATUS_ENUM_NAMES(): any {
         return PaymentStatusEnum;
+    }
+
+    public static GET_TOKEN_ADDRESS(): string {
+        return '0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1';
+    }
+    public static GET_TOKENAPI_KEY(): string {
+        return 'UTW1IZ3TIFXEFCK8R6GW9FNGBNXYQ8HVYN';
+    }
+    public static GET_CRYPTOCOMPARE_KEY(): string {
+        return 'fe1cb6a158fd41264a04aeec270fd55050787964e3c47bf830c8dd366687b4c4';
+    }
+    public static GET_GAS_ESTIMATE_TO(): string {
+        return '0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe';
+    }
+    public static GET_GAS_ESTIMATE_DATA(): string {
+        return '0x506b8cce6aaf7a3d6558be0d29dd5229b14bc95a7070d427e4ac6dde441036b0';
+    }
+    public static GET_PULL_PAY_CONTRACT_NAME(): string {
+        return 'PumaPayToken';
     }
 
     public static GET_PAYMENT_TYPE_ENUM(): any[] {
@@ -206,6 +214,10 @@ export class Globals {
         return process.env.MERCHANT_ID;
     }
 
+    public static GET_MERCHANT_NAME(): string {
+        return process.env.MERCHANT_NAME;
+    }
+
     public static GET_CORE_API_KEY(): string {
         return process.env.CORE_API_KEY;
     }
@@ -236,6 +248,9 @@ export class Globals {
         };
     }
 
+    public static GET_PULL_PAYMENT_CONTRACT_NAME(): string {
+        return 'PumaPayPullPayment';
+    }
 
     public static GET_SMART_CONTRACTS(): string {
         return `${process.cwd()}/contracts/contracts.sol`;

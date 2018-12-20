@@ -50,6 +50,9 @@
     "mysql": "^2.16.0",
     "pg": "^7.4.3",
     "redis": "^2.8.0",
+    "cryptocompare": "^0.7.0",
+    "node-etherscan-api": "^0.1.2",
+    "node-fetch": "^2.3.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "routing-controllers": "^0.7.7",
@@ -58,10 +61,7 @@
     "typedi": "^0.7.2",
     "typescript": "^2.8.1",
     "web3": "^1.0.0-beta.34",
-    "winston": "^2.4.1",
-    "node-etherscan-api": "^0.1.2",
-    "cryptocompare": "^0.7.0",
-    "node-fetch": "^2.3.0"
+    "winston": "^2.4.1"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
