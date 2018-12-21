@@ -1,16 +1,7 @@
 import { JsonController, Get, Post, Res, Body } from 'routing-controllers';
-import { Globals } from '../../utils/globals';
-import { CreatePaymentModelHandler } from '../../core/paymentModel/CreatePaymentModelHandler';
-import { SmartContractReader } from '../../utils/blockchain/SmartContractReader';
-import { HTTPResponseCodes } from '../../utils/web/HTTPResponseCodes';
-import { HTTPResponseHandler } from '../../utils/web/HTTPResponseHandler';
 import { DashboardDbConnector } from '../../connectors/dbConnector/DashboardDbConnector';
-import { MerchantSDK } from '../../core/MerchantSDK';
-const ether = require('node-etherscan-api');
-const cc = require('cryptocompare');
-const WEB3 = require('web3');
-declare const global;
-global.fetch = require('node-fetch');
+import { APIResponseHandler } from '../../utils/APIResponseHandler/APIResponseHandler';
+import { DashboardApi } from '../../core/dashboard/DashboardApi';
 
 @JsonController('/Dashboard')
 export class DashboardController {
@@ -27,12 +18,12 @@ export class DashboardController {
      *
      */
     @Get('/transact')
-    public async merchantAddress(): Promise<any> {
+    public async merchantAddress(@Res() response: any): Promise<any> {
         try {
             const queryResult = await new DashboardDbConnector().getMerchantAddress();
-            return new HTTPResponseHandler().handleSuccess('Merchant address retrieve successfully', queryResult, HTTPResponseCodes.OK());
+            return new APIResponseHandler().handle(response, queryResult);
         } catch (err) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve address', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
 
@@ -48,12 +39,12 @@ export class DashboardController {
      *
      */
     @Get('/address')
-    public async mkeyAddress(): Promise<any> {
+    public async mkeyAddress(@Res() response: any): Promise<any> {
         try {
-            const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress.toLowerCase();
-            return new HTTPResponseHandler().handleSuccess('Bank address retrieve successfully', address, HTTPResponseCodes.OK());
+            const result = await new DashboardApi().getMerchantAddress();
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve address', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
 
@@ -68,16 +59,13 @@ export class DashboardController {
      * @apiSuccess (200) {object} All Payments Details
      *
      */
-    @Get('/etherBalance')
-    public async balance(@Body() request: any, @Res() response: any): Promise<any> {
+    @Get('/ether-balance')
+    public async balance(@Res() response: any): Promise<any> {
         try {
-            const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress;
-            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
-            const bal = await web3.eth.getBalance(address);
-            const result = await web3.utils.fromWei(bal, 'ether');
-            return new HTTPResponseHandler().handleSuccess('Balance retrieve successfully', result, HTTPResponseCodes.OK());
+            const result = await new DashboardApi().balance();
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve address', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
     /**
@@ -92,17 +80,12 @@ export class DashboardController {
       *
       */
     @Get('/pmabalance')
-    public async pmaBalance(@Body() request: any, @Res() response: any): Promise<any> {
+    public async pmaBalance(@Res() response: any): Promise<any> {
         try {
-            const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress;
-            const tokenAddress = Globals.GET_TOKEN_ADDRESS();
-            const contract = await new SmartContractReader(Globals.GET_PULL_PAY_CONTRACT_NAME(), 3).readContract(tokenAddress);
-            const balance = await contract.methods.balanceOf(address).call({ from: address });
-            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
-            const result = await web3.utils.fromWei(balance, 'ether');
-            return new HTTPResponseHandler().handleSuccess('Balance retrieve successfully', result, HTTPResponseCodes.OK());
+            const result = await new DashboardApi().pmaBalance();
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve balance', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
     /**
@@ -117,15 +100,12 @@ export class DashboardController {
       *
       */
     @Get('/gas')
-    public async getGas(@Body() request: any, @Res() response: any): Promise<any> {
+    public async getGas(@Res() response: any): Promise<any> {
         try {
-            const etherscan = new ether(Globals.GET_TOKENAPI_KEY());
-            const bal = await etherscan.getGasPrice();
-            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
-            const result = await web3.utils.fromWei(bal, 'ether');
-            return new HTTPResponseHandler().handleSuccess('Gas retrieve successfully', result, HTTPResponseCodes.OK());
-        } catch (error) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve address', error, 400);
+            const result = await new DashboardApi().getGas();
+            return new APIResponseHandler().handle(response, result);
+        } catch (err) {
+            return new APIResponseHandler().handle(response, err);
         }
     }
 
@@ -141,22 +121,12 @@ export class DashboardController {
       *
       */
     @Get('/hash')
-    public async testhash(@Body() request: any, @Res() response: any): Promise<any> {
+    public async getTransact(@Res() response: any): Promise<any> {
         try {
-            const queryResult = await new DashboardDbConnector().getAllTransact();
-            const data = queryResult.data;
-            const result = [];
-            const promises = data.map(async (value, index) => {
-                const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
-                const val = await web3.eth.getTransaction(value.hash);
-                val.billingName = value.title;
-                result.push(val);
-            });
-            await Promise.all(promises);
-            return new HTTPResponseHandler().handleSuccess('Retrieve successfully', result, HTTPResponseCodes.OK());
+            const result = await new DashboardApi().getTransact();
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
-            console.log('Error', err);
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve balance', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
 
@@ -171,14 +141,13 @@ export class DashboardController {
       * @apiSuccess (200) {object} All Payments Details
       *
       */
-    @Get('/USDvalue')
-    public async getUsdBalance(@Body() request: any, @Res() response: any): Promise<any> {
+    @Get('/usd-value')
+    public async getUsdBalance(@Res() response: any): Promise<any> {
         try {
-            cc.setApiKey(Globals.GET_CRYPTOCOMPARE_KEY());
-            const result = await cc.price('ETH', ['USD', 'EUR']);
-            return new HTTPResponseHandler().handleSuccess('Balance retrieve successfully', result, HTTPResponseCodes.OK());
+            const result = await new DashboardApi().getUsdBalance();
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve balance', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
 
@@ -193,14 +162,13 @@ export class DashboardController {
      * @apiSuccess (200) {object} All Payments Details
      *
      */
-    @Get('/pullPaymentGas')
+    @Get('/pull-payment-gas')
     public async getPullPaymentGas(@Res() response: any): Promise<any> {
         try {
-            const sdk = MerchantSDK.GET_SDK();
-            const result = await sdk.calculateMaxExecutionFee();
-            return new HTTPResponseHandler().handleSuccess('Pull Payment gas fee retrieve successfully.', result, HTTPResponseCodes.OK());
-        } catch (error) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve address', error, 400);
+            const result = await new DashboardApi().getPullPaymentGas();
+            return new APIResponseHandler().handle(response, result);
+        } catch (err) {
+            return new APIResponseHandler().handle(response, err);
         }
     }
     /**
@@ -215,15 +183,13 @@ export class DashboardController {
      *
      */
 
-    @Get('/transferGas')
+    @Get('/transfer-gas')
     public async getTransferGas(@Res() response: any): Promise<any> {
         try {
-            const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress.toLowerCase();
-            const sdk = MerchantSDK.GET_SDK();
-            const result = await sdk.calculateTransferFee('0x', address, 100000000000);
-            return new HTTPResponseHandler().handleSuccess('PMA Transfer gas retrieve successfully.', result, HTTPResponseCodes.OK());
-        } catch (error) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve address', error, 400);
+            const result = await new DashboardApi().getTransferGas();
+            return new APIResponseHandler().handle(response, result);
+        } catch (err) {
+            return new APIResponseHandler().handle(response, err);
         }
     }
 
@@ -238,23 +204,13 @@ export class DashboardController {
      * @apiSuccess (200) {object} All Payments Details
      *
      */
-    @Post('/hashOverView')
+    @Post('/hash-overview')
     public async testhashOverView(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-            const queryResult = await new DashboardDbConnector().getAllTransactionOverView(request.billmodelId);
-            const data = queryResult.data;
-            const result = [];
-            const promises = data.map(async (value, index) => {
-                const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
-                const val = await web3.eth.getTransaction(value.hash);
-                val.typeID = value.typeID;
-                val.id = value.id;
-                result.push(val);
-            });
-            await Promise.all(promises);
-            return new HTTPResponseHandler().handleSuccess('Retrieve successfully', result, HTTPResponseCodes.OK());
+            const result = await new DashboardApi().testhashOverView(request.billmodelId);
+            return new APIResponseHandler().handle(response, result);
         } catch (err) {
-            return new HTTPResponseHandler().handleFailed('Failed to retrieve balance', err, 400);
+            return new APIResponseHandler().handle(response, err);
         }
     }
 }

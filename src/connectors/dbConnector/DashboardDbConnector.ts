@@ -2,7 +2,7 @@ import { ISqlQuery, DataService } from '../../utils/datasource/DataService';
 
 export class DashboardDbConnector {
 
-    // Retrieve a merchant address  
+    // Retrieve a merchant address
     public getMerchantAddress() {
         const sqlQuery: ISqlQuery = {
             text: `select distinct tb_payments."merchantAddress" from public.tb_payments;`
