@@ -26,7 +26,7 @@ services:
       - KEY_DB=keys
       - KEY_DB_PORT=3306
       - MNEMONIC_ID=mnemonic_phrase
-      - SENDGRID_API_KEY=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
+      - SENDGRID_API_KEY=
       - BALANCE_MONITOR_INTERVAL=21600000
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
