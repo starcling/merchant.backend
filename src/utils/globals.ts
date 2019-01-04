@@ -186,6 +186,10 @@ export class Globals {
         return DefaultConfig.settings.coreApiURL;
     }
 
+    public static GET_ETHER_VALUE(): number {
+        return 100000000000;
+    }
+
     public static GET_MOBILE_VALIDATION_URL(): string {
         return '/mobile/validate/';
     }

@@ -9,6 +9,11 @@ const cc = require('cryptocompare');
 const WEB3 = require('web3');
 declare const global;
 global.fetch = require('node-fetch');
+/**
+ * 1.Mainnet
+ * 3.Ropsten
+ */
+const networkID = 3;
 
 export class DashboardApi {
     public async getMerchantAddress() {
@@ -23,7 +28,7 @@ export class DashboardApi {
     public async balance() {
         try {
             const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress;
-            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
+            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID)));
             const bal = await web3.eth.getBalance(address);
             const result = await web3.utils.fromWei(bal, 'ether');
             return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
@@ -36,33 +41,35 @@ export class DashboardApi {
         try {
             const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress;
             const tokenAddress = Globals.GET_TOKEN_ADDRESS();
-            const contract = await new SmartContractReader(Globals.GET_PULL_PAY_CONTRACT_NAME(), 3).readContract(tokenAddress);
+            const contract = await new SmartContractReader(Globals.GET_PULL_PAY_CONTRACT_NAME(), networkID).readContract(tokenAddress);
             const balance = await contract.methods.balanceOf(address).call({ from: address });
-            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
+            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID)));
             const result = await web3.utils.fromWei(balance, 'ether');
             return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
         } catch (err) {
             return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
         }
     }
+
     public async getGas() {
         try {
             const etherscan = new ether(Globals.GET_TOKENAPI_KEY());
             const bal = await etherscan.getGasPrice();
-            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
+            const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID)));
             const result = await web3.utils.fromWei(bal, 'ether');
             return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
         } catch (err) {
             return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
         }
     }
+
     public async getTransact() {
         try {
             const queryResult = await new DashboardDbConnector().getAllTransact();
             const data = queryResult.data;
             const result = [];
             const promises = data.map(async (value, index) => {
-                const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
+                const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID)));
                 const val = await web3.eth.getTransaction(value.hash);
                 val.billingName = value.title;
                 result.push(val);
@@ -96,7 +103,7 @@ export class DashboardApi {
         try {
             const address = (await new CreatePaymentModelHandler().getBankAddress()).bankAddress.toLowerCase();
             const sdk = MerchantSDK.GET_SDK();
-            const result = await sdk.calculateTransferFee('0x', address, 100000000000);
+            const result = await sdk.calculateTransferFee('0x', address, Globals.GET_ETHER_VALUE());
             return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
         } catch (err) {
             return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
@@ -109,7 +116,7 @@ export class DashboardApi {
             const data = queryResult.data;
             const result = [];
             const promises = data.map(async (value, index) => {
-                const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(3)));
+                const web3 = await new WEB3(new WEB3.providers.HttpProvider(Globals.GET_SPECIFIC_INFURA_URL(networkID)));
                 const val = await web3.eth.getTransaction(value.hash);
                 val.typeID = value.typeID;
                 val.id = value.id;
