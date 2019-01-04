@@ -52,7 +52,7 @@ export class Globals {
     }
 
     public static GET_INFURA_API_KEY(): string {
-        return 'eS5XgCLEJRygOsT6E4Bf';
+        return '';
     }
 
     public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
@@ -176,7 +176,7 @@ export class Globals {
     }
 
     public static GET_TEST_FCM_TOKEN(): string {
-        return 'MY1hzxVMVpvCrXkLDytdH3Dic2NpGjRKzPukTbJB';
+        return '';
     }
 
     public static GET_API_KEY_NAME(): string {
@@ -188,7 +188,7 @@ export class Globals {
     }
 
     public static GET_TEST_API_KEY(): string {
-        return 'C2qrR2dbsBqGVbeZZXFRnzN5YzPmX564UAPHJFgX';
+        return '';
     }
 
     public static GET_MERCHANT_ID(): string {

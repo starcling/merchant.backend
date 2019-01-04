@@ -31,7 +31,7 @@ services:
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
-      - CORE_API_KEY=439b42e67a947be164e8ba4dfd6cc24ff0915154e33d48c8924088d39a35ff7413a32849d88cb96ecead49a58329bd8a69c38f0374305c3699b7835491693a0c
+      - CORE_API_KEY=
       - MERCHANT_ID=f8533666-cb07-11e8-9c8f-1fd078777fd9
       - MERCHANT_NAME=PumaPay Developers
       - AWS_ACCESS_KEY_ID=0
