@@ -68,7 +68,7 @@ export class Globals {
     }
 
     public static GET_SQ_MAIL_API_KEY(): string {
-        return process.env.SENDGRID_API_KEY || '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';
+        return process.env.SENDGRID_API_KEY || '';
     }
 
     public static GET_ENUM_TABLE_NAMES(): IEnumTableNames {
