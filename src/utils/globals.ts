@@ -52,7 +52,7 @@ export class Globals {
     }
 
     public static GET_INFURA_API_KEY(): string {
-        return '';
+        return process.env.INFURA_API_KEY || '';
     }
 
     public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
