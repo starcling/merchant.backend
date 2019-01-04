@@ -35,7 +35,7 @@ export class DefaultConfig {
         ],
         exitOnError: false
       },
-      serverSecret: '',
+      serverSecret: process.env.SERVER_SECRET || '',
       balanceNotificationEmailAddress: process.env.BALANCE_CHECK_EMAIL || 'developers@pumapay.io',
       mobileValidationUrl: Globals.GET_MOBILE_VALIDATION_URL()
     };

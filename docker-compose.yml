@@ -44,6 +44,8 @@ services:
       - PULL_PAYMENT_TOPIC_CANCEL=0x172a33cda438041634fc514b27425640f7d77fd7bd679f07f1931d454b08fa78
       - PULL_PAYMENT_TOPIC_EXECUTE=0x13492443fb72a9a7d56cc1aa2e262bcf2442d4b084def464b7934b3485114e59
       - PUMAPAY_PULL_PAYMENT_ADDRESS=0xd996F8A7298D822eEb71868c93ECEB106401A5fe
+      - INFURA_API_KEY=0
+      - SERVER_SECRET=0
     volumes:
       - ./src:/usr/src/app/src
       - ./contracts:/usr/src/app/contracts
