@@ -52,7 +52,11 @@ export class Globals {
     }
 
     public static GET_INFURA_API_KEY(): string {
-        return 'eS5XgCLEJRygOsT6E4Bf';
+        return process.env.INFURA_API_KEY || '';
+    }
+
+    public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
+        return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
     }
 
     public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
@@ -68,7 +72,7 @@ export class Globals {
     }
 
     public static GET_SQ_MAIL_API_KEY(): string {
-        return process.env.SENDGRID_API_KEY || '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';
+        return process.env.SENDGRID_API_KEY || '';
     }
 
     public static GET_ENUM_TABLE_NAMES(): IEnumTableNames {
@@ -199,7 +203,7 @@ export class Globals {
     }
 
     public static GET_TEST_FCM_TOKEN(): string {
-        return 'MY1hzxVMVpvCrXkLDytdH3Dic2NpGjRKzPukTbJB';
+        return '';
     }
 
     public static GET_API_KEY_NAME(): string {
@@ -211,7 +215,7 @@ export class Globals {
     }
 
     public static GET_TEST_API_KEY(): string {
-        return 'C2qrR2dbsBqGVbeZZXFRnzN5YzPmX564UAPHJFgX';
+        return '';
     }
 
     public static GET_MERCHANT_ID(): string {

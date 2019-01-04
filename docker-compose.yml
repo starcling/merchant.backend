@@ -26,13 +26,13 @@ services:
       - KEY_DB=keys
       - KEY_DB_PORT=3306
       - MNEMONIC_ID=mnemonic_phrase
-      - SENDGRID_API_KEY=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
+      - SENDGRID_API_KEY=
       - BALANCE_MONITOR_INTERVAL=21600000
       - BALANCE_CHECK_THRESHOLD=0.1
       - BALANCE_CHECK_EMAIL=developers@pumapay.io
       - BALANCE_CHECK_EMAIL_PROD=developers@pumapay.io
-      - CORE_API_KEY=439b42e67a947be164e8ba4dfd6cc24ff0915154e33d48c8924088d39a35ff7413a32849d88cb96ecead49a58329bd8a69c38f0374305c3699b7835491693a0c
-      - MERCHANT_ID=4a17335e-bf18-11e8-a355-111111fb1459
+      - CORE_API_KEY=
+      - MERCHANT_ID=f8533666-cb07-11e8-9c8f-1fd078777fd9
       - MERCHANT_NAME=PumaPay Developers
       - AWS_ACCESS_KEY_ID=0
       - AWS_SECRET_ACCESS_KEY=0
@@ -44,6 +44,8 @@ services:
       - PULL_PAYMENT_TOPIC_CANCEL=0x172a33cda438041634fc514b27425640f7d77fd7bd679f07f1931d454b08fa78
       - PULL_PAYMENT_TOPIC_EXECUTE=0x13492443fb72a9a7d56cc1aa2e262bcf2442d4b084def464b7934b3485114e59
       - PUMAPAY_PULL_PAYMENT_ADDRESS=0xd996F8A7298D822eEb71868c93ECEB106401A5fe
+      - INFURA_API_KEY=0
+      - SERVER_SECRET=0
     volumes:
       - ./src:/usr/src/app/src
       - ./contracts:/usr/src/app/contracts
