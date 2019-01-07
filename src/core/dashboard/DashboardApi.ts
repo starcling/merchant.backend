@@ -83,12 +83,22 @@ export class DashboardApi {
     public async getUsdBalance() {
         try {
             cc.setApiKey(Globals.GET_CRYPTOCOMPARE_KEY());
-            const result = await cc.price('ETH', ['USD', 'EUR']);
+            const result = await cc.price('PMA', ['USD', 'EUR']);
             return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
         } catch (err) {
             return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
         }
     }
+
+    public async getUsdBalanceeth() {
+        try {
+        cc.setApiKey(Globals.GET_CRYPTOCOMPARE_KEY());
+        const result = await cc.price('ETH', ['USD', 'EUR']);
+        return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
+        } catch (err) {
+        return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
+        }
+        }
     public async getPullPaymentGas() {
         try {
             const sdk = MerchantSDK.GET_SDK();

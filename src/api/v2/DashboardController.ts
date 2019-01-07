@@ -151,6 +151,16 @@ export class DashboardController {
         }
     }
 
+
+    @Get('/ETH-value')
+public async getUsdBalanceeth(@Body() request: any, @Res() response: any): Promise<any> {
+try {
+const result = await new DashboardApi().getUsdBalanceeth();
+return new APIResponseHandler().handle(response, result);
+} catch (err) {
+return new APIResponseHandler().handle(response, err);
+}
+}
     /**
      * @api {get} /api/v2/Dashboard/pullPaymentGas
      * @apiDescription Retrieve ether value in USD & EUR
