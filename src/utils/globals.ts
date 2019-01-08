@@ -59,6 +59,10 @@ export class Globals {
         return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
     }
 
+    public static GET_ETHERSCAN_HEALTH_CHECK_INTERVAL(): number {
+        return Number(process.env.ETHERSCAN_HEALTH_CHECK_INTERVAL) || 60000;
+    }
+
     public static BALANCE_CHECK_INTERVAL(): number {
         return Number(process.env.BALANCE_MONITOR_INTERVAL) || 21600000; // 6 hours in miliseconds
     }
@@ -95,6 +99,25 @@ export class Globals {
 
     public static GET_PAYMENT_STATUS_ENUM_NAMES(): any {
         return PaymentStatusEnum;
+    }
+
+    public static GET_TOKEN_ADDRESS(): string {
+        return '0x11c1e537801cc1c37ad6e1b7d0bdc0e00fcc6dc1';
+    }
+    public static GET_TOKENAPI_KEY(): string {
+        return 'UTW1IZ3TIFXEFCK8R6GW9FNGBNXYQ8HVYN';
+    }
+    public static GET_CRYPTOCOMPARE_KEY(): string {
+        return 'fe1cb6a158fd41264a04aeec270fd55050787964e3c47bf830c8dd366687b4c4';
+    }
+    public static GET_GAS_ESTIMATE_TO(): string {
+        return '0x11f4d0A3c12e86B4b5F39B213F7E19D048276DAe';
+    }
+    public static GET_GAS_ESTIMATE_DATA(): string {
+        return '0x506b8cce6aaf7a3d6558be0d29dd5229b14bc95a7070d427e4ac6dde441036b0';
+    }
+    public static GET_PULL_PAY_CONTRACT_NAME(): string {
+        return 'PumaPayToken';
     }
 
     public static GET_PAYMENT_TYPE_ENUM(): any[] {
@@ -167,6 +190,10 @@ export class Globals {
         return DefaultConfig.settings.coreApiURL;
     }
 
+    public static GET_ETHER_VALUE(): number {
+        return 100000000000;
+    }
+
     public static GET_MOBILE_VALIDATION_URL(): string {
         return '/mobile/validate/';
     }
@@ -217,9 +244,9 @@ export class Globals {
 
     public static GET_CURRENCIES(): CurrenciesEnum[] {
         return [CurrenciesEnum.USD,
-            CurrenciesEnum.JPY,
-            CurrenciesEnum.EUR,
-            CurrenciesEnum.GBP];
+        CurrenciesEnum.JPY,
+        CurrenciesEnum.EUR,
+        CurrenciesEnum.GBP];
     }
 
     public static GET_SMART_CONTRACT_ADDRESS(): ISmartContracts {
