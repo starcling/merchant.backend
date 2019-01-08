@@ -227,7 +227,7 @@ export class DashboardController {
     @Post('/hash-overview')
     public async testhashOverView(@Body() request: any, @Res() response: any): Promise<any> {
         try {
-            const result = await new DashboardApi().testhashOverView(request.billmodelId);
+            const result = await new DashboardApi().testhashOverView(request.id);
             return new APIResponseHandler().handle(response, result);
         } catch (err) {
             return new APIResponseHandler().handle(response, err);

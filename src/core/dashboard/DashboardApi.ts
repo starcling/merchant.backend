@@ -63,7 +63,7 @@ export class DashboardApi {
 
     public async getTransact() {
         try {
-            const queryResult = await new DashboardDbConnector().getAllTransact();
+            const queryResult = await new DashboardDbConnector().getTransactionHistory();
             const data = queryResult.data;
             const result = [];
             const promises = data.map(async (value, index) => {
@@ -119,9 +119,9 @@ export class DashboardApi {
         }
     }
 
-    public async testhashOverView(billmodelId: any) {
+    public async testhashOverView(id: any) {
         try {
-            const queryResult = await new DashboardDbConnector().getAllTransactionOverView(billmodelId);
+            const queryResult = await new DashboardDbConnector().getTranasctionOverview(id);
             const data = queryResult.data;
             const result = [];
             const promises = data.map(async (value, index) => {
