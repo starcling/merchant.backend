@@ -131,7 +131,7 @@ export class DashboardController {
     }
 
     /**
-      * @api {get} /api/v2/Dashboard/usd-value
+      * @api {get} /api/v2/Dashboard/USDvalue
       * @apiDescription Retrieve USD value for PMA
       *
       * @apiName getUsdBalance
@@ -150,27 +150,27 @@ export class DashboardController {
             return new APIResponseHandler().handle(response, err);
         }
     }
+    /**
+          * @api {get} /api/v2/Dashboard//ETH-value
+          * @apiDescription Retrieve USD value for Ether
+          *
+          * @apiName getUsdBalanceeth
+          * @apiGroup DashboardController
+          * @apiVersion  1.0.0
+          *
+          * @apiSuccess (200) {object} All Payments Details
+          *
+          */
+    @Get('/ETH-value')
+    public async getUsdBalanceeth(@Body() request: any, @Res() response: any): Promise<any> {
+        try {
+            const result = await new DashboardApi().getUsdBalanceeth();
+            return new APIResponseHandler().handle(response, result);
+        } catch (err) {
+            return new APIResponseHandler().handle(response, err);
+        }
+    }
 
-/**
-      * @api {get} /api/v2/Dashboard/ETH-value
-      * @apiDescription Retrieve USD value for ETHER
-      *
-      * @apiName getUsdBalanceeth
-      * @apiGroup DashboardController
-      * @apiVersion  1.0.0
-      *
-      * @apiSuccess (200) {object} All Payments Details
-      *
-      */
-@Get('/ETH-value')
-public async getUsdBalanceeth(@Body() request: any, @Res() response: any): Promise<any> {
-try {
-const result = await new DashboardApi().getUsdBalanceeth();
-return new APIResponseHandler().handle(response, result);
-} catch (err) {
-return new APIResponseHandler().handle(response, err);
-}
-}
     /**
      * @api {get} /api/v2/Dashboard/pullPaymentGas
      * @apiDescription Retrieve ether value in USD & EUR

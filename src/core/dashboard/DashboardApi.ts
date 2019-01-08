@@ -3,17 +3,15 @@ import { SmartContractReader } from '../../utils/blockchain/SmartContractReader'
 import { DashboardDbConnector } from '../../connectors/dbConnector/DashboardDbConnector';
 import { MerchantSDK } from '../../core/MerchantSDK';
 import { DashboardResponseHandler } from '../../utils/DashboardResponseHandler/DashboardResponseHandler';
+import { DefaultConfig } from '../../config/default.config';
 import { Globals } from '../../utils/globals';
+
 const ether = require('node-etherscan-api');
 const cc = require('cryptocompare');
 const WEB3 = require('web3');
 declare const global;
 global.fetch = require('node-fetch');
-/**
- * 1.Mainnet
- * 3.Ropsten
- */
-const networkID = 3;
+const networkID = DefaultConfig.settings.networkID;
 
 export class DashboardApi {
     public async getMerchantAddress() {
@@ -92,13 +90,14 @@ export class DashboardApi {
 
     public async getUsdBalanceeth() {
         try {
-        cc.setApiKey(Globals.GET_CRYPTOCOMPARE_KEY());
-        const result = await cc.price('ETH', ['USD', 'EUR']);
-        return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
+            cc.setApiKey(Globals.GET_CRYPTOCOMPARE_KEY());
+            const result = await cc.price('ETH', ['USD', 'EUR']);
+            return new DashboardResponseHandler().handleSuccess('Successfully retrived', result);
         } catch (err) {
-        return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
+            return new DashboardResponseHandler().handleFailed('Failed to retrive', err);
         }
-        }
+    }
+
     public async getPullPaymentGas() {
         try {
             const sdk = MerchantSDK.GET_SDK();

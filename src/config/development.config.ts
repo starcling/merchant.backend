@@ -6,7 +6,7 @@ export class DevelopmentConfig {
   public static get settings(): Settings {
     return {
       host: '0.0.0.0',
-      serverSecret: 'sUp4hS3cr37kE9c0D3',
+      serverSecret: process.env.SERVER_SECRET || '',
       apiPath: '/api/v2',
       port: process.env.PORT ? process.env.PORT : '3000',
       coreApiURL: process.env.CORE_API_URL ? process.env.CORE_API_URL : 'localhost',
